@@ -42,15 +42,21 @@
   Set location: <input type="text" id="town" value="North Berwick" />
   <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>
   </div>
-      
-     <div class="left">
-     <div id="datebanner" class="banner"></div>
-     <div id="suminj"></div></div>
-<div class="right"><div class="day" id="weather"></div></div>
-    <div class="fat"></div>
-     <div class="buttons" id="btns"></div>
-    
-    
+      <table>
+      <tr><td colspan="2" style="width:400px"> <div id="datebanner" class="banner"></div>
+      </td>
+      </tr>
+    <tr>
+    <td style="width:400px"><div id="suminj"></div>
+    </td>
+    <td><div class="day" id="weather"></div>
+    </td>
+    </tr>  
+    <tr>
+    <td colspan="2"> <div class="buttons" id="btns"></div>
+    </td></tr>  
+   
+    </table>
     </div>
 
 </asp:Content>
