@@ -69,14 +69,14 @@
             data: "lat=" + lat + "&lng=" + lng,
             dataType: "text/plain",
             success: function (json) {
-                document.location.href = '/Home/Index_T';
+                document.location.href = '/Home/Index_Test';
             },
             error: function (xhr, error) {
                 // console.debug(xhr); console.debug(error);
             },
             complete: function (xhr, status) {
                 // GetWeather(lat, lng, 0, 1);
-                document.location.href = '/Home/Index_T';
+                document.location.href = '/Home/Index_Test';
             }
 
         });
@@ -174,14 +174,14 @@
         var lat = get_cookie("lat");
         var lng = get_cookie("long");
 
-        if (lat == null) {
-            $('#towns').show();
+        //if (lat == null) {
+          //  $('#towns').show();
             //getTowns();
             //alert("towns");
-        } else {
-            GetWeather(lat, lng, min, max);
-        }
-       
+        //} else {
+          //  GetWeather(lat, lng, min, max);
+        //}
+        //alert("max=" + max + " min=" + min);
         $('#suminj').html("");
         var jsonc = get_cookie("IDList");
         var jsone = eval('(' + jsonc + ')');
@@ -194,11 +194,11 @@
         var btn_txt_bk;
         var btn_txt_fw;
         if (parseInt(min) == 0) {
-            $('#datebanner').html(formatDate(0));
+            //$('#datebanner').html(formatDate(0));
             btn_txt_bk = "Yesterday";
             btn_txt_fw = "Tomorrow";
         } else {
-            $('#datebanner').html(formatDate(min_bk + 1))
+            //$('#datebanner').html(formatDate(min_bk + 1))
             btn_txt_bk = formatDate(min_bk);
             btn_txt_fw = formatDate(max);
 
@@ -215,7 +215,7 @@
 
             var email = getID(i);
             var name = getFn(i);
-            // alert(email + i);
+            //alert(email + i);
             getevents(email, name, i, max, min);
 
             // alert(idlist[0]);
@@ -311,7 +311,16 @@
 
     function getevents(email, name, i, max, min) {
         //inject html
-
+<<<<<<< HEAD
+<<<<<<< HEAD
+        var idlist = get_cookie("IDlist");
+        alert("get events idlist=" + idlist);
+=======
+        alert("get events" + email + max + min);
+>>>>>>> d9090133dc8e6d53278fcbb08497ea4881c63c06
+=======
+        alert("get events" + email + max + min);
+>>>>>>> d9090133dc8e6d53278fcbb08497ea4881c63c06
         $.ajax({
             type: "POST",
             url: "/Home/DoneTest",
@@ -319,18 +328,19 @@
             dataType: "text/plain",
             success: function (json) {
                 var jsonresp = eval('(' + json + ')');
+                alert(json);
                 //type = refresh
                 var typej = jsonresp['type'];
                 if (typej == "refresh") {
-                    //alert("refreshing");
+                    alert("refreshing");
                     window.location.href = '/Home/GoogleRefresh';
                 } else {
                     var summary = jsonresp['summary'];
 
-                    // alert(jsonresp.items.count());
+                    
                     var item_ct = 0;
                     for (_obj in jsonresp.items) item_ct++;
-                    //alert(item_ct);
+                    alert(item_ct);
                     if (item_ct != 0) {
                         var datestr = formatDate(min);
                         $('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
