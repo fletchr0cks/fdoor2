@@ -93,7 +93,7 @@
         min = min*2;
         max = min + 1;
         var ck = get_cookie("day0");
-        //alert("ck=" + ck);
+        alert("ck=" + ck);
         if (ck == null) {
             // $('#weather').html("trying weather");
             $.ajax({
