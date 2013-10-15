@@ -100,19 +100,18 @@
             $.ajax({
                 type: "GET",
                 url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
-
                 dataType: "jsonp",
                 success: function (json) {
                     //var json = eval('(' + jsontxt + ')');
-                    var jsontext = JSON.stringify(json);
+                    //var jsontext = JSON.stringify(json);
                     // $.each(json.Id, function (i, idlist) {
-                    alert(jsontext);
+                    //alert(jsontext);
                     //});
                     var i = 0;
                     while (i < 8) {
                         var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
                         var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
-                        // alert(day);
+                        //alert(day);
                         set_cookie("day" + i, text, 1);
                         set_cookie("icon" + i, icon, 1);
                         i++;
