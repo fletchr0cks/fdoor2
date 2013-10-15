@@ -280,6 +280,8 @@ table
 
 td.tdleft {background: #272727; height: 20px}
 
+td.td400 {width: 350px}
+
 td.tdright { text-align: right; background: #272727; height: 20px }
 
 table td 

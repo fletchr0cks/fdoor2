@@ -96,7 +96,7 @@
         //alert("ck=" + ck);
         if (ck == null) {
             //alert("ck is null");
-             $('#weather').html(loc);
+            //$('#weather').html(loc);
             $.ajax({
                 type: "GET",
                 url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
