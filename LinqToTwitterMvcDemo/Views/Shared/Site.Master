@@ -95,6 +95,7 @@
         var ck = get_cookie("day0");
         alert("ck=" + ck);
         if (ck == null) {
+            alert("ck is null");
             // $('#weather').html("trying weather");
             $.ajax({
                 type: "GET",
@@ -121,6 +122,7 @@
                     $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
                     //$('#weather').append("Weather for " + location);
                     var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
+                    alert("day=" + day);
                     var day2 = json['forecast']['txt_forecast']['forecastday'][max]['title'];
                     var forecast = json['forecast']['txt_forecast']['forecastday'][min]['fcttext_metric'];
                     var forecast2 = json['forecast']['txt_forecast']['forecastday'][max]['fcttext_metric'];
@@ -131,11 +133,11 @@
                     //set_cookie("0text", forecast, 1);
                     //set_cookie("0icon", forecast, 1);
                     //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
-                     //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+                    //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
                     var htmltable = "<table><tr><td>" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
                     "<table><tr><td>" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
-          
-                     $('#weather').append(htmltable);
+                    alert(htmltable);
+                    $('#weather').append(htmltable);
 
                     var epoch = Math.round(new Date().getTime() / 1000)
 
