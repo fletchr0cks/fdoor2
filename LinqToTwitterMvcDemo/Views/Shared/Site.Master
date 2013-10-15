@@ -96,7 +96,7 @@
         alert("ck=" + ck);
         if (ck == null) {
             alert("ck is null");
-            // $('#weather').html("trying weather");
+             $('#weather').html(loc);
             $.ajax({
                 type: "GET",
                 url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
@@ -106,7 +106,7 @@
                     //var json = eval('(' + jsontxt + ')');
                     var jsontext = JSON.stringify(json);
                     // $.each(json.Id, function (i, idlist) {
-
+                    alert(jsontext);
                     //});
                     var i = 0;
                     while (i < 8) {
