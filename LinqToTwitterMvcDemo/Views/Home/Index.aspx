@@ -43,11 +43,11 @@
   <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>
   </div>
       <table>
-      <tr><td colspan="2" style="width:400px"> <div id="datebanner" class="banner"></div>
+      <tr><td colspan="2" style="width:300px"> <div id="datebanner" class="banner"></div>
       </td>
       </tr>
     <tr>
-    <td style="width:400px"><div id="suminj"></div>
+    <td><div id="suminj"></div>
     </td>
     <td><div class="day" id="weather"></div>
     </td>

@@ -93,9 +93,9 @@
         min = min*2;
         max = min + 1;
         var ck = get_cookie("day0");
-        alert("ck=" + ck);
+        //alert("ck=" + ck);
         if (ck == null) {
-            alert("ck is null");
+            //alert("ck is null");
              $('#weather').html(loc);
             $.ajax({
                 type: "GET",
@@ -135,7 +135,7 @@
                     //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
                     var htmltable = "<table><tr><td>" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
                     "<table><tr><td>" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
-                    alert(htmltable);
+                    //alert(htmltable);
                     $('#weather').append(htmltable);
 
                     var epoch = Math.round(new Date().getTime() / 1000)
