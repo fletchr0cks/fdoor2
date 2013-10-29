@@ -120,16 +120,23 @@
     <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\CalendarEvent.cs" />
     <Compile Include="Models\CalIDs.cs" />
+    <Compile Include="Models\Entities.cs" />
     <Compile Include="Models\GAuth.cs" />
     <Compile Include="Models\GAuthHelper.cs" />
     <Compile Include="Models\GoogleAuthenticator.cs" />
     <Compile Include="Models\GoogleAuthorizationHelper.cs" />
     <Compile Include="Models\GoogleCalendarServiceProxy.cs" />
+    <Compile Include="Models\MediaMention.cs" />
+    <Compile Include="Models\MentionBase.cs" />
+    <Compile Include="Models\PhotoSize.cs" />
     <Compile Include="Models\Town.cs" />
     <Compile Include="Models\TweetViewModel.cs" />
+    <Compile Include="Models\UrlMention.cs" />
+    <Compile Include="Models\XTwitterElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\updown.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\date.js" />
     <Content Include="Scripts\iso8601.js" />

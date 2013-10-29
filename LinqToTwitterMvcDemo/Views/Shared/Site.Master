@@ -15,7 +15,8 @@
 <script type="text/javascript">
 
     function init() {
-      //  alert("loaded");
+        //  alert("loaded");
+
         
     }
 
@@ -168,10 +169,26 @@
 
     }
 
+    function ClickLink(url) {
+        $('#cal').toggle();
+        $('#iframe1').toggle();
+        document.getElementById('iframe1').src = url;
+        $("#iframe1").ready(function () {
+
+            $("#iframe1").contents().scrollTop($("#iframe1").contents().scrollTop() + 10);
+
+        });
+    }
+
+   
+
     function testa(max, min) {
         //check weather cookie
         //if max ==1
-        
+        var browser_w = parseInt($(document).width()) - 60;
+        var browser_h = parseInt($(document).height()) - 80;
+        $('#iframe1').css('width', browser_w.toString() + 'px');
+        $('#iframe1').css('height', browser_h.toString() + 'px');
         var lat = get_cookie("lat");
         var lng = get_cookie("long");
 

@@ -16,7 +16,7 @@
     {
     %>
      <tr>
-    <td style="width:100px" class="term2">
+    <td style="width:100px;vertical-align:text-top" class="term2">
     <% if (tweet.dayssince(Convert.ToDateTime(tweet.TimeStamp)) < 1)
        { %>
       <%: Convert.ToDateTime(tweet.TimeStamp).GetDateTimeFormats('t').First() %>:
@@ -27,7 +27,12 @@
        <% } %>
       
     </td>
-    <td class="term1"><%: tweet.Tweet %></td>    
+     <td><% if (tweet.MediaUrl.Length > 3)
+            {
+            %><div onclick="ClickLink('<%=tweet.MediaUrl %>')" style="cursor:pointer"><img src="../../Content/updown.png" /></div><%
+            } %></td> 
+    <td class="term1"><%: tweet.Tweet %></td>   
+   
     </tr>
        
     <%    
@@ -37,7 +42,7 @@
 <div class="thin"></div>
 </div>
 
-  <div class="bottom">
+  <div id="cal" class="bottom">
   <div id="towns" class="term1" style="display:none">
   Set location: <input type="text" id="town" value="North Berwick" />
   <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>
@@ -57,6 +62,9 @@
     </td></tr>  
    
     </table>
-    </div>
+     </div>
+     <div><iframe id="iframe1" style="display:none"></iframe></div>
+   
+   
 
 </asp:Content>

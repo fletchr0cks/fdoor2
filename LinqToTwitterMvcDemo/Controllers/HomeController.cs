@@ -469,7 +469,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ScreenName = tweet.User.Identifier.ScreenName,
                          TimeStamp = Convert.ToString(tweet.CreatedAt.Date),
                          Tweet = tweet.Text,
-                         ID = tweet.ID
+                         ID = Convert.ToString(tweet.Entities.MediaEntities.Count),
+                         MediaUrl = GetTweetMediaUrl(tweet)
                      }).Take(5).ToList();
                 string status = "hihi " + DateTime.Now;
                 // var tweetnew = twitterCtx.UpdateStatus(status);
@@ -489,6 +490,16 @@ namespace LinqToTwitterMvcDemo.Controllers
                 return RedirectToAction("SetTwitterID");
             }
         }
+
+        private string GetTweetMediaUrl(Status status)
+        {
+            if (status.Entities != null && 
+                status.Entities.UrlEntities.Count > 0)
+            {
+            return status.Entities.UrlEntities[0].Url;
+            }
+            return "";
+}
 
         public ActionResult Index_Test()
         //enter twitter username and message for restful api

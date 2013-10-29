@@ -139,6 +139,13 @@ page width. Or, you can specify an exact pixel width. */
    
 }
 
+.fullwidth
+{
+    width: 100%;
+   
+   
+}
+
 
 
 #header
@@ -280,7 +287,7 @@ table
 
 td.tdleft {background: #272727; height: 20px}
 
-td.td400 {width: 350px}
+td.td400 {width: 300px}
 
 td.tdright { text-align: right; background: #272727; height: 20px }
 

@@ -32,6 +32,12 @@ namespace LinqToTwitterMvcDemo.Models
 
         public string ID { get; set; }
 
+        public string MediaUrl { get; set; }
+
+        //public List<MediaMention> MediaMentions { get; set; }
+
+        //public List<UrlMention> UrlMentions { get; set; }
+
         public int dayssince(DateTime tdate)
         {
             TimeSpan diff = DateTime.Now.Subtract(tdate);
