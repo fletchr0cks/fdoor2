@@ -244,7 +244,7 @@
 
             var sumhtml = "<div id=\"sum" + i + "\"></div>";
             $('#suminj').append(sumhtml);
-            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
+            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td>New summary area<div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
             $('#suminjmini').append(summinihtml);
             var email = getID(i);
             var name = getFn(i);
@@ -470,9 +470,9 @@
                                 var endf = parseISO8601Date(item.end.dateTime);
                                 // var NewDate = new Date();
                                 // NewDate.setDate(start_dt);
-                                //alert(start_dt);
+                                alert(start_dt);
                                 day = getDay(end_dt.getUTCDay());
-                                //alert(day);
+                                alert(day);
                                 //alert("day=" + day + " oldday=" + oldday);
 
                                 if (day == oldday) {
