@@ -18,7 +18,7 @@
      <tr>
     <td style="width:100px;vertical-align:text-top" class="term2">
     <% if (tweet.dayssince(Convert.ToDateTime(tweet.TimeStamp)) < 1)
-       { %>
+        { %>
       <%: Convert.ToDateTime(tweet.TimeStamp).GetDateTimeFormats('t').First() %>:
        <% }
        else
@@ -62,9 +62,10 @@
     </td></tr>  
    
     </table>
+    <div id="suminjmini"></div>
      </div>
-     <div><iframe id="iframe1" style="display:none"></iframe></div>
+<div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe>click here</div>
+   <div id="adiv">a div
+   </div>
    
-   
-
 </asp:Content>

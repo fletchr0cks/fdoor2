@@ -7,6 +7,7 @@
     <meta http-equiv="refresh" content="3000" />
     <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
     <script src="../../Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/cross.js" type="text/javascript"></script>
     <script src="../../Scripts/iso8601.js" type="text/javascript"></script>
      <script src="../../Scripts/date.js" type="text/javascript"></script>
     
@@ -172,12 +173,25 @@
     function ClickLink(url) {
         $('#cal').toggle();
         $('#iframe1').toggle();
+        url = "http://www.textise.net/showText.aspx?strURL=http%253A//www.bbcgoodfood.com/recipes/2459643/vintage-chocolate-chip-cookies#main-content";
+        //http://www.textise.net/textiseService/Service1.asmx/stripHTML?strURL=http://www.bbcgoodfood.com/recipes/2459643/vintage-chocolate-chip-cookies&linkStyle=0";
+        //"http://www.textise.net/textiseService/Service1.asmx/stripHTML";
         document.getElementById('iframe1').src = url;
-        $("#iframe1").ready(function () {
+        $("#adiv").append($('<object data="http://www.textise.net/textiseService/Service1.asmx/stripHTML?strURL=http://www.bbcgoodfood.com/recipes/2459643/vintage-chocolate-chip-cookies&linkStyle=0">'));
+       
 
-            $("#iframe1").contents().scrollTop($("#iframe1").contents().scrollTop() + 10);
 
-        });
+    }
+
+    function filldiv() {
+
+        var htmlfr1 = document.getElementById('iframe1').contentWindow.document.body.innerHTML
+
+        var htmlfr2 = document.getElementById('adiv').contentWindow.document.body.innerHTML
+        //document.getElementById('adiv').outerHTML;
+        alert(htmlfr1);
+        alert(htmlfr2);
+       // $('#adiv').html(htmlfr);
     }
 
    
@@ -230,12 +244,13 @@
 
             var sumhtml = "<div id=\"sum" + i + "\"></div>";
             $('#suminj').append(sumhtml);
-
+            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
+            $('#suminjmini').append(summinihtml);
             var email = getID(i);
             var name = getFn(i);
             // alert(email + i);
             getevents(email, name, i, max, min);
-
+            getfutureevents(email, name, i, max, min);
             // alert(idlist[0]);
         });
     }
@@ -295,6 +310,26 @@
 
 
         return date_str;
+    }
+
+    function getDay(daynum) {
+        if (parseInt(daynum) == 1) {
+            day = "Monday";
+        } else if (parseInt(daynum) == 2) {
+            day = "Tuesday";
+        } else if (parseInt(daynum) == 3) {
+            day = "Wednesday";
+        } else if (parseInt(daynum) == 4) {
+            day = "Thursday";
+        } else if (parseInt(daynum) == 5) {
+            day = "Friday";
+        } else if (parseInt(daynum) == 6) {
+            day = "Saturday";
+        } else if (parseInt(daynum) == 0) {
+            day = "Sunday";
+        }
+
+        return day;
     }
 
     function getID(num) {
@@ -393,6 +428,88 @@
 
         });
     }
+
+    function getfutureevents(email, name, i, max, min) {
+        //inject html
+        max = max + 5;
+        min = max - 5;
+        $.ajax({
+            type: "POST",
+            url: "/Home/DoneTest",
+            data: "email=" + email + "&max=" + max + "&min=" + min,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                //type = refresh
+                var typej = jsonresp['type'];
+                if (typej == "refresh") {
+                    //alert("refreshing");
+                    window.location.href = '/Home/GoogleRefresh';
+                } else {
+                    var summary = jsonresp['summary'];
+
+                    // alert(jsonresp.items.count());
+                    var item_ct = 0;
+                    for (_obj in jsonresp.items) item_ct++;
+                    //alert(item_ct);
+                    if (item_ct != 0) {
+                        var datestr = formatDate(min);
+                        var day = "";
+                        var oldday = "";
+                        var head = "";
+                        var dayct = parseInt(0);
+                        $.each(jsonresp.items, function (n, item) {
+                            if (item.status != "cancelled") {
+                                var datetest = item.start.dateTime;
+                                var datetest2 = item.start.date;
+                                var start_dt = new Date(item.start.dateTime);
+                                var end_dt = new Date(item.end.dateTime);
+                                var start_d = new Date(item.start.date);
+                                var end_d = new Date(item.end.date);
+                                var stf = parseISO8601Date(item.start.dateTime);
+                                var endf = parseISO8601Date(item.end.dateTime);
+                                // var NewDate = new Date();
+                                // NewDate.setDate(start_dt);
+                                //alert(start_dt);
+                                day = getDay(end_dt.getUTCDay());
+                                //alert(day);
+                                //alert("day=" + day + " oldday=" + oldday);
+
+                                if (day == oldday) {
+                                    //head = "same day";
+                                    $('#day' + dayct + i).append("<div class=\"term2\"></div>");
+                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+
+                                } else {
+                                    //head = "new day";
+                                    dayct++;
+                                    //alert(dayct + item.summary);
+                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+
+                                }
+
+                            }
+
+                            oldday = day;
+                            //alert(oldday);
+                        });
+
+
+                    } else {
+                        $('#summini' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                    }
+                }
+            },
+            error: function (xhr, error) {
+                // console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+            }
+
+        });
+    }
+
 
     function parseISO8601(s) {
         var re = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:.(\d+))?(Z|[+-]\d{2})(?::(\d{2}))?/,

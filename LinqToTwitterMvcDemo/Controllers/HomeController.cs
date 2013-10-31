@@ -472,6 +472,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ID = Convert.ToString(tweet.Entities.MediaEntities.Count),
                          MediaUrl = GetTweetMediaUrl(tweet)
                      }).Take(5).ToList();
+
+              
                 string status = "hihi " + DateTime.Now;
                 // var tweetnew = twitterCtx.UpdateStatus(status);
                 //var dtweet = twitterCtx.NewDirectMessage(tname,msg);
@@ -496,7 +498,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             if (status.Entities != null && 
                 status.Entities.UrlEntities.Count > 0)
             {
-            return status.Entities.UrlEntities[0].Url;
+            return status.Entities.UrlEntities[0].ExpandedUrl;
             }
             return "";
 }
@@ -578,6 +580,19 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
         }
 
+        public ActionResult testout()
+        {
+            ServiceReferenceText.Service1SoapClient Client = new ServiceReferenceText.Service1SoapClient();
+           // var output = from d in Client.stripHTML("http://www.bbcgoodfood.com/recipes/2459643/vintage-chocolate-chip-cookies", 1)
+             //            select d;
+            var test = Client.stripHTML("http://www.bbcgoodfood.com/recipes/2459643/vintage-chocolate-chip-cookies", 1);
+
+
+           // ViewData["output"] = output;
+
+            return View();
+
+        }
 
         public ActionResult SetTwitterID()
         {
@@ -744,6 +759,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                 return Json(new { type = "refresh" });
             }
         }
+
+
 
         public ActionResult Authenticate()
         {
