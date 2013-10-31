@@ -470,8 +470,9 @@
                                 var endf = parseISO8601Date(item.end.dateTime);
                                 // var NewDate = new Date();
                                 // NewDate.setDate(start_dt);
-                                alert(start_dt);
-                                day = getDay(end_dt.getUTCDay());
+                                var testday = parseISO8601(item.end.dateTime);
+                                alert(testday);
+                                day = getDay(testday.getUTCDay());
                                 alert(day);
                                 //alert("day=" + day + " oldday=" + oldday);
 
