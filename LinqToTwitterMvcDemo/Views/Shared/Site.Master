@@ -545,27 +545,26 @@
                                 var end_d = new Date(item.end.date);
                                 var stf = parseISO8601Date(item.start.dateTime);
                                 var endf = parseISO8601Date(item.end.dateTime);
-                                var NewDate = new Date();
-
-                                //  var testday = parseISO8601(item.end.dateTime);
-                                //alert(testday);
                                 var daytest = parseISO8601(item.start.dateTime);
-                                //NewDate.setDate(daytest);
+                               alert("daytest=" + daytest);
                                 var res = daytest.toString().split(" ");
+                               alert(res);
                                 var fullday = getProperDay(res[0]);
-                                //alert(daytest + item.summary);
+                                //$('#debug').append(fullday);
+                                alert(daytest + item.summary);
                                 day = fullday; //needs a day of week number
                                 //get day from json date data somehow
 
                                 //alert("dayct=" + dayct + " oldday=" + oldday);
                                 var img = get_cookie("icon" + dayct);
+                              //  $('#debug').append(img);
                                 // var img2 = get_cookie("icon" + max);
                                 var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                                 //var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
-                             //   alert("odtop=" + oldday);
+                                //   alert("odtop=" + oldday);
                                 if (oldday == day) {
                                     //head = "same day";
-                                    alert("same day");
+                                   // alert("same day");
                                     $('#day' + dayct + i).append("<div class=\"term2\"></div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
 
@@ -578,21 +577,21 @@
                                     } else {
                                         //alert("new day");
                                         $('#day' + dayct + i).append("<div>" + day + icon + "</div>");
-                                    dayct++;
-                                    //alert(dayct + item.summary);
-                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
-                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+                                        dayct++;
+                                        //alert(dayct + item.summary);
+                                        $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                        $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
 
                                     }
 
 
-                            }
-                           // alert("olddaybtm1=" + oldday);
-                            oldday = day;
+                                }
+                                // alert("olddaybtm1=" + oldday);
+                                oldday = day;
                             }
 
-                           oldday = day;
-                           // alert("olddaybtm2=" + oldday);
+                            oldday = day;
+                            // alert("olddaybtm2=" + oldday);
                         });
 
 

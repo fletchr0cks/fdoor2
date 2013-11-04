@@ -64,6 +64,7 @@
     </table>
     <div id="suminjmini"></div>
      </div>
+     <div id="debug">Debug:</div>
 <div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe>click here</div>
    <div id="adiv">a div
    </div>
