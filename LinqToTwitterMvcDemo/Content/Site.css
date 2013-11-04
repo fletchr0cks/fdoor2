@@ -33,6 +33,7 @@ body
 .term3btn {font-family: 'Helvetica', cursive;color: #FFF; border-color: #FFF; font-size:18px; padding:2px; display:inline; vertical-align:middle}
 .title {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px}
 .thin { border-bottom:2px solid #000; vertical-align:middle; height:10px }
+.thick { border-bottom:4px solid #000; vertical-align:middle; height:10px }
 .fat { height: 10px }
 .spacer { height: 5px }
 .buttons { }

@@ -39,7 +39,7 @@
     }
 %>
 </table>
-<div class="thin"></div>
+<div class="thick"></div>
 </div>
 
   <div id="cal" class="bottom">
@@ -62,11 +62,12 @@
     </td></tr>  
    
     </table>
+    <div class="thin"></div>
     <div id="suminjmini"></div>
      </div>
-     <div id="debug">Debug:</div>
-<div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe>click here</div>
-   <div id="adiv">a div
+    
+<div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe></div>
+   <div id="adiv">
    </div>
    
 </asp:Content>

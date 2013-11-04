@@ -199,6 +199,7 @@
     function testa(max, min) {
         //check weather cookie
         //if max ==1
+        //alert(max + " " + min);
         var browser_w = parseInt($(document).width()) - 60;
         var browser_h = parseInt($(document).height()) - 80;
         $('#iframe1').css('width', browser_w.toString() + 'px');
@@ -238,13 +239,13 @@
 
         var bk_btn_html = "<div class=\"term3btn\" style=\"cursor:pointer\" onclick=\"testa(" + max_bk + "," + min_bk + ")\">" + btn_txt_bk + "</div>";
         var fw_btn_html = "<div class=\"term3btn\" style=\"cursor:pointer\" onclick=\"testa(" + max_fw + "," + min_fw + ")\">" + btn_txt_fw + "</div>";
-        $('#btns').html("<table><tr><td class=\"tdleft\">" + bk_btn_html + "</td><td class=\"tdright\">" + fw_btn_html + "</td><tr><table>");
+       // $('#btns').html("<table><tr><td class=\"tdleft\">" + bk_btn_html + "</td><td class=\"tdright\">" + fw_btn_html + "</td><tr><table>");
 
         $.each(jsone.Id, function (i, idlist) {
 
             var sumhtml = "<div id=\"sum" + i + "\"></div>";
             $('#suminj').append(sumhtml);
-            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td>New summary area<div id=\"day0" + i + "\"></div></td><td><div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
+            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div style=\"cursor:pointer\" onclick=\"testa(2,1)\" id=\"day0" + i + "\"></div><div id=\"day_w_0" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(3,2)\" id=\"day1" + i + "\"></div><div id=\"day_w_1" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(4,3)\" id=\"day2" + i + "\"></div><div id=\"day_w_2" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(5,4)\" id=\"day3" + i + "\"></div><div id=\"day_w_3" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(6,5)\" id=\"day4" + i + "\"></div><div id=\"day_w_4" + i + "\" ></div></td></tr></table></div>";
             $('#suminjmini').append(summinihtml);
             var email = getID(i);
             var name = getFn(i);
@@ -493,7 +494,7 @@
 
                         });
                     } else {
-                          $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                     //     $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
                     }
                 }
             },
@@ -532,11 +533,12 @@
                     if (item_ct != 0) {
                         var datestr = formatDate(min);
                         var day = "";
-                        var oldday = "";
+                        var oldday = "new";
                         var head = "";
                         var dayct = parseInt(0);
                         $.each(jsonresp.items, function (n, item) {
                             if (item.status != "cancelled") {
+                                
                                 var datetest = item.start.dateTime;
                                 var datetest2 = item.start.date;
                                 var start_dt = new Date(item.start.dateTime);
@@ -546,57 +548,53 @@
                                 var stf = parseISO8601Date(item.start.dateTime);
                                 var endf = parseISO8601Date(item.end.dateTime);
                                 var daytest = parseISO8601DateFull(item.start.dateTime);
-                               alert("daytest=" + daytest);
+                                //   alert("daytest=" + daytest);
                                 var res = daytest.toString().split(" ");
-                               alert(res);
+                                // alert(res);
                                 var fullday = getProperDay(res[0]);
                                 //$('#debug').append(fullday);
-                                alert(daytest + item.summary);
+                                //alert(daytest + item.summary);
                                 day = fullday; //needs a day of week number
                                 //get day from json date data somehow
-
+                                //alert(item.summary + "oldday=" + oldday + "   day=" + day);
                                 //alert("dayct=" + dayct + " oldday=" + oldday);
                                 var img = get_cookie("icon" + dayct);
-                              //  $('#debug').append(img);
+                                //  $('#debug').append(img);
                                 // var img2 = get_cookie("icon" + max);
                                 var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                                 //var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
                                 //   alert("odtop=" + oldday);
                                 if (oldday == day) {
                                     //head = "same day";
-                                   // alert("same day");
+                                    //alert("same day" + oldday);
                                     $('#day' + dayct + i).append("<div class=\"term2\"></div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-
+                                    $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
+                                
+                                } else if (oldday == "first") {
+                                    //alert("first day" + oldday);
+                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+                                    $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
                                 } else {
-                                    //head = "new day";
-                                    if (oldday == "") {
-                                        //alert("first day");
-                                        $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
-                                        $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    } else {
-                                        //alert("new day");
-                                        $('#day' + dayct + i).append("<div>" + day + icon + "</div>");
-                                        dayct++;
-                                        //alert(dayct + item.summary);
-                                        $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
-                                        $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-
-                                    }
-
-
+                                    //alert("new day" + oldday);
+                                    
+                                    dayct++;
+                                    //alert(dayct + item.summary);
+                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+                                    $('#day_w_' + dayct + i).append("<div>" + icon + "</div>");
                                 }
-                                // alert("olddaybtm1=" + oldday);
-                                oldday = day;
+
                             }
 
                             oldday = day;
-                            // alert("olddaybtm2=" + oldday);
+                            //alert("olddaybtm2=" + oldday);
                         });
 
 
                     } else {
-                        $('#summini' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                        //$('#summini' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
                     }
                 }
             },
