@@ -244,7 +244,7 @@
 
             var sumhtml = "<div id=\"sum" + i + "\"></div>";
             $('#suminj').append(sumhtml);
-            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td>New summary area<div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
+            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td>New summary area<div id=\"day0" + i + "\"></div></td><td><div id=\"day1" + i + "\"></div></td><td><div id=\"day2" + i + "\"></div></td><td><div id=\"day3" + i + "\"></div></td><td><div id=\"day4" + i + "\"></div></td></tr></table></div>";
             $('#suminjmini').append(summinihtml);
             var email = getID(i);
             var name = getFn(i);
@@ -312,6 +312,63 @@
         return date_str;
     }
 
+    function formatDateDay(num) {
+        var NewDate = new Date();
+
+        NewDate.setDate(NewDate.getDate() + num);
+        var day;
+        var month;
+        var date = NewDate.getUTCDate();
+        var daynum = NewDate.getUTCDay();
+        var monthnum = NewDate.getUTCMonth();
+        if (parseInt(monthnum) == 1) {
+            month = "February";
+        } else if (parseInt(monthnum) == 2) {
+            month = "March";
+        } else if (parseInt(monthnum) == 3) {
+            month = "April";
+        } else if (parseInt(monthnum) == 4) {
+            month = "May";
+        } else if (parseInt(monthnum) == 5) {
+            month = "June";
+        } else if (parseInt(monthnum) == 6) {
+            month = "July";
+        } else if (parseInt(monthnum) == 7) {
+            month = "August";
+        } else if (parseInt(monthnum) == 8) {
+            month = "September";
+        } else if (parseInt(monthnum) == 9) {
+            month = "October";
+        } else if (parseInt(monthnum) == 10) {
+            month = "November";
+        } else if (parseInt(monthnum) == 11) {
+            month = "December";
+        } else if (parseInt(monthnum) == 0) {
+            month = "January";
+        }
+        //alert(NewDate + " d: " + date + " n: " + daynum);
+        if (parseInt(daynum) == 1) {
+            day = "Monday";
+        } else if (parseInt(daynum) == 2) {
+            day = "Tuesday";
+        } else if (parseInt(daynum) == 3) {
+            day = "Wednesday";
+        } else if (parseInt(daynum) == 4) {
+            day = "Thursday";
+        } else if (parseInt(daynum) == 5) {
+            day = "Friday";
+        } else if (parseInt(daynum) == 6) {
+            day = "Saturday";
+        } else if (parseInt(daynum) == 0) {
+            day = "Sunday";
+        }
+
+        var date_str = day;
+
+
+        return date_str;
+    }
+
     function getDay(daynum) {
         if (parseInt(daynum) == 1) {
             day = "Monday";
@@ -330,6 +387,26 @@
         }
 
         return day;
+    }
+
+    function getProperDay(day) {
+        if (day == "Mon") {
+            dayout = "Monday";
+        } else if (day == "Tue") {
+            dayout = "Tuesday";
+        } else if (day == "Wed") {
+            dayout = "Wednesday";
+        } else if (day == "Thu") {
+            dayout = "Thursday";
+        } else if (day == "Fri") {
+            dayout = "Friday";
+        } else if (day == "Sat") {
+            dayout = "Saturday";
+        } else if (day == "Sun") {
+            dayout = "Sunday";
+        }
+
+        return dayout;
     }
 
     function getID(num) {
@@ -468,32 +545,54 @@
                                 var end_d = new Date(item.end.date);
                                 var stf = parseISO8601Date(item.start.dateTime);
                                 var endf = parseISO8601Date(item.end.dateTime);
-                                // var NewDate = new Date();
-                                // NewDate.setDate(start_dt);
-                                var testday = parseISO8601(item.end.dateTime);
-                                alert(testday);
-                                day = getDay(testday.getUTCDay());
-                                alert(day);
-                                //alert("day=" + day + " oldday=" + oldday);
+                                var NewDate = new Date();
 
-                                if (day == oldday) {
+                                //  var testday = parseISO8601(item.end.dateTime);
+                                //alert(testday);
+                                var daytest = parseISO8601(item.start.dateTime);
+                                //NewDate.setDate(daytest);
+                                var res = daytest.toString().split(" ");
+                                var fullday = getProperDay(res[0]);
+                                //alert(daytest + item.summary);
+                                day = fullday; //needs a day of week number
+                                //get day from json date data somehow
+
+                                //alert("dayct=" + dayct + " oldday=" + oldday);
+                                var img = get_cookie("icon" + dayct);
+                                // var img2 = get_cookie("icon" + max);
+                                var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+                                //var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+                             //   alert("odtop=" + oldday);
+                                if (oldday == day) {
                                     //head = "same day";
+                                    alert("same day");
                                     $('#day' + dayct + i).append("<div class=\"term2\"></div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
 
                                 } else {
                                     //head = "new day";
+                                    if (oldday == "") {
+                                        //alert("first day");
+                                        $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                        $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
+                                    } else {
+                                        //alert("new day");
+                                        $('#day' + dayct + i).append("<div>" + day + icon + "</div>");
                                     dayct++;
                                     //alert(dayct + item.summary);
                                     $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
 
-                                }
+                                    }
+
 
                             }
-
+                           // alert("olddaybtm1=" + oldday);
                             oldday = day;
-                            //alert(oldday);
+                            }
+
+                           oldday = day;
+                           // alert("olddaybtm2=" + oldday);
                         });
 
 
