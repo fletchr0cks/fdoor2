@@ -160,8 +160,8 @@
             var img2 = get_cookie("icon" + max);
             var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
             var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
-            var htmltable = "<table><tr><td>" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
-            "<table><tr><td>" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
+            var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
             //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
             $('#weather').append(htmltable);
 
@@ -573,7 +573,7 @@
                                 
                                 } else if (oldday == "first") {
                                     //alert("first day" + oldday);
-                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                    $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
                                     $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
                                 } else {
@@ -581,7 +581,7 @@
                                     
                                     dayct++;
                                     //alert(dayct + item.summary);
-                                    $('#day' + dayct + i).html("<div class=\"term2\">" + day + "</div>");
+                                    $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
                                     $('#day_w_' + dayct + i).append("<div>" + icon + "</div>");
                                 }
