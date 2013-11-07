@@ -113,9 +113,17 @@
                     while (i < 8) {
                         var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
                         var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
-                        //alert(day);
+                        if (i > 0 && i < 4) {
+                            alert(i);
+                            var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
+                            var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
+                            set_cookie("hi" + i, high, 1);
+                            set_cookie("lo" + i, low, 1);
+                            alert(high + " " + low);
+                        }
                         set_cookie("day" + i, text, 1);
                         set_cookie("icon" + i, icon, 1);
+
                         i++;
                     }
                     var location = json['location']['city'];
@@ -123,7 +131,7 @@
                     $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
                     //$('#weather').append("Weather for " + location);
                     var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
-                    alert("day=" + day);
+                    //alert("day=" + day);
                     var day2 = json['forecast']['txt_forecast']['forecastday'][max]['title'];
                     var forecast = json['forecast']['txt_forecast']['forecastday'][min]['fcttext_metric'];
                     var forecast2 = json['forecast']['txt_forecast']['forecastday'][max]['fcttext_metric'];
@@ -135,8 +143,8 @@
                     //set_cookie("0icon", forecast, 1);
                     //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
                     //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-                    var htmltable = "<table><tr><td>" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
-                    "<table><tr><td>" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
+                    var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
                     //alert(htmltable);
                     $('#weather').append(htmltable);
 
@@ -538,7 +546,7 @@
                         var dayct = parseInt(0);
                         $.each(jsonresp.items, function (n, item) {
                             if (item.status != "cancelled") {
-                                
+
                                 var datetest = item.start.dateTime;
                                 var datetest2 = item.start.date;
                                 var start_dt = new Date(item.start.dateTime);
@@ -559,6 +567,8 @@
                                 //alert(item.summary + "oldday=" + oldday + "   day=" + day);
                                 //alert("dayct=" + dayct + " oldday=" + oldday);
                                 var img = get_cookie("icon" + dayct);
+                                var hi = get_cookie("hi" + dayct);
+                                var lo = get_cookie("lo" + dayct);
                                 //  $('#debug').append(img);
                                 // var img2 = get_cookie("icon" + max);
                                 var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
@@ -569,8 +579,8 @@
                                     //alert("same day" + oldday);
                                     $('#day' + dayct + i).append("<div class=\"term2\"></div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
-                                
+                                    $('#day_w_' + dayct + i).html("<div><table><tr><td>" + icon + "</td><td>" + hi + "<br />" + lo + "</td></tr></table></div>");
+
                                 } else if (oldday == "first") {
                                     //alert("first day" + oldday);
                                     $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
@@ -578,7 +588,7 @@
                                     $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
                                 } else {
                                     //alert("new day" + oldday);
-                                    
+
                                     dayct++;
                                     //alert(dayct + item.summary);
                                     $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
@@ -831,7 +841,7 @@ function SubmitTwID() {
     function parseDate(date) {
 
         var m = /^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d) UTC$/.exec(date);
-        alert(m[2]);
+        //alert(m[2]);
         var tzOffset = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTimezoneOffset();
 
         return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5] - tzOffset, +m[6]);
