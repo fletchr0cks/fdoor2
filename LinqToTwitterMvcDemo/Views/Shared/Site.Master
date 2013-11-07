@@ -119,7 +119,7 @@
                             var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
                             set_cookie("hi" + i, high, 1);
                             set_cookie("lo" + i, low, 1);
-                            alert(high + " " + low);
+                            //alert(high + " " + low);
                         }
                         set_cookie("day" + i, text, 1);
                         set_cookie("icon" + i, icon, 1);
@@ -579,13 +579,13 @@
                                     //alert("same day" + oldday);
                                     $('#day' + dayct + i).append("<div class=\"term2\"></div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div><table><tr><td>" + icon + "</td><td>" + hi + "<br />" + lo + "</td></tr></table></div>");
+                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
 
                                 } else if (oldday == "first") {
                                     //alert("first day" + oldday);
                                     $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div>" + icon + "</div>");
+                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
                                 } else {
                                     //alert("new day" + oldday);
 
@@ -593,7 +593,8 @@
                                     //alert(dayct + item.summary);
                                     $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
                                     $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).append("<div>" + icon + "</div>");
+                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
+
                                 }
 
                             }
