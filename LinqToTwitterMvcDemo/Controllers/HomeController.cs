@@ -82,17 +82,60 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult Choose()
         {
+            try
+            {
+                string tname = Request.Cookies["TwitterID"].Value;
+                string accesstoken = Request.Cookies["oauth_accessToken"].Value;
+                string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
 
+                ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Twitter')\">Using " + tname + ", click to Disable</div>";
+
+            }
+            catch
+            {
+                ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Twitter')\">Click to Authenticate</div>";
+            }
+
+           
+            try 
+            {
+                //string idlist = Request.Cookies["IDList"].Value;
+                string JsonIDs = Request.Cookies["IDList"].Value;
+
+                JObject o = JObject.Parse(JsonIDs);
+                JArray items = (JArray)o["items"];
+                var names = Convert.ToString(o["Fullname"]);
+
+                ViewData["google"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Google')\">Using " + names + ", click to Disable</div>";
+            }
+            catch
+            {
+                ViewData["google"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Google')\">Click to Authenticate</div>";
+            }
+
+
+            try
+            {
+                string lat = Request.Cookies["lat"].Value;
+                string lng = Request.Cookies["long"].Value;
+                ViewData["location"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"ChangeLoc()\">Location set to " + lat + "," + lng + ", click to Disable</div>";
+            }
+            catch
+            {
+                ViewData["location"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"SetLoc()\">Click to set Location</div>";
+            }
+
+           
             return View();
         }
 
         public ActionResult ChooseT()
         {
-
+            //
             return View();
         }
 
-        public ActionResult Index()
+        public ActionResult AuthGoogle()
         {
                   
                 var token = Session["GoogleAPIToken"];
@@ -116,7 +159,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 }
                 else
                 {
-                    return View("Index_T");
+                    return RedirectToAction("Choose");
                 }
           
         }
@@ -330,7 +373,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             Response.AppendCookie(IDCookie);
             ViewData["caldata"] = textout + "kind: " + name + count + idlist + jsonIDs;
 
-            return RedirectToAction("Index_T");
+            return RedirectToAction("AuthGoogle");
             //return View();
             //return JavaScript("Refresh Token: " + tokenData.Refresh_Token);
 
@@ -391,10 +434,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             //CalCookie.Expires = DateTime.Now.AddYears(1);
             //Response.AppendCookie(CalCookie);
 
-
             Session["GoogleAPIToken"] = tokenData.Access_Token;
 
-            return RedirectToAction("Index_T");
+            return RedirectToAction("SiteHome");
 
         }
 
@@ -404,6 +446,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             SetCookie("long", lng);
             //save cookie
             //RedirectToAction("Index_T");
+            //return RedirectToAction("Choose");
         }
 
         public ActionResult SaveTwID(string id)
@@ -413,7 +456,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             return Redirect("/Home/Index_T");
         }
 
-        public ActionResult Index_T()
+        public ActionResult Index_T_old()
         //enter twitter username and message for restful api
         {
            
@@ -461,17 +504,18 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                 var friendTweets =
                     (from tweet in twitterCtx.Status
-                     where tweet.Type == StatusType.User &&
-                           tweet.ScreenName == tname
+                     where tweet.Type == StatusType.Home
+                     //&&     tweet.ScreenName == tname
                      select new TweetViewModel
                      {
                          ImageUrl = tweet.User.ProfileImageUrl,
                          ScreenName = tweet.User.Identifier.ScreenName,
                          TimeStamp = Convert.ToString(tweet.CreatedAt.Date),
                          Tweet = tweet.Text,
-                         ID = Convert.ToString(tweet.Entities.MediaEntities.Count),
+                         BannerText = GetBannerText(tweet),
+                        // ID = Convert.ToString(tweet.Entities.MediaEntities.Count),
                          MediaUrl = GetTweetMediaUrl(tweet)
-                     }).Take(5).ToList();
+                     }).Take(9).ToList();
 
               
                 string status = "hihi " + DateTime.Now;
@@ -493,6 +537,217 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
         }
 
+        public ActionResult AuthTwitter()
+        //enter twitter username and message for restful api
+        {
+
+            try
+            {
+                string tname = Request.Cookies["TwitterID"].Value;
+                string accesstoken = Request.Cookies["oauth_accessToken"].Value;
+                string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+                
+                return RedirectToAction("Choose");
+
+            }
+            catch
+            {
+                return RedirectToAction("SetTwitterID");
+            }
+        }
+
+        public ActionResult DeleteCookies(string type)
+        {
+            if (type == "Twitter")
+            {
+                DelCookie("oauth_accessToken", "");
+                DelCookie("oauth_oauthToken", "");
+                DelCookie("TwitterID", "");
+            }
+
+            if (type == "Google")
+            {
+                DelCookie("IDList", "");
+                Session["GoogleAPIToken"] = "";
+            }
+
+            if (type == "weather")
+            {
+                DelCookie("lat", "");
+                DelCookie("long", "");
+
+                      
+            }
+
+            return RedirectToAction("Choose");
+        }
+
+        public ActionResult SiteHome()
+        {
+
+            return View("Index");
+        }
+
+        public ActionResult JsonTweets()
+        {
+            string tname = Request.Cookies["TwitterID"].Value;
+            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
+            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            var msg = "hardcoded test " + DateTime.Now;
+            //http://localhost:5010/Home/SetTwitterID?oauth_token=JjJCdn2Tn3o9Cz3lHEFotAZQ5xZSz8VbTAjHhg1aTt0&oauth_verifier=TP7PWgnTi2CIu2YuQ7AIpRDknEYuSe0H1RcYXMSp5g
+            //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
+            credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+            credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            credentials.AccessToken = accesstoken;
+            //"36777457-120pFjOwR6YjwAHZcYnlrlwsW7cMBrmP7IAvH1NIY";
+            //oauthverifier;
+            //hWSN0pUWsBFlvS8fQbwpR31iqWLbhEnbUBCU3jZfI     from server
+            //36777457-120pFjOwR6YjwAHZcYnlrlwsW7cMBrmP7IAvH1NIY
+            credentials.OAuthToken = oauthtoken;
+            //"71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A";
+            //oauthtoken;
+            //71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A
+
+            if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
+            {
+                credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+                credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            }
+
+            auth = new MvcAuthorizer
+            {
+                Credentials = credentials
+            };
+
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                Uri specialUri = new Uri(Request.Url.ToString());
+                return auth.BeginAuthorization(specialUri);
+            }
+            //("oauth_accessToken", credentials.AccessToken);
+            //SetCookie("oauth_oauthToken", credentials.OAuthToken);
+            twitterCtx = new TwitterContext(auth);
+
+            var friendTweets =
+                (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User
+               // && tweet.SinceID == 397389362088132608
+                 select new TweetViewModel
+                 {
+                    // ImageUrl = tweet.User.ProfileImageUrl,
+                    // ScreenName = tweet.StatusID,
+                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                     Tweet = tweet.Text,
+                     //BannerText = GetBannerText(tweet),
+                     ID = tweet.StatusID,
+                     //SinceID = tweet.SinceID,
+                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                     MediaUrl = GetTweetMediaUrl(tweet)
+                 });
+
+            var banners =
+                (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User
+                && tweet.Text.Contains("#banner")
+                 select new TweetViewModel
+                 {
+                     BannerText = GetBannerText(tweet),
+                     BannerTime = GetBannerTime(tweet),
+                 });
+            
+                 //.Take(9).ToList();
+
+
+            string status = "hihi " + DateTime.Now;
+            // var tweetnew = twitterCtx.UpdateStatus(status);
+            //var dtweet = twitterCtx.NewDirectMessage(tname,msg);
+            var oauthToken = auth.Credentials.OAuthToken;
+            var oauthAccessT = auth.Credentials.AccessToken;
+            var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+            //http://localhost:5010/?oauth_token=9IWia8yWenYytqosbErCRno7KcJPr55fMXHvqJkoY&oauth_verifier=g6pbTya6OOcsH2O0f3PuzQKUtCQBz1lQBz0BmnixHU
+            ViewData["authdeets"] = oauthAccessT;
+            //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
+            //+ save id first time.
+           // var jsonresults = JsonConvert.SerializeObject(friendTweets);
+            var latestid = friendTweets.First().ID;
+            var latesttime = friendTweets.First().TimeStamp;
+            //var topBanner = GetBannerText(friendTweets.First())
+            var doBanner = "false";
+            
+             //   if (friendTweets.First().BannerText.Length > 1) {
+               //     doBanner = "true";
+                //} 
+            return Json(new {results = friendTweets.Take(9), latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
+            //return Json("Index", friendTweets);
+
+
+
+        }
+
+        public ActionResult CheckJsonTweets()
+        {
+            string tname = Request.Cookies["TwitterID"].Value;
+            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
+            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+            credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            credentials.AccessToken = accesstoken;
+            credentials.OAuthToken = oauthtoken;
+            if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
+            {
+                credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+                credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            }
+
+            auth = new MvcAuthorizer
+            {
+                Credentials = credentials
+            };
+
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                Uri specialUri = new Uri(Request.Url.ToString());
+                return auth.BeginAuthorization(specialUri);
+            }
+            twitterCtx = new TwitterContext(auth);
+
+            var friendTweets =
+                (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User
+                 select new TweetViewModel
+                 {
+                     // ImageUrl = tweet.User.ProfileImageUrl,
+                     // ScreenName = tweet.StatusID,
+                     ID = tweet.StatusID,
+                 });
+            //.Take(9).ToList();
+
+            var oauthToken = auth.Credentials.OAuthToken;
+            var oauthAccessT = auth.Credentials.AccessToken;
+            var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+            ViewData["authdeets"] = oauthAccessT;
+            var latestid = friendTweets.First().ID;
+            return Json(new { LatestID = latestid }, JsonRequestBehavior.AllowGet);
+            
+
+        }
+
+
+        private string formatTimeStamp(DateTime datetime)
+        {
+            DateTime now = DateTime.Now;
+            var daysago = (now - datetime).Days;
+            var time_txt = "";
+            time_txt = daysago + "d";
+
+            return time_txt;
+        }
+
         private string GetTweetMediaUrl(Status status)
         {
             if (status.Entities != null && 
@@ -501,7 +756,40 @@ namespace LinqToTwitterMvcDemo.Controllers
             return status.Entities.UrlEntities[0].ExpandedUrl;
             }
             return "";
-}
+        }
+
+        private string GetBannerText(Status status)
+        {
+            var tweet_txt = status.Text;
+            //var tweet_type;
+            if (tweet_txt.Contains("#banner"))
+               {
+                   var bantxt = getBetween(tweet_txt, "#banner");  
+                return bantxt;
+            }
+            return "";
+        }
+
+        private string GetBannerTime(Status status)
+        {
+            
+            return "10000";
+        }
+
+        public static string getBetween(string strSource, string strStart)
+        {
+            int Start, End;
+            if (strSource.Contains(strStart))
+            {
+                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                End = strSource.Length;
+                return strSource.Substring(Start, End - Start);
+            }
+            else
+            {
+                return "";
+            }
+        }
 
         public ActionResult Index_Test()
         //enter twitter username and message for restful api
@@ -559,7 +847,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ScreenName = tweet.User.Identifier.ScreenName,
                          TimeStamp = Convert.ToString(tweet.CreatedAt.Date),
                          Tweet = tweet.Text,
-                         ID = tweet.ID
+                      //   ID = tweet.ID
                      }).Take(5).ToList();
                 string status = "hihi " + DateTime.Now;
                 // var tweetnew = twitterCtx.UpdateStatus(status);
@@ -626,7 +914,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 SetCookie("oauth_oauthToken", oauthtoken);
                 SetCookie("TwitterID", twitterID);
 
-                return RedirectToAction("Index_T");
+                return RedirectToAction("AuthTwitter");
 
             
         }
@@ -667,10 +955,6 @@ namespace LinqToTwitterMvcDemo.Controllers
                 SetCookie("Twitter", "off");
             }
 
-
-
-
-
             return View("ChoiceT");
         }
 
@@ -678,6 +962,13 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             var cookie = new HttpCookie(name, value);
             cookie.Expires = DateTime.Now.AddYears(1);
+            Response.AppendCookie(cookie);
+        }
+
+        private void DelCookie(string name, string value)
+        {
+            var cookie = new HttpCookie(name, value);
+            cookie.Expires = DateTime.Now.AddYears(-1);
             Response.AppendCookie(cookie);
         }
 

@@ -26,18 +26,24 @@ body
 }
 .term1 {font-family: 'Helvetica', cursive;color: #000; font-size:18px; vertical-align:top}
 .day {font-family: 'Helvetica', cursive;color: #000; font-size:16px; vertical-align:top; padding-top: 10px}
-.term1evt {font-family: 'Helvetica', cursive;color: #000; font-size:16px; padding-bottom: 8px}
-.term2 {font-family: 'Helvetica', cursive;color: #000; font-size:16px;vertical-align:middle;}
-.term2b {font-family: 'Helvetica', cursive;color: #000; font-size:16px;vertical-align:middle; font-weight:bold}
+.term1evt {font-family: 'Helvetica', cursive;color: #000; font-size:14px; padding-bottom: 8px}
+.term2 {font-family: 'Helvetica', cursive;color: #000; font-size:12px;vertical-align:middle;font-weight:bold}
+.tweet_header {background-color: #292f33; height: 30px; width: 100%; color: #FFF; font-size: 18px; vertical-align:top}
+.footer {background-color: #292f33; height: 20px; width: 100%; color: #FFF; font-size: 16px; vertical-align:top; cursor:pointer; padding-left:10px}
+.tweet {font-family: 'Helvetica', cursive;color: #000; font-size:14px;padding-left:30px}
+.tweet_ts {font-family: 'Helvetica', cursive;color: #000;font-size:12px;}
+.term2b {font-family: 'Helvetica', cursive;color: #000; font-size:12px;vertical-align:middle;}
 .banner {font-family: 'Helvetica', cursive;color: #000; font-size:28px; padding-top: 10px}
 .term3 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px; display:inline}
 .term3btn {font-family: 'Helvetica', cursive;color: #FFF; border-color: #FFF; font-size:18px; padding:2px; display:inline; vertical-align:middle}
 .title {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px}
-.thin { border-bottom:2px solid #000; vertical-align:middle; height:10px }
-.thick { border-bottom:4px solid #000; vertical-align:middle; height:10px }
+.thin { border-top:2px solid #868686; vertical-align:middle; padding-bottom:10px}
+.thick { border-bottom:3px solid #000; vertical-align:middle; height:10px }
 .fat { height: 10px }
 .spacer { height: 5px }
-.buttons { }
+.closeBanner { width:100%;height:20px;color:Black;font-size:20px;cursor:pointer;z-index:1100;position:absolute; top:0px;left:0px;text-align:center}
+.bigbanner { color:Black;font-size:100px;height:100%;z-index:1000;position:absolute;padding-top:30px; top:0px;left:0px;text-align:center;background-color:White }
+.buttons {border-width:1px; border: 1px solid #868686; color:#868686; width:80px}
 a:link
 {
     color: #000;
@@ -137,7 +143,7 @@ page width. Or, you can specify an exact pixel width. */
 .bottom
 {
     height: 30%;
-   
+   z-index:10;
    
 }
 
@@ -291,8 +297,10 @@ td.tdleft {background: #272727; height: 20px}
 
 td.td400 {width: 250px}
 
-td.td50 {width: 50px}
+td.td20 {width: 20%; padding:0px; margin:0px; text-align: left;}
 
+td.td50 {width: 50px; padding:0px; margin:0px; text-align: left;}
+td.td30 {width: 30px; padding:0px; margin:0px; text-align: left;}
 td.tdright { text-align: right; background: #272727; height: 20px }
 
 table td 

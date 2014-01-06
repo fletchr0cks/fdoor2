@@ -1,0 +1,183 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
+    <meta http-equiv="refresh" content="3000" />
+    <link href="../../Content/Site.css" rel="stylesheet" type="text/css" />
+    <script src="../../Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+    <script src="../../Scripts/cross.js" type="text/javascript"></script>
+    <script src="../../Scripts/iso8601.js" type="text/javascript"></script>
+     <script src="../../Scripts/date.js" type="text/javascript"></script>
+    
+    </head>
+
+<script type="text/javascript">
+
+    
+    function init() {
+        // testa(1, 0);
+      //  var tw_ck = get_cookie("TwitterID");
+       // var go_ck = get_cookie("IDList");
+       // alert(tw_ck + go_ck);
+    }
+
+    function Auth(val,type) {
+        if (val == "1") {
+            document.location.href = '/Home/Auth' + type;
+        } else {
+            //delete cookies
+            document.location.href = '/Home/DeleteCookies?type=' + type;
+        }
+
+    }
+
+    function ChangeLoc() {
+        document.location.href = '/Home/DeleteCookies?type=weather';
+    }
+
+    function goFront() {
+        document.location.href = '/';
+    }
+
+    function SetLoc() {
+        $('#towns').show();
+    }
+
+
+    function setTown() {
+        var town = document.getElementById('town').value;
+        //alert(town);
+        var html = "";
+        $.ajax({
+            type: "GET",
+            url: "http://api.geonames.org/search?q=" + town + "&maxRows=10&username=fletch1&type=json&orderby=relevance",
+            //url: "http://api.geonames.org/findNearbyPlaceNameJSON?lat=" + lat + "&lng=" + lng + "&username=fletch1",
+            dataType: "jsonp",
+            success: function (json) {
+                $.each(json.geonames, function (i, geo) {
+                    //alert(geo.lat);
+                    //var html = "<div onclick=/Home/SaveLatLong?lat=" + geo.lat + "&lng=" + geo.lng + ">" + geo.toponymName + ", " + geo.adminName1 + ", " + geo.countryName + "</div>";
+                    // town = geo.toponymName;
+                    html = html + "<div class=\"term2\" style=\"cursor:pointer\" onclick=\"SaveLoc(" + geo.lat + "," + geo.lng + ")\">" + geo.toponymName + ", " + geo.adminName1 + ", " + geo.countryName + "</div>";
+                    // adminName1
+                    // countryNam  
+                });
+
+                $("#townmsg").html("Please select </br>Or search again.");
+                $("#townlist").html(html);
+                //SaveNewLocation(lat, lng, town);
+
+            },
+            error: function (xhr, error) {
+
+                // $("#gps_results").html("No town listed for: " + lat + "," + lng);
+            },
+            complete: function (xhr, status) {
+
+            }
+
+        });
+    }
+
+    function GetWeather(lat, lng) {
+        $('#weather').html("");
+        //set_cookie("teststore", "val", 1);
+        var NewDate = new Date();
+        var loc = lat + "," + lng;
+        var ck = get_cookie("day0");
+        //alert("ck=" + ck);
+        if (ck == null) {
+            //alert("ck is null");
+            //$('#weather').html(loc);
+            $.ajax({
+                type: "GET",
+                url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
+                dataType: "jsonp",
+                success: function (json) {
+                    //var json = eval('(' + jsontxt + ')');
+                    //var jsontext = JSON.stringify(json);
+                    // $.each(json.Id, function (i, idlist) {
+                    //alert(jsontext);
+                    //});
+                    var i = 0;
+                    while (i < 8) {
+                        var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
+                        var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
+                        if (i > 0 && i < 4) {
+                            //  alert(i);
+                            var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
+                            var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
+                            set_cookie("hi" + i, high, 1);
+                            set_cookie("lo" + i, low, 1);
+                            //alert(high + " " + low);
+                        }
+                        set_cookie("day" + i, text, 1);
+                        set_cookie("icon" + i, icon, 1);
+
+                        i++;
+                    }
+                    //var location = json['location']['city'];
+                    //alert(location);
+                    document.location.href = '/Home/Choose';
+                    
+                },
+                error: function (xhr, error) {
+                    console.debug(xhr); console.debug(error);
+                    //alert(xhr + "  " + error);
+                },
+                complete: function () {
+
+                }
+
+            });
+
+        } else {
+            
+
+        }
+
+    }
+
+    function set_cookie(name, value, days) {
+        //value = "data here";
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + date.toGMTString();
+        document.cookie = name + '=' + value + expires + '; path=/'
+
+    }
+
+    function SaveLoc(lat, lng) {
+        set_cookie("lat", lat, 365);
+        set_cookie("long", lng, 365);
+        GetWeather(lat, lng);
+    }
+
+    
+    function get_cookie(name) {
+        var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        if (results)
+            return (unescape(results[2]));
+        else
+            return null;
+    }
+
+    
+
+</script>
+
+<body onload="init();">
+    <div class="page">
+        <div id="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+          
+            <div id="footer">
+            <div class="term1">
+           </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

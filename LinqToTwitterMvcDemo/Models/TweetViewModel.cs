@@ -34,6 +34,12 @@ namespace LinqToTwitterMvcDemo.Models
 
         public string MediaUrl { get; set; }
 
+        public string BannerText { get; set; }
+
+        public string BannerTime { get; set; }
+
+        public ulong SinceID { get; set; }
+
         //public List<MediaMention> MediaMentions { get; set; }
 
         //public List<UrlMention> UrlMentions { get; set; }

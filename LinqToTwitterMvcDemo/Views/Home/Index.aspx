@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<List<LinqToTwitterMvcDemo.Models.TweetViewModel>>" %>
+﻿<%@ Page Title="Index1" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     Fridge Door
@@ -8,46 +8,15 @@
 <script type="text/javascript">
 
 </script>
+<div class="closeBanner" id="bann1"></div>
+<div class="bigbanner" id="bann2"></div>
 <div class="top">
-   
-    <table>
-<%
-    foreach (var tweet in Model)
-    {
-    %>
-     <tr>
-    <td style="width:100px;vertical-align:text-top" class="term2">
-    <% if (tweet.dayssince(Convert.ToDateTime(tweet.TimeStamp)) < 1)
-        { %>
-      <%: Convert.ToDateTime(tweet.TimeStamp).GetDateTimeFormats('t').First() %>:
-       <% }
-       else
-       { %>
-        <%: Convert.ToDateTime(tweet.TimeStamp).GetDateTimeFormats('d').First() %>:
-       <% } %>
-      
-    </td>
-     <td><% if (tweet.MediaUrl.Length > 3)
-            {
-            %><div onclick="ClickLink('<%=tweet.MediaUrl %>')" style="cursor:pointer"><img src="../../Content/updown.png" /></div><%
-            } %></td> 
-    <td class="term1"><%: tweet.Tweet %></td>   
-   
-    </tr>
-       
-    <%    
-    }
-%>
-</table>
-<div class="thick"></div>
-</div>
-
-  <div id="cal" class="bottom">
-  <div id="towns" class="term1" style="display:none">
-  Set location: <input type="text" id="town" value="North Berwick" />
-  <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>
-  </div>
-      <table>
+<div id="toptweet" style="display:none"></div>
+<div id="tweets"></div>
+ <div class="thick"></div>
+   </div>
+    <div id="cal" class="bottom">
+       <table>
       <tr><td colspan="2"><div id="datebanner" class="banner"></div>
       </td>
       </tr>
@@ -60,10 +29,12 @@
     <tr>
     <td colspan="2"> <div class="buttons" id="btns"></div>
     </td></tr>  
-   
     </table>
     <div class="thin"></div>
     <div id="suminjmini"></div>
+    <div id="sumweathermini"></div>
+    <div class="thin"></div>
+    <div class="footer" onclick="goSetup()">Setup</div>
      </div>
     
 <div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe></div>

@@ -36,7 +36,6 @@
 </table>
 <div class="thin"></div>
 </div>
-
   <div class="bottom">
   <div id="towns" class="term1"> </div>
       

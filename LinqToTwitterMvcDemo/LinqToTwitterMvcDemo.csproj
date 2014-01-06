@@ -143,6 +143,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\twitterbird.png" />
     <Content Include="Content\updown.png" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\cross.js" />
@@ -159,6 +160,8 @@
     <Content Include="Views\Home\CallBack.aspx" />
     <Content Include="Views\Home\Choose.aspx" />
     <Content Include="Views\Home\ChooseT.aspx" />
+    <Content Include="Views\Home\Copy %282%29 of Index.aspx" />
+    <Content Include="Views\Home\Copy of Index.aspx" />
     <Content Include="Views\Home\IndexTest.aspx" />
     <Content Include="Views\Home\Done.aspx" />
     <Content Include="Views\Home\DoneTwitterAuth.aspx" />
@@ -194,6 +197,7 @@
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Shared\Choose.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

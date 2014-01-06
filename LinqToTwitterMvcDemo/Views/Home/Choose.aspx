@@ -1,45 +1,47 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Choose.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	Choose
+	Setup
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <script type="text/javascript">
 
-
-
-
 </script>
-    <h2>Choose</h2>
-    <form action="/Home/SetChoice" method="post">
+    <h2>Setup</h2>
     <table>
     <tr>
     <td>
-   <div class="term3">Twitter Feed</div>
+   <div class="term3">Twitter Feed:</div>
     </td>
-    <td>
-     <div class="term3"><input type="checkbox" name="twitter"/></div>
+    <td style="height:60px">
+     <%= ViewData["twitter"]%>
     </td>
     </tr>
      <tr>
     <td>
-   <div class="term3">Google Calendar</div>
+   <div class="term3">Google Calendar:</div>
     </td>
-    <td>
-     <div class="term3"><input type="checkbox" name="google"/></div>
+    <td style="height:60px">
+      <%= ViewData["google"]%>
     </td>
     </tr> <tr>
     <td>
-   <div class="term3">Weather</div>
+   <div class="term3">Weather:</div>
     </td>
-    <td>
-     <div class="term3"><input type="checkbox" name="weather"/></div>
+    <td style="height:60px">
+   <%= ViewData["location"]%>
+    <div id="towns" class="term1" style="display:none">
+  <input type="text" id="town" value="North Berwick" />
+  <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>
+  </div>
     </td>
+    </tr>
+    <tr>
+    <td><div class="term2" id="townmsg"></div></td>
+    <td><div id="townlist"></div></td>
     </tr>
    
 </table>
-<input type="submit" value="Next" />
-</form>
-<div class="term1">Next</div>
+<div class="footer" onclick="goFront()">Back</div>
 </asp:Content>

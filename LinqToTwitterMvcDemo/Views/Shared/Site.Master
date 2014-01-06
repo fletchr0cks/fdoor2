@@ -15,11 +15,117 @@
 
 <script type="text/javascript">
 
-    function init() {
-        //  alert("loaded");
-
-        
+    function refreshPage() {
+        testa(1, 0);
     }
+
+    function goSetup() {
+        window.location.href = '/Home/Choose';
+    }
+
+    function drawDays(min) {
+        var n = parseInt(min);
+        var end = 0;
+        var summinihtml = "<table><tr>";
+        var weatherminihtml = "<table><tr>";
+        while (end < 5) {
+            end++;
+            var n1 = parseInt(n + end);
+            //alert(n1 + "..." + end);
+            var n2 = parseInt(n1 + 1);
+            var day = formatDateDay(n1);
+            var dayID = formatDateDayID(n1);
+            summinihtml = summinihtml + "<td class=\"td20\"><div class=\"term1evt\" style=\"cursor:pointer\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\">" + day + "</div></td>";
+            var img = get_cookie("icon" + n1);
+            var hi = "";
+            var lo = "";
+            if (n1 < 4) {
+                hi = get_cookie("hi" + n1);
+                lo = get_cookie("lo" + n1);
+            } 
+            var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+            weatherminihtml = weatherminihtml + "<td class=\"td50\">" + icon + "</td><td class=\"td50\"><br />" + hi + "<br />" + lo + "</td>";
+        }
+
+        $('#suminjmini').html(summinihtml + "</tr></table>");
+        $('#sumweathermini').html(weatherminihtml + "</tr></table>");
+
+    }
+
+    function init() {
+        // testa(1, 0);
+        var tw_ck = get_cookie("TwitterID");
+        if (tw_ck != null) {
+            getTweets();
+        }
+        var go_ck = get_cookie("IDList");
+        if (go_ck != null) {
+            testa(1, 0);
+        }
+
+        var lat = get_cookie("lat");
+        var lng = get_cookie("long");
+       
+        if (lat == null) {
+          //  $('#towns').show();
+            //getTowns();
+            //alert("towns");
+        } else {
+            GetWeather(lat, lng, 0, 1);
+        }
+
+       // alert(tw_ck + go_ck);
+    }
+
+    function checkNewTweets() {
+        clearTimeout(timer2);
+        var latestID = document.getElementById('toptweet').innerHTML;
+   //    alert("latest from page= " + latestID);
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/CheckJsonTweets",
+            //data: "latestID=" + latestID,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                //type = refresh
+                var latesttweetID = jsonresp.LatestID;
+                //alert("session=" + latestID + "api= " + latesttweetID);
+                if (parseInt(latesttweetID) > parseInt(latestID)) {
+                    getTweets();
+                } else {
+                  
+                    timer2 = setTimeout(checkNewTweets, 60000);
+                }
+
+
+            },
+            error: function (xhr, error) {
+                // console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+            }
+
+        });
+    }
+
+   var timer1;
+
+   function timerStart(ti) {
+        clearTimeout(timer1);
+        timer1 = setTimeout(closeBanner, ti);
+    }
+
+    var timer2;
+
+    
+
+   function closeBanner() {
+       $("#bann1").html("");
+       $("#bann2").html("");
+   }
+
 
     function get_cookie(name) {
         var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
@@ -27,64 +133,6 @@
             return (unescape(results[2]));
         else
             return null;
-    }
-
-    function setTown() {
-        var town = document.getElementById('town').value;
-        //alert(town);
-        var html = "";
-        $.ajax({
-            type: "GET",
-            url: "http://api.geonames.org/search?q=" + town + "&maxRows=10&username=fletch1&type=json&orderby=relevance",
-            //url: "http://api.geonames.org/findNearbyPlaceNameJSON?lat=" + lat + "&lng=" + lng + "&username=fletch1",
-            dataType: "jsonp",
-            success: function (json) {
-                $.each(json.geonames, function (i, geo) {
-                    //alert(geo.lat);
-                    //var html = "<div onclick=/Home/SaveLatLong?lat=" + geo.lat + "&lng=" + geo.lng + ">" + geo.toponymName + ", " + geo.adminName1 + ", " + geo.countryName + "</div>";
-                    // town = geo.toponymName;
-                    html = html + "<div style=\"cursor:pointer\" onclick=\"SaveLoc(" + geo.lat + "," + geo.lng + ")\">" + geo.toponymName + ", " + geo.adminName1 + ", " + geo.countryName + "</div>";
-                    // adminName1
-                    // countryNam  
-                });
-
-                $("#towns").html("Found these matches, please select one <br />" + html);
-
-                //SaveNewLocation(lat, lng, town);
-
-            },
-            error: function (xhr, error) {
-
-                // $("#gps_results").html("No town listed for: " + lat + "," + lng);
-            },
-            complete: function (xhr, status) {
-
-            }
-
-        });
-    }
-
-    function SaveLoc(lat, lng) {
-        $.ajax({
-            type: "POST",
-            url: "/Home/SaveLatLong",
-            data: "lat=" + lat + "&lng=" + lng,
-            dataType: "text/plain",
-            success: function (json) {
-                document.location.href = '/Home/Index_T';
-            },
-            error: function (xhr, error) {
-                // console.debug(xhr); console.debug(error);
-            },
-            complete: function (xhr, status) {
-                // GetWeather(lat, lng, 0, 1);
-                document.location.href = '/Home/Index_T';
-            }
-
-        });
-
-       
-
     }
 
     function GetWeather(lat, lng, min, max) {
@@ -114,7 +162,7 @@
                         var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
                         var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
                         if (i > 0 && i < 4) {
-                            alert(i);
+                          //  alert(i);
                             var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
                             var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
                             set_cookie("hi" + i, high, 1);
@@ -128,7 +176,7 @@
                     }
                     var location = json['location']['city'];
 
-                    $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
+                 //   $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
                     //$('#weather').append("Weather for " + location);
                     var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
                     //alert("day=" + day);
@@ -202,30 +250,25 @@
        // $('#adiv').html(htmlfr);
     }
 
-   
+    function testab(max, min) {
+
+    }
 
     function testa(max, min) {
         //check weather cookie
         //if max ==1
-        //alert(max + " " + min);
+     //   alert(max + " " + min);
+        
+        
         var browser_w = parseInt($(document).width()) - 60;
         var browser_h = parseInt($(document).height()) - 80;
         $('#iframe1').css('width', browser_w.toString() + 'px');
         $('#iframe1').css('height', browser_h.toString() + 'px');
-        var lat = get_cookie("lat");
-        var lng = get_cookie("long");
-
-        if (lat == null) {
-            $('#towns').show();
-            //getTowns();
-            //alert("towns");
-        } else {
-            GetWeather(lat, lng, min, max);
-        }
        
         $('#suminj').html("");
         var jsonc = get_cookie("IDList");
         var jsone = eval('(' + jsonc + ')');
+        var jsone2 = eval('(' + jsonc + ')');
         var count = jsone['Count'];
 
         var min_bk = parseInt(min) - 1;
@@ -253,8 +296,8 @@
 
             var sumhtml = "<div id=\"sum" + i + "\"></div>";
             $('#suminj').append(sumhtml);
-            var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div style=\"cursor:pointer\" onclick=\"testa(2,1)\" id=\"day0" + i + "\"></div><div id=\"day_w_0" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(3,2)\" id=\"day1" + i + "\"></div><div id=\"day_w_1" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(4,3)\" id=\"day2" + i + "\"></div><div id=\"day_w_2" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(5,4)\" id=\"day3" + i + "\"></div><div id=\"day_w_3" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(6,5)\" id=\"day4" + i + "\"></div><div id=\"day_w_4" + i + "\" ></div></td></tr></table></div>";
-            $('#suminjmini').append(summinihtml);
+           // var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div style=\"cursor:pointer\" onclick=\"testa(2,1)\" id=\"day0" + i + "\"></div><div id=\"day_w_0" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(3,2)\" id=\"day1" + i + "\"></div><div id=\"day_w_1" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(4,3)\" id=\"day2" + i + "\"></div><div id=\"day_w_2" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(5,4)\" id=\"day3" + i + "\"></div><div id=\"day_w_3" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(6,5)\" id=\"day4" + i + "\"></div><div id=\"day_w_4" + i + "\" ></div></td></tr></table></div>";
+            //$('#suminjmini').append(summinihtml);
             var email = getID(i);
             var name = getFn(i);
             // alert(email + i);
@@ -262,11 +305,16 @@
             getfutureevents(email, name, i, max, min);
             // alert(idlist[0]);
         });
+
+
+        drawDays(min);
+     
+      //  var headingminihtml = //5 days
+
     }
 
     function formatDate(num) {
         var NewDate = new Date();
-
         NewDate.setDate(NewDate.getDate() + num);
         var day;
         var month;
@@ -323,7 +371,6 @@
 
     function formatDateDay(num) {
         var NewDate = new Date();
-
         NewDate.setDate(NewDate.getDate() + num);
         var day;
         var month;
@@ -372,8 +419,41 @@
             day = "Sunday";
         }
 
-        var date_str = day;
+        var date_str = day + " " + date;
 
+
+        return date_str;
+    }
+
+    function formatDateDayID(num) {
+        var NewDate = new Date();
+        NewDate.setDate(NewDate.getDate() + num);
+        var day;
+        var month;
+        var date = NewDate.getUTCDate();
+        var daynum = NewDate.getUTCDay();
+        //alert(NewDate + " d: " + date + " n: " + daynum);
+        if (parseInt(daynum) == 1) {
+            day = "Monday";
+        } else if (parseInt(daynum) == 2) {
+            day = "Tuesday";
+        } else if (parseInt(daynum) == 3) {
+            day = "Wednesday";
+        } else if (parseInt(daynum) == 4) {
+            day = "Thursday";
+        } else if (parseInt(daynum) == 5) {
+            day = "Friday";
+        } else if (parseInt(daynum) == 6) {
+            day = "Saturday";
+        } else if (parseInt(daynum) == 0) {
+            day = "Sunday";
+        }
+
+        if (parseInt(date) < 10) {
+            date = "0" + date;
+        }
+
+        var date_str = day + date;
 
         return date_str;
     }
@@ -413,6 +493,8 @@
             dayout = "Saturday";
         } else if (day == "Sun") {
             dayout = "Sunday";
+        } else {
+        dayout = day;
         }
 
         return dayout;
@@ -446,6 +528,53 @@
         var expires = "; expires=" + date.toGMTString();
         document.cookie = name + '=' + value + expires + '; path=/'
 
+    }
+
+    function getTweets() {
+        //inject html
+        var latestID = document.getElementById('toptweet').innerHTML;
+     //   alert("latest= " + latestID);
+        var tweetshtml = "<table>";
+
+        $.ajax({
+            type: "POST",
+            url: "/Home/JsonTweets",
+            //data: "email=" + email + "&max=" + max + "&min=" + min,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                //type = refresh
+                var tweet = "";
+                $.each(jsonresp.results, function (n, item) {
+
+                    //tweet = tweet + item.TimeStamp + " " + item.Tweet + item.ID + "<br/>";
+                    //var dts = formatDT(itemstart,"start",itemend);
+                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td class=\"tweet\">" + item.Tweet + item.ID + "</div></td></tr>";
+                    //$('#tweets').html(tweet);
+
+                    // alert(tweet);
+                });
+
+                if (jsonresp.doBanner == "true") {
+                    timerStart(5000);
+                    $("#bann2").html("do a banner");
+                    $("#bann1").html("Close");
+
+                }
+                clearTimeout(timer2);
+                timer2 = setTimeout(checkNewTweets, 60000);
+                $('#toptweet').html(jsonresp.latestid);
+                var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
+                $('#tweets').html(tweetsbanner + tweetshtml + "</table>");
+
+            },
+            error: function (xhr, error) {
+                // console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+            }
+
+        });
     }
 
     function getevents(email, name, i, max, min) {
@@ -515,6 +644,7 @@
         });
     }
 
+  
     function getfutureevents(email, name, i, max, min) {
         //inject html
         max = max + 5;
@@ -554,58 +684,30 @@
                                 var start_d = new Date(item.start.date);
                                 var end_d = new Date(item.end.date);
                                 var stf = parseISO8601Date(item.start.dateTime);
+
                                 var endf = parseISO8601Date(item.end.dateTime);
+                                if (endf == "All day") {
+                                    endf = "";
+                                }
                                 var daytest = parseISO8601DateFull(item.start.dateTime);
-                                //   alert("daytest=" + daytest);
+                                //alert("daytest=" + daytest);
                                 var res = daytest.toString().split(" ");
                                 // alert(res);
                                 var fullday = getProperDay(res[0]);
+                                var justdate = res[2];
                                 //$('#debug').append(fullday);
                                 //alert(daytest + item.summary);
-                                day = fullday; //needs a day of week number
-                                //get day from json date data somehow
-                                //alert(item.summary + "oldday=" + oldday + "   day=" + day);
-                                //alert("dayct=" + dayct + " oldday=" + oldday);
-                                var img = get_cookie("icon" + dayct);
-                                var hi = get_cookie("hi" + dayct);
-                                var lo = get_cookie("lo" + dayct);
-                                //  $('#debug').append(img);
-                                // var img2 = get_cookie("icon" + max);
-                                var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-                                //var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
-                                //   alert("odtop=" + oldday);
-                                if (oldday == day) {
-                                    //head = "same day";
-                                    //alert("same day" + oldday);
-                                    $('#day' + dayct + i).append("<div class=\"term2\"></div>");
-                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
-
-                                } else if (oldday == "first") {
-                                    //alert("first day" + oldday);
-                                    $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
-                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
-                                } else {
-                                    //alert("new day" + oldday);
-
-                                    dayct++;
-                                    //alert(dayct + item.summary);
-                                    $('#day' + dayct + i).html("<div class=\"term2b\">" + day + "</div>");
-                                    $('#day' + dayct + i).append("<div class=\"term2\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + "</div>");
-                                    $('#day_w_' + dayct + i).html("<div><table><tr><td class=\"td50\">" + icon + "</td><td><br />" + hi + "<br />" + lo + "</td></tr></table></div>");
-
-                                }
+                                day = fullday + justdate; //needs a day of week number
+                                $('#' + day).append("<div class=\"term2\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                             }
 
-                            oldday = day;
-                            //alert("olddaybtm2=" + oldday);
+                            
                         });
 
 
                     } else {
-                        //$('#summini' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                       
                     }
                 }
             },
@@ -851,7 +953,7 @@ function SubmitTwID() {
 
 </script>
 
-<body onload="testa(1,0);">
+<body onload="init();">
     <div class="page">
         <div id="main">
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
