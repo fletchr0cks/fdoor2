@@ -533,7 +533,7 @@
     function getTweets() {
         //inject html
         var latestID = document.getElementById('toptweet').innerHTML;
-     //   alert("latest= " + latestID);
+        alert("latest= " + latestID);
         var tweetshtml = "<table>";
 
         $.ajax({

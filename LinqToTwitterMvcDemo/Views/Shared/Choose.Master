@@ -17,11 +17,10 @@
 
     
     function init() {
-        // testa(1, 0);
-      //  var tw_ck = get_cookie("TwitterID");
-       // var go_ck = get_cookie("IDList");
-       // alert(tw_ck + go_ck);
-    }
+
+        var latlng = get_cookie("lat") + " " + get_cookie("long");
+        $("#latlng").html(latlng);
+       }
 
     function Auth(val,type) {
         if (val == "1") {
@@ -150,8 +149,9 @@
     }
 
     function SaveLoc(lat, lng) {
-        set_cookie("lat", lat, 365);
-        set_cookie("long", lng, 365);
+        set_cookie("lat",lat,365);
+        set_cookie("long",lng,365);
+        alert(lat + "," + lng);
         GetWeather(lat, lng);
     }
 

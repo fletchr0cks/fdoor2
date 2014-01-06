@@ -27,7 +27,7 @@
     </td>
     </tr> <tr>
     <td>
-   <div class="term3">Weather:</div>
+   <div class="term3">Weather:</div><div id="latlng"></div>
     </td>
     <td style="height:60px">
    <%= ViewData["location"]%>
