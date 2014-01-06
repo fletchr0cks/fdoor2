@@ -546,29 +546,20 @@
                 //type = refresh
                 var tweet = "";
                 $.each(jsonresp.results, function (n, item) {
-
-                    //tweet = tweet + item.TimeStamp + " " + item.Tweet + item.ID + "<br/>";
-                    //var dts = formatDT(itemstart,"start",itemend);
-                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td class=\"tweet\">" + item.Tweet + item.ID + "</div></td></tr>";
-                    //$('#tweets').html(tweet);
-
-                    // alert(tweet);
+                    alert(item.Tweet);
+                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td class=\"tweet\">" + item.Tweet + "</div></td></tr>";
                 });
 
-                if (jsonresp.doBanner == "true") {
-                    timerStart(5000);
-                    $("#bann2").html("do a banner");
-                    $("#bann1").html("Close");
-
-                }
                 clearTimeout(timer2);
                 timer2 = setTimeout(checkNewTweets, 60000);
                 $('#toptweet').html(jsonresp.latestid);
+                alert(jsonresp.latestid);
                 var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
                 $('#tweets').html(tweetsbanner + tweetshtml + "</table>");
 
             },
             error: function (xhr, error) {
+                alert(xhr + " " + error);
                 // console.debug(xhr); console.debug(error);
             },
             complete: function (xhr, status) {
