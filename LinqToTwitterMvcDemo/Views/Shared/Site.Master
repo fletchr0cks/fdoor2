@@ -80,7 +80,7 @@
     function checkNewTweets() {
         clearTimeout(timer2);
         var latestID = document.getElementById('toptweet').innerHTML;
-   //    alert("latest from page= " + latestID);
+        //    alert("latest from page= " + latestID);
 
         $.ajax({
             type: "POST",
@@ -546,20 +546,24 @@
                 //type = refresh
                 var tweet = "";
                 $.each(jsonresp.results, function (n, item) {
-                    alert(item.Tweet);
+                   // alert(item.Tweet);
                     tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td class=\"tweet\">" + item.Tweet + "</div></td></tr>";
                 });
 
                 clearTimeout(timer2);
                 timer2 = setTimeout(checkNewTweets, 60000);
                 $('#toptweet').html(jsonresp.latestid);
-                alert(jsonresp.latestid);
+                //alert(jsonresp.latestid);
                 var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
                 $('#tweets').html(tweetsbanner + tweetshtml + "</table>");
 
             },
-            error: function (xhr, error) {
-                alert(xhr + " " + error);
+            error: function (response) {
+                alert(response.responseText);
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
                 // console.debug(xhr); console.debug(error);
             },
             complete: function (xhr, status) {
