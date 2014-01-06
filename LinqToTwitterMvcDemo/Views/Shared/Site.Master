@@ -537,7 +537,7 @@
         var tweetshtml = "<table>";
 
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/Home/JsonTweets",
             //data: "email=" + email + "&max=" + max + "&min=" + min,
             dataType: "text/plain",

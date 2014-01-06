@@ -66,9 +66,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Google.Apis.Tools.CodeGen.dll</HintPath>
     </Reference>
-    <Reference Include="LinqToTwitter, Version=2.1.0.1, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
+    <Reference Include="LinqToTwitter, Version=2.1.9.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\linqtotwitter.2.1.01\lib\net40\LinqToTwitter.dll</HintPath>
+      <HintPath>..\packages\linqtotwitter.2.1.11\lib\net40\LinqToTwitter.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json.Net35, Version=4.0.2.0, Culture=neutral, processorArchitecture=MSIL">
