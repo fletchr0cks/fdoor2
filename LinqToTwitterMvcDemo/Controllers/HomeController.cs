@@ -663,11 +663,13 @@ namespace LinqToTwitterMvcDemo.Controllers
             var latesttime = friendTweets.First().TimeStamp;
             //var topBanner = GetBannerText(friendTweets.First())
             var doBanner = "false";
+            var BannerID = "";
             
-             //   if (friendTweets.First().BannerText.Length > 1) {
-               //     doBanner = "true";
-                //} 
-            return Json(new {results = friendTweets.Take(6), banners = banners, latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
+               if (friendTweets.First().BannerText.Length > 1) {
+                    doBanner = "true";
+                    BannerID = friendTweets.First().ID;
+                } 
+            return Json(new {results = friendTweets.Take(6), banners = banners, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
             
         }
