@@ -9,7 +9,7 @@
 
 </script>
 <div class="closeBanner" id="bann1"></div>
-<div class="bigbanner" id="bann2"></div>
+<div class="bigbanner" id="banner_area"></div>
 <div class="top">
 <div id="toptweet" style="display:none">20</div>
 <div id="tweets"></div>

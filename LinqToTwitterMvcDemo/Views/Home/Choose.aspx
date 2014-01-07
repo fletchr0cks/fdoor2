@@ -30,7 +30,7 @@
    <div class="term3">Weather:</div><div id="latlng"></div>
     </td>
     <td style="height:60px">
-   <%= ViewData["location"]%>
+  <div id="location"></div>
     <div id="towns" class="term1" style="display:none">
   <input type="text" id="town" value="North Berwick" />
   <div onclick="setTown()" style="cursor:pointer;display:inline">Submit</div>

@@ -113,19 +113,6 @@ namespace LinqToTwitterMvcDemo.Controllers
                 ViewData["google"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Google')\">Click to Authenticate</div>";
             }
 
-
-            try
-            {
-                string lat = Request.Cookies["lat"].Value;
-                string lng = Request.Cookies["long"].Value;
-                ViewData["location"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"ChangeLoc()\">Location set to " + lat + "," + lng + ", click to Disable</div>";
-            }
-            catch
-            {
-                ViewData["location"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"SetLoc()\">Click to set Location</div>";
-            }
-
-           
             return View();
         }
 
@@ -680,9 +667,59 @@ namespace LinqToTwitterMvcDemo.Controllers
              //   if (friendTweets.First().BannerText.Length > 1) {
                //     doBanner = "true";
                 //} 
-            return Json(new {results = friendTweets.Take(9), latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
+            return Json(new {results = friendTweets.Take(9), banners = banners, latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
+            
+        }
 
+        public ActionResult GetBanner(string ID)
+        {
+            string tname = Request.Cookies["TwitterID"].Value;
+            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
+            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+            credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            credentials.AccessToken = accesstoken;
+            credentials.OAuthToken = oauthtoken;
+            if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
+            {
+                credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+                credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            }
+
+            auth = new MvcAuthorizer
+            {
+                Credentials = credentials
+            };
+
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                Uri specialUri = new Uri(Request.Url.ToString());
+                return auth.BeginAuthorization(specialUri);
+            }
+            twitterCtx = new TwitterContext(auth);
+
+            var friendTweets =
+                (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User
+                 &&  tweet.StatusID == ID
+                 select new TweetViewModel
+                 {
+                     // ImageUrl = tweet.User.ProfileImageUrl,
+                     // ScreenName = tweet.StatusID,
+                     BannerText = GetBannerText(tweet),
+                     BannerTime = GetBannerTime(tweet),
+                 });
+            //.Take(9).ToList();
+
+            var oauthToken = auth.Credentials.OAuthToken;
+            var oauthAccessT = auth.Credentials.AccessToken;
+            var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+            ViewData["authdeets"] = oauthAccessT;
+            //var latestid = friendTweets.First().ID;
+            return Json(new { BannerText = friendTweets.First().BannerText }, JsonRequestBehavior.AllowGet);
 
 
         }

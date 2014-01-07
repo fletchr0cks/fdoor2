@@ -15,11 +15,21 @@
 
 <script type="text/javascript">
 
-    
+
     function init() {
 
-        var latlng = get_cookie("lat") + " " + get_cookie("long");
-        $("#latlng").html(latlng);
+          var ck = get_cookie("lat");
+        //alert("ck=" + ck);
+        if (ck == null) {
+            $("#location").html("<div class=\"term3\" style=\"cursor:pointer\" onclick=\"SetLoc()\">Click to set Location</div>");
+        } else {
+            var lat = get_cookie("lat");
+            var lng = get_cookie("long");
+            //$("#latlng").html(latlng);
+            $("#location").html("<div class=\"term3\" style=\"cursor:pointer\" onclick=\"ChangeLoc()\">Location set to " + lat + "," + lng + ", click to Disable</div>");
+        }
+
+        
        }
 
     function Auth(val,type) {
@@ -151,8 +161,9 @@
     function SaveLoc(lat, lng) {
         set_cookie("lat",lat,365);
         set_cookie("long",lng,365);
-        alert(lat + "," + lng);
+        //alert(lat + "," + lng);
         GetWeather(lat, lng);
+        document.location.href = '/Home/Choose';
     }
 
     

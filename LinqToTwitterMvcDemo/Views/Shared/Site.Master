@@ -78,12 +78,12 @@
     }
 
     function checkNewTweets() {
-        clearTimeout(timer2);
+        clearTimeout(timerA);
         var latestID = document.getElementById('toptweet').innerHTML;
         //    alert("latest from page= " + latestID);
 
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/Home/CheckJsonTweets",
             //data: "latestID=" + latestID,
             dataType: "text/plain",
@@ -96,7 +96,7 @@
                     getTweets();
                 } else {
                   
-                    timer2 = setTimeout(checkNewTweets, 60000);
+                    timerA = setTimeout(checkNewTweets, 60000);
                 }
 
 
@@ -110,20 +110,22 @@
         });
     }
 
-   var timer1;
-
-   function timerStart(ti) {
-        clearTimeout(timer1);
-        timer1 = setTimeout(closeBanner, ti);
-    }
+    var timer1;
 
     var timer2;
 
+    function timerStart1(ti) {
+        clearTimeout(timer1);
+        timer1 = setTimeout(closeBanner1, ti);
+    }
+
+    var timerA;
+
     
 
-   function closeBanner() {
-       $("#bann1").html("");
-       $("#bann2").html("");
+   function closeBanner1() {
+       $("#banner_area").html("");
+       //$("#bann2").html("");
    }
 
 
@@ -530,12 +532,45 @@
 
     }
 
+    function getBanner(ID) {
+       // alert(ID);
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetBanner",
+            data: "ID=" + ID,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                var bannertxt = jsonresp.BannerText;
+                //    var bannertime = item.BannerTime;
+                //    bannerhtml = bannerhtml + bannertxt;
+              
+
+                $('#banner_area').html(bannertxt);
+                clearTimeout(timer1);
+                timer1 = setTimeout(timerStart1, 10000);
+              
+            },
+            error: function (response) {
+                alert(response.responseText);
+                var r = jQuery.parseJSON(response.responseText);
+                alert("Message: " + r.Message);
+                alert("StackTrace: " + r.StackTrace);
+                alert("ExceptionType: " + r.ExceptionType);
+                // console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+            }
+
+        });
+    }
+
     function getTweets() {
         //inject html
         var latestID = document.getElementById('toptweet').innerHTML;
-        alert("latest= " + latestID);
+        //alert("latest= " + latestID);
         var tweetshtml = "<table>";
-
+        var bannerhtml = "";
         $.ajax({
             type: "GET",
             url: "/Home/JsonTweets",
@@ -546,12 +581,20 @@
                 //type = refresh
                 var tweet = "";
                 $.each(jsonresp.results, function (n, item) {
-                   // alert(item.Tweet);
-                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td class=\"tweet\">" + item.Tweet + "</div></td></tr>";
+                    // alert(item.Tweet);
+                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner(" + item.ID + ")\">" + item.Tweet + "</div></td></tr>";
                 });
 
-                clearTimeout(timer2);
-                timer2 = setTimeout(checkNewTweets, 60000);
+                $.each(jsonresp.banners, function (n, item) {
+                    // alert(item.Tweet);
+                    var bannertxt = item.BannerText;
+                    var bannertime = item.BannerTime;
+                    bannerhtml = bannerhtml + bannertxt;
+                });
+
+                //$('#banner_area').html(bannerhtml);
+                clearTimeout(timerA);
+                timerA = setTimeout(checkNewTweets, 60000);
                 $('#toptweet').html(jsonresp.latestid);
                 //alert(jsonresp.latestid);
                 var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
