@@ -8,10 +8,11 @@
 <script type="text/javascript">
 
 </script>
-<div class="closeBanner" id="bann1"></div>
+<div class="closeBanner" id="banner_header"></div>
 <div class="bigbanner" id="banner_area"></div>
 <div class="top">
-<div id="toptweet" style="display:none">20</div>
+<div id="toptweet">20</div>
+<div id="toptweettime">20</div>
 <div id="tweets"></div>
  <div class="thick"></div>
    </div>

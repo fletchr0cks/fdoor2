@@ -623,12 +623,12 @@ namespace LinqToTwitterMvcDemo.Controllers
                // && tweet.SinceID == 397389362088132608
                  select new TweetViewModel
                  {
-                    // ImageUrl = tweet.User.ProfileImageUrl,
+                     //ImageUrl = tweet.Entities.,
                     // ScreenName = tweet.StatusID,
                      TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                      //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
                      Tweet = tweet.Text,
-                     //BannerText = GetBannerText(tweet),
+                     BannerText = GetBannerText(tweet),
                      ID = tweet.StatusID,
                      //SinceID = tweet.SinceID,
                      //Convert.ToString(tweet.Entities.MediaEntities.Count),

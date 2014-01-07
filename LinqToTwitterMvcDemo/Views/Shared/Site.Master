@@ -95,7 +95,9 @@
                 if (parseInt(latesttweetID) > parseInt(latestID)) {
                     getTweets();
                 } else {
-                  
+                    var NewDate = new Date();
+                    var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+                    $('#toptweettime').html(timenow);
                     timerA = setTimeout(checkNewTweets, 60000);
                 }
 
@@ -125,7 +127,7 @@
 
    function closeBanner1() {
        $("#banner_area").html("");
-       //$("#bann2").html("");
+       $("#banner_header").html("");
    }
 
 
@@ -532,37 +534,48 @@
 
     }
 
-    function getBanner(ID) {
-       //alert(ID);
-        $.ajax({
-            type: "GET",
-            url: "/Home/GetBanner",
-            data: "ID=" + ID,
-            dataType: "text/plain",
-            success: function (json) {
-                var jsonresp = eval('(' + json + ')');
-                var bannertxt = jsonresp.BannerText;
-                //    var bannertime = item.BannerTime;
-                //    bannerhtml = bannerhtml + bannertxt;
-              
+    function getBanner(type,ID) {
+        //alert(ID);
+        if (type == "banner") {
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetBanner",
+                data: "ID=" + ID,
+                dataType: "text/plain",
+                success: function (json) {
+                    var jsonresp = eval('(' + json + ')');
+                    var bannertxt = jsonresp.BannerText;
+                    //    var bannertime = item.BannerTime;
+                    //    bannerhtml = bannerhtml + bannertxt;
 
-                $('#banner_area').html(bannertxt);
-                clearTimeout(timer1);
-                timer1 = setTimeout(timerStart1, 10000);
-              
-            },
-            error: function (response) {
-                alert(response.responseText);
-                var r = jQuery.parseJSON(response.responseText);
-                alert("Message: " + r.Message);
-                alert("StackTrace: " + r.StackTrace);
-                alert("ExceptionType: " + r.ExceptionType);
-                // console.debug(xhr); console.debug(error);
-            },
-            complete: function (xhr, status) {
-            }
+                    $('#banner_header').html("@FletcherFridge");
+                    $('#banner_area').html(bannertxt);
+                    clearTimeout(timer1);
+                    timer1 = setTimeout(timerStart1, 10000);
 
-        });
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                    // console.debug(xhr); console.debug(error);
+                },
+                complete: function (xhr, status) {
+                }
+
+            });
+        }
+
+        if (type == 'media') {
+            var imghtml = "<img src=" + ID + "/>";
+            $('#banner_header').html("@FletcherFridge");
+            $('#banner_area').html(imghtml);
+            clearTimeout(timer1);
+            timer1 = setTimeout(timerStart1, 10000);
+        }
+
     }
 
     function getTweets() {
@@ -579,10 +592,19 @@
             success: function (json) {
                 var jsonresp = eval('(' + json + ')');
                 //type = refresh
-                var tweet = "";
+                var tweettype = "none";
                 $.each(jsonresp.results, function (n, item) {
                     // alert(item.Tweet);
-                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + item.ID + "')\">" + item.Tweet + "</div></td></tr>";
+                    var tweetxtra = "";
+                    if (item.BannerText.length > 1) {
+                        tweettype = "banner";
+                        tweetxtra = item.ID;
+                    }
+                    if (item.MediaUrl.length > 1) {
+                        tweettype = "media";
+                        tweetxtra = item.MediaUrl;
+                    }
+                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "')\">" + item.Tweet + "</div></td></tr>";
                 });
 
                 $.each(jsonresp.banners, function (n, item) {
@@ -595,7 +617,11 @@
                 //$('#banner_area').html(bannerhtml);
                 clearTimeout(timerA);
                 timerA = setTimeout(checkNewTweets, 60000);
+                var NewDate = new Date();
+                var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+
                 $('#toptweet').html(jsonresp.latestid);
+                $('#toptweettime').html(timenow);
                 //alert(jsonresp.latestid);
                 var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
                 $('#tweets').html(tweetsbanner + tweetshtml + "</table>");
