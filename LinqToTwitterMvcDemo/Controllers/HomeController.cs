@@ -667,7 +667,7 @@ namespace LinqToTwitterMvcDemo.Controllers
              //   if (friendTweets.First().BannerText.Length > 1) {
                //     doBanner = "true";
                 //} 
-            return Json(new {results = friendTweets.Take(9), banners = banners, latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
+            return Json(new {results = friendTweets.Take(6), banners = banners, latestid = latestid, doBanner = doBanner, twitterID = tname}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
             
         }
