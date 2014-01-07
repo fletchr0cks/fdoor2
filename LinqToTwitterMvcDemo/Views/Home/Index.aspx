@@ -11,8 +11,6 @@
 <div class="closeBanner" id="banner_header"></div>
 <div class="bigbanner" id="banner_area"></div>
 <div class="top">
-<div id="toptweet">20</div>
-<div id="toptweettime">20</div>
 <div id="tweets"></div>
  <div class="thick"></div>
    </div>
@@ -36,6 +34,8 @@
     <div id="sumweathermini"></div>
     <div class="thin"></div>
     <div class="footer" onclick="goSetup()">Setup</div>
+    <div id="toptweet" style="display:inline-block">20</div>
+<div style="display:inline-block" id="toptweettime"></div>
      </div>
     
 <div onclick="filldiv()"><iframe id="iframe1" style="display:none" ></iframe></div>
