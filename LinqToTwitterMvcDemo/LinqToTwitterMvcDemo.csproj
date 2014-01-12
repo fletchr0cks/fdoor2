@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -165,8 +166,10 @@
     <Content Include="Views\Home\IndexTest.aspx" />
     <Content Include="Views\Home\Done.aspx" />
     <Content Include="Views\Home\DoneTwitterAuth.aspx" />
+    <Content Include="Views\Home\Mobile.aspx" />
     <Content Include="Views\Home\SetTwitterID.aspx" />
     <Content Include="Views\Home\testout.ascx" />
+    <Content Include="Views\Mobile\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -198,6 +201,7 @@
     <Content Include="Views\Shared\Site.Master" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Shared\Choose.Master" />
+    <Content Include="Views\Shared\Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

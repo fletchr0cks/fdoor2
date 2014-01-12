@@ -562,7 +562,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 DelCookie("lat", "");
                 DelCookie("long", "");
-
+                //cycle thru others
                       
             }
 
@@ -573,6 +573,12 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
 
             return View("Index");
+        }
+
+        public ActionResult Mobile()
+        {
+
+            return View("Mobile");
         }
 
         public ActionResult JsonTweets()
