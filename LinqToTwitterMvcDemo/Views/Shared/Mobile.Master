@@ -5,9 +5,9 @@
 <head id="Head1" runat="server">
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
      <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
-   <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script>
-   <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+   <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0.css" />
+   <script src="../../Content/jquery-1.10.2.js" type="text/javascript"></script>
+   <script type="text/javascript" src="../../Content/jquery.mobile-1.4.0.min.js"></script>
     <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
  
    <script type="text/javascript">
@@ -15,17 +15,17 @@
 
        $(document).bind("pageinit", function () {
            $(function () {
-        //       var ck = $.cookie('urlLink');
-          //     var linkde = decodeURIComponent(ck);
+               //       var ck = $.cookie('urlLink');
+               //     var linkde = decodeURIComponent(ck);
                //alert(ck);
-            //   $('#linktxt').html(linkde).trigger("create");
-            //   $("#linkd").attr("href", linkde);
+               //   $('#linktxt').html(linkde).trigger("create");
+               //   $("#linkd").attr("href", linkde);
                //$("#linkd").attr("href", linkde);
                //alert("changed");
            });
 
            $(document).delegate('.back', 'click', function () {
-              // window.location.href = "/";
+               // window.location.href = "/";
            });
 
            $(document).click(function (event) {
@@ -37,9 +37,26 @@
                //alert(linkde);
            });
 
+          
+
        });
 
+       function sliderChange(val,id) {
+           var flipT = document.getElementById('flip-twitter').value;
+           var flipW = document.getElementById('flip-weather').value;
+           var flipN = document.getElementById('flip-news').value;
+           //alert(val + id);
+           if (id == "flip-twitter") {
+               if (val == "off") {
+                   $('#tweets').hide()
+               }
+               if (val == "on") {
+                   $('#tweets').show()
+                   $("#mentions").trigger('collapse');
+               }
 
+           }
+       }
      </script>
     
 </head>
@@ -53,16 +70,23 @@
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
     <div data-role="footer" class="ui-bar" data-position="fixed">
+ <div data-role="controlgroup" data-type="horizontal" data-mini="true" align="center">
  <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
-    <select name="flip-5" id="flip-5" data-role="slider">
+    <select onchange="sliderChange(this.value,this.id)" name="flip-news" id="flip-news" data-role="slider" data-mini="true">
         <option value="off">News</option>
         <option value="on">News</option>
     </select>
     <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
-    <select name="flip-5" id="Select1" data-role="slider">
+    <select onchange="sliderChange(this.value,this.id)" name="flip-4" id="flip-twitter" data-role="slider" data-mini="true">
         <option value="off">Twitter</option>
         <option value="on">Twitter</option>
     </select>
-</div>
+    <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
+    <select onchange="sliderChange(this.value,this.id)" name="flip-5" id="flip-weather" data-role="slider" data-mini="true">
+        <option value="off">Weather</option>
+        <option value="on">Weather</option>
+    </select>
+   </div>
+   </div>
 </body>
 </html>

@@ -9,6 +9,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<div id="tweets">
 <ul data-role="listview" data-inset="true">
     <li data-role="list-divider">FletcherFridge Tweets<span class="ui-li-count">2</span></li>
     <li data-icon="delete"><a href="index.html">
@@ -29,7 +30,8 @@
         <p class="ui-li-aside"><strong>4:48</strong>PM</p>
     </a></li>
 </ul>
- <ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="b">
-    <li><%=Html.ActionLink("Weather", "Weather", "Home") %></li>
-</ul>
+</div>
+<div id="calendar">
+
+</div>
 </asp:Content>
