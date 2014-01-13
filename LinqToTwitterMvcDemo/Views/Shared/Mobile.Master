@@ -34,16 +34,10 @@
 </head>
  
 <body>
-<div data-role="page" class="ui-body">
-    <div data-role="header" data-position="fixed">
-        <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
-    </div>
-    <div data-role="content">
-         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-    </div>
-    <div data-role="footer" class="ui-bar" data-position="fixed" data-theme="b">
- <div data-role="controlgroup" data-type="horizontal" data-mini="true" align="center">   
-   <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+<div data-role="page">
+<div data-role="panel" id="mypanel" data-swipe-close="false">
+    <!-- panel content goes here -->
+      <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Twitter</option>
 	<option value="yes" selected="selected">Twitter</option>
 </select>
@@ -59,8 +53,16 @@
 	<option value="no">Weather</option>
 	<option value="yes" selected="selected">Weather</option>
 </select>
+<a href="#header" data-rel="close">Close panel</a>
+</div><!-- /panel -->
+    <div data-role="header" data-position="fixed">
+        <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
+    </div>
+    <div data-role="content">
+         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+    </div>
+    
    </div>
-   </div>
-   </div>
+   
 </body>
 </html>
