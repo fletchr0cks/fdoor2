@@ -12,35 +12,7 @@
  
    <script type="text/javascript">
 
-
-       $(document).bind("pageinit", function () {
-           $(function () {
-               //       var ck = $.cookie('urlLink');
-               //     var linkde = decodeURIComponent(ck);
-               //alert(ck);
-               //   $('#linktxt').html(linkde).trigger("create");
-               //   $("#linkd").attr("href", linkde);
-               //$("#linkd").attr("href", linkde);
-               //alert("changed");
-           });
-
-           $(document).delegate('.back', 'click', function () {
-               // window.location.href = "/";
-           });
-
-           $(document).click(function (event) {
-               //              var link = encodeURIComponent(event.target);
-               //alert(link);
-               //              $.cookie("urlLink", "" + link + "");
-               //              $(document).unbind("click");
-               //              var linkde = decodeURIComponent(link);
-               //alert(linkde);
-           });
-
-          
-
-       });
-
+        
        function sliderChange(val,id) {
            var flipT = document.getElementById('flip-twitter').value;
            var flipW = document.getElementById('flip-weather').value;
