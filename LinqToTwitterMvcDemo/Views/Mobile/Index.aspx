@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div id="tweets">
-<ul data-role="listview" data-inset="true">
+<ul data-role="listview" data-inset="true" data-theme="a" data-divider-theme="b">
     <li data-role="list-divider">FletcherFridge Tweets<span class="ui-li-count">2</span></li>
     <li data-icon="delete"><a href="index.html">
     <p><strong>6:24PM</strong> Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>

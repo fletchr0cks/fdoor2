@@ -34,30 +34,32 @@
 </head>
  
 <body>
-<div data-role="page">
+<div data-role="page" class="ui-body">
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
     <div data-role="content">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
-    <div data-role="footer" class="ui-bar" data-position="fixed">
- <div data-role="controlgroup" data-type="horizontal" data-mini="true" align="center">
- <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
-    <select onchange="sliderChange(this.value,this.id)" name="flip-news" id="flip-news" data-role="slider" data-mini="true">
-        <option value="off">News</option>
-        <option value="on">News</option>
-    </select>
-    <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
-    <select onchange="sliderChange(this.value,this.id)" name="flip-4" id="flip-twitter" data-role="slider" data-mini="true">
-        <option value="off">Twitter</option>
-        <option value="on">Twitter</option>
-    </select>
-    <label for="flip-5" class="ui-hidden-accessible">Flip toggle switch:</label>
-    <select onchange="sliderChange(this.value,this.id)" name="flip-5" id="flip-weather" data-role="slider" data-mini="true">
-        <option value="off">Weather</option>
-        <option value="on">Weather</option>
-    </select>
+    <div data-role="footer" class="ui-bar" data-position="fixed" data-theme="b">
+ <div data-role="controlgroup" data-type="horizontal" data-mini="true" align="center">   
+   <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Twitter</option>
+	<option value="yes" selected="selected">Twitter</option>
+</select>
+   <select data-mini="true" name="slider" id="flip-calendar" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Calendar</option>
+	<option value="yes" selected="selected">Calendar</option>
+</select>
+    <select data-mini="true" name="slider" id="flip-news" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">News</option>
+	<option value="yes" selected="selected">News</option>
+</select>
+   <select data-mini="true" name="slider" id="flip-weather" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Weather</option>
+	<option value="yes" selected="selected">Weather</option>
+</select>
+   </div>
    </div>
    </div>
 </body>
