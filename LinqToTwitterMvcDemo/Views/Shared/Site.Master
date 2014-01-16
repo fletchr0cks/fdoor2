@@ -98,7 +98,7 @@
                     var NewDate = new Date();
                     var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
                     $('#toptweettime').html(timenow);
-                    timerA = setTimeout(checkNewTweets, 60000);
+                    timerA = setTimeout(checkNewTweets, 600000);
                 }
 
 
@@ -632,7 +632,7 @@
 
                 //$('#banner_area').html(bannerhtml);
                 clearTimeout(timerA);
-                timerA = setTimeout(checkNewTweets, 60000);
+                timerA = setTimeout(checkNewTweets, 600000);
                 var NewDate = new Date();
                 var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
 

@@ -12,6 +12,47 @@
  
    <script type="text/javascript">
 
+       $(document).bind("pageinit", function () {
+           $(function () {
+              // alert("innit");
+               $('#tweets_home').trigger('expand');
+               if ($('#tweets_home').hasClass('ui-collapsible-collapsed'))
+               {
+               //alert("collapsed");
+               }
+               drawCal();
+           });
+
+
+
+
+       });
+
+
+
+       $(document).ready(function () {
+         
+           // if ($('#add_site').hasClass('ui-collapsible-collapsed')
+           var timerA;
+           var timerB;
+
+           document.getElementById('flip-weather').value = "no";
+
+           $("#flip-twitter").keyup(function () {
+               clearTimeout(timerA);
+               timerA = setTimeout(changeTxtA, 3000);
+
+           });
+
+           var changeTxtA = function () {
+               //Change label text here.
+               //$("#user_2").html("saved").trigger("create");
+               //$("input#user_3").focus();
+               alert("slider changed");
+           };
+
+       });
+
         
        function sliderChange(val,id) {
            var flipT = document.getElementById('flip-twitter').value;
@@ -29,6 +70,33 @@
 
            }
        }
+
+       function iterateAlphabet()
+	{
+	   var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	   for(var i=0; i<str.length; i++)
+	   {
+	      var nextChar = str.charAt(i);
+	      alert(nextChar)
+	   }
+	}
+
+
+       function drawCal() {
+           var calhtmltop = "<div class=\"ui-grid-f\">";
+           var aplhastr = "abcdefg";
+           var calhtmlmid = "";
+           for(var i=0; i<aplhastr.length; i++)
+	   {
+	       var nextChar = aplhastr.charAt(i);
+	      //alert(nextChar)
+          calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\">1</div></div>";
+	   }
+
+	   $('#caldata').html(calhtmltop + calhtmlmid + "</div>");
+       }
+
+
      </script>
     
 </head>
@@ -37,23 +105,31 @@
 <div data-role="page">
 <div data-role="panel" id="mypanel" data-swipe-close="false">
     <!-- panel content goes here -->
+    <div class="displayslider">
       <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Twitter</option>
 	<option value="yes" selected="selected">Twitter</option>
 </select>
+</div>
+<div class="displayslider">
    <select data-mini="true" name="slider" id="flip-calendar" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Calendar</option>
 	<option value="yes" selected="selected">Calendar</option>
 </select>
+</div>
+<div class="displayslider">
     <select data-mini="true" name="slider" id="flip-news" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">News</option>
 	<option value="yes" selected="selected">News</option>
 </select>
+</div>
+<div class="displayslider">
    <select data-mini="true" name="slider" id="flip-weather" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Weather</option>
-	<option value="yes" selected="selected">Weather</option>
+	<option value="yes">Weather</option>
 </select>
-<a href="#header" data-rel="close">Close panel</a>
+</div>
+<a href="#header" data-rel="close" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a>
 </div><!-- /panel -->
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
