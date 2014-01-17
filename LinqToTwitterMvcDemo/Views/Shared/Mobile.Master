@@ -4,31 +4,31 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0.css" />
-   <script src="../../Scripts/jquery-1.10.2.js" type="text/javascript"></script>
-   <script type="text/javascript" src="../../Scripts/jquery.mobile-1.4.0.min.js"></script>
-    <script type="text/javascript" src="../../Scripts/jquery.cookie.js"></script>
- 
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     
+     <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+
    <script type="text/javascript">
 
        $(document).bind("pageinit", function () {
            $(function () {
-              // alert("innit");
+               // alert("innit");
                $('#tweets_home').trigger('expand');
-               if ($('#tweets_home').hasClass('ui-collapsible-collapsed'))
-               {
-               //alert("collapsed");
+               if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
+                   //alert("collapsed");
                }
                drawCal();
+               drawNext5(0);
+               renderTweets(5, "mytweets");
+               renderTweets(5, "following");
+               renderTweets(5, "mentions");
+               $('#chosenDay').html("<strong>" + formatDateFull(0) + "</strong>");
            });
 
-
-
-
        });
-
-
 
        $(document).ready(function () {
          
@@ -53,17 +53,119 @@
 
        });
 
+
+       function formatDateNext(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var daynum = NewDate.getUTCDay();
+           //alert(NewDate + " d: " + date + " n: " + daynum);
+           if (parseInt(daynum) == 1) {
+               day = "Monday";
+           } else if (parseInt(daynum) == 2) {
+               day = "Tuesday";
+           } else if (parseInt(daynum) == 3) {
+               day = "Wednesday";
+           } else if (parseInt(daynum) == 4) {
+               day = "Thursday";
+           } else if (parseInt(daynum) == 5) {
+               day = "Friday";
+           } else if (parseInt(daynum) == 6) {
+               day = "Saturday";
+           } else if (parseInt(daynum) == 0) {
+               day = "Sunday";
+           }
+
+           var date_str = day + " " + date;
+
+
+           return date_str;
+       }
+
+       function formatDateFull(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var daynum = NewDate.getUTCDay();
+           var monthnum = NewDate.getUTCMonth();
+           if (parseInt(monthnum) == 1) {
+               month = "February";
+           } else if (parseInt(monthnum) == 2) {
+               month = "March";
+           } else if (parseInt(monthnum) == 3) {
+               month = "April";
+           } else if (parseInt(monthnum) == 4) {
+               month = "May";
+           } else if (parseInt(monthnum) == 5) {
+               month = "June";
+           } else if (parseInt(monthnum) == 6) {
+               month = "July";
+           } else if (parseInt(monthnum) == 7) {
+               month = "August";
+           } else if (parseInt(monthnum) == 8) {
+               month = "September";
+           } else if (parseInt(monthnum) == 9) {
+               month = "October";
+           } else if (parseInt(monthnum) == 10) {
+               month = "November";
+           } else if (parseInt(monthnum) == 11) {
+               month = "December";
+           } else if (parseInt(monthnum) == 0) {
+               month = "January";
+           }
+           //alert(NewDate + " d: " + date + " n: " + daynum);
+           if (parseInt(daynum) == 1) {
+               day = "Monday";
+           } else if (parseInt(daynum) == 2) {
+               day = "Tuesday";
+           } else if (parseInt(daynum) == 3) {
+               day = "Wednesday";
+           } else if (parseInt(daynum) == 4) {
+               day = "Thursday";
+           } else if (parseInt(daynum) == 5) {
+               day = "Friday";
+           } else if (parseInt(daynum) == 6) {
+               day = "Saturday";
+           } else if (parseInt(daynum) == 0) {
+               day = "Sunday";
+           }
+
+           var date_str = day + " " + date + " " + month;
+
+
+           return date_str;
+       }
+
+
         
        function sliderChange(val,id) {
            var flipT = document.getElementById('flip-twitter').value;
            var flipW = document.getElementById('flip-weather').value;
            var flipN = document.getElementById('flip-news').value;
-           //alert(val + id);
+           var flipC = document.getElementById('flip-calendar').value;
+           // alert(val + id);
+           if (flipT == "yes" && flipC == "no") {
+               renderTweets(12, "mytweets");
+               renderTweets(12, "following");
+               renderTweets(12, "mentions");
+               $('#calblock').hide();
+           }
+           if (flipC == "yes") {
+               renderTweets(5, "mytweets");
+               renderTweets(5, "following");
+               renderTweets(5, "mentions");
+               $('#calblock').show();
+           }
+
            if (id == "flip-twitter") {
-               if (val == "off") {
+               if (val == "no") {
                    $('#tweets').hide()
                }
-               if (val == "on") {
+               if (val == "yes") {
                    $('#tweets').show()
                    $("#mentions").trigger('collapse');
                }
@@ -79,23 +181,173 @@
 	      var nextChar = str.charAt(i);
 	      alert(nextChar)
 	   }
+}
+function formatDate(num) {
+    var NewDate = new Date();
+    NewDate.setDate(NewDate.getDate() + num);
+    var day;
+    var month;
+    var date = NewDate.getUTCDate();
+    var month = NewDate.getUTCMonth();
+    return date;
+}
+
+function formatDateDayNum(num) {
+    var NewDate = new Date();
+    NewDate.setDate(NewDate.getDate() + num);
+    var day;
+    var month;
+    var date = NewDate.getUTCDate();
+    var daynum = NewDate.getUTCDay();
+    
+    return daynum;
+}
+
+	function formatDateDay(num) {
+	    var NewDate = new Date();
+	    NewDate.setDate(NewDate.getDate() + num);
+	    var day;
+	    var month;
+	    var date = NewDate.getUTCDate();
+	    var daynum = NewDate.getUTCDay();
+	    //alert(NewDate + " d: " + date + " n: " + daynum);
+	    if (parseInt(daynum) == 1) {
+	        day = "a";
+	    } else if (parseInt(daynum) == 2) {
+	        day = "b";
+	    } else if (parseInt(daynum) == 3) {
+	        day = "c";
+	    } else if (parseInt(daynum) == 4) {
+	        day = "d";
+	    } else if (parseInt(daynum) == 5) {
+	        day = "e";
+	    } else if (parseInt(daynum) == 6) {
+	        day = "f";
+	    } else if (parseInt(daynum) == 0) {
+	        day = "g";
+	    }
+
+	    if (parseInt(date) < 10) {
+	        date = "0" + date;
+	    }
+
+	    var date_str = day;
+
+	    return date_str;
 	}
 
+	function daysBackToMon() {
+	    var NewDate = new Date();
+	    i = 7;
+	    daysback = 0;
+	    while (i >= 0) {
+	        i--;
+	        NewDate.setDate(NewDate.getDate() - i);
+	        var daynum = NewDate.getUTCDay();
+	        alert("daynum=" + daynum + " i=" + i);
+	        if (parseInt(daynum) == 1) {
+	            daysback = i;
+	        }
+	        daysback++;
+	    }
+
+	    return daysback;
+
+	}
+
+    function renderTweets(num,type) {
+        var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
+        var midhtml = "";
+        while (num > 0) {
+            midhtml = midhtml + "<li class=\"ui-btn ui-icon-camera ui-btn-icon-left\">" +
+            "<p><strong style=\"padding-left:20px\">6:24PM</strong> Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>" +
+            "</li>";
+            num--;
+        }
+
+        $('#' + type).html(tophtml + midhtml + "</ul>").trigger('create');
+    }
+
+	function drawNext5(start) {
+	    var end = 5
+	    while (end > -1) {	        
+	        $('#next' + end).html(formatDateNext(end));
+            end--;
+	    }
+	}
 
        function drawCal() {
            var calhtmltop = "<div class=\"ui-grid-f\">";
            var aplhastr = "abcdefg";
            var calhtmlmid = "";
+           //var startDate = daysBackToMon();
+           var end = parseInt(0);
+           var today = formatDateDay(0);
+           var startrow = 4;
+           var dayID = 0;
+           var daynow = 0;
+          // alert(startDate);
+           while (end < 5) {
+               end++;
            for(var i=0; i<aplhastr.length; i++)
 	   {
 	       var nextChar = aplhastr.charAt(i);
-	      //alert(nextChar)
-          calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\">1</div></div>";
+	       //alert(nextChar)
+	       if (startrow == end) {
+	           if (today == nextChar) {
+	               //alert("today is " + today);
+	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Today " + dayID + "</div></div>";
+	               daynow = dayID;
+	               //alert(parseInt(startrow * 7) + " " + dayID);
+	           } else {
+	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">day " + dayID + "</div></div>";
+	           }
+	       } else {
+
+	           calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Row " + dayID + "</div></div>";
+	       }
+	       dayID++;
 	   }
 
 	   $('#caldata').html(calhtmltop + calhtmlmid + "</div>");
-       }
 
+}
+backFillCal(startrow);
+}
+
+        function backFillCal(startrow) {
+            //date at which to start calid 0
+            var t = 0 - startrow;
+            //if (num == 0) {
+            var num = formatDateDayNum(0) - 1;
+            //}
+            //alert(num);
+            var t2 = (t * 7);
+            //alert(startrow + " " + t2);
+            var end = 0;
+            if (startrow <= 0) {
+                end = t2 + num - 1;
+            } else {
+                end = t2 + num - 1;
+                
+            }
+            var start = 0;
+            //var date = formatDateDay(-num);
+            //alert(end);
+            while (start < 35) {
+                $('#Cal' + start).html(formatDate(end));
+                if (end == 0) {
+                    $('#Cal' + start).html("Today");
+                }
+                start++;
+                end++;
+               
+            }
+            //var today = (daterow * 7) 
+            //
+
+
+        }
 
      </script>
     
