@@ -581,7 +581,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View("Mobile");
         }
 
-        public ActionResult JsonTweets()
+        public ActionResult JsonTweets(string timenow)
         {
             string tname = Request.Cookies["TwitterID"].Value;
             string accesstoken = Request.Cookies["oauth_accessToken"].Value;
@@ -635,21 +635,14 @@ namespace LinqToTwitterMvcDemo.Controllers
                      //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
                      Tweet = tweet.Text,
                      BannerText = GetBannerText(tweet),
+                     BannerTime = GetBannerTime(tweet),
                      ID = tweet.StatusID,
                      //SinceID = tweet.SinceID,
                      //Convert.ToString(tweet.Entities.MediaEntities.Count),
                      MediaUrl = GetTweetMediaUrl(tweet)
                  });
 
-            var banners =
-                (from tweet in twitterCtx.Status
-                 where tweet.Type == StatusType.User
-                && tweet.Text.Contains("#banner")
-                 select new TweetViewModel
-                 {
-                     BannerText = GetBannerText(tweet),
-                     BannerTime = GetBannerTime(tweet),
-                 });
+          
             
                  //.Take(9).ToList();
 
@@ -675,7 +668,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     doBanner = "true";
                     BannerID = friendTweets.First().ID;
                 } 
-            return Json(new {results = friendTweets.Take(6), banners = banners, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname}, JsonRequestBehavior.AllowGet);
+            return Json(new {results = friendTweets.Take(6), latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
             
         }
@@ -827,9 +820,14 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             var tweet_txt = status.Text;
             //var tweet_type;
-            if (tweet_txt.Contains("#banner"))
+            if (tweet_txt.Contains("#bannernow"))
                {
-                   var bantxt = getBetween(tweet_txt, "#banner");  
+                   var bantxt = getBetween(tweet_txt, "#bannernow", "now");  
+                return bantxt;
+               }
+            else if (tweet_txt.Contains("#bannertime"))
+            {
+                var bantxt = getBetween(tweet_txt, "#bannertime", "time");
                 return bantxt;
             }
             return "";
@@ -837,13 +835,56 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         private string GetBannerTime(Status status)
         {
-            
-            return "10000";
+            var tweet_txt = status.Text;
+            int tfstart = tweet_txt.IndexOf("#bannertime", 0) + 12;
+            if (tfstart > 12)
+            {
+                int start = tweet_txt.Length - 1;
+                int end = tweet_txt.Length;
+                var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
+                //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
+                var timetxt = bantxt.Split(' ')[0];
+                var timeval = timetxt.Substring(0, timetxt.Length - 1);
+                var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
+                int time = Convert.ToInt32(timeval);
+                try
+                {
+                    int ms = 1;
+                    if (timeframe == "h")
+                    {
+                        ms = 3600000;
+
+                    }
+                    else if (timeframe == "m")
+                    {
+
+                        ms = 60000;
+                    }
+                    //var tweet_type;
+                    return Convert.ToString(ms * time);
+
+                }
+                catch
+                {
+
+                    return "10000";
+
+                }
+            }
+            else
+            {
+
+                return "0";
+
+            }
+    
+            //return "10000";
         }
 
-        public static string getBetween(string strSource, string strStart)
+        public static string getBetween(string strSource, string strStart, string type)
         {
             int Start, End;
+            
             if (strSource.Contains(strStart))
             {
                 Start = strSource.IndexOf(strStart, 0) + strStart.Length;

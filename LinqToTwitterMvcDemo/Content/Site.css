@@ -35,6 +35,8 @@ body
 .tweet_ts {font-family: 'Helvetica', cursive;color: #000;font-size:16px;}
 .term2b {font-family: 'Helvetica', cursive;color: #000; font-size:12px;vertical-align:middle;}
 .banner {font-family: 'Helvetica', cursive;color: #000; font-size:28px; padding-top: 10px}
+.days_head {font-family: 'Helvetica', cursive;color: #000; font-size:52px; padding-top: 10px}
+.days_text {font-family: 'Helvetica', cursive;color: #000; font-size:38px; padding-top: 18px}
 .term3 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px; display:inline}
 .term3btn {font-family: 'Helvetica', cursive;color: #FFF; border-color: #FFF; font-size:18px; padding:2px; display:inline; vertical-align:middle}
 .title {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px}
@@ -297,6 +299,8 @@ table
 td.tdleft {background: #272727; height: 20px}
 
 td.td400 {width: 250px}
+
+td.td80 {width: 80px}
 
 td.td20 {width: 20%; padding:0px; margin:0px; text-align: left;}
 

@@ -12,6 +12,16 @@
 <div class="bigbanner" id="banner_area"></div>
 <div class="top">
 <div id="tweets"></div>
+<div id="days2go">
+<table>
+      <tr><td class="td80"><div class="days_head" id="days_party">02</div></td>
+      <td><div class="days_text">Days until Ursula's party</div></td>
+      </tr>
+     <tr><td class="td80"><div class="days_head" id="days_holiday">02</div></td>
+      <td><div class="days_text">Days until skiing holiday</div></td>
+      </tr>
+    </table>
+</div>
  <div class="thick"></div>
    </div>
     <div id="cal" class="bottom">

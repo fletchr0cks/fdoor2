@@ -52,11 +52,42 @@
 
     }
 
+    function calcDays() {
+        var nowDate = new Date();
+        var holDate = new Date();
+        holDate.setDate(8);
+        holDate.setMonth(1);
+        var partyDate = new Date();
+        partyDate.setDate(1);
+        partyDate.setMonth(1);
+        var daysp = daysBetween(nowDate, partyDate);
+        var daysh = daysBetween(nowDate, holDate);
+        $('#days_party').html(daysp);
+        $('#days_holiday').html(daysh);
+
+    }
+
+    function daysBetween(first, second) {
+
+        // Copy date parts of the timestamps, discarding the time parts.
+        var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
+        var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
+
+        // Do the math.
+        var millisecondsPerDay = 1000 * 60 * 60 * 24;
+        var millisBetween = two.getTime() - one.getTime();
+        var days = millisBetween / millisecondsPerDay;
+
+        // Round down.
+        return Math.floor(days);
+    }
+
     function init() {
         // testa(1, 0);
+        calcDays();
         var tw_ck = get_cookie("TwitterID");
         if (tw_ck != null) {
-            getTweets();
+            //getTweets();
         }
         var go_ck = get_cookie("IDList");
         if (go_ck != null) {
@@ -534,7 +565,7 @@
 
     }
 
-    function getBanner(type,ID) {
+    function getBanner(type,ID,timeout) {
         //alert(ID);
         if (type == "banner") {
             $.ajax({
@@ -551,7 +582,7 @@
                     $('#banner_header').html("@FletcherFridge");
                     $('#banner_area').html(bannertxt);
                     clearTimeout(timer1);
-                    timer1 = setTimeout(timerStart1, 10000);
+                    timer1 = setTimeout(timerStart1, timeout);
 
                 },
                 error: function (response) {
@@ -578,18 +609,19 @@
 
     }
 
-    function getBannerC(ID) {
+    function getBannerC(ID,timeout) {
         //alert(ID);
         var bannertxt = get_cookie(ID);
                     $('#banner_area').html(bannertxt);
                     clearTimeout(timer1);
-                    timer1 = setTimeout(timerStart1, 10000);
+                    timer1 = setTimeout(timerStart1, timeout);
 
     }
 
 
     function getTweets() {
-        //inject html
+        var NewDate = new Date();
+        var hournow = NewDate.getUTCOffset();
         var latestID = document.getElementById('toptweet').innerHTML;
         //alert("latest= " + latestID);
         var tweetshtml = "<table>";
@@ -597,40 +629,36 @@
         $.ajax({
             type: "GET",
             url: "/Home/JsonTweets",
-            //data: "email=" + email + "&max=" + max + "&min=" + min,
+            data: "timenow=" + hournow,
             dataType: "text/plain",
             success: function (json) {
                 var jsonresp = eval('(' + json + ')');
                 //type = refresh
                 var tweettype = "none";
+                var timeout = "";
                 $.each(jsonresp.results, function (n, item) {
                     // alert(item.Tweet);
                     var tweetxtra = "";
                     if (item.BannerText.length > 1) {
                         tweettype = "banner";
                         tweetxtra = item.ID;
+                        timeout = item.BannerTime;
                     }
                     if (item.MediaUrl.length > 1) {
                         tweettype = "media";
                         tweetxtra = item.MediaUrl;
                     }
-                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBannerC('" + tweetxtra + "')\">" + item.Tweet + "</div></td></tr>";
+                    tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
                     //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "')\">" + item.Tweet + "</div></td></tr>";
-                    if (jsonresp.doBanner == "true") {
-                        var bannerID = jsonresp.BannerID;
-                        getBanner('banner', bannerID);
-                        set_cookie(item.ID, item.BannerText, 20);
-                    }
+
                 });
 
-                $.each(jsonresp.banners, function (n, item) {
-                    // alert(item.Tweet);
-                    var bannertxt = item.BannerText;
-                    var bannertime = item.BannerTime;
-                    bannerhtml = bannerhtml + bannertxt;
-                });
+                //if (jsonresp.doBanner == "true") {
+                //    var bannerID = jsonresp.BannerID;
+                //    getBanner('banner', bannerID, timeout);
+                //    set_cookie(item.ID, item.BannerText, 20);
+                //}
 
-                //$('#banner_area').html(bannerhtml);
                 clearTimeout(timerA);
                 timerA = setTimeout(checkNewTweets, 600000);
                 var NewDate = new Date();
