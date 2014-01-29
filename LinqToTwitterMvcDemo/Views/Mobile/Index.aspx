@@ -18,17 +18,17 @@
 <div id="tweets">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="b">
      <div data-role="collapsible">
-    <h2>Following</h2>
+    <h2><div style="font-size:20px">Following</div></h2>
          <div id="following">  
         </div>
     </div>
     <div data-role="collapsible" data-collapsed="false">
-    <h2>My Tweets</h2>
+    <h2><div style="font-size:20px">My Tweets</div></h2>
     <div id="mytweets">  
         </div>
     </div>
     <div data-role="collapsible">
-    <h2>Mentions</h2>
+    <h2><div style="font-size:20px">Mentions</div></h2>
      <div id="mentions">  
         </div>
     </div>

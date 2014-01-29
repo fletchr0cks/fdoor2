@@ -933,9 +933,9 @@ html .ui-alt-icon .ui-radio-off:after {
 html .ui-bar-a .ui-bar-inherit,
 html .ui-body-a .ui-bar-inherit,
 html body .ui-group-theme-a .ui-bar-inherit {
-	background: 			#e9e9e9 /*{a-bar-background-color}*/;
+	background: 			#000000 /*{a-bar-background-color}*/;
 	border-color:	 		#  /*{a-bar-border}*/;
-	color: 					#333 /*{a-bar-color}*/;
+	color: 					#FFF /*{a-bar-color}*/;
 	text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 0 /*{a-bar-shadow-radius}*/ 	#eee /*{a-bar-shadow-color}*/;
 	font-weight: bold;
 }
@@ -4777,3 +4777,16 @@ for Android 4.1 */
 
 .ui-header .ui-navbar .ui-grid-e li.ui-block-f .ui-btn-icon-right .ui-icon,
 .ui-footer .ui-navbar .ui-grid-f li.ui-block-g .ui-btn-icon-right .ui-icon { right: 8px; }
+
+.tweets1 {font-family: 'Helvetica', cursive;color: #000; font-size:16px; white-space:normal}
+
+.listItemNoIcon .ui-icon
+{
+
+ display: none;
+
+}
+
+.ui-collapsible-heading .ui-icon {
+    display: none;
+}

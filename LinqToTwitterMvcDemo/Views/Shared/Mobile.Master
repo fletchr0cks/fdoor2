@@ -259,9 +259,9 @@ function formatDateDayNum(num) {
         var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
         var midhtml = "";
         while (num > 0) {
-            midhtml = midhtml + "<li class=\"ui-btn ui-icon-camera ui-btn-icon-left\">" +
-            "<p><strong style=\"padding-left:20px\">6:24PM</strong> Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</p>" +
-            "</li>";
+            midhtml = midhtml + "<li><table><tr><td>2m</td><td>" +
+            "<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
+            "</td></tr></table></li>";
             num--;
         }
 
