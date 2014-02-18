@@ -283,7 +283,7 @@ function formatDateDayNum(num) {
            //var startDate = daysBackToMon();
            var end = parseInt(0);
            var today = formatDateDay(0);
-           var startrow = 4;
+           var startrow = 2;
            var dayID = 0;
            var daynow = 0;
           // alert(startDate);
@@ -293,19 +293,19 @@ function formatDateDayNum(num) {
 	   {
 	       var nextChar = aplhastr.charAt(i);
 	       //alert(nextChar)
-	       if (startrow == end) {
-	           if (today == nextChar) {
+	       //if (startrow == end) {
+	         //  if (today == nextChar) {
 	               //alert("today is " + today);
-	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Today " + dayID + "</div></div>";
-	               daynow = dayID;
+	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
+	           //    daynow = dayID;
 	               //alert(parseInt(startrow * 7) + " " + dayID);
-	           } else {
-	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">day " + dayID + "</div></div>";
-	           }
-	       } else {
+	           //} else {
+	               //calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">day " + dayID + "</div></div>";
+	           //}
+	       //} else {
 
-	           calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Row " + dayID + "</div></div>";
-	       }
+	         //  calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Row " + dayID + "</div></div>";
+	       //}
 	       dayID++;
 	   }
 
@@ -329,12 +329,13 @@ backFillCal(startrow);
                 end = t2 + num - 1;
             } else {
                 end = t2 + num - 1;
-                
+
             }
-            var start = 0;
+            var step = 0;
+            var start = 5;
             //var date = formatDateDay(-num);
             //alert(end);
-            while (start < 35) {
+            while (step < 35) {
                 $('#Cal' + start).html(formatDate(end));
                 if (end == 0) {
                     $('#Cal' + start).html("Today");

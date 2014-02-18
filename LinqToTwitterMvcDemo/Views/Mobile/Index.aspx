@@ -18,7 +18,7 @@
 <div id="tweets">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="b">
      <div data-role="collapsible">
-    <h2><div style="font-size:20px">Following</div></h2>
+    <h2><div style="font-size:22px">Following</div></h2>
          <div id="following">  
         </div>
     </div>
