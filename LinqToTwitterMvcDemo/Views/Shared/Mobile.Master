@@ -102,7 +102,42 @@
            });
 
 
-          // drawDays(min);
+          drawDays(min,idlistj);
+
+      }
+
+
+       function drawDays(min,idlistj) {
+           var n = parseInt(min);
+           var end = 0;
+           var calnext5 = "<div class=\"ui-grid-d\">";
+           var weathernext5 = "<div class=\"ui-grid-d\">";
+           var aplhastr = "abcde";
+           for (var i = 0; i < aplhastr.length; i++) {
+               var nextChar = aplhastr.charAt(i);
+           //}
+           //while (end < 5) {
+               end++;
+               var n1 = parseInt(n + end);
+               //alert(n1 + "..." + end);
+               var n2 = parseInt(n1 + 1);
+               var day = formatDateDay(n1);
+               var dispday = formatDateNext(end);
+               var dayID = formatDateDayID(n1);
+               calnext5 = calnext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" style=\"cursor:pointer\" onclick=\"testa(" + n2 + "," + n1 + "," + idlistj + ")\" id=\"" + dayID + "\"><strong>" + dispday + "</strong></div></div>";
+               var img = get_cookie("icon" + n1);
+               var hi = "";
+               var lo = "";
+               if (n1 < 4) {
+                   hi = get_cookie("hi" + n1);
+                   lo = get_cookie("lo" + n1);
+               }
+               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\">" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
+           }
+
+           $('#calendar_next5').html(calnext5 + "</div>").trigger('create');
+           $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
 
        }
 
@@ -273,7 +308,7 @@
                                    //$('#debug').append(fullday);
 
                                    day = fullday + justdate; //needs a day of week number
-                                   alert(day + item.summary);
+                                   //alert(day + item.summary);
                                    $('#' + day).append("<div class=\"term2\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
@@ -597,6 +632,29 @@
            return date_str;
        }
 
+       function getProperDay(day) {
+           if (day == "Mon") {
+               dayout = "Monday";
+           } else if (day == "Tue") {
+               dayout = "Tuesday";
+           } else if (day == "Wed") {
+               dayout = "Wednesday";
+           } else if (day == "Thu") {
+               dayout = "Thursday";
+           } else if (day == "Fri") {
+               dayout = "Friday";
+           } else if (day == "Sat") {
+               dayout = "Saturday";
+           } else if (day == "Sun") {
+               dayout = "Sunday";
+           } else {
+               dayout = day;
+           }
+
+           return dayout;
+       }
+
+
        function formatDateFull(num) {
            var NewDate = new Date();
            NewDate.setDate(NewDate.getDate() + num);
@@ -843,6 +901,40 @@ function backFillCal(startrow) {
 
         }
 
+        function formatDateDayID(num) {
+            var NewDate = new Date();
+            NewDate.setDate(NewDate.getDate() + num);
+            var day;
+            var month;
+            var date = NewDate.getUTCDate();
+            var daynum = NewDate.getUTCDay();
+            //alert(NewDate + " d: " + date + " n: " + daynum);
+            if (parseInt(daynum) == 1) {
+                day = "Monday";
+            } else if (parseInt(daynum) == 2) {
+                day = "Tuesday";
+            } else if (parseInt(daynum) == 3) {
+                day = "Wednesday";
+            } else if (parseInt(daynum) == 4) {
+                day = "Thursday";
+            } else if (parseInt(daynum) == 5) {
+                day = "Friday";
+            } else if (parseInt(daynum) == 6) {
+                day = "Saturday";
+            } else if (parseInt(daynum) == 0) {
+                day = "Sunday";
+            }
+
+            if (parseInt(date) < 10) {
+                date = "0" + date;
+            }
+
+            var date_str = day + date;
+
+            return date_str;
+        }
+
+
         function parseISO8601DateFull(s) {
 
             var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
@@ -900,6 +992,24 @@ function backFillCal(startrow) {
             }
             //return new Date(ms);
         };
+
+        function get_cookie(name) {
+            var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+            if (results)
+                return (unescape(results[2]));
+            else
+                return null;
+        }
+
+        function set_cookie(name, value, days) {
+            //value = "data here";
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+            document.cookie = name + '=' + value + expires + '; path=/'
+
+        }
+
 
         function parseISO8601Date(s) {
 

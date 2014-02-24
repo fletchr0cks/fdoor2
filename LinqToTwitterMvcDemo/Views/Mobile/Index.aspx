@@ -40,43 +40,30 @@
 <div id="calblock">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
-    <div class="ui-block-a"><div id="chosenDay">Today</div>
-    <div>&nbsp;</div>
+    <div class="ui-block-a"><div style="font-size:20px" id="chosenDay">Today</div>
+    
     <div id="eventsDay">event here</div>
     </div>
     <div class="ui-block-b">    
     <div class="ui-grid-f">
-    <div class="ui-block-a"><div class="ui-body ui-body-d">M</div></div>
-    <div class="ui-block-b"><div class="ui-body ui-body-d">T</div></div>
-    <div class="ui-block-c"><div class="ui-body ui-body-d">W</div></div>
-    <div class="ui-block-d"><div class="ui-body ui-body-d">T</div></div>
-    <div class="ui-block-e"><div class="ui-body ui-body-d">F</div></div>
-    <div class="ui-block-f"><div class="ui-body ui-body-d">S</div></div>
-    <div class="ui-block-g"><div class="ui-body ui-body-d">S</div></div>
+    <div class="ui-block-a"><div class="ui-body ui-body-d"><strong>M</strong></div></div>
+    <div class="ui-block-b"><div class="ui-body ui-body-d"><strong>T</strong></div></div>
+    <div class="ui-block-c"><div class="ui-body ui-body-d"><strong>W</strong></div></div>
+    <div class="ui-block-d"><div class="ui-body ui-body-d"><strong>T</strong></div></div>
+    <div class="ui-block-e"><div class="ui-body ui-body-d"><strong>F</strong></div></div>
+    <div class="ui-block-f"><div class="ui-body ui-body-d"><strong>S</strong></div></div>
+    <div class="ui-block-g"><div class="ui-body ui-body-d"><strong>S</strong></div></div>
 </div>
 <div id="caldata"></div>
 </div>
 </div>
 
 <div id="calendar_next5">
-<div class="ui-grid-d">
-    <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:60px;font-size:12px;text-align:left" id="next0">Block A</div></div>
-    <div class="ui-block-b"><div class="ui-bar ui-bar-c" style="height:60px" id="next1">Block B</div></div>
-    <div class="ui-block-c"><div class="ui-bar ui-bar-c" style="height:60px" id="next2">Block C</div></div>
-    <div class="ui-block-d"><div class="ui-bar ui-bar-c" style="height:60px" id="next3">Block D</div></div>
-    <div class="ui-block-e"><div class="ui-bar ui-bar-c" style="height:60px" id="next4">Block E</div></div>
-    </div>
-    </div>
+</div>
 <div id="weather_next5">
-<div class="ui-grid-d">
-    <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
-    <div class="ui-block-b"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
-    <div class="ui-block-c"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
-    <div class="ui-block-d"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
-    <div class="ui-block-e"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
-</div></div>
+
+</div>
 </div>
 <div id="toptweet" style="display:inline-block">20</div>
 <div style="display:inline-block" id="toptweettime"></div>
-</div>
 </asp:Content>
