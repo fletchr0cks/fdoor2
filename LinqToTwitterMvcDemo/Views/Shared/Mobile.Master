@@ -6,10 +6,10 @@
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
      <meta name="viewport" content="width=device-width, initial-scale=1" />
      
-     <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0.css" />
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css" />
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+     <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
+  <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
+<script src="../../Scripts/jquery-1.10.2.min.js"></script>
+<script src="../../Scripts/jquery.mobile-1.4.0.min.js"></script>
 
    <script type="text/javascript">
 
@@ -21,19 +21,42 @@
                    //alert("collapsed");
                }
                drawCal();
-               drawNext5(0);
-               renderTweets(5, "mytweets");
-               renderTweets(5, "following");
-               renderTweets(5, "mentions");
+            //   drawNext5(0);
+               //renderTweets(5, "mytweets");
+               twt_check();
+              // renderTweets(5, "following");
+               //renderTweets(5, "mentions");
                $('#chosenDay').html("<strong>" + formatDateFull(0) + "</strong>");
            });
 
        });
 
+       function init() {
+           // testa(1, 0);
+           //calcDays();
+
+           twt_check();
+          // ggl_check();
+
+           var lat = get_cookie("lat");
+           var lng = get_cookie("long");
+
+           if (lat == null) {
+               //  $('#towns').show();
+               //getTowns();
+               //alert("towns");
+           } else {
+             //  GetWeather(lat, lng, 0, 1);
+           }
+
+           // alert(tw_ck + go_ck);
+       }
+
+
        $(document).ready(function () {
          
            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-           var timerA;
+           
            var timerB;
 
            document.getElementById('flip-weather').value = "no";
@@ -51,7 +74,260 @@
                alert("slider changed");
            };
 
+         
+
        });
+
+       var timer1;
+
+       var timer2;
+
+       function timerStart1(ti) {
+           clearTimeout(timer1);
+           timer1 = setTimeout(closeBanner1, ti);
+       }
+
+       var timerA;
+
+
+
+       function closeBanner1() {
+           $("#banner_area").html("");
+           $("#banner_header").html("");
+       }
+
+       function goSetup() {
+           window.location.href = '/Home/Choose';
+       }
+
+
+       function twt_check() {
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/checkTwtID",
+               //data: "latestID=" + latestID,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //alert(jsonresp.IDlist);
+                   idlist = jsonresp.ID;
+                   //alert(idlist);
+                   if (idlist == "No GUID") {
+
+                       goSetup();
+                   } else if (idlist == "No Twitter") {
+                       //alert(idlist);
+
+                   } else {
+                       //alert(idlist);
+                       getTweets();
+                   }
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+               }
+
+           });
+       }
+
+       function getBanner(type, ID, timeout) {
+           //alert(ID);
+           if (type == "banner") {
+               $.ajax({
+                   type: "GET",
+                   url: "/Home/GetBanner",
+                   data: "ID=" + ID,
+                   dataType: "text/plain",
+                   success: function (json) {
+                       var jsonresp = eval('(' + json + ')');
+                       var bannertxt = jsonresp.BannerText;
+                       //    var bannertime = item.BannerTime;
+                       //    bannerhtml = bannerhtml + bannertxt;
+
+                       $('#banner_header').html("@FletcherFridge");
+                       $('#banner_area').html(bannertxt);
+                       clearTimeout(timer1);
+                       timer1 = setTimeout(timerStart1, timeout);
+
+                   },
+                   error: function (response) {
+                       alert(response.responseText);
+                       var r = jQuery.parseJSON(response.responseText);
+                       alert("Message: " + r.Message);
+                       alert("StackTrace: " + r.StackTrace);
+                       alert("ExceptionType: " + r.ExceptionType);
+                       // console.debug(xhr); console.debug(error);
+                   },
+                   complete: function (xhr, status) {
+                   }
+
+               });
+           }
+
+           if (type == 'media') {
+               var imghtml = "<img src=" + ID + "/>";
+               $('#banner_header').html("@FletcherFridge");
+               $('#banner_area').html(imghtml);
+               clearTimeout(timer1);
+               timer1 = setTimeout(timerStart1, 10000);
+           }
+
+       }
+
+       function getBannerC(ID, timeout) {
+           //alert(ID);
+           var bannertxt = get_cookie(ID);
+           $('#banner_area').html(bannertxt);
+           clearTimeout(timer1);
+           timer1 = setTimeout(timerStart1, timeout);
+
+       }
+
+
+       function getTweets() {
+           var NewDate = new Date();
+           var hournow = NewDate.getUTCHours;
+           var latestID = document.getElementById('toptweet').innerHTML;
+           //alert("latest= " + latestID);
+           var tweetshtml = "<table>";
+           var bannerhtml = "";
+           var tophtml = "<ul data-role=\"listview\">";
+          
+           //var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
+           var midhtml = "";
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/JsonTweets",
+               data: "timenow=" + hournow,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var tweettype = "none";
+                   var timeout = "";
+                   var icon = "false";
+                   $.each(jsonresp.results, function (n, item) {
+                       // alert(item.Tweet);
+                       var tweetxtra = "";
+                       if (item.BannerText.length > 1) {
+                           tweettype = "banner";
+                           tweetxtra = item.ID;
+                           timeout = item.BannerTime;
+                       }
+                       if (item.MediaUrl.length > 1) {
+                           tweettype = "media";
+                        //  icon = "info";
+                           tweetxtra = item.MediaUrl;
+                       }
+                       if (item.EntityUrl.length > 1) {
+                         //  tweettype = "media";
+                           //icon = "info";
+                         //  tweetxtra = item.MediaUrl;
+                       }
+                       //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
+                       midhtml = midhtml + "<li data-icon=\"" + icon + "\"><a href=\"#\">" +
+               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+          //    
+        "<div class=\"tweets1\">" + item.Tweet + "</div>" +
+                    //   "<div class=\"ui-btn-icon-notext ui-icon-delete ui-btn-icon-right\">hi</div>" +
+             "<p class=\"ui-li-aside\"><strong>6:24</strong>PM</p>" +
+                "</a></li>";
+
+
+                   });
+
+                   //if (jsonresp.doBanner == "true") {
+                   //    var bannerID = jsonresp.BannerID;
+                   //    getBanner('banner', bannerID, timeout);
+                   //    set_cookie(item.ID, item.BannerText, 20);
+                   //}
+
+                   clearTimeout(timerA);
+                   timerA = setTimeout(checkNewTweets, 600000);
+                   var NewDate = new Date();
+                   var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+
+                   $('#toptweet').html(jsonresp.latestid);
+                   $('#toptweettime').html(timenow);
+                   //alert(jsonresp.latestid);
+                   var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
+                   $('#following').html(tophtml + midhtml + "</ul>").trigger('create');
+
+               },
+               error: function (response) {
+                   alert(response.responseText);
+                   var r = jQuery.parseJSON(response.responseText);
+                   alert("Message: " + r.Message);
+                   alert("StackTrace: " + r.StackTrace);
+                   alert("ExceptionType: " + r.ExceptionType);
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+       }
+
+       function SubmitTwID() {
+           var twitterID = document.getElementById("twid").value;
+           $.ajax({
+               type: "POST",
+               url: "/Home/SaveTwID",
+               data: "id=" + twitterID,
+               dataType: "text/plain",
+               success: function (json) {
+
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   //
+               }
+
+           });
+
+
+       }
+
+       function checkNewTweets() {
+           clearTimeout(timerA);
+           var latestID = document.getElementById('toptweet').innerHTML;
+           //    alert("latest from page= " + latestID);
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/CheckJsonTweets",
+               //data: "latestID=" + latestID,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var latesttweetID = jsonresp.LatestID;
+                   //alert("session=" + latestID + "api= " + latesttweetID);
+                   if (parseInt(latesttweetID) > parseInt(latestID)) {
+                       getTweets();
+                   } else {
+                       var NewDate = new Date();
+                       var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+                       $('#toptweettime').html(timenow);
+                       timerA = setTimeout(checkNewTweets, 600000);
+                   }
+
+
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+       }
 
 
        function formatDateNext(num) {
@@ -199,7 +475,7 @@ function formatDateDayNum(num) {
     var month;
     var date = NewDate.getUTCDate();
     var daynum = NewDate.getUTCDay();
-    
+  //  alert(date);
     return daynum;
 }
 
@@ -256,12 +532,18 @@ function formatDateDayNum(num) {
 	}
 
     function renderTweets(num,type) {
-        var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
+         var tophtml = "<ul data-role=\"listview\" data-split-icon=\"gear\" data-split-theme=\"a\">";
+        //var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
         var midhtml = "";
         while (num > 0) {
-            midhtml = midhtml + "<li><table><tr><td>2m</td><td>" +
-            "<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
-            "</td></tr></table></li>";
+            midhtml = midhtml + "<li><a href=\"index.html\">" +
+                "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+          "<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
+             "<p class=\"ui-li-aside\"><strong>6:24</strong>PM</p>" +
+                "</a><a href=\"lists-split-purchase.html\" data-rel=\"dialog\" data-transition=\"slideup\">Purchase album</a></li>";
+            //midhtml = midhtml + "<li><table><tr><td>2m</td><td>" +
+            //"<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
+            //"</td></tr></table></li>";
             num--;
         }
 
@@ -283,8 +565,8 @@ function formatDateDayNum(num) {
            //var startDate = daysBackToMon();
            var end = parseInt(0);
            var today = formatDateDay(0);
-           var startrow = 2;
-           var dayID = 0;
+           var startrow = 1;
+           var dayID = 1;
            var daynow = 0;
           // alert(startDate);
            while (end < 5) {
@@ -292,20 +574,7 @@ function formatDateDayNum(num) {
            for(var i=0; i<aplhastr.length; i++)
 	   {
 	       var nextChar = aplhastr.charAt(i);
-	       //alert(nextChar)
-	       //if (startrow == end) {
-	         //  if (today == nextChar) {
-	               //alert("today is " + today);
-	               calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
-	           //    daynow = dayID;
-	               //alert(parseInt(startrow * 7) + " " + dayID);
-	           //} else {
-	               //calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">day " + dayID + "</div></div>";
-	           //}
-	       //} else {
-
-	         //  calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">Row " + dayID + "</div></div>";
-	       //}
+	                   calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
 	       dayID++;
 	   }
 
@@ -315,27 +584,15 @@ function formatDateDayNum(num) {
 backFillCal(startrow);
 }
 
-        function backFillCal(startrow) {
-            //date at which to start calid 0
-            var t = 0 - startrow;
-            //if (num == 0) {
-            var num = formatDateDayNum(0) - 1;
-            //}
-            //alert(num);
-            var t2 = (t * 7);
-            //alert(startrow + " " + t2);
-            var end = 0;
-            if (startrow <= 0) {
-                end = t2 + num - 1;
-            } else {
-                end = t2 + num - 1;
-
-            }
-            var step = 0;
-            var start = 5;
-            //var date = formatDateDay(-num);
-            //alert(end);
-            while (step < 35) {
+function backFillCal(startrow) {
+            var rowfactor = parseInt(startrow * 7);
+            var todaynum = formatDateDayNum(0);
+            var todayID = parseInt(rowfactor + todaynum);
+           
+            var end = (0 - todayID);
+          
+            var start = 0;
+            while (start < 36) {
                 $('#Cal' + start).html(formatDate(end));
                 if (end == 0) {
                     $('#Cal' + start).html("Today");
@@ -343,11 +600,10 @@ backFillCal(startrow);
                 start++;
                 end++;
                
+            
+               
             }
-            //var today = (daterow * 7) 
-            //
-
-
+            
         }
 
      </script>

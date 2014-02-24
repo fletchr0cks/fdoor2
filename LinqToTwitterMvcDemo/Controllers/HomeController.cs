@@ -35,6 +35,8 @@ namespace LinqToTwitterMvcDemo.Controllers
    
     public class HomeController : Controller
     {
+        DataRepository dataRepository = new DataRepository();
+        private fddbDataContext db = new fddbDataContext();
         private IOAuthCredentials credentials = new SessionStateCredentials();
 
         private MvcAuthorizer auth;
@@ -80,16 +82,60 @@ namespace LinqToTwitterMvcDemo.Controllers
         private static string _ReturnUrl_local = "http://localhost:5010/Home/CallBack";
         private static string _ReturnUrl = "http://FridgeDoor.apphb.com/Home/CallBack";
 
+        public ActionResult checkGglIDlist()
+        {
+            try
+            {
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guid));
+                return Json(new { IDlist = JsonIDs }, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return Json(new { IDlist = "No GUID" }, JsonRequestBehavior.AllowGet); ;
+            }
+        }
+
+        public ActionResult checkTwtID()
+        {
+            try
+            {
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+
+                string JsonIDs = dataRepository.getT_twtid(dataRepository.getID(guid));
+
+                if (JsonIDs == null)
+                {
+                    return Json(new { ID = "No Twitter" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { ID = JsonIDs }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch
+            {
+                return Json(new { ID = "No GUID" }, JsonRequestBehavior.AllowGet); ;
+            }
+        }
+
         public ActionResult Choose()
         {
             try
             {
-                string tname = Request.Cookies["TwitterID"].Value;
-                string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-                string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
-
-                ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Twitter')\">Using " + tname + ", click to Disable</div>";
-
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+                if (tname == null)
+                {
+                    ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Twitter')\">Click to Authenticate</div>";
+                }
+                else
+                {
+                    ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Twitter')\">Using " + tname + ", click to Disable</div>";
+                }
             }
             catch
             {
@@ -100,8 +146,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             try 
             {
                 //string idlist = Request.Cookies["IDList"].Value;
-                string JsonIDs = Request.Cookies["IDList"].Value;
-
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guid));
                 JObject o = JObject.Parse(JsonIDs);
                 JArray items = (JArray)o["items"];
                 var names = Convert.ToString(o["Fullname"]);
@@ -134,6 +181,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     try
                     {
                         //have refresh token, get new access token
+                        //do GUID cookie check
                         var granted = Request.Cookies["Granted"].Value;
                         return Redirect("/Home/GoogleRefresh");
                     }
@@ -158,7 +206,10 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         private string GenerateGoogleRefreshUrl()
         {
-            var refresh_token = Request.Cookies["RefreshToken"].Value;
+
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string refresh_token = dataRepository.getG_refreshtoken(dataRepository.getID(guid));
             string Url = "https://accounts.google.com/o/oauth2/token";
             string grant_type = "refresh_token";
 
@@ -235,17 +286,11 @@ namespace LinqToTwitterMvcDemo.Controllers
             public string Token_Type { get; set; }
         }
 
-        
-                
+                 
         
         public ActionResult CallBack(string code, bool? remove)
         {
 
-//            if (remove.HasValue && remove.Value)
-  //          {
-    //            Session["GoogleAPIToken"] = null;
-      //          return HttpNotFound();
-        //    }
 
             if (string.IsNullOrEmpty(code)) return Content("Missing code");
 
@@ -288,14 +333,16 @@ namespace LinqToTwitterMvcDemo.Controllers
             var jsonSerializer = new JavaScriptSerializer();
             var tokenData = jsonSerializer.Deserialize<GoogleTokenData>(result);
             var GrantCookie = new HttpCookie("Granted", "True");
-            var refreshCookie = new HttpCookie("RefreshToken", tokenData.Refresh_Token);
+            //var refreshCookie = new HttpCookie("RefreshToken", tokenData.Refresh_Token);
+            saveG_refresh(tokenData.Refresh_Token);
             GrantCookie.Expires = DateTime.Now.AddYears(1);
             Response.AppendCookie(GrantCookie);
 
-            refreshCookie.Expires = DateTime.Now.AddYears(1);
-            Response.AppendCookie(refreshCookie);
+            //refreshCookie.Expires = DateTime.Now.AddYears(1);
+            //Response.AppendCookie(refreshCookie);
 
-           Session["GoogleAPIToken"] = tokenData.Access_Token;
+            Session["GoogleAPIToken"] = tokenData.Access_Token;
+            //dataRepository.saveGoogleAPIToken(tokenData.Access_Token);
             var accessToken = tokenData.Access_Token;
             var urlBuilder = new System.Text.StringBuilder();
 
@@ -351,18 +398,76 @@ namespace LinqToTwitterMvcDemo.Controllers
             calids.Count = count;
             calids.Id = ID_array.ToArray();
             calids.Fullname = Fn_array.ToArray();
-           
 
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            int userid = dataRepository.getID(guid);
 
             string jsonIDs = JsonConvert.SerializeObject(calids);
-            var IDCookie = new HttpCookie("IDList", jsonIDs);
-            IDCookie.Expires = DateTime.Now.AddYears(1);
-            Response.AppendCookie(IDCookie);
+           // var IDCookie = new HttpCookie("IDList", jsonIDs);
+           // IDCookie.Expires = DateTime.Now.AddYears(1);
+           // Response.AppendCookie(IDCookie);
+
+            dataRepository.saveG_idlist(jsonIDs,userid);
+
             ViewData["caldata"] = textout + "kind: " + name + count + idlist + jsonIDs;
 
             return RedirectToAction("AuthGoogle");
             //return View();
             //return JavaScript("Refresh Token: " + tokenData.Refresh_Token);
+
+        }
+
+        public void saveG_refresh(string value)
+        {
+            Guid guid = checkGUID();
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveG_refresh(value,userid);
+
+        }
+
+        public void saveT_accesstoken(string value)
+        {
+            Guid guid = checkGUID();
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveT_accesstoken(value, userid);
+
+        }
+
+        public void saveT_oauthtoken(string value)
+        {
+            Guid guid = checkGUID();
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveT_oauthtoken(value, userid);
+
+        }
+
+        public void saveT_twid(string value)
+        {
+            Guid guid = checkGUID();
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveT_twtid(value, userid);
+
+        }
+
+        public Guid checkGUID()
+        {
+            try
+            {
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+ 
+                return guid;
+            }
+            catch
+            {
+                //var guid = createGUID();
+                Guid guid = Guid.NewGuid();
+                var guidCookie = new HttpCookie("GUID", guid.ToString());
+                guidCookie.Expires = DateTime.Now.AddYears(1);
+                Response.AppendCookie(guidCookie);
+                return guid;
+            }
 
         }
 
@@ -377,7 +482,9 @@ namespace LinqToTwitterMvcDemo.Controllers
 //client_secret={client_secret}&
 //refresh_token=1/6BMfW9j53gdGImsiyUH5kU5RsR4zwI9lUVX-tqf8JXQ&
 //grant_type=refresh_token
-            var refresh_token = Request.Cookies["RefreshToken"].Value;
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string refresh_token = dataRepository.getG_refreshtoken(dataRepository.getID(guid));
             string Url = "https://accounts.google.com/o/oauth2/token";
             string grant_type = "refresh_token";
             var request_url = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Contains("~"));
@@ -527,34 +634,35 @@ namespace LinqToTwitterMvcDemo.Controllers
         public ActionResult AuthTwitter()
         //enter twitter username and message for restful api
         {
-
-            try
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
+            if (TwID != null)
             {
-                string tname = Request.Cookies["TwitterID"].Value;
-                string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-                string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
-                
                 return RedirectToAction("Choose");
 
             }
-            catch
+            else
             {
                 return RedirectToAction("SetTwitterID");
+
             }
+            
         }
 
         public ActionResult DeleteCookies(string type)
         {
+             string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            int userid = dataRepository.getID(guid);
             if (type == "Twitter")
             {
-                DelCookie("oauth_accessToken", "");
-                DelCookie("oauth_oauthToken", "");
-                DelCookie("TwitterID", "");
+                dataRepository.del_twt(userid);
             }
 
             if (type == "Google")
             {
-                DelCookie("IDList", "");
+                dataRepository.del_ggl(userid);
                 Session["GoogleAPIToken"] = "";
             }
 
@@ -583,9 +691,11 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult JsonTweets(string timenow)
         {
-            string tname = Request.Cookies["TwitterID"].Value;
-            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+            string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
+            string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
             var msg = "hardcoded test " + DateTime.Now;
             //http://localhost:5010/Home/SetTwitterID?oauth_token=JjJCdn2Tn3o9Cz3lHEFotAZQ5xZSz8VbTAjHhg1aTt0&oauth_verifier=TP7PWgnTi2CIu2YuQ7AIpRDknEYuSe0H1RcYXMSp5g
             //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
@@ -637,6 +747,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                      BannerText = GetBannerText(tweet),
                      BannerTime = GetBannerTime(tweet),
                      ID = tweet.StatusID,
+                     ImageUrl = tweet.User.ProfileImageUrl,
                      //SinceID = tweet.SinceID,
                      //Convert.ToString(tweet.Entities.MediaEntities.Count),
                      MediaUrl = GetTweetMediaUrl(tweet)
@@ -668,6 +779,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     doBanner = "true";
                     BannerID = friendTweets.First().ID;
                 } 
+
             return Json(new {results = friendTweets.Take(6), latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
             
@@ -675,9 +787,12 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult GetBanner(string ID)
         {
-            string tname = Request.Cookies["TwitterID"].Value;
-            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+            string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
+            string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
+           
             credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
             credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
             credentials.AccessToken = accesstoken;
@@ -727,9 +842,12 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult CheckJsonTweets()
         {
-            string tname = Request.Cookies["TwitterID"].Value;
-            string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-            string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+            string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
+            string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
+            
             credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
             credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
             credentials.AccessToken = accesstoken;
@@ -903,9 +1021,12 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             try
             {
-                string tname = Request.Cookies["TwitterID"].Value;
-                string accesstoken = Request.Cookies["oauth_accessToken"].Value;
-                string oauthtoken = Request.Cookies["oauth_oauthToken"].Value;
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+                string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
+                string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
+           
                 var msg = "hardcoded test " + DateTime.Now;
                 //http://localhost:5010/Home/SetTwitterID?oauth_token=JjJCdn2Tn3o9Cz3lHEFotAZQ5xZSz8VbTAjHhg1aTt0&oauth_verifier=TP7PWgnTi2CIu2YuQ7AIpRDknEYuSe0H1RcYXMSp5g
                 //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
@@ -1015,10 +1136,14 @@ namespace LinqToTwitterMvcDemo.Controllers
                 var accesstoken = credentials.AccessToken;
                 var oauthtoken = credentials.OAuthToken;
                 var twitterID = credentials.ScreenName;
-                
-                SetCookie("oauth_accessToken", accesstoken);
-                SetCookie("oauth_oauthToken", oauthtoken);
-                SetCookie("TwitterID", twitterID);
+
+                saveT_accesstoken(accesstoken);
+                saveT_oauthtoken(oauthtoken);
+                saveT_twid(twitterID);
+
+                //SetCookie("oauth_accessToken", accesstoken);
+                //SetCookie("oauth_oauthToken", oauthtoken);
+                //SetCookie("TwitterID", twitterID);
 
                 return RedirectToAction("AuthTwitter");
 
@@ -1037,7 +1162,10 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult Done()
         {
-            string JsonIDs = Request.Cookies["IDList"].Value;
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guid));
+            //string JsonIDs = Request.Cookies["IDList"].Value;
 
             JObject o = JObject.Parse(JsonIDs);
             JArray items = (JArray)o["items"];
@@ -1080,8 +1208,9 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public JsonResult DoneTest(string email, int max, int min)
         {
-            string JsonIDs = Request.Cookies["IDList"].Value;
-
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guid));
             //var textout2 = jsonS.DeserializeObject(textout);
 
             System.Collections.Generic.List<string> ID_array = new System.Collections.Generic.List<string>();

@@ -15,6 +15,8 @@ namespace LinqToTwitterMvcDemo.Models
         /// </summary>
         public string ImageUrl { get; set; }
 
+        public string EntityUrl { get; set; }
+
         /// <summary>
         /// User's Twitter name
         /// </summary>

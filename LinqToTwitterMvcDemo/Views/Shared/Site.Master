@@ -84,16 +84,11 @@
 
     function init() {
         // testa(1, 0);
-        calcDays();
-        var tw_ck = get_cookie("TwitterID");
-        if (tw_ck != null) {
-            //getTweets();
-        }
-        var go_ck = get_cookie("IDList");
-        if (go_ck != null) {
-            testa(1, 0);
-        }
-
+        //calcDays();
+       
+        twt_check();
+        ggl_check();
+        
         var lat = get_cookie("lat");
         var lng = get_cookie("long");
        
@@ -168,6 +163,66 @@
             return (unescape(results[2]));
         else
             return null;
+    }
+
+    function ggl_check() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/checkGglIDlist",
+            //data: "latestID=" + latestID,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                //alert(jsonresp.IDlist);
+                idlist = jsonresp.IDlist;
+                if (idlist == "No GUID") {
+                    //alert(idlist);
+                    goSetup();
+                } else {
+                    // alert(go_ck);
+                    testa(1, 0, idlist);
+                }
+            },
+            error: function (xhr, error) {
+                // console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+                // return idlist;
+            }
+
+        });
+    }
+
+    function twt_check() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/checkTwtID",
+            //data: "latestID=" + latestID,
+            dataType: "text/plain",
+            success: function (json) {
+                var jsonresp = eval('(' + json + ')');
+                //alert(jsonresp.IDlist);
+                idlist = jsonresp.ID;
+                //alert(idlist);
+                if (idlist == "No GUID") {
+                  
+                    goSetup();
+                } else if (idlist == "No Twitter") {
+                    //alert(idlist);
+                
+                } else {
+                    // alert(go_ck);
+                    getTweets();
+                }
+            },
+            error: function (xhr, error) {
+                console.debug(xhr); console.debug(error);
+            },
+            complete: function (xhr, status) {
+                // return idlist;
+            }
+
+        });
     }
 
     function GetWeather(lat, lng, min, max) {
@@ -289,23 +344,18 @@
 
     }
 
-    function testa(max, min) {
-        //check weather cookie
-        //if max ==1
-     //   alert(max + " " + min);
-        
-        
+    function testa(max, min, idlistj) {
         var browser_w = parseInt($(document).width()) - 60;
         var browser_h = parseInt($(document).height()) - 80;
         $('#iframe1').css('width', browser_w.toString() + 'px');
         $('#iframe1').css('height', browser_h.toString() + 'px');
        
         $('#suminj').html("");
-        var jsonc = get_cookie("IDList");
+        var jsonc = idlistj;
         var jsone = eval('(' + jsonc + ')');
         var jsone2 = eval('(' + jsonc + ')');
         var count = jsone['Count'];
-
+        //alert(idlist + count);
         var min_bk = parseInt(min) - 1;
         var min_fw = parseInt(min) + 1;
         var max_fw = parseInt(max) + 1;
@@ -333,9 +383,10 @@
             $('#suminj').append(sumhtml);
            // var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div style=\"cursor:pointer\" onclick=\"testa(2,1)\" id=\"day0" + i + "\"></div><div id=\"day_w_0" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(3,2)\" id=\"day1" + i + "\"></div><div id=\"day_w_1" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(4,3)\" id=\"day2" + i + "\"></div><div id=\"day_w_2" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(5,4)\" id=\"day3" + i + "\"></div><div id=\"day_w_3" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(6,5)\" id=\"day4" + i + "\"></div><div id=\"day_w_4" + i + "\" ></div></td></tr></table></div>";
             //$('#suminjmini').append(summinihtml);
-            var email = getID(i);
-            var name = getFn(i);
-            // alert(email + i);
+            
+            var email = getID(i,idlistj);
+            var name = getFn(i,idlistj);
+            
             getevents(email, name, i, max, min);
             getfutureevents(email, name, i, max, min);
             // alert(idlist[0]);
@@ -535,15 +586,13 @@
         return dayout;
     }
 
-    function getID(num) {
-        var jsonc = get_cookie("IDList");
-        var jsone = eval('(' + jsonc + ')');
+    function getID(num,idlist) {
+        var jsone = eval('(' + idlist + ')');
         return jsone.Id[num];
     }
 
-    function getFn(num) {
-        var jsonc = get_cookie("IDList");
-        var jsone = eval('(' + jsonc + ')');
+    function getFn(num,idlist) {
+        var jsone = eval('(' + idlist + ')');
         return jsone.Fullname[num];
     }
 

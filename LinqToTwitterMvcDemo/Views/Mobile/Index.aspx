@@ -5,10 +5,13 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
+
 <div data-role="header">
-<a href="#mypanel" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-corner-all">No text</a>
+
+ <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete">Setup</a>
 <h1>Fridge Door</h1>
-<a href="#" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-corner-all">No text</a>
+<button class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Refresh
+</button>
 </div>
 
 
@@ -16,9 +19,9 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div id="tweets">
-<div data-role="collapsible-set" data-theme="a" data-content-theme="b">
+<div data-role="collapsible-set" data-theme="a" data-content-theme="b"  data-count-theme="b">
      <div data-role="collapsible">
-    <h2><div style="font-size:22px">Following</div></h2>
+    <h2><div style="font-size:22px">Following</div><span class="ui-li-count">12</span></h2>
          <div id="following">  
         </div>
     </div>
@@ -27,10 +30,28 @@
     <div id="mytweets">  
         </div>
     </div>
-    <div data-role="collapsible">
+     <div data-role="collapsible">
     <h2><div style="font-size:20px">Mentions</div></h2>
-     <div id="mentions">  
-        </div>
+        <ul data-role="listview" data-split-icon="gear" data-split-theme="a">
+            <li><a href="index.html">
+                <img src="../../Content/twitterbird.png">           
+          <div class="tweets1">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>
+             <p class="ui-li-aside"><strong>6:24</strong>PM</p>
+                </a><a href="lists-split-purchase.html" data-rel="dialog" data-transition="slideup">Purchase album
+            </a></li>
+            <li><a href="index.html">
+                <img src="../_assets/img/album-hc.jpg">
+                <h3>Warning</h3>
+            <p>Hot Chip</p>
+            </a><a href="lists-split-purchase.html" data-rel="dialog" data-transition="slideup">Purchase album
+            </a></li>
+            <li><a href="index.html">
+                <img src="../_assets/img/album-p.jpg">
+                <h3>Wolfgang Amadeus Phoenix</h3>
+            <p>Phoenix</p>
+                </a><a href="lists-split-purchase.html" data-rel="dialog" data-transition="slideup">Purchase album
+            </a></li>
+        </ul>
     </div>
 </div>
 </div>
@@ -66,12 +87,14 @@
     </div>
 <div id="weather_next5">
 <div class="ui-grid-d">
-    <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:60px"><img src="http://icons.wxug.com/i/c/i/clear.gif" /></div></div>
-    <div class="ui-block-b"><div class="ui-bar ui-bar-c" style="height:60px"><img src="http://icons.wxug.com/i/c/i/clear.gif" /></div></div>
-    <div class="ui-block-c"><div class="ui-bar ui-bar-c" style="height:60px"><img src="http://icons.wxug.com/i/c/i/clear.gif" /></div></div>
-    <div class="ui-block-d"><div class="ui-bar ui-bar-c" style="height:60px"><img src="http://icons.wxug.com/i/c/i/clear.gif" /></div></div>
-    <div class="ui-block-e"><div class="ui-bar ui-bar-c" style="height:60px"><img src="http://icons.wxug.com/i/c/i/clear.gif" /></div></div>
+    <div class="ui-block-a"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
+    <div class="ui-block-b"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
+    <div class="ui-block-c"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
+    <div class="ui-block-d"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
+    <div class="ui-block-e"><div class="ui-bar ui-bar-c" style="height:60px"></div></div>
 </div></div>
 </div>
+<div id="toptweet" style="display:inline-block">20</div>
+<div style="display:inline-block" id="toptweettime"></div>
 </div>
 </asp:Content>

@@ -82,6 +82,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -114,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Copy of MobileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -123,7 +125,13 @@
     <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\CalendarEvent.cs" />
     <Compile Include="Models\CalIDs.cs" />
+    <Compile Include="Models\DataRepository.cs" />
     <Compile Include="Models\Entities.cs" />
+    <Compile Include="Models\fddb.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>fddb.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Models\GAuth.cs" />
     <Compile Include="Models\GAuthHelper.cs" />
     <Compile Include="Models\GoogleAuthenticator.cs" />
@@ -144,6 +152,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.mobile-1.4.0a.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons-png\action-black.png" />
     <Content Include="Content\images\icons-png\action-white.png" />
@@ -377,6 +386,14 @@
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jsstuff.js" />
     <None Include="Content\jquery.mobile-1.4.0.min.map" />
+    <None Include="Models\fddb.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>fddb.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Models\fddb.dbml.layout">
+      <DependentUpon>fddb.dbml</DependentUpon>
+    </None>
     <None Include="Service References\ServiceReferenceText\configuration91.svcinfo" />
     <None Include="Service References\ServiceReferenceText\configuration.svcinfo" />
     <None Include="Service References\ServiceReferenceText\Reference.svcmap">
@@ -445,6 +462,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\ServiceReferenceText\Service1.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
