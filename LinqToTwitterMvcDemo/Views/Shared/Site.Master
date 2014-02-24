@@ -735,8 +735,6 @@
     }
 
     function getevents(email, name, i, max, min) {
-        //inject html
-
         $.ajax({
             type: "POST",
             url: "/Home/DoneTest",
@@ -890,23 +888,11 @@
 
     function parseISO8601DateFull(s) {
 
-        // parenthese matches:
-        // year month day    hours minutes seconds  
-        // dotmilliseconds 
-        // tzstring plusminus hours minutes
         var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
 
         var d = [];
         try {
             d = s.match(re);
-
-            // "2010-12-07T11:00:00.000-09:00" parses to:
-            //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
-            //     "00", "00", ".000", "-09:00", "-", "09", "00"]
-            // "2010-12-07T11:00:00.000Z" parses to:
-            //  ["2010-12-07T11:00:00.000Z",      "2010", "12", "07", "11", 
-            //     "00", "00", ".000", "Z", undefined, undefined, undefined]
-
             if (!d) {
                 throw "Couldn't parse ISO 8601 date string '" + s + "'";
             }

@@ -21,9 +21,10 @@
                    //alert("collapsed");
                }
                drawCal();
-            //   drawNext5(0);
+               drawNext5(0);
                //renderTweets(5, "mytweets");
                twt_check();
+               ggl_check();
               // renderTweets(5, "following");
                //renderTweets(5, "mentions");
                $('#chosenDay').html("<strong>" + formatDateFull(0) + "</strong>");
@@ -32,11 +33,11 @@
        });
 
        function init() {
-           // testa(1, 0);
+           //testa(1, 0);
            //calcDays();
 
            twt_check();
-          // ggl_check();
+          
 
            var lat = get_cookie("lat");
            var lng = get_cookie("long");
@@ -51,6 +52,60 @@
 
            // alert(tw_ck + go_ck);
        }
+
+       function testa(max, min, idlistj) {
+           var browser_w = parseInt($(document).width()) - 60;
+           var browser_h = parseInt($(document).height()) - 80;
+           $('#iframe1').css('width', browser_w.toString() + 'px');
+           $('#iframe1').css('height', browser_h.toString() + 'px');
+
+           $('#eventsDay').html("");
+           var jsonc = idlistj;
+           var jsone = eval('(' + jsonc + ')');
+           var jsone2 = eval('(' + jsonc + ')');
+           var count = jsone['Count'];
+           //alert(idlist + count);
+           var min_bk = parseInt(min) - 1;
+           var min_fw = parseInt(min) + 1;
+           var max_fw = parseInt(max) + 1;
+           var max_bk = parseInt(max) - 1;
+           var btn_txt_bk;
+           var btn_txt_fw;
+           if (parseInt(min) == 0) {
+               $('#datebanner').html(formatDate(0));
+               btn_txt_bk = "Yesterday";
+               btn_txt_fw = "Tomorrow";
+           } else {
+               $('#datebanner').html(formatDate(min_bk + 1))
+               btn_txt_bk = formatDate(min_bk);
+               btn_txt_fw = formatDate(max);
+
+           }
+
+           //var bk_btn_html = "<div class=\"term3btn\" style=\"cursor:pointer\" onclick=\"testa(" + max_bk + "," + min_bk + ")\">" + btn_txt_bk + "</div>";
+           //var fw_btn_html = "<div class=\"term3btn\" style=\"cursor:pointer\" onclick=\"testa(" + max_fw + "," + min_fw + ")\">" + btn_txt_fw + "</div>";
+           // $('#btns').html("<table><tr><td class=\"tdleft\">" + bk_btn_html + "</td><td class=\"tdright\">" + fw_btn_html + "</td><tr><table>");
+
+           $.each(jsone.Id, function (i, idlist) {
+
+               var sumhtml = "<div id=\"sum" + i + "\"></div>";
+               $('#eventsDay').append(sumhtml);
+               // var summinihtml = "<div id=\"summini" + i + "\"><table><tr><td><div style=\"cursor:pointer\" onclick=\"testa(2,1)\" id=\"day0" + i + "\"></div><div id=\"day_w_0" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(3,2)\" id=\"day1" + i + "\"></div><div id=\"day_w_1" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(4,3)\" id=\"day2" + i + "\"></div><div id=\"day_w_2" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(5,4)\" id=\"day3" + i + "\"></div><div id=\"day_w_3" + i + "\" ></div></td><td><div style=\"cursor:pointer\" onclick=\"testa(6,5)\" id=\"day4" + i + "\"></div><div id=\"day_w_4" + i + "\" ></div></td></tr></table></div>";
+               //$('#suminjmini').append(summinihtml);
+
+               var email = getID(i, idlistj);
+               var name = getFn(i, idlistj);
+
+               getevents(email, name, i, max, min);
+               getfutureevents(email, name, i, max, min);
+               // alert(idlist[0]);
+           });
+
+
+          // drawDays(min);
+
+       }
+
 
 
        $(document).ready(function () {
@@ -98,6 +153,188 @@
 
        function goSetup() {
            window.location.href = '/Home/Choose';
+       }
+
+       function getevents(email, name, i, max, min) {
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/DoneTest",
+               data: "email=" + email + "&max=" + max + "&min=" + min,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var typej = jsonresp['type'];
+                   if (typej == "refresh") {
+                       //alert("refreshing");
+                       window.location.href = '/Mobile/GoogleRefresh';
+                   } else {
+                       var summary = jsonresp['summary'];
+
+                       // alert(jsonresp.items.count());
+                       var item_ct = 0;
+                       for (_obj in jsonresp.items) item_ct++;
+                       //alert(item_ct);
+                       if (item_ct != 0) {
+                           var datestr = formatDate(min);
+                           $('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
+                           $.each(jsonresp.items, function (n, item) {
+                               if (item.status != "cancelled") {
+                                   var datetest = item.start.dateTime;
+                                   var datetest2 = item.start.date;
+                                   var start_dt = new Date(item.start.dateTime);
+                                   var end_dt = new Date(item.end.dateTime);
+                                   var start_d = new Date(item.start.date);
+                                   var end_d = new Date(item.end.date);
+                                   var stf = parseISO8601Date(item.start.dateTime);
+                                   var endf = parseISO8601Date(item.end.dateTime);
+                                   //var dts = formatDT(itemstart,"start",itemend);
+                                   var dte = "";
+                                   if (start_dt != "Invalid Date") {
+                                       // dte = start_dt.toString('H:mm tt') + " - " + end_dt;
+                                   } else {
+                                       // dte = "All day";
+                                   }
+                                   //formatDT(itemstart, itemend, min); write this back in
+                                   var location = "";
+                                   if (item.location != undefined) {
+                                       location = ", " + item.location;
+                                   }
+
+
+                                   $('#sum' + i).append("<div class=\"term3\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + location + "</div>");
+                               }
+
+                           });
+                       } else {
+                           //     $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                       }
+                   }
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+       }
+
+       function getfutureevents(email, name, i, max, min) {
+           //inject html
+           max = max + 5;
+           min = max - 5;
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/DoneTest",
+               data: "email=" + email + "&max=" + max + "&min=" + min,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var typej = jsonresp['type'];
+                   if (typej == "refresh") {
+                       //alert("refreshing");
+                       window.location.href = '/Mobile/GoogleRefresh';
+                   } else {
+                       var summary = jsonresp['summary'];
+
+                       // alert(jsonresp.items.count());
+                       var item_ct = 0;
+                       for (_obj in jsonresp.items) item_ct++;
+                       //alert(item_ct);
+                       if (item_ct != 0) {
+                           var datestr = formatDate(min);
+                           var day = "";
+                           var oldday = "new";
+                           var head = "";
+                           var dayct = parseInt(0);
+                           $.each(jsonresp.items, function (n, item) {
+                               if (item.status != "cancelled") {
+
+                                   var datetest = item.start.dateTime;
+                                   var datetest2 = item.start.date;
+                                   var start_dt = new Date(item.start.dateTime);
+                                   var end_dt = new Date(item.end.dateTime);
+                                   var start_d = new Date(item.start.date);
+                                   var end_d = new Date(item.end.date);
+                                   var stf = parseISO8601Date(item.start.dateTime);
+
+                                   var endf = parseISO8601Date(item.end.dateTime);
+                                   if (endf == "All day") {
+                                       endf = "";
+                                   }
+                                   var daytest = parseISO8601DateFull(item.start.dateTime);
+                                   //alert("daytest=" + daytest);
+                                   var res = daytest.toString().split(" ");
+                                   // alert(res);
+                                   var fullday = getProperDay(res[0]);
+                                   var justdate = res[2];
+                                   //$('#debug').append(fullday);
+
+                                   day = fullday + justdate; //needs a day of week number
+                                   alert(day + item.summary);
+                                   $('#' + day).append("<div class=\"term2\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
+
+                               }
+
+
+                           });
+
+
+                       } else {
+
+                       }
+                   }
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+       }
+
+
+
+       function getID(num, idlist) {
+           var jsone = eval('(' + idlist + ')');
+           return jsone.Id[num];
+       }
+
+       function getFn(num, idlist) {
+           var jsone = eval('(' + idlist + ')');
+           return jsone.Fullname[num];
+       }
+
+
+       function ggl_check() {
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/checkGglIDlist",
+               //data: "latestID=" + latestID,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //alert(jsonresp.IDlist);
+                   idlist = jsonresp.IDlist;
+                   if (idlist == "No GUID") {
+                       //alert(idlist);
+                       goSetup();
+                   } else {
+                       // alert(go_ck);
+                       testa(1, 0, idlist);
+                   }
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+               }
+
+           });
        }
 
 
@@ -255,7 +492,7 @@
                    $('#toptweettime').html(timenow);
                    //alert(jsonresp.latestid);
                    var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
-                   $('#following').html(tophtml + midhtml + "</ul>").trigger('create');
+                   $('#mytweets').html(tophtml + midhtml + "</ul>").trigger('create');
 
                },
                error: function (response) {
@@ -603,8 +840,137 @@ function backFillCal(startrow) {
             
                
             }
-            
+
         }
+
+        function parseISO8601DateFull(s) {
+
+            var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
+
+            var d = [];
+            try {
+                d = s.match(re);
+                if (!d) {
+                    throw "Couldn't parse ISO 8601 date string '" + s + "'";
+                }
+                //alert(d);
+                // parse strings, leading zeros into proper ints
+                var a = [1, 2, 3, 4, 5, 6, 10, 11];
+                for (var i in a) {
+                    d[a[i]] = parseInt(d[a[i]], 10);
+                    //alert(d[a[i]]);
+                }
+                d[7] = parseFloat(d[7]);
+                var hr = parseInt(d[4], 10);
+                var min = parseInt(d[5], 10);
+                if (hr < 10) {
+                    hr = "0" + hr;
+                }
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
+                // note that month is 0-11, not 1-12
+                // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
+                var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+                //alert(ms + d[2]);
+                // if there are milliseconds, add them
+                if (d[7] > 0) {
+                    ms += Math.round(d[7] * 1000);
+                }
+
+                // if there's a timezone, calculate it
+                if (d[8] != "Z" && d[10]) {
+                    var offset = d[10] * 60 * 60 * 1000;
+                    if (d[11]) {
+                        offset += d[11] * 60 * 1000;
+                    }
+                    if (d[9] == "-") {
+                        ms -= offset;
+                    }
+                    else {
+                        ms += offset;
+                    }
+                }
+                //alert(ms);
+
+                return new Date(ms);
+            } catch (error) {
+                return ("All day");
+            }
+            //return new Date(ms);
+        };
+
+        function parseISO8601Date(s) {
+
+            // parenthese matches:
+            // year month day    hours minutes seconds  
+            // dotmilliseconds 
+            // tzstring plusminus hours minutes
+            var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
+
+            var d = [];
+            try {
+                d = s.match(re);
+
+                // "2010-12-07T11:00:00.000-09:00" parses to:
+                //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
+                //     "00", "00", ".000", "-09:00", "-", "09", "00"]
+                // "2010-12-07T11:00:00.000Z" parses to:
+                //  ["2010-12-07T11:00:00.000Z",      "2010", "12", "07", "11", 
+                //     "00", "00", ".000", "Z", undefined, undefined, undefined]
+
+                if (!d) {
+                    throw "Couldn't parse ISO 8601 date string '" + s + "'";
+                }
+                //alert(d);
+                // parse strings, leading zeros into proper ints
+                var a = [1, 2, 3, 4, 5, 6, 10, 11];
+                for (var i in a) {
+                    d[a[i]] = parseInt(d[a[i]], 10);
+                    //alert(d[a[i]]);
+                }
+                d[7] = parseFloat(d[7]);
+                var hr = parseInt(d[4], 10);
+                var min = parseInt(d[5], 10);
+                if (hr < 10) {
+                    hr = "0" + hr;
+                }
+                if (min < 10) {
+                    min = "0" + min;
+                }
+                // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
+                // note that month is 0-11, not 1-12
+                // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
+                var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+                //alert(ms + d[2]);
+                // if there are milliseconds, add them
+                if (d[7] > 0) {
+                    ms += Math.round(d[7] * 1000);
+                }
+
+                // if there's a timezone, calculate it
+                if (d[8] != "Z" && d[10]) {
+                    var offset = d[10] * 60 * 60 * 1000;
+                    if (d[11]) {
+                        offset += d[11] * 60 * 1000;
+                    }
+                    if (d[9] == "-") {
+                        ms -= offset;
+                    }
+                    else {
+                        ms += offset;
+                    }
+                }
+                //alert(ms);
+                var outp = hr + ":" + min;
+                return outp;
+            } catch (error) {
+                return ("All day");
+            }
+            //return new Date(ms);
+        };
+
 
      </script>
     

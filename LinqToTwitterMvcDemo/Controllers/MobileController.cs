@@ -189,7 +189,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     //have refresh token, get new access token
                     //do GUID cookie check
                     var granted = Request.Cookies["Granted"].Value;
-                    return Redirect("/Home/GoogleRefresh");
+                    return Redirect("/Mobile/GoogleRefresh");
                 }
                 catch
                 {

@@ -22,7 +22,7 @@ namespace LinqToTwitterMvcDemo.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="fd1")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DataSource")]
 	public partial class fddbDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,19 +30,19 @@ namespace LinqToTwitterMvcDemo.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void Insertuser(user instance);
-    partial void Updateuser(user instance);
-    partial void Deleteuser(user instance);
     partial void Insertggl(ggl instance);
     partial void Updateggl(ggl instance);
     partial void Deleteggl(ggl instance);
     partial void Inserttwt(twt instance);
     partial void Updatetwt(twt instance);
     partial void Deletetwt(twt instance);
+    partial void Insertuser(user instance);
+    partial void Updateuser(user instance);
+    partial void Deleteuser(user instance);
     #endregion
 		
 		public fddbDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["fd1ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DataSourceConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -71,14 +71,6 @@ namespace LinqToTwitterMvcDemo.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<user> users
-		{
-			get
-			{
-				return this.GetTable<user>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ggl> ggls
 		{
 			get
@@ -94,171 +86,13 @@ namespace LinqToTwitterMvcDemo.Models
 				return this.GetTable<twt>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[user]")]
-	public partial class user : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private System.Guid _guid;
-		
-		private System.DateTime _lastlogin;
-		
-		private EntitySet<ggl> _ggls;
-		
-		private EntitySet<twt> _twts;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnguidChanging(System.Guid value);
-    partial void OnguidChanged();
-    partial void OnlastloginChanging(System.DateTime value);
-    partial void OnlastloginChanged();
-    #endregion
-		
-		public user()
-		{
-			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
-			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
+		public System.Data.Linq.Table<user> users
 		{
 			get
 			{
-				return this._id;
+				return this.GetTable<user>();
 			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guid", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid guid
-		{
-			get
-			{
-				return this._guid;
-			}
-			set
-			{
-				if ((this._guid != value))
-				{
-					this.OnguidChanging(value);
-					this.SendPropertyChanging();
-					this._guid = value;
-					this.SendPropertyChanged("guid");
-					this.OnguidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastlogin", DbType="DateTime NOT NULL")]
-		public System.DateTime lastlogin
-		{
-			get
-			{
-				return this._lastlogin;
-			}
-			set
-			{
-				if ((this._lastlogin != value))
-				{
-					this.OnlastloginChanging(value);
-					this.SendPropertyChanging();
-					this._lastlogin = value;
-					this.SendPropertyChanged("lastlogin");
-					this.OnlastloginChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_ggl", Storage="_ggls", ThisKey="id", OtherKey="userid")]
-		public EntitySet<ggl> ggls
-		{
-			get
-			{
-				return this._ggls;
-			}
-			set
-			{
-				this._ggls.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
-		public EntitySet<twt> twts
-		{
-			get
-			{
-				return this._twts;
-			}
-			set
-			{
-				this._twts.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ggls(ggl entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_ggls(ggl entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_twts(twt entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_twts(twt entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
 		}
 	}
 	
@@ -681,6 +515,172 @@ namespace LinqToTwitterMvcDemo.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[user]")]
+	public partial class user : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.Guid _guid;
+		
+		private System.DateTime _lastlogin;
+		
+		private EntitySet<ggl> _ggls;
+		
+		private EntitySet<twt> _twts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnguidChanging(System.Guid value);
+    partial void OnguidChanged();
+    partial void OnlastloginChanging(System.DateTime value);
+    partial void OnlastloginChanged();
+    #endregion
+		
+		public user()
+		{
+			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
+			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guid", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid guid
+		{
+			get
+			{
+				return this._guid;
+			}
+			set
+			{
+				if ((this._guid != value))
+				{
+					this.OnguidChanging(value);
+					this.SendPropertyChanging();
+					this._guid = value;
+					this.SendPropertyChanged("guid");
+					this.OnguidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastlogin", DbType="DateTime NOT NULL")]
+		public System.DateTime lastlogin
+		{
+			get
+			{
+				return this._lastlogin;
+			}
+			set
+			{
+				if ((this._lastlogin != value))
+				{
+					this.OnlastloginChanging(value);
+					this.SendPropertyChanging();
+					this._lastlogin = value;
+					this.SendPropertyChanged("lastlogin");
+					this.OnlastloginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_ggl", Storage="_ggls", ThisKey="id", OtherKey="userid")]
+		public EntitySet<ggl> ggls
+		{
+			get
+			{
+				return this._ggls;
+			}
+			set
+			{
+				this._ggls.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
+		public EntitySet<twt> twts
+		{
+			get
+			{
+				return this._twts;
+			}
+			set
+			{
+				this._twts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ggls(ggl entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_ggls(ggl entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
 		}
 	}
 }

@@ -634,18 +634,25 @@ namespace LinqToTwitterMvcDemo.Controllers
         public ActionResult AuthTwitter()
         //enter twitter username and message for restful api
         {
-            string guid_str = Request.Cookies["GUID"].Value;
-            Guid guid = new Guid(guid_str);
-            string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
-            if (TwID != null)
+            try
             {
-                return RedirectToAction("Choose");
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
+                if (TwID != null)
+                {
+                    return RedirectToAction("Choose");
 
+                }
+                else
+                {
+                    return RedirectToAction("SetTwitterID");
+
+                }
             }
-            else
+            catch
             {
                 return RedirectToAction("SetTwitterID");
-
             }
             
         }
