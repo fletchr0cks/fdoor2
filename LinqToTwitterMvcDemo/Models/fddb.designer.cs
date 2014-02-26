@@ -94,6 +94,14 @@ namespace LinqToTwitterMvcDemo.Models
 				return this.GetTable<user>();
 			}
 		}
+		
+		public System.Data.Linq.Table<weather> weathers
+		{
+			get
+			{
+				return this.GetTable<weather>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ggl")]
@@ -530,6 +538,12 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private System.DateTime _lastlogin;
 		
+		private string _lat;
+		
+		private string _lng;
+		
+		private string _location;
+		
 		private EntitySet<ggl> _ggls;
 		
 		private EntitySet<twt> _twts;
@@ -544,6 +558,12 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnguidChanged();
     partial void OnlastloginChanging(System.DateTime value);
     partial void OnlastloginChanged();
+    partial void OnlatChanging(string value);
+    partial void OnlatChanged();
+    partial void OnlngChanging(string value);
+    partial void OnlngChanged();
+    partial void OnlocationChanging(string value);
+    partial void OnlocationChanged();
     #endregion
 		
 		public user()
@@ -609,6 +629,66 @@ namespace LinqToTwitterMvcDemo.Models
 					this._lastlogin = value;
 					this.SendPropertyChanged("lastlogin");
 					this.OnlastloginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lat", DbType="VarChar(50)")]
+		public string lat
+		{
+			get
+			{
+				return this._lat;
+			}
+			set
+			{
+				if ((this._lat != value))
+				{
+					this.OnlatChanging(value);
+					this.SendPropertyChanging();
+					this._lat = value;
+					this.SendPropertyChanged("lat");
+					this.OnlatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lng", DbType="VarChar(50)")]
+		public string lng
+		{
+			get
+			{
+				return this._lng;
+			}
+			set
+			{
+				if ((this._lng != value))
+				{
+					this.OnlngChanging(value);
+					this.SendPropertyChanging();
+					this._lng = value;
+					this.SendPropertyChanged("lng");
+					this.OnlngChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location", DbType="VarChar(50)")]
+		public string location
+		{
+			get
+			{
+				return this._location;
+			}
+			set
+			{
+				if ((this._location != value))
+				{
+					this.OnlocationChanging(value);
+					this.SendPropertyChanging();
+					this._location = value;
+					this.SendPropertyChanged("location");
+					this.OnlocationChanged();
 				}
 			}
 		}
@@ -681,6 +761,141 @@ namespace LinqToTwitterMvcDemo.Models
 		{
 			this.SendPropertyChanging();
 			entity.user = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.weather")]
+	public partial class weather
+	{
+		
+		private int _id;
+		
+		private System.Nullable<int> _version;
+		
+		private int _userid;
+		
+		private int _day;
+		
+		private string _icon;
+		
+		private System.Nullable<int> _hi;
+		
+		private System.Nullable<int> _lo;
+		
+		public weather()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this._id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_version", DbType="Int")]
+		public System.Nullable<int> version
+		{
+			get
+			{
+				return this._version;
+			}
+			set
+			{
+				if ((this._version != value))
+				{
+					this._version = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this._userid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_day", DbType="Int NOT NULL")]
+		public int day
+		{
+			get
+			{
+				return this._day;
+			}
+			set
+			{
+				if ((this._day != value))
+				{
+					this._day = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_icon", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string icon
+		{
+			get
+			{
+				return this._icon;
+			}
+			set
+			{
+				if ((this._icon != value))
+				{
+					this._icon = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hi", DbType="Int")]
+		public System.Nullable<int> hi
+		{
+			get
+			{
+				return this._hi;
+			}
+			set
+			{
+				if ((this._hi != value))
+				{
+					this._hi = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lo", DbType="Int")]
+		public System.Nullable<int> lo
+		{
+			get
+			{
+				return this._lo;
+			}
+			set
+			{
+				if ((this._lo != value))
+				{
+					this._lo = value;
+				}
+			}
 		}
 	}
 }

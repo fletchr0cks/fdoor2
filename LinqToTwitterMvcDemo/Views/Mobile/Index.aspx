@@ -18,6 +18,8 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<div class="closeBanner" id="banner_header"></div>
+<div class="bigbanner" id="banner_area"></div>
 <div id="tweets">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="b"  data-count-theme="b">
      <div data-role="collapsible">
@@ -25,7 +27,7 @@
          <div id="following">  
         </div>
     </div>
-    <div data-role="collapsible" data-collapsed="false">
+    <div data-role="collapsible">
     <h2><div style="font-size:20px">My Tweets</div></h2>
     <div id="mytweets">  
         </div>

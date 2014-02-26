@@ -25,9 +25,18 @@
                //renderTweets(5, "mytweets");
                twt_check();
                ggl_check();
-              // renderTweets(5, "following");
-               //renderTweets(5, "mentions");
-               $('#chosenDay').html("<strong>" + formatDateFull(0) + "</strong>");
+
+               var lat = get_cookie("lat");
+               var lng = get_cookie("long");
+
+               if (lat == null) {
+                   //  $('#towns').show();
+                   //getTowns();
+                   //alert("towns");
+               } else {
+                   GetWeather(lat, lng, 0, 1);
+               }
+              
            });
 
        });
@@ -53,12 +62,13 @@
            // alert(tw_ck + go_ck);
        }
 
-       function testa(max, min, idlistj) {
+       function testa(max, min) {
+           $('#chosenDay').html("<strong>" + formatDateFull(min) + "</strong>");
+           var idlistj = get_cookie("IDList");
            var browser_w = parseInt($(document).width()) - 60;
            var browser_h = parseInt($(document).height()) - 80;
            $('#iframe1').css('width', browser_w.toString() + 'px');
            $('#iframe1').css('height', browser_h.toString() + 'px');
-
            $('#eventsDay').html("");
            var jsonc = idlistj;
            var jsone = eval('(' + jsonc + ')');
@@ -107,7 +117,8 @@
       }
 
 
-       function drawDays(min,idlistj) {
+      function drawDays(min, idlistj) {
+         
            var n = parseInt(min);
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
@@ -122,9 +133,10 @@
                //alert(n1 + "..." + end);
                var n2 = parseInt(n1 + 1);
                var day = formatDateDay(n1);
-               var dispday = formatDateNext(end);
+               var dispday = formatDateNext(n1);
+               dispday = dispday.substring(0, 3);
                var dayID = formatDateDayID(n1);
-               calnext5 = calnext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" style=\"cursor:pointer\" onclick=\"testa(" + n2 + "," + n1 + "," + idlistj + ")\" id=\"" + dayID + "\"><strong>" + dispday + "</strong></div></div>";
+               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
                var lo = "";
@@ -190,6 +202,97 @@
            window.location.href = '/Home/Choose';
        }
 
+       function GetWeather(lat, lng, min, max) {
+           $('#weather').html("");
+           //set_cookie("teststore", "val", 1);
+           var NewDate = new Date();
+           var loc = lat + "," + lng;
+           min = min * 2;
+           max = min + 1;
+           var ck = get_cookie("day0");
+           //alert("ck=" + ck);
+           if (ck == null) {
+               //alert("ck is null");
+               //$('#weather').html(loc);
+               $.ajax({
+                   type: "GET",
+                   url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
+                   dataType: "jsonp",
+                   success: function (json) {
+                       //var json = eval('(' + jsontxt + ')');
+                       //var jsontext = JSON.stringify(json);
+                       // $.each(json.Id, function (i, idlist) {
+                       //alert(jsontext);
+                       //});
+                       var i = 0;
+                       while (i < 8) {
+                           var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
+                           var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
+                           if (i > 0 && i < 4) {
+                               //  alert(i);
+                               var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
+                               var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
+                               set_cookie("hi" + i, high, 1);
+                               set_cookie("lo" + i, low, 1);
+                               //alert(high + " " + low);
+                           }
+                           set_cookie("day" + i, text, 1);
+                           set_cookie("icon" + i, icon, 1);
+
+                           i++;
+                       }
+                       var location = json['location']['city'];
+
+                       //   $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
+                       //$('#weather').append("Weather for " + location);
+                       var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
+                       //alert("day=" + day);
+                       var day2 = json['forecast']['txt_forecast']['forecastday'][max]['title'];
+                       var forecast = json['forecast']['txt_forecast']['forecastday'][min]['fcttext_metric'];
+                       var forecast2 = json['forecast']['txt_forecast']['forecastday'][max]['fcttext_metric'];
+                       var icon = json['forecast']['txt_forecast']['forecastday'][min]['icon'];
+                       var icon2 = json['forecast']['txt_forecast']['forecastday'][max]['icon'];
+                       var img1 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon + ".gif\">";
+                       var img2 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\">";
+                       //set_cookie("0text", forecast, 1);
+                       //set_cookie("0icon", forecast, 1);
+                       //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
+                       //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+                       var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
+                       //alert(htmltable);
+                       $('#weather').append(htmltable);
+
+                       var epoch = Math.round(new Date().getTime() / 1000)
+
+                   },
+                   error: function (xhr, error) {
+                       console.debug(xhr); console.debug(error);
+                       $('#footer').appnd(xhr + "  " + error);
+                   },
+                   complete: function () {
+
+                   }
+
+               });
+
+           } else {
+               var forecast = get_cookie("day" + min);
+               var forecast2 = get_cookie("day" + max);
+               var img = get_cookie("icon" + min);
+               var img2 = get_cookie("icon" + max);
+               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+               var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+               var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
+               //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+               $('#weather').append(htmltable);
+
+
+           }
+
+       }
+
        function getevents(email, name, i, max, min) {
            $.ajax({
                type: "POST",
@@ -212,7 +315,7 @@
                        //alert(item_ct);
                        if (item_ct != 0) {
                            var datestr = formatDate(min);
-                           $('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
+                           //$('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
                            $.each(jsonresp.items, function (n, item) {
                                if (item.status != "cancelled") {
                                    var datetest = item.start.dateTime;
@@ -309,7 +412,7 @@
 
                                    day = fullday + justdate; //needs a day of week number
                                    //alert(day + item.summary);
-                                   $('#' + day).append("<div class=\"term2\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
+                                   $('#' + day).append("<div class=\"term3\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
 
@@ -359,7 +462,7 @@
                        goSetup();
                    } else {
                        // alert(go_ck);
-                       testa(1, 0, idlist);
+                       testa(1, 0);
                    }
                },
                error: function (xhr, error) {
@@ -410,20 +513,16 @@
            if (type == "banner") {
                $.ajax({
                    type: "GET",
-                   url: "/Home/GetBanner",
+                   url: "/Mobile/GetBanner",
                    data: "ID=" + ID,
-                   dataType: "text/plain",
+                   dataType: "json",
                    success: function (json) {
-                       var jsonresp = eval('(' + json + ')');
+                       var jsonresp = eval(json);
                        var bannertxt = jsonresp.BannerText;
-                       //    var bannertime = item.BannerTime;
-                       //    bannerhtml = bannerhtml + bannertxt;
-
                        $('#banner_header').html("@FletcherFridge");
                        $('#banner_area').html(bannertxt);
                        clearTimeout(timer1);
                        timer1 = setTimeout(timerStart1, timeout);
-
                    },
                    error: function (response) {
                        alert(response.responseText);
@@ -463,14 +562,11 @@
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
            var latestID = document.getElementById('toptweet').innerHTML;
-           //alert("latest= " + latestID);
-           var tweetshtml = "<table>";
            var bannerhtml = "";
            var tophtml = "<ul data-role=\"listview\">";
-          
-           //var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
-           var midhtml = "";
-
+           var midhtml_mt = "";
+           var midhtml_men = "";
+           var midhtml_f = "";
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
@@ -482,7 +578,7 @@
                    var tweettype = "none";
                    var timeout = "";
                    var icon = "false";
-                   $.each(jsonresp.results, function (n, item) {
+                   $.each(jsonresp.mytweets, function (n, item) {
                        // alert(item.Tweet);
                        var tweetxtra = "";
                        if (item.BannerText.length > 1) {
@@ -496,27 +592,12 @@
                            tweetxtra = item.MediaUrl;
                        }
                        if (item.EntityUrl.length > 1) {
-                         //  tweettype = "media";
-                           //icon = "info";
-                         //  tweetxtra = item.MediaUrl;
                        }
                        //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
-                       midhtml = midhtml + "<li data-icon=\"" + icon + "\"><a href=\"#\">" +
+                       midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" +
                "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
-          //    
-        "<div class=\"tweets1\">" + item.Tweet + "</div>" +
-                    //   "<div class=\"ui-btn-icon-notext ui-icon-delete ui-btn-icon-right\">hi</div>" +
-             "<p class=\"ui-li-aside\"><strong>6:24</strong>PM</p>" +
-                "</a></li>";
-
-
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
                    });
-
-                   //if (jsonresp.doBanner == "true") {
-                   //    var bannerID = jsonresp.BannerID;
-                   //    getBanner('banner', bannerID, timeout);
-                   //    set_cookie(item.ID, item.BannerText, 20);
-                   //}
 
                    clearTimeout(timerA);
                    timerA = setTimeout(checkNewTweets, 600000);
@@ -525,10 +606,9 @@
 
                    $('#toptweet').html(jsonresp.latestid);
                    $('#toptweettime').html(timenow);
-                   //alert(jsonresp.latestid);
-                   var tweetsbanner = "<div class=\"tweet_header\"><img src=\"../../Content/twitterbird.png\" /> " + jsonresp.twitterID + "</div>";
-                   $('#mytweets').html(tophtml + midhtml + "</ul>").trigger('create');
-
+                   $('#mytweets').html(tophtml + midhtml_mt + "</ul>").trigger('create');
+                   $('#mentions').html(tophtml + midhtml_men + "</ul>").trigger('create');
+                   $('#following').html(tophtml + midhtml_f + "</ul>").trigger('create');
                },
                error: function (response) {
                    alert(response.responseText);
@@ -869,7 +949,7 @@ function formatDateDayNum(num) {
            for(var i=0; i<aplhastr.length; i++)
 	   {
 	       var nextChar = aplhastr.charAt(i);
-	                   calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
+	       calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
 	       dayID++;
 	   }
 
@@ -883,22 +963,18 @@ function backFillCal(startrow) {
             var rowfactor = parseInt(startrow * 7);
             var todaynum = formatDateDayNum(0);
             var todayID = parseInt(rowfactor + todaynum);
-           
-            var end = (0 - todayID);
-          
+            var end = (0 - todayID);      
             var start = 0;
             while (start < 36) {
-                $('#Cal' + start).html(formatDate(end));
+                var html = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\">" + formatDate(end) + "</div>";
+                var html_today = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\"><strong>" + formatDate(end) + "</strong></div>";
+                $('#Cal' + start).html(html);
                 if (end == 0) {
-                    $('#Cal' + start).html("Today");
+                    $('#Cal' + start).html(html_today);
                 }
                 start++;
                 end++;
-               
-            
-               
             }
-
         }
 
         function formatDateDayID(num) {

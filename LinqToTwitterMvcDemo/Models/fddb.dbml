@@ -26,8 +26,22 @@
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="guid" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" CanBeNull="false" />
       <Column Name="lastlogin" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="lat" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="lng" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="user_ggl" Member="ggls" ThisKey="id" OtherKey="userid" Type="ggl" />
       <Association Name="user_twt" Member="twts" ThisKey="id" OtherKey="userid" Type="twt" />
+    </Type>
+  </Table>
+  <Table Name="dbo.weather" Member="weathers">
+    <Type Name="weather">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="version" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="day" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="icon" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="hi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="lo" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

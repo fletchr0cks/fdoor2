@@ -1438,7 +1438,7 @@ div.ui-mobile-viewport {
 .ui-bar,
 .ui-body {
 	position: relative;
-	padding: .4em 1em;
+	padding: .4em .2em;
 	overflow: hidden;
 	display: block;
 	clear: both;
@@ -4793,3 +4793,6 @@ for Android 4.1 */
 
 .ui-collapsible-heading .ui-btn-text{ display:block;}
 .ui-collapsible-heading .ui-li-count { position: absolute; font-size: 11px; font-weight: bold; padding: .2em .5em; top: 50%; margin-top: -.9em; right: 10px;  border-radius: 1em 1em 1em 1em; background: linear-gradient(#FFFFFF, #F1F1F1) repeat scroll 0 0 #EEEEEE;  border: 1px solid #CCCCCC; color: #222222;font-weight: bold;text-shadow: 0 1px 0 #FFFFFF; }
+
+.term1evt {font-family: 'Helvetica', cursive;color: #000; font-size:14px; padding-bottom: 8px}
+.term3 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px;}

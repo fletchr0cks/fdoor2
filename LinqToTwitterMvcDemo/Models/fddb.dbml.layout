@@ -14,25 +14,31 @@
         <elementListCompartment Id="a60494d0-71dc-4338-8a8e-0d57dd838873" absoluteBounds="2.14, 1.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="38c39315-1380-4c9c-8ec7-473d95aa6d9e" absoluteBounds="5.5, 1.5, 2, 1.3862939453125">
+    <classShape Id="0d8510e5-ae6e-42a2-98bc-bfd7968c77fe" absoluteBounds="5.625, 2.25, 2, 1.9631982421875">
       <DataClassMoniker Name="/fddbDataContext/user" />
       <nestedChildShapes>
-        <elementListCompartment Id="b3e92328-ed51-454f-9b1e-7adae15f7243" absoluteBounds="5.515, 1.96, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="bd65a1f3-0dcf-42fd-8f3c-4de61f75f2c5" absoluteBounds="5.64, 2.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.5 : 2.01044840494792); (5.25 : 2.01044840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.625 : 2.25); (6.625 : 1.63544840494792); (5.25 : 1.63544840494792)]" fixedFrom="Algorithm" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_ggl" />
       <nodes>
-        <classShapeMoniker Id="38c39315-1380-4c9c-8ec7-473d95aa6d9e" />
+        <classShapeMoniker Id="0d8510e5-ae6e-42a2-98bc-bfd7968c77fe" />
         <classShapeMoniker Id="0cd3dd54-7dbd-4acb-898f-270b0a018924" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 2.73484537760417); (4.125 : 2.73484537760417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.625 : 2.89829752604167); (4.125 : 2.89829752604167)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/fddbDataContext/user/user_twt" />
       <nodes>
-        <classShapeMoniker Id="38c39315-1380-4c9c-8ec7-473d95aa6d9e" />
+        <classShapeMoniker Id="0d8510e5-ae6e-42a2-98bc-bfd7968c77fe" />
         <classShapeMoniker Id="9156f563-ba9a-4269-b188-c0a8d373677a" />
       </nodes>
     </associationConnector>
+    <classShape Id="7d667832-4344-4be8-812b-60f055d31983" absoluteBounds="0.5, 0.625, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/fddbDataContext/weather" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f08e1861-8367-4db6-80c0-d60ebeda5271" absoluteBounds="0.51500000000000012, 1.085, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
