@@ -59,11 +59,14 @@
 <div id="caldata"></div>
 </div>
 </div>
-
+<div id="weather"></div>
+</div>
+<br/>
+<div class="ui-body ui-body-a ui-corner-all">
 <div id="calendar_next5">
 </div>
 <div id="weather_next5">
-
+</div>
 </div>
 </div>
 <div id="toptweet" style="display:inline-block">20</div>

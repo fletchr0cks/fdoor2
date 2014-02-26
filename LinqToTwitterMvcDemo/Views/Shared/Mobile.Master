@@ -338,8 +338,6 @@
                                    if (item.location != undefined) {
                                        location = ", " + item.location;
                                    }
-
-
                                    $('#sum' + i).append("<div class=\"term3\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + location + "</div>");
                                }
 
@@ -389,7 +387,6 @@
                            var dayct = parseInt(0);
                            $.each(jsonresp.items, function (n, item) {
                                if (item.status != "cancelled") {
-
                                    var datetest = item.start.dateTime;
                                    var datetest2 = item.start.date;
                                    var start_dt = new Date(item.start.dateTime);
@@ -397,7 +394,6 @@
                                    var start_d = new Date(item.start.date);
                                    var end_d = new Date(item.end.date);
                                    var stf = parseISO8601Date(item.start.dateTime);
-
                                    var endf = parseISO8601Date(item.end.dateTime);
                                    if (endf == "All day") {
                                        endf = "";
@@ -412,7 +408,7 @@
 
                                    day = fullday + justdate; //needs a day of week number
                                    //alert(day + item.summary);
-                                   $('#' + day).append("<div class=\"term3\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
+                                   $('#' + day).append("<div class=\"term4\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
 
