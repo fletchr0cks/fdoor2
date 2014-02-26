@@ -504,8 +504,8 @@
            });
        }
 
-       function getBanner(type, ID, timeout) {
-           //alert(ID);
+       function getBanner(type, ID, timeout, screenname) {
+          // alert(ID);
            if (type == "banner") {
                $.ajax({
                    type: "GET",
@@ -515,7 +515,7 @@
                    success: function (json) {
                        var jsonresp = eval(json);
                        var bannertxt = jsonresp.BannerText;
-                       $('#banner_header').html("@FletcherFridge");
+                       $('#banner_header').html(screenname);
                        $('#banner_area').html(bannertxt);
                        clearTimeout(timer1);
                        timer1 = setTimeout(timerStart1, timeout);
@@ -536,7 +536,11 @@
 
            if (type == 'media') {
                var imghtml = "<img src=" + ID + "/>";
-               $('#banner_header').html("@FletcherFridge");
+               $('#banner_header').html(screenname);
+               //<div class="ui-icnput-btn ui-btn ui-btn-b">
+        //Close
+        //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
+    //</div>
                $('#banner_area').html(imghtml);
                clearTimeout(timer1);
                timer1 = setTimeout(timerStart1, 10000);
@@ -590,7 +594,7 @@
                        if (item.EntityUrl.length > 1) {
                        }
                        //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
-                       midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" +
+                       midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
                "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
                    });

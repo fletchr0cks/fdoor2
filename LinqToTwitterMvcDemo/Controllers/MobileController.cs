@@ -746,7 +746,7 @@ namespace LinqToTwitterMvcDemo.Controllers
              select new TweetViewModel
              {
                  //ImageUrl = tweet.Entities.,
-                 // ScreenName = tweet.StatusID,
+                 ScreenName = tweet.ScreenName,
                  TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                  //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
                  Tweet = tweet.Text,
@@ -767,7 +767,7 @@ namespace LinqToTwitterMvcDemo.Controllers
              select new TweetViewModel
              {
                  //ImageUrl = tweet.Entities.,
-                 // ScreenName = tweet.StatusID,
+                 ScreenName = tweet.ScreenName,
                  TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                  //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
                  Tweet = tweet.Text,
@@ -789,7 +789,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                  select new TweetViewModel
                  {
                      //ImageUrl = tweet.Entities.,
-                     // ScreenName = tweet.StatusID,
+                     ScreenName = tweet.User.Name,
                      TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                      //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
                      Tweet = tweet.Text,
@@ -985,7 +985,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             if (status.Entities != null &&
                 status.Entities.MediaEntities.Count > 0)
             {
-                return status.Entities.MediaEntities[0].ExpandedUrl;
+                return status.Entities.MediaEntities[0].MediaUrl;
             }
             return "";
         }

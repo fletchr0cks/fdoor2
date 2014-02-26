@@ -21,23 +21,17 @@
 <div class="closeBanner" id="banner_header"></div>
 <div class="bigbanner" id="banner_area"></div>
 <div id="tweets">
-<div data-role="collapsible-set" data-theme="a" data-content-theme="b"  data-count-theme="b">
-     <div data-role="collapsible">
-    <h2><div style="font-size:22px">Following</div><span class="ui-li-count">12</span></h2>
-         <div id="following">  
-        </div>
+<div data-role="collapsible">
+    <h2>Tweets</h2>
+        <ul data-role="listview" data-theme="a" data-divider-theme="b">
+            <li data-role="list-divider">Following<span class="ui-li-count"></span></li>
+            <li><div id="following"></div></li>
+            <li data-role="list-divider">My Tweets<span class="ui-li-count"></span></li>
+            <li><div id="mytweets"></div></li>
+             <li data-role="list-divider">Mentions<span class="ui-li-count"></span></li>
+            <li><div id="mentions"></div></li>
+        </ul>
     </div>
-    <div data-role="collapsible">
-    <h2><div style="font-size:20px">My Tweets</div></h2>
-    <div id="mytweets">  
-        </div>
-    </div>
-     <div data-role="collapsible">
-    <h2><div style="font-size:22px">Mentions</div><span class="ui-li-count">12</span></h2>
-         <div id="mentions">  
-        </div>
-    </div>
-</div>
 </div>
 <div id="calblock">
 <div class="ui-body ui-body-a ui-corner-all">
