@@ -18,7 +18,8 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div class="closeBanner" id="banner_header"></div>
+<div class="closeBanner" id="banner_header">
+</div>
 <div class="bigbanner" id="banner_area"></div>
 <div id="tweets">
 <div data-role="collapsible">

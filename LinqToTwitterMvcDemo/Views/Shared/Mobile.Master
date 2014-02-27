@@ -20,6 +20,7 @@
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
+              
                drawCal();
                drawNext5(0);
                //renderTweets(5, "mytweets");
@@ -193,9 +194,11 @@
 
 
 
-       function closeBanner1() {
+       function closeBanner() {
            $("#banner_area").html("");
-           $("#banner_header").html("");
+           $("#banner_header").html("")
+           $("#banner_header").hide();
+           $("#banner_area").hide();
        }
 
        function goSetup() {
@@ -505,7 +508,10 @@
        }
 
        function getBanner(type, ID, timeout, screenname) {
-          // alert(ID);
+           // alert(ID);
+           $('#banner_header').show();
+           $("#banner_area").show();
+           var browser_h = parseInt($(document).height())
            if (type == "banner") {
                $.ajax({
                    type: "GET",
@@ -515,7 +521,7 @@
                    success: function (json) {
                        var jsonresp = eval(json);
                        var bannertxt = jsonresp.BannerText;
-                       $('#banner_header').html(screenname);
+                       $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Banner from " + screenname + ":</a>").trigger('create');
                        $('#banner_area').html(bannertxt);
                        clearTimeout(timer1);
                        timer1 = setTimeout(timerStart1, timeout);
@@ -536,7 +542,7 @@
 
            if (type == 'media') {
                var imghtml = "<img src=" + ID + "/>";
-               $('#banner_header').html(screenname);
+               $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Image from " + screenname + ":</a>").trigger('create');
                //<div class="ui-icnput-btn ui-btn ui-btn-b">
         //Close
         //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
