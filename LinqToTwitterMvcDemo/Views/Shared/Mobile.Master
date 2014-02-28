@@ -185,9 +185,10 @@
 
        var timer2;
 
-       function timerStart1(ti) {
-           clearTimeout(timer1);
-           timer1 = setTimeout(closeBanner1, ti);
+       function timerStart1(ID) {
+           //clearTimeout(timer1);
+           //timer1 = setTimeout(closeBanner1, ti);
+           alert("banner for " + ID);
        }
 
        var timerA;
@@ -411,7 +412,7 @@
 
                                    day = fullday + justdate; //needs a day of week number
                                    //alert(day + item.summary);
-                                   $('#' + day).append("<div class=\"term4\">" + stf + " - " + endf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
+                                   $('#' + day).append("<div class=\"term4\">" + stf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
 
@@ -523,8 +524,8 @@
                        var bannertxt = jsonresp.BannerText;
                        $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Banner from " + screenname + ":</a>").trigger('create');
                        $('#banner_area').html(bannertxt);
-                       clearTimeout(timer1);
-                       timer1 = setTimeout(timerStart1, timeout);
+                       //clearTimeout(timer1);
+                       //timer1 = setTimeout(timerStart1, timeout);
                    },
                    error: function (response) {
                        alert(response.responseText);
@@ -548,8 +549,8 @@
         //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
     //</div>
                $('#banner_area').html(imghtml);
-               clearTimeout(timer1);
-               timer1 = setTimeout(timerStart1, 10000);
+               //clearTimeout(timer1);
+               //timer1 = setTimeout(timerStart1, 10000);
            }
 
        }
@@ -594,7 +595,7 @@
                        }
                        if (item.MediaUrl.length > 1) {
                            tweettype = "media";
-                        //  icon = "info";
+                           //  icon = "info";
                            tweetxtra = item.MediaUrl;
                        }
                        if (item.EntityUrl.length > 1) {
@@ -610,8 +611,14 @@
                    var NewDate = new Date();
                    var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
 
+                   if (jsonresp.doBanner == "true") {
+                       bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
+
+                   }
+
                    $('#toptweet').html(jsonresp.latestid);
-                   $('#toptweettime').html(timenow);
+                   var ua = navigator.userAgent;
+                   $('#toptweettime').html(timenow + ua);
                    $('#mytweets').html(tophtml + midhtml_mt + "</ul>").trigger('create');
                    $('#mentions').html(tophtml + midhtml_men + "</ul>").trigger('create');
                    $('#following').html(tophtml + midhtml_f + "</ul>").trigger('create');
@@ -628,6 +635,21 @@
                }
 
            });
+       }
+
+       function timetest(ID) {
+            //alert("hihi" + ID);
+            //clearTimeout(timer1);
+       }
+
+       function bannerWait(timetillbanner,ID,screenname) {
+           
+          // alert(timetillbanner);
+           //timer1 = setTimeout(timerStart1(ID), 5000);
+           setTimeout(function () {
+               getBanner("banner", ID, "5000", screenname);
+           }, timetillbanner)
+           //timer1 = setTimeout(timetest(ID),5000);
        }
 
        function SubmitTwID() {
