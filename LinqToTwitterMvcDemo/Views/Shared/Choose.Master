@@ -34,20 +34,20 @@
 
     function Auth(val,type) {
         if (val == "1") {
-            document.location.href = '/Home/Auth' + type;
+            document.location.href = '/Mobile/Auth' + type;
         } else {
             //delete cookies
-            document.location.href = '/Home/DeleteCookies?type=' + type;
+            document.location.href = '/Mobile/DeleteCookies?type=' + type;
         }
 
     }
 
     function ChangeLoc() {
-        document.location.href = '/Home/DeleteCookies?type=weather';
+        document.location.href = '/Mobile/DeleteCookies?type=weather';
     }
 
     function goFront() {
-        document.location.href = '/';
+        document.location.href = '/Mobile/Index';
     }
 
     function SetLoc() {
@@ -129,7 +129,7 @@
                     }
                     //var location = json['location']['city'];
                     //alert(location);
-                    document.location.href = '/Home/Choose';
+                    document.location.href = '/Mobile/Choose';
                     
                 },
                 error: function (xhr, error) {
@@ -163,7 +163,7 @@
         set_cookie("long",lng,365);
         //alert(lat + "," + lng);
         GetWeather(lat, lng);
-        document.location.href = '/Home/Choose';
+        document.location.href = '/Mobile/Choose';
     }
 
     

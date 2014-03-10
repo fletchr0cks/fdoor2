@@ -31,6 +31,7 @@
       <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="user_ggl" Member="ggls" ThisKey="id" OtherKey="userid" Type="ggl" />
       <Association Name="user_twt" Member="twts" ThisKey="id" OtherKey="userid" Type="twt" />
+      <Association Name="user_device" Member="devices" ThisKey="id" OtherKey="userid" Type="device" />
     </Type>
   </Table>
   <Table Name="dbo.weather" Member="weathers">
@@ -42,6 +43,15 @@
       <Column Name="icon" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="hi" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="lo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.devices" Member="devices">
+    <Type Name="device">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="agent" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="useragent" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="user_device" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

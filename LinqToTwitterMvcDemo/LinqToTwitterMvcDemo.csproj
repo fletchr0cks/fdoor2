@@ -125,6 +125,7 @@
     <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\CalendarEvent.cs" />
     <Compile Include="Models\CalIDs.cs" />
+    <Compile Include="Models\DevicesModel.cs" />
     <Compile Include="Models\DataRepository.cs" />
     <Compile Include="Models\Entities.cs" />
     <Compile Include="Models\fddb.designer.cs">
@@ -411,6 +412,7 @@
     <Content Include="Views\Home\Mobile.aspx" />
     <Content Include="Views\Home\SetTwitterID.aspx" />
     <Content Include="Views\Home\testout.ascx" />
+    <Content Include="Views\Mobile\Choose.aspx" />
     <Content Include="Views\Mobile\Index.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

@@ -20,13 +20,13 @@
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
-              
+
                drawCal();
                drawNext5(0);
                //renderTweets(5, "mytweets");
                twt_check();
                ggl_check();
-
+               users_check();
                var lat = get_cookie("lat");
                var lng = get_cookie("long");
 
@@ -37,7 +37,7 @@
                } else {
                    GetWeather(lat, lng, 0, 1);
                }
-              
+
            });
 
        });
@@ -464,6 +464,31 @@
                        // alert(go_ck);
                        testa(1, 0);
                    }
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+               }
+
+           });
+       }
+
+       function users_check() {
+           var k_html = "";
+           var ch_html = "";
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/getAgents",
+               //data: "latestID=" + latestID,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   k_html = "Kindles:" + jsonresp.kindles;
+                   ch_html = "Chromes:" + jsonresp.chromes;
+                   $('#agentsStats').html(k_html + " " + ch_html);
+
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);

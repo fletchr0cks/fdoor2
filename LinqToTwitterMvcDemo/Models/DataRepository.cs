@@ -68,11 +68,25 @@ namespace LinqToTwitterMvcDemo.Models
             {
                 var g = db.ggls
                   .Where(u => u.userid == userid && u.status > 0)
-                    .First();
+                  .First();
 
                 g.idlist = value;
                 db.SubmitChanges();
             }
+
+        }
+
+      
+
+        public void saveUseragent(string useragent, int userid)
+        {
+
+            device d = new device();
+            d.userid = userid;
+            d.agent = useragent;
+            db.devices.InsertOnSubmit(d);
+            db.SubmitChanges();
+
         }
 
         public void saveT_accesstoken(string value, int userid)

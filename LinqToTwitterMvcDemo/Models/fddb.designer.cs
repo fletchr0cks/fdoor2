@@ -39,6 +39,9 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Insertuser(user instance);
     partial void Updateuser(user instance);
     partial void Deleteuser(user instance);
+    partial void Insertdevice(device instance);
+    partial void Updatedevice(device instance);
+    partial void Deletedevice(device instance);
     #endregion
 		
 		public fddbDataContext() : 
@@ -100,6 +103,14 @@ namespace LinqToTwitterMvcDemo.Models
 			get
 			{
 				return this.GetTable<weather>();
+			}
+		}
+		
+		public System.Data.Linq.Table<device> devices
+		{
+			get
+			{
+				return this.GetTable<device>();
 			}
 		}
 	}
@@ -548,6 +559,8 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private EntitySet<twt> _twts;
 		
+		private EntitySet<device> _devices;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -570,6 +583,7 @@ namespace LinqToTwitterMvcDemo.Models
 		{
 			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
 			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
+			this._devices = new EntitySet<device>(new Action<device>(this.attach_devices), new Action<device>(this.detach_devices));
 			OnCreated();
 		}
 		
@@ -719,6 +733,19 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_device", Storage="_devices", ThisKey="id", OtherKey="userid")]
+		public EntitySet<device> devices
+		{
+			get
+			{
+				return this._devices;
+			}
+			set
+			{
+				this._devices.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -758,6 +785,18 @@ namespace LinqToTwitterMvcDemo.Models
 		}
 		
 		private void detach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_devices(device entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_devices(device entity)
 		{
 			this.SendPropertyChanging();
 			entity.user = null;
@@ -895,6 +934,181 @@ namespace LinqToTwitterMvcDemo.Models
 				{
 					this._lo = value;
 				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.devices")]
+	public partial class device : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _userid;
+		
+		private string _agent;
+		
+		private string _useragent;
+		
+		private EntityRef<user> _user;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnuseridChanging(int value);
+    partial void OnuseridChanged();
+    partial void OnagentChanging(string value);
+    partial void OnagentChanged();
+    partial void OnuseragentChanging(string value);
+    partial void OnuseragentChanged();
+    #endregion
+		
+		public device()
+		{
+			this._user = default(EntityRef<user>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					if (this._user.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnuseridChanging(value);
+					this.SendPropertyChanging();
+					this._userid = value;
+					this.SendPropertyChanged("userid");
+					this.OnuseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_agent", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string agent
+		{
+			get
+			{
+				return this._agent;
+			}
+			set
+			{
+				if ((this._agent != value))
+				{
+					this.OnagentChanging(value);
+					this.SendPropertyChanging();
+					this._agent = value;
+					this.SendPropertyChanged("agent");
+					this.OnagentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_useragent", DbType="VarChar(MAX)")]
+		public string useragent
+		{
+			get
+			{
+				return this._useragent;
+			}
+			set
+			{
+				if ((this._useragent != value))
+				{
+					this.OnuseragentChanging(value);
+					this.SendPropertyChanging();
+					this._useragent = value;
+					this.SendPropertyChanged("useragent");
+					this.OnuseragentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_device", Storage="_user", ThisKey="userid", OtherKey="id", IsForeignKey=true)]
+		public user user
+		{
+			get
+			{
+				return this._user.Entity;
+			}
+			set
+			{
+				user previousValue = this._user.Entity;
+				if (((previousValue != value) 
+							|| (this._user.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._user.Entity = null;
+						previousValue.devices.Remove(this);
+					}
+					this._user.Entity = value;
+					if ((value != null))
+					{
+						value.devices.Add(this);
+						this._userid = value.id;
+					}
+					else
+					{
+						this._userid = default(int);
+					}
+					this.SendPropertyChanged("user");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

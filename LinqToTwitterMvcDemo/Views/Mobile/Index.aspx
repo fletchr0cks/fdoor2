@@ -64,6 +64,11 @@
 </div>
 </div>
 </div>
+<div id="agentsID">
+<div class="ui-body ui-body-a ui-corner-all">
+<div id="agentsStats"></div>
+</div>
+</div>
 <div id="toptweet" style="display:inline-block">20</div>
 <div style="display:inline-block" id="toptweettime"></div>
 </asp:Content>

@@ -85,8 +85,8 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         private static string _GoogleClientId = "651937086252-na99drkmmna0k5purb5h27mnfifvc2tr.apps.googleusercontent.com";
         private static string _GoogleSecret = "l16kKa9wSc6E0oJzeyzRS5Ne";
-        private static string _ReturnUrl_local = "http://localhost:5010/Home/CallBack";
-        private static string _ReturnUrl = "http://FridgeDoor.apphb.com/Home/CallBack";
+        private static string _ReturnUrl_local = "http://localhost:5010/Mobile/CallBack";
+        private static string _ReturnUrl = "http://FridgeDoor.apphb.com/Mobile/CallBack";
 
         public ActionResult checkGglIDlist()
         {
@@ -129,6 +129,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult Choose()
         {
+           
             try
             {
                 string guid_str = Request.Cookies["GUID"].Value;
@@ -165,6 +166,8 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 ViewData["google"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Google')\">Click to Authenticate</div>";
             }
+
+            
 
             return View();
         }
@@ -297,7 +300,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         public ActionResult CallBack(string code, bool? remove)
         {
 
-
+           
             if (string.IsNullOrEmpty(code)) return Content("Missing code");
 
             string Url = "https://accounts.google.com/o/oauth2/token";
@@ -416,6 +419,18 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             dataRepository.saveG_idlist(jsonIDs, userid);
 
+            System.Collections.ArrayList browser_array = Request.Browser.Browsers;
+            String userAgent;
+            var br_str = "";
+            foreach (var br in browser_array)
+            {
+                br_str = br_str + " " + br.ToString();
+            }
+            userAgent = Request.Browser.Platform + " " + Request.Browser.Browser + " " + br_str;
+
+            dataRepository.saveUseragent(userAgent, userid);
+           
+
             ViewData["caldata"] = textout + "kind: " + name + count + idlist + jsonIDs;
 
             return RedirectToAction("AuthGoogle");
@@ -437,6 +452,16 @@ namespace LinqToTwitterMvcDemo.Controllers
             Guid guid = checkGUID();
             var userid = dataRepository.getID(guid);
             dataRepository.saveT_accesstoken(value, userid);
+            System.Collections.ArrayList browser_array = Request.Browser.Browsers;
+            String userAgent;
+            var br_str = "";
+            foreach (var br in browser_array)
+            {
+                br_str = br_str + " " + br.ToString();
+            }
+            userAgent = Request.Browser.Platform + " " + Request.Browser.Browser + " " + br_str;
+
+            dataRepository.saveUseragent(userAgent, userid);
 
         }
 
@@ -454,6 +479,16 @@ namespace LinqToTwitterMvcDemo.Controllers
             var userid = dataRepository.getID(guid);
             dataRepository.saveT_twtid(value, userid);
 
+        }
+
+        public JsonResult getAgents()
+        {
+            var kindles = (from s in db.devices where s.agent.Contains("kindle") select s).Count().ToString();
+            var chromes = (from s in db.devices where s.agent.Contains("chrome") select s).Count().ToString();
+                      //TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                  
+
+            return Json(new { kindles = kindles, chromes = chromes }, JsonRequestBehavior.AllowGet);
         }
 
         public Guid checkGUID()
@@ -553,7 +588,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             SetCookie("TwitterID", id);
 
-            return Redirect("/Home/Index_T");
+            return Redirect("/Mobile/Index_T");
         }
 
         public ActionResult Index_T_old()
@@ -1185,7 +1220,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             if (!auth.IsAuthorized)
             {
                 Uri specialUri = new Uri(Request.Url.ToString());
-                //Uri specialUri = new Uri("http://localhost:5010/Home/DoneTwitterAuth");
+                //Uri specialUri = new Uri("http://localhost:5010/Mobile/DoneTwitterAuth");
                 return auth.BeginAuthorization(specialUri);
             }
 
