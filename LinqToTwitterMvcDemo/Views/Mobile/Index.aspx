@@ -21,6 +21,26 @@
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>
+<div id="welcome" style="display:none">
+<div class="ui-body ui-body-a ui-corner-all">
+<div class="ui-grid-a">
+<div class="ui-block-a"><div style="font-size:30px">Welcome</div>
+    
+    <div>Hi, looks like you have not chosen anything yet.</div>
+    </div>
+    <div class="ui-block-b"><div style="font-size:30px">Get Started</div>
+    <div class="ui-grid-b">
+    
+    <div class="ui-block-a"><p style="font-size:20px">Twitter</p><p>Allows retrieval of Home, Mentions and Own Tweets.</p>
+    <p><button class="ui-btn ui-btn-b ui-btn-inline"">Authenticate</button></p></div>
+     <div class="ui-block-b"><p style="font-size:20px">Google</p><p>Allows retrieval of Google Calendar events</p>
+    <p><button class="ui-btn ui-btn-b ui-btn-inline">Authenticate</button></p></div>
+   <div class="ui-block-c"><p style="font-size:20px">Weather</p><p>Daily forecast for the next 5 days from Accuweather</p></div>
+   <p><button class="ui-btn ui-btn-b ui-btn-inline">Set Location</button></p></div>
+   </div>
+    </div>
+</div>
+</div>
 <div id="tweets" style="display:none">
 <div data-role="collapsible">
     <h2>Tweets</h2>
@@ -64,9 +84,26 @@
 </div>
 </div>
 </div>
+<br />
 <div id="agentsID">
 <div class="ui-body ui-body-a ui-corner-all">
-<div id="agentsStats"></div>
+<div class="ui-grid-a">
+<div class="ui-block-a"><div style="font-size:30px">Users</div>
+    
+    <div style="font-size:30px">147</div>
+    </div>
+    <div class="ui-block-b"><div style="font-size:30px">Devices</div>
+    <div class="ui-grid-d">
+    <div class="ui-block-a"><p style="font-size:20px">Kindles</p><p>22</p></div>
+     <div class="ui-block-b"><p style="font-size:20px">iOS</p><p>2</p></div>
+   <div class="ui-block-c"><p style="font-size:20px">Android</p><p>100</p></div>
+  <div class="ui-block-d"><p style="font-size:20px">Linux</p><p>100</p></div>
+    <div class="ui-block-e"><p style="font-size:20px">Windows</p><p>100</p></div>
+   </div>
+    </div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="toptweet" style="display:inline-block">20</div>

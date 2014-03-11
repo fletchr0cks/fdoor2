@@ -20,6 +20,7 @@
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
+               $('#welcome').show();
                saveLogin();
                drawCal();
                drawNext5(0);
