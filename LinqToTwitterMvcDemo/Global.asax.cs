@@ -15,7 +15,7 @@ namespace LinqToTwitterMvcDemo
             routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Home", action = "SiteHome", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Mobile", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }
