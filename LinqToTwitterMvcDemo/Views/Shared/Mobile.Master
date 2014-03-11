@@ -20,7 +20,7 @@
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
-
+               saveLogin();
                drawCal();
                drawNext5(0);
                //renderTweets(5, "mytweets");
@@ -499,6 +499,25 @@
 
            });
        }
+
+       function saveLogin() {
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/saveLogin",
+               dataType: "json",
+               success: function (json) {
+               
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+               }
+
+           });
+       }
+
 
 
        function twt_check() {

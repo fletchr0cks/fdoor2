@@ -948,9 +948,9 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private int _userid;
 		
-		private string _agent;
-		
 		private string _useragent;
+		
+		private System.Nullable<System.DateTime> _lastlogin;
 		
 		private EntityRef<user> _user;
 		
@@ -962,10 +962,10 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnidChanged();
     partial void OnuseridChanging(int value);
     partial void OnuseridChanged();
-    partial void OnagentChanging(string value);
-    partial void OnagentChanged();
     partial void OnuseragentChanging(string value);
     partial void OnuseragentChanged();
+    partial void OnlastloginChanging(System.Nullable<System.DateTime> value);
+    partial void OnlastloginChanged();
     #endregion
 		
 		public device()
@@ -1018,26 +1018,6 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_agent", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string agent
-		{
-			get
-			{
-				return this._agent;
-			}
-			set
-			{
-				if ((this._agent != value))
-				{
-					this.OnagentChanging(value);
-					this.SendPropertyChanging();
-					this._agent = value;
-					this.SendPropertyChanged("agent");
-					this.OnagentChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_useragent", DbType="VarChar(MAX)")]
 		public string useragent
 		{
@@ -1054,6 +1034,26 @@ namespace LinqToTwitterMvcDemo.Models
 					this._useragent = value;
 					this.SendPropertyChanged("useragent");
 					this.OnuseragentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastlogin", DbType="DateTime")]
+		public System.Nullable<System.DateTime> lastlogin
+		{
+			get
+			{
+				return this._lastlogin;
+			}
+			set
+			{
+				if ((this._lastlogin != value))
+				{
+					this.OnlastloginChanging(value);
+					this.SendPropertyChanging();
+					this._lastlogin = value;
+					this.SendPropertyChanged("lastlogin");
+					this.OnlastloginChanged();
 				}
 			}
 		}

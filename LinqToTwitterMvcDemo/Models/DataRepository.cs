@@ -83,7 +83,8 @@ namespace LinqToTwitterMvcDemo.Models
 
             device d = new device();
             d.userid = userid;
-            d.agent = useragent;
+            d.useragent = useragent;
+            d.lastlogin = DateTime.Now;
             db.devices.InsertOnSubmit(d);
             db.SubmitChanges();
 

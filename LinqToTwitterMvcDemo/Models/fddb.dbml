@@ -49,8 +49,8 @@
     <Type Name="device">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="userid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="agent" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="useragent" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="lastlogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="user_device" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>
   </Table>
