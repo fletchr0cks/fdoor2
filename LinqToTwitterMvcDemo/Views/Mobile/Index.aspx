@@ -21,7 +21,7 @@
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>
-<div id="tweets">
+<div id="tweets" style="display:none">
 <div data-role="collapsible">
     <h2>Tweets</h2>
         <ul data-role="listview" data-theme="a" data-divider-theme="b">
@@ -34,7 +34,7 @@
         </ul>
     </div>
 </div>
-<div id="calblock">
+<div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
     <div class="ui-block-a"><div style="font-size:20px" id="chosenDay">Today</div>

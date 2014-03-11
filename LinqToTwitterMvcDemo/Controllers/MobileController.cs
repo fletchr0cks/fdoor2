@@ -134,14 +134,17 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 string guid_str = Request.Cookies["GUID"].Value;
                 Guid guid = new Guid(guid_str);
+                var userid = dataRepository.getID(guid);
                 string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
                 if (tname == null)
                 {
                     ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(1,'Twitter')\">Click to Authenticate</div>";
+                    //ViewData["twdata"] = "Not auth ... Guid: " + guid + " ID: " + userid;
                 }
                 else
                 {
                     ViewData["twitter"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Twitter')\">Using " + tname + ", click to Disable</div>";
+                    //ViewData["twdata"] = "Guid: " + guid + " ID: " + userid;
                 }
             }
             catch
@@ -159,8 +162,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                 JObject o = JObject.Parse(JsonIDs);
                 JArray items = (JArray)o["items"];
                 var names = Convert.ToString(o["Fullname"]);
-
+                var userid = dataRepository.getID(guid);
                 ViewData["google"] = "<div class=\"term3\" style=\"cursor:pointer\" onclick=\"Auth(0,'Google')\">Using " + names + ", click to Disable</div>";
+                //ViewData["godata"] = "Guid: " + guid + " ID: " + userid;
             }
             catch
             {
@@ -192,7 +196,14 @@ namespace LinqToTwitterMvcDemo.Controllers
                     //have refresh token, get new access token
                     //do GUID cookie check
                     var granted = Request.Cookies["Granted"].Value;
-                    return Redirect("/Mobile/GoogleRefresh");
+                    if (granted == "True")
+                    {
+                        return Redirect("/Mobile/GoogleRefresh");
+                    }
+                    else
+                    {
+                        return Redirect(GenerateGoogleOAuthUrl());
+                    }
                 }
                 catch
                 {
@@ -438,10 +449,11 @@ namespace LinqToTwitterMvcDemo.Controllers
             //{
               //  br_str = br_str + " " + br.ToString();
             //}
+            var UAmax = Request.UserAgent;
             userAgent = Request.Browser.Platform + " " + Request.Browser.Browser;
             Guid guid = checkGUID();
             var userid = dataRepository.getID(guid);
-            dataRepository.saveUseragent(userAgent, userid);
+            dataRepository.saveUseragent(userAgent, userid, UAmax);
            
 
         }
@@ -481,8 +493,8 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public JsonResult getAgents()
         {
-            var kindles = (from s in db.devices where s.useragent.Contains("kindle") select s).Count().ToString();
-            var chromes = (from s in db.devices where s.useragent.Contains("chrome") select s).Count().ToString();
+            var kindles = (from s in db.devices where s.UAmax.Contains("kindle") select s).Count().ToString();
+            var chromes = (from s in db.devices where s.UAmax.Contains("chrome") select s).Count().ToString();
                       //TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                   
 
@@ -703,6 +715,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 dataRepository.del_ggl(userid);
                 Session["GoogleAPIToken"] = "";
+                SetCookie("Granted", "False");
             }
 
             if (type == "weather")

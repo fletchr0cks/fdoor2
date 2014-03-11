@@ -16,6 +16,7 @@
     </td>
     <td style="height:60px">
      <%= ViewData["twitter"]%>
+     <%= ViewData["twdata"]%>
     </td>
     </tr>
      <tr>
@@ -24,6 +25,7 @@
     </td>
     <td style="height:60px">
       <%= ViewData["google"]%>
+      <%= ViewData["godata"]%>
     </td>
     </tr> <tr>
     <td>

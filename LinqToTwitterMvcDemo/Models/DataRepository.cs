@@ -78,13 +78,14 @@ namespace LinqToTwitterMvcDemo.Models
 
       
 
-        public void saveUseragent(string useragent, int userid)
+        public void saveUseragent(string useragent, int userid, string UAmax)
         {
 
             device d = new device();
             d.userid = userid;
             d.useragent = useragent;
             d.lastlogin = DateTime.Now;
+            d.UAmax = UAmax;
             db.devices.InsertOnSubmit(d);
             db.SubmitChanges();
 

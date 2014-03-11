@@ -31,6 +31,7 @@
                var lng = get_cookie("long");
 
                if (lat == null) {
+                   $('#weather_next5').hide()
                    //  $('#towns').show();
                    //getTowns();
                    //alert("towns");
@@ -162,7 +163,7 @@
            
            var timerB;
 
-           document.getElementById('flip-weather').value = "no";
+           
 
            $("#flip-twitter").keyup(function () {
                clearTimeout(timerA);
@@ -459,9 +460,13 @@
                    idlist = jsonresp.IDlist;
                    if (idlist == "No GUID") {
                        //alert(idlist);
-                       goSetup();
+                       //goSetup();
+                       document.getElementById('flip-calendar').value = "no";
                    } else {
                        // alert(go_ck);
+                       //document.getElementById('flip-calendar').value = "yes";
+                       $('#flip-calendar').val('yes').slider('refresh');
+                       $('#calblock').show();
                        testa(1, 0);
                    }
                },
@@ -532,13 +537,13 @@
                    idlist = jsonresp.ID;
                    //alert(idlist);
                    if (idlist == "No GUID") {
-
-                       goSetup();
+                     
                    } else if (idlist == "No Twitter") {
-                       //alert(idlist);
-
+                      
                    } else {
                        //alert(idlist);
+                       $('#flip-twitter').val('yes').slider('refresh');
+                       $('#tweets').show()
                        getTweets();
                    }
                },
@@ -572,11 +577,11 @@
                        //timer1 = setTimeout(timerStart1, timeout);
                    },
                    error: function (response) {
-                       alert(response.responseText);
+                       //alert(response.responseText);
                        var r = jQuery.parseJSON(response.responseText);
-                       alert("Message: " + r.Message);
-                       alert("StackTrace: " + r.StackTrace);
-                       alert("ExceptionType: " + r.ExceptionType);
+                       //alert("Message: " + r.Message);
+                       //alert("StackTrace: " + r.StackTrace);
+                       //alert("ExceptionType: " + r.ExceptionType);
                        // console.debug(xhr); console.debug(error);
                    },
                    complete: function (xhr, status) {
@@ -668,11 +673,11 @@
                    $('#following').html(tophtml + midhtml_f + "</ul>").trigger('create');
                },
                error: function (response) {
-                   alert(response.responseText);
+                   //alert(response.responseText);
                    var r = jQuery.parseJSON(response.responseText);
-                   alert("Message: " + r.Message);
-                   alert("StackTrace: " + r.StackTrace);
-                   alert("ExceptionType: " + r.ExceptionType);
+                   //alert("Message: " + r.Message);
+                   //alert("StackTrace: " + r.StackTrace);
+                   //alert("ExceptionType: " + r.ExceptionType);
                    // console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
@@ -870,18 +875,16 @@
            var flipW = document.getElementById('flip-weather').value;
            var flipN = document.getElementById('flip-news').value;
            var flipC = document.getElementById('flip-calendar').value;
-           // alert(val + id);
-           if (flipT == "yes" && flipC == "no") {
-               renderTweets(12, "mytweets");
-               renderTweets(12, "following");
-               renderTweets(12, "mentions");
-               $('#calblock').hide();
-           }
-           if (flipC == "yes") {
-               renderTweets(5, "mytweets");
-               renderTweets(5, "following");
-               renderTweets(5, "mentions");
-               $('#calblock').show();
+          // alert(val + id);
+
+           if (id == "flip-calendar") {
+               if (val == "no") {
+                   $('#calblock').hide()
+               }
+               if (val == "yes") {
+                   $('#calblock').show()
+                   //$("#mentions").trigger('collapse');
+               }
            }
 
            if (id == "flip-twitter") {
@@ -890,9 +893,18 @@
                }
                if (val == "yes") {
                    $('#tweets').show()
-                   $("#mentions").trigger('collapse');
+                   //$("#mentions").trigger('collapse');
                }
+           }
 
+           if (id == "flip-weather") {
+               if (val == "no") {
+                   $('#weather_next5').hide()
+               }
+               if (val == "yes") {
+                   $('#weather_next5').show()
+                  
+               }
            }
        }
 
@@ -902,7 +914,7 @@
 	   for(var i=0; i<str.length; i++)
 	   {
 	      var nextChar = str.charAt(i);
-	      alert(nextChar)
+	      //alert(nextChar)
 	   }
 }
 function formatDate(num) {
@@ -1241,19 +1253,19 @@ function backFillCal(startrow) {
     <div class="displayslider">
       <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Twitter</option>
-	<option value="yes" selected="selected">Twitter</option>
+	<option value="yes">Twitter</option>
 </select>
 </div>
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-calendar" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Calendar</option>
-	<option value="yes" selected="selected">Calendar</option>
+	<option value="yes">Calendar</option>
 </select>
 </div>
 <div class="displayslider">
     <select data-mini="true" name="slider" id="flip-news" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">News</option>
-	<option value="yes" selected="selected">News</option>
+	<option value="yes">News</option>
 </select>
 </div>
 <div class="displayslider">

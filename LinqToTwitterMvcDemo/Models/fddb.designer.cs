@@ -952,6 +952,8 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private System.Nullable<System.DateTime> _lastlogin;
 		
+		private string _UAmax;
+		
 		private EntityRef<user> _user;
 		
     #region Extensibility Method Definitions
@@ -966,6 +968,8 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnuseragentChanged();
     partial void OnlastloginChanging(System.Nullable<System.DateTime> value);
     partial void OnlastloginChanged();
+    partial void OnUAmaxChanging(string value);
+    partial void OnUAmaxChanged();
     #endregion
 		
 		public device()
@@ -1054,6 +1058,26 @@ namespace LinqToTwitterMvcDemo.Models
 					this._lastlogin = value;
 					this.SendPropertyChanged("lastlogin");
 					this.OnlastloginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UAmax", DbType="NVarChar(MAX)")]
+		public string UAmax
+		{
+			get
+			{
+				return this._UAmax;
+			}
+			set
+			{
+				if ((this._UAmax != value))
+				{
+					this.OnUAmaxChanging(value);
+					this.SendPropertyChanging();
+					this._UAmax = value;
+					this.SendPropertyChanged("UAmax");
+					this.OnUAmaxChanged();
 				}
 			}
 		}
