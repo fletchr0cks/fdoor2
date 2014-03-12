@@ -65,6 +65,152 @@
            // alert(tw_ck + go_ck);
        }
 
+       function Auth(val, type) {
+           if (val == "1") {
+               document.location.href = '/Mobile/Auth' + type;
+           } else {
+               //delete cookies
+               document.location.href = '/Mobile/DeleteCookies?type=' + type;
+           }
+
+       }
+
+       function ChangeLoc() {
+           document.location.href = '/Mobile/DeleteCookies?type=weather';
+       }
+
+       function SetLoc() {
+           // $('#locBtn').html("");
+           var html = "<div id=\"towns\"><input type=\"text\" id=\"town\" value=\"North Berwick\" />" +
+                "<button onclick=\"setTown()\" class=\"ui-btn ui-btn-b ui-shadow ui-corner-all ui-icon-search\">Search</button></div>";
+                //"<div id=\"townmsg\"><div><div id=\"townlist\"><div>";
+           $('#setLocation').html(html).trigger('create');
+       }
+
+       function SaveLoc(lat, lng, loc) {
+           set_cookie("lat", lat, 365);
+           set_cookie("long", lng, 365);
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/saveLocation",
+               data: "lat=" + lat + "&lng=" + lng + "&loc=" + loc,
+               dataType: "json",
+               success: function (json) {
+
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+               }
+
+           });
+           //alert(lat + "," + lng);
+           GetWeather(lat, lng, 0, 1);
+           document.location.href = '/';
+       }
+
+
+       function setTown() {
+           var town = document.getElementById('town').value;
+           //alert(town);
+           var html = "";
+           $("#townlist").html("Searching ...").trigger('create');
+           $.ajax({
+               type: "GET",
+               url: "http://api.geonames.org/search?q=" + town + "&maxRows=10&username=fletch1&type=json&orderby=relevance",
+               //url: "http://api.geonames.org/findNearbyPlaceNameJSON?lat=" + lat + "&lng=" + lng + "&username=fletch1",
+               dataType: "jsonp",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   $.each(jsonresp.geonames, function (i, geo) {
+                       //alert(geo.lat);
+                       //var html = "<div onclick=/Home/SaveLatLong?lat=" + geo.lat + "&lng=" + geo.lng + ">" + geo.toponymName + ", " + geo.adminName1 + ", " + geo.countryName + "</div>";
+                       // town = geo.toponymName;
+                       html = html + "<div style=\"cursor:pointer\" onclick=\"SaveLoc(" + geo.lat + "," + geo.lng + ",'" + geo.toponymName + "')\"><strong>" + geo.toponymName + "</strong>, " + geo.adminName1 + ", " + geo.countryName + "</div>";
+                       // adminName1
+                       // countryNam  
+                   });
+                   //alert(html);
+                   $("#townmsg").html("<br /><div style=\"font-size:20px\"><strong>Please select a location, or search again.</strong></div>");
+                   $("#townlist").html(html).trigger('create');
+                   //SaveNewLocation(lat, lng, town);
+
+               },
+               error: function (xhr, error) {
+                  // console.debug(xhr); console.debug(error);
+                  // alert(xhr + "  " + error);
+               },
+               complete: function (xhr, status) {
+                  // console.debug(xhr); console.debug(status);
+                  // alert(xhr + " complete" + status);
+
+               }
+
+           });
+       }
+
+       function GetWeather_old(lat, lng) {
+           $('#flip-weather').val('yes').slider('refresh');
+           $('#weather').html("");
+           //set_cookie("teststore", "val", 1);
+           var NewDate = new Date();
+           var loc = lat + "," + lng;
+           var ck = get_cookie("day0");
+           //alert("ck=" + ck);
+           if (ck == null) {
+               //alert("ck is null");
+               //$('#weather').html(loc);
+               $.ajax({
+                   type: "GET",
+                   url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
+                   dataType: "jsonp",
+                   success: function (json) {
+                       //var json = eval('(' + jsontxt + ')');
+                       //var jsontext = JSON.stringify(json);
+                       // $.each(json.Id, function (i, idlist) {
+                       //alert(jsontext);
+                       //});
+                       var i = 0;
+                       while (i < 8) {
+                           var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
+                           var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
+                           if (i > 0 && i < 4) {
+                               //  alert(i);
+                               var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
+                               var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
+                               set_cookie("hi" + i, high, 1);
+                               set_cookie("lo" + i, low, 1);
+                               //alert(high + " " + low);
+                           }
+                           set_cookie("day" + i, text, 1);
+                           set_cookie("icon" + i, icon, 1);
+
+                           i++;
+                       }
+                       //var location = json['location']['city'];
+                       //alert(location);
+                       //document.location.href = '/Mobile/Choose';
+
+                   },
+                   error: function (xhr, error) {
+                       console.debug(xhr); console.debug(error);
+                       //alert(xhr + "  " + error);
+                   },
+                   complete: function () {
+
+                   }
+
+               });
+
+           } else {
+
+
+           }
+
+       }
+
        function testa(max, min) {
            $('#chosenDay').html("<strong>" + formatDateFull(min) + "</strong>");
            var idlistj = get_cookie("IDList");
@@ -209,6 +355,7 @@
        }
 
        function GetWeather(lat, lng, min, max) {
+           $('#flip-weather').val('yes').slider('refresh');
            $('#weather').html("");
            //set_cookie("teststore", "val", 1);
            var NewDate = new Date();
@@ -538,13 +685,13 @@
                    idlist = jsonresp.ID;
                    //alert(idlist);
                    if (idlist == "No GUID") {
-                     
+
                    } else if (idlist == "No Twitter") {
-                      
+
                    } else {
                        //alert(idlist);
                        $('#flip-twitter').val('yes').slider('refresh');
-                       $('#tweets').show()
+                       $('#tweets').show();
                        getTweets();
                    }
                },
@@ -676,10 +823,10 @@
                error: function (response) {
                    //alert(response.responseText);
                    var r = jQuery.parseJSON(response.responseText);
-                   //alert("Message: " + r.Message);
-                   //alert("StackTrace: " + r.StackTrace);
-                   //alert("ExceptionType: " + r.ExceptionType);
-                   // console.debug(xhr); console.debug(error);
+                   alert("Message: " + r.Message);
+                   alert("StackTrace: " + r.StackTrace);
+                   alert("ExceptionType: " + r.ExceptionType);
+                   console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
                }
@@ -876,7 +1023,11 @@
            var flipW = document.getElementById('flip-weather').value;
            var flipN = document.getElementById('flip-news').value;
            var flipC = document.getElementById('flip-calendar').value;
-          // alert(val + id);
+           // alert(val + id);
+
+           if (flipW == "yes" && flipC == "no") {
+               $('#weatherbloc').show();
+           }
 
            if (id == "flip-calendar") {
                if (val == "no") {
@@ -900,10 +1051,12 @@
 
            if (id == "flip-weather") {
                if (val == "no") {
-                   $('#weather_next5').hide()
+                   $('#weather_next5').hide();
+                   $('#weather').hide();
                }
                if (val == "yes") {
-                   $('#weather_next5').show()
+                   $('#weather').show();
+                   $('#weather_next5').show();
                   
                }
            }

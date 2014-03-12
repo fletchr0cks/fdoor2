@@ -23,6 +23,25 @@ namespace LinqToTwitterMvcDemo.Models
             return user;
         }
 
+        public string getLatLng(int userid)
+        {
+            var user = from u in db.users
+                        where (u.id == userid)
+                        select u;
+            var latlng = user.First().lat + "," + user.First().lng;
+            return latlng;
+        }
+
+        public string getLocation(int userid)
+        {
+            var user = from u in db.users
+                       where (u.id == userid)
+                       select u;
+            var loc = user.First().location;
+            return loc;
+        }
+
+
         public int checkUserGgl(int userid)
         {
             var user = (from u in db.ggls
@@ -87,6 +106,21 @@ namespace LinqToTwitterMvcDemo.Models
             d.lastlogin = DateTime.Now;
             d.UAmax = UAmax;
             db.devices.InsertOnSubmit(d);
+            db.SubmitChanges();
+
+        }
+
+        public void saveLocation(string lat, string lng, int userid, string location)
+        {
+
+            var users = db.users
+                  .Where(u => u.id == userid)
+                  .First();
+
+            users.lat = lat;
+            users.lng = lng;
+            users.location = location;
+           // db.users.InsertOnSubmit(users);
             db.SubmitChanges();
 
         }

@@ -8,9 +8,9 @@
 
 <div data-role="header">
 
- <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-delete">Setup</a>
+ <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-gear">Setup</a>
 <h1>Fridge Door</h1>
-<button class="ui-btn-right ui-btn ui-btn-a ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Refresh
+<button class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Refresh
 </button>
 </div>
 
@@ -24,16 +24,20 @@
 <div id="welcome" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">Get Started</div>
-<div class="ui-grid-b">    
+<p>Welcome to Fridge Door.</p>
+<div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
      <%= ViewData["twitter"]%>
-   
     </div>
-        <div class="ui-block-b"><div style="font-size:20px">Twitter</div><div>Allows retrieval of Home, Mentions and Own Tweets.</div>
-    <button class="ui-btn ui-btn-b ui-btn-inline">Authenticate</button></div>
-    <div class="ui-block-c"><div style="font-size:20px">Twitter</div><div>Allows retrieval of Home, Mentions and Own Tweets.</div>
-    <button class="ui-btn ui-btn-b ui-btn-inline">Authenticate</button></div>
+     <div class="ui-block-b"><div style="font-size:20px">Google</div>
+      <%= ViewData["google"]%>
+     </div>
+    <div class="ui-block-c"><div style="font-size:20px">Location</div>
+     <div id="setLocation"><%= ViewData["location"]%></div>
+     
+    </div>
    </div>
+   <div id="townmsg"></div><div id="townlist"></div>
    </div>
 </div>
 <div id="tweets" style="display:none">
@@ -70,14 +74,17 @@
 </div>
 </div>
 <div id="weather"></div>
-</div>
-<br/>
-<div class="ui-body ui-body-a ui-corner-all">
+
 <div id="calendar_next5">
 </div>
 <div id="weather_next5">
 </div>
 </div>
+</div>
+<div id="weatherbloc" style="display:none">
+<div style="font-size:20px" id="weatherday">Today</div>
+<div id="weatherb">day b</div>
+<div id="weather_next5b">next 5 b</div>
 </div>
 <br />
 <div id="agentsID">
