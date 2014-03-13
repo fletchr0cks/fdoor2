@@ -457,12 +457,12 @@
                    //type = refresh
                    var typej = jsonresp['type'];
                    if (typej == "refresh") {
-                       //alert("refreshing");
+                       alert("refreshing");
                        window.location.href = '/Mobile/GoogleRefresh';
                    } else {
                        var summary = jsonresp['summary'];
 
-                       // alert(jsonresp.items.count());
+                       alert("not refreshing");
                        var item_ct = 0;
                        for (_obj in jsonresp.items) item_ct++;
                        //alert(item_ct);
@@ -502,6 +502,9 @@
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
+                   alert("Message: " + xhr.Message);
+                   alert("StackTrace: " + xhr.StackTrace);
+                   alert("ExceptionType: " + xhr.ExceptionType);
                },
                complete: function (xhr, status) {
                }
@@ -604,7 +607,7 @@
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
-                   //alert(jsonresp.IDlist);
+                   alert(jsonresp.IDlist);
                    idlist = jsonresp.IDlist;
                    if (idlist == "No GUID") {
                        //alert(idlist);
