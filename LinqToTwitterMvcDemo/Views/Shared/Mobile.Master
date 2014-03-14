@@ -214,6 +214,7 @@
        function testa(max, min) {
            $('#chosenDay').html("<strong>" + formatDateFull(min) + "</strong>");
            var idlistj = get_cookie("IDList");
+           alert("cookie = " + idlistj;
            var browser_w = parseInt($(document).width()) - 60;
            var browser_h = parseInt($(document).height()) - 80;
            $('#iframe1').css('width', browser_w.toString() + 'px');
@@ -607,7 +608,7 @@
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
-                   alert(jsonresp.IDlist);
+                   alert("ggl check=" + jsonresp.IDlist);
                    idlist = jsonresp.IDlist;
                    if (idlist == "No GUID") {
                        //alert(idlist);
@@ -616,9 +617,10 @@
                    } else {
                        // alert(go_ck);
                        //document.getElementById('flip-calendar').value = "yes";
+                       testa(1, 0);
                        $('#flip-calendar').val('yes').slider('refresh');
                        $('#calblock').show();
-                       testa(1, 0);
+                       
                    }
                },
                error: function (xhr, error) {
