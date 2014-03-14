@@ -21,13 +21,15 @@
                    //alert("collapsed");
                }
                $('#welcome').show();
-               saveLogin();
-               drawCal();
-               drawNext5(0);
-               //renderTweets(5, "mytweets");
-               twt_check();
-               ggl_check();
-               users_check();
+               var cookielist = listCookies();
+               $('#cookies').html(cookielist);
+              // saveLogin();
+              // drawCal();
+              // drawNext5(0);
+               
+              // twt_check();
+             //  ggl_check();
+             //  users_check();
                var lat = get_cookie("lat");
                var lng = get_cookie("long");
 
@@ -37,7 +39,7 @@
                    //getTowns();
                    //alert("towns");
                } else {
-                   GetWeather(lat, lng, 0, 1);
+              //     GetWeather(lat, lng, 0, 1);
                }
 
            });
@@ -615,7 +617,10 @@
                    } else {
                        // alert(go_ck);
                        //document.getElementById('flip-calendar').value = "yes";
-                       set_cookie("IDlist", idlist, 365);
+                       var idlistcookie = get_cookie("IDList");
+                       if (idlistcookie == null) {
+                           //set_cookie("IDlist", idlist, 365);
+                       }
                        testa(1, 0);
                        $('#flip-calendar').val('yes').slider('refresh');
                        $('#calblock').show();
@@ -1316,8 +1321,18 @@ function backFillCal(startrow) {
                 return null;
         }
 
+        function listCookies() {
+            var theCookies = document.cookie.split(';');
+            var aString = '';
+            for (var i = 1; i <= theCookies.length; i++) {
+                aString += i + ' ' + theCookies[i - 1] + "<br/>";
+            }
+            return aString;
+        }
+
         function set_cookie(name, value, days) {
             //value = "data here";
+            alert("set cookie: " + name + " " + value);
             var date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             var expires = "; expires=" + date.toGMTString();
