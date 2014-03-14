@@ -214,7 +214,7 @@
        function testa(max, min) {
            $('#chosenDay').html("<strong>" + formatDateFull(min) + "</strong>");
            var idlistj = get_cookie("IDList");
-           alert("cookie = " + idlistj;
+           alert("cookie = " + idlistj);
            var browser_w = parseInt($(document).width()) - 60;
            var browser_h = parseInt($(document).height()) - 80;
            $('#iframe1').css('width', browser_w.toString() + 'px');
