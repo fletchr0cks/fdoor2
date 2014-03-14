@@ -23,13 +23,13 @@
                $('#welcome').show();
                var cookielist = listCookies();
                $('#cookies').html(cookielist);
-              // saveLogin();
-              // drawCal();
-              // drawNext5(0);
+               saveLogin();
+               drawCal();
+               drawNext5(0);
                
-              // twt_check();
-             //  ggl_check();
-             //  users_check();
+               twt_check();
+               ggl_check();
+               users_check();
                var lat = get_cookie("lat");
                var lng = get_cookie("long");
 
@@ -39,7 +39,7 @@
                    //getTowns();
                    //alert("towns");
                } else {
-              //     GetWeather(lat, lng, 0, 1);
+                  GetWeather(lat, lng, 0, 1);
                }
 
            });
@@ -285,8 +285,9 @@
                //alert(n1 + "..." + end);
                var n2 = parseInt(n1 + 1);
                var day = formatDateDay(n1);
+               var daynum = formatDate(n1);
                var dispday = formatDateNext(n1);
-               dispday = dispday.substring(0, 3);
+               dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
                calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
@@ -301,8 +302,10 @@
            }
 
            $('#calendar_next5').html(calnext5 + "</div>").trigger('create');
-           $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
-
+           var ckcheck = get_cookie("lat");
+           if (ckcheck != null) {
+               $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
+           }
        }
 
 
@@ -418,7 +421,7 @@
             "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
                        //alert(htmltable);
                        $('#weather').append(htmltable);
-
+                       //next 5 ???
                        var epoch = Math.round(new Date().getTime() / 1000)
 
                    },
@@ -610,17 +613,13 @@
                    var jsonresp = eval(json);
                    //alert("ggl check=" + jsonresp.IDlist);
                    idlist = jsonresp.IDlist;
-                   if (idlist == "No GUID") {
+                   if (idlist == "No IDList") {
                        //alert(idlist);
                        //goSetup();
                        document.getElementById('flip-calendar').value = "no";
                    } else {
                        // alert(go_ck);
                        //document.getElementById('flip-calendar').value = "yes";
-                       var idlistcookie = get_cookie("IDList");
-                       if (idlistcookie == null) {
-                           //set_cookie("IDlist", idlist, 365);
-                       }
                        testa(1, 0);
                        $('#flip-calendar').val('yes').slider('refresh');
                        $('#calblock').show();
@@ -1332,7 +1331,7 @@ function backFillCal(startrow) {
 
         function set_cookie(name, value, days) {
             //value = "data here";
-            alert("set cookie: " + name + " " + value);
+            //alert("set cookie: " + name + " " + value);
             var date = new Date();
             date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             var expires = "; expires=" + date.toGMTString();

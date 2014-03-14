@@ -32,6 +32,24 @@ namespace LinqToTwitterMvcDemo.Models
             return latlng;
         }
 
+        public string getLat(int userid)
+        {
+            var user = from u in db.users
+                       where (u.id == userid)
+                       select u;
+            var lat = user.First().lat;
+            return lat;
+        }
+
+        public string getLng(int userid)
+        {
+            var user = from u in db.users
+                       where (u.id == userid)
+                       select u;
+            var lng = user.First().lng;
+            return lng;
+        }
+
         public string getLocation(int userid)
         {
             var user = from u in db.users
@@ -48,6 +66,25 @@ namespace LinqToTwitterMvcDemo.Models
                         where (u.userid == userid && u.status > 0)
                         select u).Count();
             return user;
+        }
+
+        public int checkGUIDzc(Guid guid)
+        {
+            var user = (from u in db.users
+                        where (u.guid == guid)
+                        select u).Count();
+            return user;
+        }
+
+
+        public string getG_refresh(int userid)
+        {
+            var user = from u in db.ggls
+                       where (u.id == userid)
+                       select u;
+            var token = user.First().refreshtoken;
+            return token;
+
         }
 
         public void saveG_refresh(string value, int userid)

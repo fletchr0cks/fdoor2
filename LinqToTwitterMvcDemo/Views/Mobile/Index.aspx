@@ -91,11 +91,11 @@
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">147 Users</div>
     <div class="ui-grid-d">
-    <div class="ui-block-a"><p style="font-size:20px">Kindle</p><p>22</p></div>
-     <div class="ui-block-b"><p style="font-size:20px">iOS</p><p>2</p></div>
-   <div class="ui-block-c"><p style="font-size:20px">Android</p><p>100</p></div>
-  <div class="ui-block-d"><p style="font-size:20px">Linux</p><p>100</p></div>
-    <div class="ui-block-e"><p style="font-size:20px">Windows</p><p>100</p></div>
+    <div class="ui-block-a"><p style="font-size:16px">Kindle</p><p>22</p></div>
+     <div class="ui-block-b"><p style="font-size:16px">iOS</p><p>2</p></div>
+   <div class="ui-block-c"><p style="font-size:16px">Android</p><p>100</p></div>
+  <div class="ui-block-d"><p style="font-size:16px">Linux</p><p>100</p></div>
+    <div class="ui-block-e"><p style="font-size:16px">Windows</p><p>100</p></div>
    </div>
     </div>
 </div>
