@@ -601,6 +601,8 @@
 
 
        function ggl_check() {
+           var idcookie = get_cookie("GUID");
+           alert(idcookie);
            $.ajax({
                type: "GET",
                url: "/Mobile/checkGglIDlist",
@@ -608,7 +610,7 @@
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
-                   alert("ggl check=" + jsonresp.IDlist);
+                   //alert("ggl check=" + jsonresp.IDlist);
                    idlist = jsonresp.IDlist;
                    if (idlist == "No GUID") {
                        //alert(idlist);
