@@ -284,7 +284,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             else
             {
-                return RedirectToAction("Choose");
+                return RedirectToAction("Index");
             }
 
         }
@@ -764,7 +764,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
             if (TwID != null)
             {
-                return RedirectToAction("Choose");
+                return RedirectToAction("Index");
 
             }
             else
@@ -790,6 +790,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 dataRepository.del_ggl(userid);
                 Session["GoogleAPIToken"] = "";
                 SetCookie("Granted", "False");
+                DelCookie("IDlist", "");
             }
 
             if (type == "weather")
@@ -800,7 +801,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             }
 
-            return RedirectToAction("Choose");
+            return RedirectToAction("Index");
         }
 
         public ActionResult SiteHome()

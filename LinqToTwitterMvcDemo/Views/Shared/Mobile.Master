@@ -503,9 +503,7 @@
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
-                   alert("Message: " + xhr.Message);
-                   alert("StackTrace: " + xhr.StackTrace);
-                   alert("ExceptionType: " + xhr.ExceptionType);
+                  
                },
                complete: function (xhr, status) {
                }
@@ -601,8 +599,6 @@
 
 
        function ggl_check() {
-           var idcookie = get_cookie("GUID");
-           alert(idcookie);
            $.ajax({
                type: "GET",
                url: "/Mobile/checkGglIDlist",
@@ -619,10 +615,11 @@
                    } else {
                        // alert(go_ck);
                        //document.getElementById('flip-calendar').value = "yes";
+                       set_cookie("IDlist", idlist, 365);
                        testa(1, 0);
                        $('#flip-calendar').val('yes').slider('refresh');
                        $('#calblock').show();
-                       
+
                    }
                },
                error: function (xhr, error) {
@@ -829,11 +826,8 @@
                },
                error: function (response) {
                    //alert(response.responseText);
-                   var r = jQuery.parseJSON(response.responseText);
-                   alert("Message: " + r.Message);
-                   alert("StackTrace: " + r.StackTrace);
-                   alert("ExceptionType: " + r.ExceptionType);
-                   console.debug(xhr); console.debug(error);
+                   //var r = jQuery.parseJSON(response.responseText);
+                
                },
                complete: function (xhr, status) {
                }
