@@ -20,9 +20,9 @@
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
-               $('#welcome').show();
-               var cookielist = listCookies();
-               $('#cookies').html(cookielist);
+               $('#welcome').hide();
+               //var cookielist = listCookies();
+               //$('#cookies').html(cookielist);
                saveLogin();
                drawCal();
                drawNext5(0);
@@ -216,7 +216,7 @@
        function testa(max, min) {
            $('#chosenDay').html("<strong>" + formatDateFull(min) + "</strong>");
            var idlistj = get_cookie("IDList");
-           alert("cookie = " + idlistj);
+           //alert("cookie = " + idlistj);
            var browser_w = parseInt($(document).width()) - 60;
            var browser_h = parseInt($(document).height()) - 80;
            $('#iframe1').css('width', browser_w.toString() + 'px');
@@ -463,12 +463,12 @@
                    //type = refresh
                    var typej = jsonresp['type'];
                    if (typej == "refresh") {
-                       alert("refreshing");
+                       //alert("refreshing");
                        window.location.href = '/Mobile/GoogleRefresh';
                    } else {
                        var summary = jsonresp['summary'];
 
-                       alert("not refreshing");
+                      // alert("not refreshing");
                        var item_ct = 0;
                        for (_obj in jsonresp.items) item_ct++;
                        //alert(item_ct);
@@ -1028,6 +1028,7 @@
            var flipW = document.getElementById('flip-weather').value;
            var flipN = document.getElementById('flip-news').value;
            var flipC = document.getElementById('flip-calendar').value;
+           var flipG = document.getElementById('flip-getstarted').value;
            // alert(val + id);
 
            if (flipW == "yes" && flipC == "no") {
@@ -1040,6 +1041,16 @@
                }
                if (val == "yes") {
                    $('#calblock').show()
+                   //$("#mentions").trigger('collapse');
+               }
+           }
+
+           if (id == "flip-getstarted") {
+               if (val == "no") {
+                   $('#welcome').hide()
+               }
+               if (val == "yes") {
+                   $('#welcome').show()
                    //$("#mentions").trigger('collapse');
                }
            }
@@ -1441,6 +1452,12 @@ function backFillCal(startrow) {
    <select data-mini="true" name="slider" id="flip-weather" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Weather</option>
 	<option value="yes">Weather</option>
+</select>
+</div>
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-getstarted" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Get Started</option>
+	<option value="yes">Get Started</option>
 </select>
 </div>
 <a href="#header" data-rel="close" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a>

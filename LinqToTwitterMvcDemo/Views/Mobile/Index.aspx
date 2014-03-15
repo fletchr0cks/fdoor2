@@ -20,7 +20,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <div class="closeBanner" id="banner_header">
 </div>
-<div class="bigbanner" id="banner_area"></div><div id="cookies"></div>
+<div class="bigbanner" id="banner_area"></div>
 <div id="welcome" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">Get Started</div>
