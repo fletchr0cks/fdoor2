@@ -13,20 +13,54 @@
 
    <script type="text/javascript">
 
+
+
+
        $(document).bind("pageinit", function () {
+
            $(function () {
                // alert("innit");
+               var timerS
                $('#tweets_home').trigger('expand');
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
+
+               $(window).scroll(function () {
+                   var toppix = $(window).scrollTop();
+                   if (parseInt(toppix) > 0) {
+                       //
+                       timerS = setTimeout(fireRefresh, 1000);
+                   }
+
+               });
+
+
+
+
+
+
+               var fireRefresh = function () {
+                   //Change label text here.
+                   //$("#user_2").html("saved").trigger("create");
+                   //$("input#user_3").focus();
+                   clearTimeout(timerS);
+                   var toppix = $(window).scrollTop();
+                   if (parseInt(toppix) == 0) {
+                       //alert("do refresh");
+                       document.location.href = '/';
+                   }
+
+               };
+
+
                $('#welcome').hide();
                //var cookielist = listCookies();
                //$('#cookies').html(cookielist);
                saveLogin();
                drawCal();
                drawNext5(0);
-               
+
                twt_check();
                ggl_check();
                users_check();
@@ -39,7 +73,7 @@
                    //getTowns();
                    //alert("towns");
                } else {
-                  GetWeather(lat, lng, 0, 1);
+                   GetWeather(lat, lng, 0, 1);
                }
 
            });
@@ -1460,7 +1494,8 @@ function backFillCal(startrow) {
 	<option value="yes">Get Started</option>
 </select>
 </div>
-<a href="#header" data-rel="close" class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all">No text</a>
+<p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini ui-btn-icon-notext ui-icon-delete">Setup</a></p>
+
 </div><!-- /panel -->
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />

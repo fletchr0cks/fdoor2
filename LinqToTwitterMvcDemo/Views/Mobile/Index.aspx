@@ -8,16 +8,15 @@
 
 <div data-role="header">
 
- <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-gear">Setup</a>
+ <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
 <h1>Fridge Door</h1>
-<button class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-check">Refresh
-</button>
 </div>
 
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<div id="mainframe">
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>
@@ -101,4 +100,5 @@
 </div>
 <div id="toptweet" style="display:inline-block">20</div>
 <div style="display:inline-block" id="toptweettime"></div>
+    </div>
 </asp:Content>
