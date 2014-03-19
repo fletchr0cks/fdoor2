@@ -16,7 +16,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div id="mainframe">
+<div id="mainframe"><a id="lnkDialog" href="#popupNested" data-rel="popup" style='display:none;' class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-bars ui-btn-icon-left ui-btn-b" data-transition="pop" data-position-to="window">Choose a creature...</a>
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>

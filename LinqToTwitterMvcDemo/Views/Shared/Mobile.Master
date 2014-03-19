@@ -20,38 +20,84 @@
 
            $(function () {
                // alert("innit");
-               var timerS
+               var timerS;
+               var timerR;
                $('#tweets_home').trigger('expand');
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
                }
 
+
                $(window).scroll(function () {
                    var toppix = $(window).scrollTop();
                    if (parseInt(toppix) > 0) {
                        //
-                       timerS = setTimeout(fireRefresh, 1000);
+                       timerS = setTimeout(fireMenu, 1000);
                    }
 
                });
 
 
 
-
-
-
-               var fireRefresh = function () {
-                   //Change label text here.
-                   //$("#user_2").html("saved").trigger("create");
-                   //$("input#user_3").focus();
+               var fireMenu = function () {
                    clearTimeout(timerS);
                    var toppix = $(window).scrollTop();
+
+
                    if (parseInt(toppix) == 0) {
-                       //alert("do refresh");
-                       document.location.href = '/';
+                       $("#lnkDialog").click();
+                       $('#refreshMsg').html("Refreshing all in 10 seconds");
+                       timerR = setTimeout(fireRefresh, 10000);
+
                    }
 
                };
+
+               var fireRefresh = function () {
+                   clearTimeout(timerR);
+                   //alert("refresh");
+                   document.location.href = '/';
+               };
+
+
+
+               function cancelRefresh() {
+                   // alert("moved");
+                   clearTimeout(timerR);
+                   $('#refreshMsg').html("");
+               }
+
+               var mie = (navigator.appName == "Microsoft Internet Explorer") ? true : false;
+
+               if (!mie) {
+                   document.captureEvents(Event.MOUSEMOVE);
+                   document.captureEvents(Event.MOUSEDOWN);
+               }
+
+
+               //document.onmousedown = function (e) { mouseClicked(); };
+
+               var mouseClick;
+               var keyClicked;
+
+               var mouseX = 0;
+               var mouseY = 0;
+
+               function mousePos(e) {
+                   if (!mie) {
+                       mouseX = e.pageX;
+                       mouseY = e.pageY;
+                   }
+                   else {
+                       mouseX = event.clientX + document.body.scrollLeft;
+                       mouseY = event.clientY + document.body.scrollTop;
+                   }
+
+                   //document.show.mouseXField.value = mouseX;
+                   //document.show.mouseYField.value = mouseY;
+
+                   return true;
+               }
 
 
                $('#welcome').hide();
@@ -79,6 +125,8 @@
            });
 
        });
+
+
 
        function init() {
            //testa(1, 0);
@@ -845,14 +893,14 @@
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
                    });
 
-                   clearTimeout(timerA);
-                   timerA = setTimeout(checkNewTweets, 600000);
+                   //clearTimeout(timerA);
+                   //timerA = setTimeout(checkNewTweets, 600000);
                    var NewDate = new Date();
                    var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
 
                    if (jsonresp.doBanner == "true") {
-                       bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
-
+                      // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
+                      getBanner('banner',jsonresp.BannerID,100000,jsonresp.twitterID);
                    }
 
                    $('#toptweet').html(jsonresp.latestid);
@@ -1497,6 +1545,22 @@ function backFillCal(startrow) {
 <p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini ui-btn-icon-notext ui-icon-delete">Setup</a></p>
 
 </div><!-- /panel -->
+
+<div data-role="popup" id="popupNested" data-theme="b" onmouseover="cancelRefresh()">
+
+  <div class="ui-body ui-body-b">
+<p></p>   
+<ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
+    <li><a href="#">Refresh all</a></li>
+    <li><a href="#">Refresh Twitter</a></li>
+    <li><a href="#">Refresh Calendar</a></li>
+    <li><a href="#">Show latest banner</a></li>
+    <li><a href="#">Manual banner</a></li>
+</ul>
+<div id="refreshMsg">Refreshing all in 10s</div>
+    </div>
+
+</div><!-- /popup -->
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
