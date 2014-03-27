@@ -12,16 +12,14 @@
 <script src="../../Scripts/jquery.mobile-1.4.0.min.js"></script>
 
    <script type="text/javascript">
-
-
-
-
-       $(document).bind("pageinit", function () {
+   
+          $(document).bind("pageinit", function () {
 
            $(function () {
                // alert("innit");
                var timerS;
                var timerR;
+               //var timerB;
                $('#tweets_home').trigger('expand');
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
                    //alert("collapsed");
@@ -124,8 +122,42 @@
 
            });
 
+           loadBlack()
+
        });
 
+       $(document).ready(function () {
+
+           // if ($('#add_site').hasClass('ui-collapsible-collapsed')
+
+           var timerB;
+
+           $("#covertop").show();
+           //alert("show");
+           $("#flip-twitter").keyup(function () {
+               clearTimeout(timerA);
+               timerA = setTimeout(changeTxtA, 3000);
+
+           });
+
+           var changeTxtA = function () {
+               //Change label text here.
+               //$("#user_2").html("saved").trigger("create");
+               //$("input#user_3").focus();
+               alert("slider changed");
+           };
+
+           clearTimeout(timerB);
+           timerB = setTimeout(loadBlack, 5000);
+
+       });
+
+       
+
+
+       function loadBlack() {
+           $("#covertop").hide();
+       }
 
 
        function init() {
@@ -392,31 +424,7 @@
 
 
 
-       $(document).ready(function () {
-         
-           // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-           
-           var timerB;
-
-           
-
-           $("#flip-twitter").keyup(function () {
-               clearTimeout(timerA);
-               timerA = setTimeout(changeTxtA, 3000);
-
-           });
-
-           var changeTxtA = function () {
-               //Change label text here.
-               //$("#user_2").html("saved").trigger("create");
-               //$("input#user_3").focus();
-               alert("slider changed");
-           };
-
-         
-
-       });
-
+       
        var timer1;
 
        var timer2;
@@ -900,7 +908,7 @@
 
                    if (jsonresp.doBanner == "true") {
                       // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
-                      getBanner('banner',jsonresp.BannerID,100000,jsonresp.twitterID);
+                      //getBanner('banner',jsonresp.BannerID,100000,jsonresp.twitterID);
                    }
 
                    $('#toptweet').html(jsonresp.latestid);

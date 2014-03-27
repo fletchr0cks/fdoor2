@@ -4800,3 +4800,5 @@ for Android 4.1 */
 
 .closeBanner { width:100%;height:40px;color:Black;font-size:20px;cursor:pointer;z-index:1100;position:absolute; top:-5px;left:0px;background-color:White;display:none}
 .bigbanner { color:Black;font-size:80px;z-index:1000;width:100%;height:700px;position:absolute;padding-top:60px; top:0px;left:0px;text-align:center;background-color:White;display:none}
+
+.covercss {position:absolute; top:0px; left:0px; background-color:black; width:800px; height:1000px;z-index:3000}
