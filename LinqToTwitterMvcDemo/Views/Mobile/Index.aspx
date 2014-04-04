@@ -87,7 +87,7 @@
 <div id="weather_next5b">next 5 b</div>
 </div>
 <br />
-<div id="agentsID">
+<div id="agentsID" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">147 Users</div>
     <div class="ui-grid-d">
@@ -97,6 +97,14 @@
   <div class="ui-block-d"><p style="font-size:16px">Linux</p><p>100</p></div>
     <div class="ui-block-e"><p style="font-size:16px">Windows</p><p>100</p></div>
    </div>
+    </div>
+</div>
+
+<div id="kindletricks" style="display:none">
+<div class="ui-body ui-body-a ui-corner-all">
+<div style="font-size:30px">Kindle Tricks</div>
+<p style="font-size:18px"><strong>Easy shortcut menu</strong></p>
+<p>Just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
     </div>
 </div>
 <div id="toptweet" style="display:inline-block">20</div>

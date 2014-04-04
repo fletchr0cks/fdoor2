@@ -869,6 +869,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
             string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
             string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
+            var userid = dataRepository.getID(guid);
             var msg = "hardcoded test " + DateTime.Now;
             //http://localhost:5010/Home/SetTwitterID?oauth_token=JjJCdn2Tn3o9Cz3lHEFotAZQ5xZSz8VbTAjHhg1aTt0&oauth_verifier=TP7PWgnTi2CIu2YuQ7AIpRDknEYuSe0H1RcYXMSp5g
             //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
@@ -983,18 +984,19 @@ namespace LinqToTwitterMvcDemo.Controllers
             var latesttime = mytweets.First().TimeStamp;
             //var topBanner = GetBannerText(friendTweets.First())
             var doBanner = "false";
-            var BannerID = "";
-            var timetillbanner = "";
+            var BannerID = mytweets.First().ID;
+            var bannertime = "";
             var topname = "";
-            if (mytweets.First().BannerText.Length > 1)
+            int banchk = dataRepository.checkBanner(Convert.ToInt32(userid),BannerID);
+            if ((mytweets.First().BannerText.Length > 1) && (banchk == 0))
             {
                 doBanner = "true";
-                BannerID = mytweets.First().ID;
-                timetillbanner = mytweets.First().BannerTime;
+                
+                bannertime = mytweets.First().BannerTime;
                 topname = mytweets.First().ScreenName;
             }
 
-            return Json(new { mytweets = mytweets.Take(6), topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, timetillbanner = timetillbanner }, JsonRequestBehavior.AllowGet);
+            return Json(new { mytweets = mytweets.Take(6), topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
 
         }
@@ -1006,7 +1008,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
             string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
             string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
-
+            var userid = dataRepository.getID(guid);
             credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
             credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
             credentials.AccessToken = accesstoken;
@@ -1041,6 +1043,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                      // ScreenName = tweet.StatusID,
                      BannerText = GetBannerText(tweet),
                      BannerTime = GetBannerTime(tweet),
+                    
                  });
             //.Take(9).ToList();
 
@@ -1049,6 +1052,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
             ViewData["authdeets"] = oauthAccessT;
             //var latestid = friendTweets.First().ID;
+            dataRepository.saveBanner(Convert.ToInt32(userid),ID,"type");
             return Json(new { BannerText = friendTweets.First().BannerText }, JsonRequestBehavior.AllowGet);
 
 
@@ -1163,56 +1167,72 @@ namespace LinqToTwitterMvcDemo.Controllers
         private string GetBannerText(Status status)
         {
             var tweet_txt = status.Text;
+            var bantxt = getBetween(tweet_txt, "#banner");
+            return bantxt;
             //var tweet_type;
-            if (tweet_txt.Contains("#bannernow"))
-            {
-                var bantxt = getBetween(tweet_txt, "#bannernow", "now");
-                return bantxt;
-            }
-            else if (tweet_txt.Contains("#bannertime"))
-            {
-                var bantxt = getBetween(tweet_txt, "#bannertime", "time");
-                return bantxt;
-            }
-            return "";
+           // if (tweet_txt.Contains("#bannernow"))
+          //  {
+          //      var bantxt = getBetween(tweet_txt, "#bannernow", "now");
+          //      return bantxt;
+          //  }
+          //  else if (tweet_txt.Contains("#bannertime"))
+          //  {
+          //      var bantxt = getBetween(tweet_txt, "#bannertime", "time");
+          //      return bantxt;
+          //  }
+            
         }
 
         private string GetBannerTime(Status status)
         {
             var tweet_txt = status.Text;
-            int tfstart = tweet_txt.IndexOf("#bannertime", 0) + 12;
-            if (tfstart > 12)
+            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            if (tfstart > 8)
             {
-                int start = tweet_txt.Length - 1;
-                int end = tweet_txt.Length;
-                var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
-                //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
-                var timetxt = bantxt.Split(' ')[0];
-                var timeval = timetxt.Substring(0, timetxt.Length - 1);
-                var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
-                int time = Convert.ToInt32(timeval);
                 try
                 {
-                    int ms = 1;
-                    if (timeframe == "h")
+                    int start = tweet_txt.Length - 1;
+                    int end = tweet_txt.Length;
+                    var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
+                    //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
+                    var timetxt = bantxt.Split(' ')[0];
+                    var timeval = timetxt.Substring(0, timetxt.Length - 1);
+                    var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
+                    int time = Convert.ToInt32(timeval);
+                    try
                     {
-                        ms = 3600000;
+                        int ms = 1;
+                        if (timeframe == "h")
+                        {
+                            ms = 3600000;
+
+                        }
+                        else if (timeframe == "m")
+                        {
+
+                            ms = 60000;
+                        }
+
+                        else if (timeframe == "s")
+                        {
+
+                            ms = 1000;
+                        }
+                        //var tweet_type;
+                        return Convert.ToString(ms * time);
 
                     }
-                    else if (timeframe == "m")
+                    catch
                     {
 
-                        ms = 60000;
-                    }
-                    //var tweet_type;
-                    return Convert.ToString(ms * time);
+                        return "10000";
 
+                    }
                 }
                 catch
                 {
 
-                    return "10000";
-
+                    return "0";
                 }
             }
             else
@@ -1225,7 +1245,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             //return "10000";
         }
 
-        public static string getBetween(string strSource, string strStart, string type)
+        public static string getBetween(string strSource, string strStart)
         {
             int Start, End;
 

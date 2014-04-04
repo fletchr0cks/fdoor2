@@ -147,6 +147,26 @@ namespace LinqToTwitterMvcDemo.Models
 
         }
 
+        public int checkBanner(int userid, string bannerid)
+        {
+            var bnr = (from u in db.banners
+                        where (u.userid == userid && u.bannerid == bannerid)
+                        select u).Count();
+            return bnr;
+        }
+
+        public void saveBanner(int userid, string bannerid, string type)
+        {
+            banner b = new banner();
+            b.userid = userid;
+            b.bannerid = bannerid;
+            b.datetime = DateTime.Now;
+            b.type = type;
+            db.banners.InsertOnSubmit(b);
+            db.SubmitChanges();
+
+        }
+
         public void saveLocation(string lat, string lng, int userid, string location)
         {
 

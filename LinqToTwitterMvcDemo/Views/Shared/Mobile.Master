@@ -12,8 +12,9 @@
 <script src="../../Scripts/jquery.mobile-1.4.0.min.js"></script>
 
    <script type="text/javascript">
-   
-          $(document).bind("pageinit", function () {
+
+
+       $(document).bind("pageinit", function () {
 
            $(function () {
                // alert("innit");
@@ -65,42 +66,24 @@
                    $('#refreshMsg').html("");
                }
 
-               var mie = (navigator.appName == "Microsoft Internet Explorer") ? true : false;
-
-               if (!mie) {
-                   document.captureEvents(Event.MOUSEMOVE);
-                   document.captureEvents(Event.MOUSEDOWN);
-               }
-
-
-               //document.onmousedown = function (e) { mouseClicked(); };
-
-               var mouseClick;
-               var keyClicked;
-
-               var mouseX = 0;
-               var mouseY = 0;
-
-               function mousePos(e) {
-                   if (!mie) {
-                       mouseX = e.pageX;
-                       mouseY = e.pageY;
-                   }
-                   else {
-                       mouseX = event.clientX + document.body.scrollLeft;
-                       mouseY = event.clientY + document.body.scrollTop;
-                   }
-
-                   //document.show.mouseXField.value = mouseX;
-                   //document.show.mouseYField.value = mouseY;
-
-                   return true;
-               }
 
 
                $('#welcome').hide();
                //var cookielist = listCookies();
                //$('#cookies').html(cookielist);
+
+               var timerB;
+               if (isKindle() == true) {
+                   $("#covertop").show();
+                   $('#flip-kindle').val('yes').slider('refresh');
+                   $('#kindletricks').show();
+               } else {
+
+               }
+
+
+               clearTimeout(timerB);
+               timerB = setTimeout(loadBlack, 5000);
                saveLogin();
                drawCal();
                drawNext5(0);
@@ -130,25 +113,7 @@
 
            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
 
-           var timerB;
-
-           $("#covertop").show();
-           //alert("show");
-           $("#flip-twitter").keyup(function () {
-               clearTimeout(timerA);
-               timerA = setTimeout(changeTxtA, 3000);
-
-           });
-
-           var changeTxtA = function () {
-               //Change label text here.
-               //$("#user_2").html("saved").trigger("create");
-               //$("input#user_3").focus();
-               alert("slider changed");
-           };
-
-           clearTimeout(timerB);
-           timerB = setTimeout(loadBlack, 5000);
+           
 
        });
 
@@ -189,6 +154,15 @@
                document.location.href = '/Mobile/DeleteCookies?type=' + type;
            }
 
+       }
+
+       function isKindle() {
+           var agent = navigator.userAgent;
+            if (agent.indexOf("Kindle") > 0) {
+                return true
+            } else {
+                return false
+            }
        }
 
        function ChangeLoc() {
@@ -432,7 +406,8 @@
        function timerStart1(ID) {
            //clearTimeout(timer1);
            //timer1 = setTimeout(closeBanner1, ti);
-           alert("banner for " + ID);
+           //alert("banner for " + ID);
+           closeBanner();
        }
 
        var timerA;
@@ -712,6 +687,7 @@
                        //document.getElementById('flip-calendar').value = "yes";
                        testa(1, 0);
                        $('#flip-calendar').val('yes').slider('refresh');
+                      
                        $('#calblock').show();
 
                    }
@@ -819,8 +795,8 @@
                        var bannertxt = jsonresp.BannerText;
                        $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Banner from " + screenname + ":</a>").trigger('create');
                        $('#banner_area').html(bannertxt);
-                       //clearTimeout(timer1);
-                       //timer1 = setTimeout(timerStart1, timeout);
+                       clearTimeout(timer1);
+                       timer1 = setTimeout(timerStart1, timeout);
                    },
                    error: function (response) {
                        //alert(response.responseText);
@@ -887,18 +863,28 @@
                            tweettype = "banner";
                            tweetxtra = item.ID;
                            timeout = item.BannerTime;
+                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+
                        }
                        if (item.MediaUrl.length > 1) {
+                       //picture
                            tweettype = "media";
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
-                       }
-                       if (item.EntityUrl.length > 1) {
-                       }
-                       //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
-                       midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
                "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       }
+                       if (item.EntityUrl.length > 1) {
+                           //web page
+                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       }
+                       //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
+                     
                    });
 
                    //clearTimeout(timerA);
@@ -908,12 +894,12 @@
 
                    if (jsonresp.doBanner == "true") {
                       // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
-                      //getBanner('banner',jsonresp.BannerID,100000,jsonresp.twitterID);
+                       getBanner('banner', jsonresp.BannerID, jsonresp.bannertime, jsonresp.twitterID);
                    }
 
                    $('#toptweet').html(jsonresp.latestid);
-                   var ua = navigator.userAgent;
-                   $('#toptweettime').html(timenow + ua);
+                   //var ua = navigator.userAgent;
+                   //$('#toptweettime').html(timenow + ua);
                    $('#mytweets').html(tophtml + midhtml_mt + "</ul>").trigger('create');
                    $('#mentions').html(tophtml + midhtml_men + "</ul>").trigger('create');
                    $('#following').html(tophtml + midhtml_f + "</ul>").trigger('create');
@@ -928,6 +914,12 @@
 
            });
        }
+
+       function getWebPage(url) {
+           //$('#cal').toggle();
+           //$('#iframe1').toggle();
+           document.location.href = url;
+         }
 
        function timetest(ID) {
             //alert("hihi" + ID);
@@ -1119,6 +1111,8 @@
            var flipN = document.getElementById('flip-news').value;
            var flipC = document.getElementById('flip-calendar').value;
            var flipG = document.getElementById('flip-getstarted').value;
+           var flipK = document.getElementById('flip-kindle').value;
+           var flipS = document.getElementById('flip-stats').value;
            // alert(val + id);
 
            if (flipW == "yes" && flipC == "no") {
@@ -1151,6 +1145,16 @@
                }
                if (val == "yes") {
                    $('#tweets').show()
+                   //$("#mentions").trigger('collapse');
+               }
+           }
+
+           if (id == "flip-kindle") {
+               if (val == "no") {
+                   $('#kindletricks').hide()
+               }
+               if (val == "yes") {
+                   $('#kindletricks').show()
                    //$("#mentions").trigger('collapse');
                }
            }
@@ -1310,8 +1314,8 @@ function backFillCal(startrow) {
             var end = (0 - todayID);      
             var start = 0;
             while (start < 36) {
-                var html = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\">" + formatDate(end) + "</div>";
-                var html_today = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\"><strong>" + formatDate(end) + "</strong></div>";
+                var html = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_other\">" + formatDate(end) + "</div>";
+                var html_today = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_today\">" + formatDate(end) + "</div>";
                 $('#Cal' + start).html(html);
                 if (end == 0) {
                     $('#Cal' + start).html(html_today);
@@ -1548,6 +1552,18 @@ function backFillCal(startrow) {
    <select data-mini="true" name="slider" id="flip-getstarted" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Get Started</option>
 	<option value="yes">Get Started</option>
+</select>
+</div>
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-stats" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">FD Stats</option>
+	<option value="yes">FD Stats</option>
+</select>
+</div>
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-kindle" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Kindle tricks</option>
+	<option value="yes">Kindle tricks</option>
 </select>
 </div>
 <p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini ui-btn-icon-notext ui-icon-delete">Setup</a></p>
