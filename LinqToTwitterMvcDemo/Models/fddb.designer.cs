@@ -36,9 +36,6 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Inserttwt(twt instance);
     partial void Updatetwt(twt instance);
     partial void Deletetwt(twt instance);
-    partial void Insertuser(user instance);
-    partial void Updateuser(user instance);
-    partial void Deleteuser(user instance);
     partial void Insertdevice(device instance);
     partial void Updatedevice(device instance);
     partial void Deletedevice(device instance);
@@ -51,6 +48,9 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Insertbanner(banner instance);
     partial void Updatebanner(banner instance);
     partial void Deletebanner(banner instance);
+    partial void Insertuser(user instance);
+    partial void Updateuser(user instance);
+    partial void Deleteuser(user instance);
     #endregion
 		
 		public fddbDataContext() : 
@@ -99,14 +99,6 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<user> users
-		{
-			get
-			{
-				return this.GetTable<user>();
-			}
-		}
-		
 		public System.Data.Linq.Table<weather> weathers
 		{
 			get
@@ -144,6 +136,14 @@ namespace LinqToTwitterMvcDemo.Models
 			get
 			{
 				return this.GetTable<banner>();
+			}
+		}
+		
+		public System.Data.Linq.Table<user> users
+		{
+			get
+			{
+				return this.GetTable<user>();
 			}
 		}
 	}
@@ -567,356 +567,6 @@ namespace LinqToTwitterMvcDemo.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[user]")]
-	public partial class user : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private System.Guid _guid;
-		
-		private System.DateTime _lastlogin;
-		
-		private string _lat;
-		
-		private string _lng;
-		
-		private string _location;
-		
-		private EntitySet<ggl> _ggls;
-		
-		private EntitySet<twt> _twts;
-		
-		private EntitySet<device> _devices;
-		
-		private EntitySet<article> _articles;
-		
-		private EntitySet<comment> _comments;
-		
-		private EntitySet<banner> _banners;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnguidChanging(System.Guid value);
-    partial void OnguidChanged();
-    partial void OnlastloginChanging(System.DateTime value);
-    partial void OnlastloginChanged();
-    partial void OnlatChanging(string value);
-    partial void OnlatChanged();
-    partial void OnlngChanging(string value);
-    partial void OnlngChanged();
-    partial void OnlocationChanging(string value);
-    partial void OnlocationChanged();
-    #endregion
-		
-		public user()
-		{
-			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
-			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
-			this._devices = new EntitySet<device>(new Action<device>(this.attach_devices), new Action<device>(this.detach_devices));
-			this._articles = new EntitySet<article>(new Action<article>(this.attach_articles), new Action<article>(this.detach_articles));
-			this._comments = new EntitySet<comment>(new Action<comment>(this.attach_comments), new Action<comment>(this.detach_comments));
-			this._banners = new EntitySet<banner>(new Action<banner>(this.attach_banners), new Action<banner>(this.detach_banners));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guid", DbType="UniqueIdentifier NOT NULL")]
-		public System.Guid guid
-		{
-			get
-			{
-				return this._guid;
-			}
-			set
-			{
-				if ((this._guid != value))
-				{
-					this.OnguidChanging(value);
-					this.SendPropertyChanging();
-					this._guid = value;
-					this.SendPropertyChanged("guid");
-					this.OnguidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastlogin", DbType="DateTime NOT NULL")]
-		public System.DateTime lastlogin
-		{
-			get
-			{
-				return this._lastlogin;
-			}
-			set
-			{
-				if ((this._lastlogin != value))
-				{
-					this.OnlastloginChanging(value);
-					this.SendPropertyChanging();
-					this._lastlogin = value;
-					this.SendPropertyChanged("lastlogin");
-					this.OnlastloginChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lat", DbType="VarChar(50)")]
-		public string lat
-		{
-			get
-			{
-				return this._lat;
-			}
-			set
-			{
-				if ((this._lat != value))
-				{
-					this.OnlatChanging(value);
-					this.SendPropertyChanging();
-					this._lat = value;
-					this.SendPropertyChanged("lat");
-					this.OnlatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lng", DbType="VarChar(50)")]
-		public string lng
-		{
-			get
-			{
-				return this._lng;
-			}
-			set
-			{
-				if ((this._lng != value))
-				{
-					this.OnlngChanging(value);
-					this.SendPropertyChanging();
-					this._lng = value;
-					this.SendPropertyChanged("lng");
-					this.OnlngChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location", DbType="VarChar(50)")]
-		public string location
-		{
-			get
-			{
-				return this._location;
-			}
-			set
-			{
-				if ((this._location != value))
-				{
-					this.OnlocationChanging(value);
-					this.SendPropertyChanging();
-					this._location = value;
-					this.SendPropertyChanged("location");
-					this.OnlocationChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_ggl", Storage="_ggls", ThisKey="id", OtherKey="userid")]
-		public EntitySet<ggl> ggls
-		{
-			get
-			{
-				return this._ggls;
-			}
-			set
-			{
-				this._ggls.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
-		public EntitySet<twt> twts
-		{
-			get
-			{
-				return this._twts;
-			}
-			set
-			{
-				this._twts.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_device", Storage="_devices", ThisKey="id", OtherKey="userid")]
-		public EntitySet<device> devices
-		{
-			get
-			{
-				return this._devices;
-			}
-			set
-			{
-				this._devices.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_article", Storage="_articles", ThisKey="id", OtherKey="userid")]
-		public EntitySet<article> articles
-		{
-			get
-			{
-				return this._articles;
-			}
-			set
-			{
-				this._articles.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_comment", Storage="_comments", ThisKey="id", OtherKey="userid")]
-		public EntitySet<comment> comments
-		{
-			get
-			{
-				return this._comments;
-			}
-			set
-			{
-				this._comments.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_banner", Storage="_banners", ThisKey="id", OtherKey="userid")]
-		public EntitySet<banner> banners
-		{
-			get
-			{
-				return this._banners;
-			}
-			set
-			{
-				this._banners.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_ggls(ggl entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_ggls(ggl entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_twts(twt entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_twts(twt entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_devices(device entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_devices(device entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_articles(article entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_articles(article entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_comments(comment entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_comments(comment entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_banners(banner entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_banners(banner entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
 		}
 	}
 	
@@ -1917,6 +1567,380 @@ namespace LinqToTwitterMvcDemo.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[user]")]
+	public partial class user : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.Guid _guid;
+		
+		private System.DateTime _lastlogin;
+		
+		private string _lat;
+		
+		private string _lng;
+		
+		private string _location;
+		
+		private string _selection;
+		
+		private EntitySet<ggl> _ggls;
+		
+		private EntitySet<twt> _twts;
+		
+		private EntitySet<device> _devices;
+		
+		private EntitySet<article> _articles;
+		
+		private EntitySet<comment> _comments;
+		
+		private EntitySet<banner> _banners;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnguidChanging(System.Guid value);
+    partial void OnguidChanged();
+    partial void OnlastloginChanging(System.DateTime value);
+    partial void OnlastloginChanged();
+    partial void OnlatChanging(string value);
+    partial void OnlatChanged();
+    partial void OnlngChanging(string value);
+    partial void OnlngChanged();
+    partial void OnlocationChanging(string value);
+    partial void OnlocationChanged();
+    partial void OnselectionChanging(string value);
+    partial void OnselectionChanged();
+    #endregion
+		
+		public user()
+		{
+			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
+			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
+			this._devices = new EntitySet<device>(new Action<device>(this.attach_devices), new Action<device>(this.detach_devices));
+			this._articles = new EntitySet<article>(new Action<article>(this.attach_articles), new Action<article>(this.detach_articles));
+			this._comments = new EntitySet<comment>(new Action<comment>(this.attach_comments), new Action<comment>(this.detach_comments));
+			this._banners = new EntitySet<banner>(new Action<banner>(this.attach_banners), new Action<banner>(this.detach_banners));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_guid", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid guid
+		{
+			get
+			{
+				return this._guid;
+			}
+			set
+			{
+				if ((this._guid != value))
+				{
+					this.OnguidChanging(value);
+					this.SendPropertyChanging();
+					this._guid = value;
+					this.SendPropertyChanged("guid");
+					this.OnguidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastlogin", DbType="DateTime NOT NULL")]
+		public System.DateTime lastlogin
+		{
+			get
+			{
+				return this._lastlogin;
+			}
+			set
+			{
+				if ((this._lastlogin != value))
+				{
+					this.OnlastloginChanging(value);
+					this.SendPropertyChanging();
+					this._lastlogin = value;
+					this.SendPropertyChanged("lastlogin");
+					this.OnlastloginChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lat", DbType="VarChar(50)")]
+		public string lat
+		{
+			get
+			{
+				return this._lat;
+			}
+			set
+			{
+				if ((this._lat != value))
+				{
+					this.OnlatChanging(value);
+					this.SendPropertyChanging();
+					this._lat = value;
+					this.SendPropertyChanged("lat");
+					this.OnlatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lng", DbType="VarChar(50)")]
+		public string lng
+		{
+			get
+			{
+				return this._lng;
+			}
+			set
+			{
+				if ((this._lng != value))
+				{
+					this.OnlngChanging(value);
+					this.SendPropertyChanging();
+					this._lng = value;
+					this.SendPropertyChanged("lng");
+					this.OnlngChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_location", DbType="VarChar(50)")]
+		public string location
+		{
+			get
+			{
+				return this._location;
+			}
+			set
+			{
+				if ((this._location != value))
+				{
+					this.OnlocationChanging(value);
+					this.SendPropertyChanging();
+					this._location = value;
+					this.SendPropertyChanged("location");
+					this.OnlocationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_selection", DbType="VarChar(MAX)")]
+		public string selection
+		{
+			get
+			{
+				return this._selection;
+			}
+			set
+			{
+				if ((this._selection != value))
+				{
+					this.OnselectionChanging(value);
+					this.SendPropertyChanging();
+					this._selection = value;
+					this.SendPropertyChanged("selection");
+					this.OnselectionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_ggl", Storage="_ggls", ThisKey="id", OtherKey="userid")]
+		public EntitySet<ggl> ggls
+		{
+			get
+			{
+				return this._ggls;
+			}
+			set
+			{
+				this._ggls.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
+		public EntitySet<twt> twts
+		{
+			get
+			{
+				return this._twts;
+			}
+			set
+			{
+				this._twts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_device", Storage="_devices", ThisKey="id", OtherKey="userid")]
+		public EntitySet<device> devices
+		{
+			get
+			{
+				return this._devices;
+			}
+			set
+			{
+				this._devices.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_article", Storage="_articles", ThisKey="id", OtherKey="userid")]
+		public EntitySet<article> articles
+		{
+			get
+			{
+				return this._articles;
+			}
+			set
+			{
+				this._articles.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_comment", Storage="_comments", ThisKey="id", OtherKey="userid")]
+		public EntitySet<comment> comments
+		{
+			get
+			{
+				return this._comments;
+			}
+			set
+			{
+				this._comments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_banner", Storage="_banners", ThisKey="id", OtherKey="userid")]
+		public EntitySet<banner> banners
+		{
+			get
+			{
+				return this._banners;
+			}
+			set
+			{
+				this._banners.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ggls(ggl entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_ggls(ggl entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_devices(device entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_devices(device entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_articles(article entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_articles(article entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_comments(comment entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_comments(comment entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_banners(banner entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_banners(banner entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
 		}
 	}
 }

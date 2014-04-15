@@ -26,7 +26,6 @@
                    //alert("collapsed");
                }
 
-
                $(window).scroll(function () {
                    var toppix = $(window).scrollTop();
                    if (parseInt(toppix) > 0) {
@@ -66,16 +65,14 @@
                    $('#refreshMsg').html("");
                }
 
-
-
-               $('#welcome').hide();
-               //var cookielist = listCookies();
-               //$('#cookies').html(cookielist);
+               var header = document.getElementById('headtext');
+               //alert(header.innerHTML);
+               //document.getElementById('headtext')
 
                var timerB;
                if (isKindle() == true) {
                    $("#covertop").show();
-                   $('#flip-kindle').val('yes').slider('refresh');
+                   $('#flip-k').val('yes').slider('refresh');
                    $('#kindletricks').show();
                } else {
 
@@ -85,24 +82,10 @@
                clearTimeout(timerB);
                timerB = setTimeout(loadBlack, 5000);
                saveLogin();
-               drawCal();
-               drawNext5(0);
 
-               twt_check();
-               ggl_check();
                users_check();
-               var lat = get_cookie("lat");
-               var lng = get_cookie("long");
 
-               if (lat == null) {
-                   $('#weather_next5').hide()
-                   //  $('#towns').show();
-                   //getTowns();
-                   //alert("towns");
-               } else {
-                   GetWeather(lat, lng, 0, 1);
-               }
-
+               getSel();
            });
 
            loadBlack()
@@ -112,8 +95,8 @@
        $(document).ready(function () {
 
            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-
            
+
 
        });
 
@@ -197,7 +180,7 @@
 
            });
            //alert(lat + "," + lng);
-           GetWeather(lat, lng, 0, 1);
+           GetWeather(0, 1);
            document.location.href = '/';
        }
 
@@ -242,7 +225,7 @@
        }
 
        function GetWeather_old(lat, lng) {
-           $('#flip-weather').val('yes').slider('refresh');
+           $('#flip-w').val('yes').slider('refresh');
            $('#weather').html("");
            //set_cookie("teststore", "val", 1);
            var NewDate = new Date();
@@ -357,8 +340,7 @@
       }
 
 
-      function drawDays(min, idlistj) {
-         
+      function drawDays(min, idlistj) {         
            var n = parseInt(min);
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
@@ -397,6 +379,41 @@
        }
 
 
+       function drawDaysnoCal() {
+           var n = parseInt(1);
+           var end = 0;
+           var calnext5 = "<div class=\"ui-grid-d\">";
+           var weathernext5 = "<div class=\"ui-grid-d\">";
+           var aplhastr = "abcde";
+           for (var i = 0; i < aplhastr.length; i++) {
+               var nextChar = aplhastr.charAt(i);
+               //}
+               //while (end < 5) {
+               end++;
+               var n1 = parseInt(n + end);
+               //alert(n1 + "..." + end);
+               var n2 = parseInt(n1 + 1);
+               var day = formatDateDay(n1);
+               var daynum = formatDate(n1);
+               var dispday = formatDateNext(n1);
+               dispday = dispday.substring(0, 3) + " " + daynum;
+               var dayID = formatDateDayID(n1);
+               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
+               var img = get_cookie("icon" + n1);
+               var hi = "";
+               var lo = "";
+               if (n1 < 4) {
+                   hi = get_cookie("hi" + n1);
+                   lo = get_cookie("lo" + n1);
+               }
+               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\">" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
+           }
+
+           $('#calendarbloc_next5').html(calnext5 + "</div>").trigger('create');
+           $('#weatherbloc_next5').html(weathernext5 + "</div>").trigger('create');
+           
+       }
 
        
        var timer1;
@@ -425,94 +442,102 @@
            window.location.href = '/Home/Choose';
        }
 
-       function GetWeather(lat, lng, min, max) {
-           $('#flip-weather').val('yes').slider('refresh');
-           $('#weather').html("");
-           //set_cookie("teststore", "val", 1);
-           var NewDate = new Date();
-           var loc = lat + "," + lng;
-           min = min * 2;
-           max = min + 1;
-           var ck = get_cookie("day0");
-           //alert("ck=" + ck);
-           if (ck == null) {
-               //alert("ck is null");
-               //$('#weather').html(loc);
-               $.ajax({
-                   type: "GET",
-                   url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
-                   dataType: "jsonp",
-                   success: function (json) {
-                       //var json = eval('(' + jsontxt + ')');
-                       //var jsontext = JSON.stringify(json);
-                       // $.each(json.Id, function (i, idlist) {
-                       //alert(jsontext);
-                       //});
-                       var i = 0;
-                       while (i < 8) {
-                           var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
-                           var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
-                           if (i > 0 && i < 4) {
-                               //  alert(i);
-                               var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
-                               var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
-                               set_cookie("hi" + i, high, 1);
-                               set_cookie("lo" + i, low, 1);
-                               //alert(high + " " + low);
-                           }
-                           set_cookie("day" + i, text, 1);
-                           set_cookie("icon" + i, icon, 1);
-
-                           i++;
-                       }
-                       var location = json['location']['city'];
-
-                       //   $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
-                       //$('#weather').append("Weather for " + location);
-                       var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
-                       //alert("day=" + day);
-                       var day2 = json['forecast']['txt_forecast']['forecastday'][max]['title'];
-                       var forecast = json['forecast']['txt_forecast']['forecastday'][min]['fcttext_metric'];
-                       var forecast2 = json['forecast']['txt_forecast']['forecastday'][max]['fcttext_metric'];
-                       var icon = json['forecast']['txt_forecast']['forecastday'][min]['icon'];
-                       var icon2 = json['forecast']['txt_forecast']['forecastday'][max]['icon'];
-                       var img1 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon + ".gif\">";
-                       var img2 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\">";
-                       //set_cookie("0text", forecast, 1);
-                       //set_cookie("0icon", forecast, 1);
-                       //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
-                       //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-                       var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
-            "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
-                       //alert(htmltable);
-                       $('#weather').append(htmltable);
-                       //next 5 ???
-                       var epoch = Math.round(new Date().getTime() / 1000)
-
-                   },
-                   error: function (xhr, error) {
-                       console.debug(xhr); console.debug(error);
-                       $('#footer').appnd(xhr + "  " + error);
-                   },
-                   complete: function () {
-
-                   }
-
-               });
+       function GetWeather(min, max) {
+           var lat = get_cookie("lat");
+           var lng = get_cookie("long");
+           if (lat == null) {
 
            } else {
-               var forecast = get_cookie("day" + min);
-               var forecast2 = get_cookie("day" + max);
-               var img = get_cookie("icon" + min);
-               var img2 = get_cookie("icon" + max);
-               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-               var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
-               var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
+
+               $('#weather').html("");
+               $('#weatherblocdata').html("");
+               //set_cookie("teststore", "val", 1);
+               var NewDate = new Date();
+               var loc = lat + "," + lng;
+               min = min * 2;
+               max = min + 1;
+               var ck = get_cookie("day0");
+               //alert("ck=" + ck);
+               if (ck == null) {
+                   //alert("ck is null");
+                   //$('#weather').html(loc);
+                   $.ajax({
+                       type: "GET",
+                       url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
+                       dataType: "jsonp",
+                       success: function (json) {
+                           //var json = eval('(' + jsontxt + ')');
+                           //var jsontext = JSON.stringify(json);
+                           // $.each(json.Id, function (i, idlist) {
+                           //alert(jsontext);
+                           //});
+                           var i = 0;
+                           while (i < 8) {
+                               var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
+                               var icon = json['forecast']['txt_forecast']['forecastday'][i]['icon'];
+                               if (i > 0 && i < 4) {
+                                   //  alert(i);
+                                   var high = "Hi: " + json['forecast']['simpleforecast']['forecastday'][i]['high']['celsius'] + "C";
+                                   var low = "Lo: " + json['forecast']['simpleforecast']['forecastday'][i]['low']['celsius'] + "C";
+                                   set_cookie("hi" + i, high, 1);
+                                   set_cookie("lo" + i, low, 1);
+                                   //alert(high + " " + low);
+                               }
+                               set_cookie("day" + i, text, 1);
+                               set_cookie("icon" + i, icon, 1);
+
+                               i++;
+                           }
+                           var location = json['location']['city'];
+
+                           //   $('#footer').html("Location: " + location + "(" + lat + ", " + lng + ")</br>" + "Updated: " + NewDate);
+                           //$('#weather').append("Weather for " + location);
+                           var day = json['forecast']['txt_forecast']['forecastday'][min]['title'];
+                           //alert("day=" + day);
+                           var day2 = json['forecast']['txt_forecast']['forecastday'][max]['title'];
+                           var forecast = json['forecast']['txt_forecast']['forecastday'][min]['fcttext_metric'];
+                           var forecast2 = json['forecast']['txt_forecast']['forecastday'][max]['fcttext_metric'];
+                           var icon = json['forecast']['txt_forecast']['forecastday'][min]['icon'];
+                           var icon2 = json['forecast']['txt_forecast']['forecastday'][max]['icon'];
+                           var img1 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon + ".gif\">";
+                           var img2 = "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\">";
+                           //set_cookie("0text", forecast, 1);
+                           //set_cookie("0icon", forecast, 1);
+                           //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
+                           //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+                           var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
+                           //alert(htmltable);
+                           $('#weather').append(htmltable);
+                           $('#weatherblocdata').append(htmltable);
+                           //next 5 ???
+                           var epoch = Math.round(new Date().getTime() / 1000)
+
+                       },
+                       error: function (xhr, error) {
+                           console.debug(xhr); console.debug(error);
+                           $('#footer').appnd(xhr + "  " + error);
+                       },
+                       complete: function () {
+
+                       }
+
+                   });
+
+               } else {
+                   var forecast = get_cookie("day" + min);
+                   var forecast2 = get_cookie("day" + max);
+                   var img = get_cookie("icon" + min);
+                   var img2 = get_cookie("icon" + max);
+                   var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+                   var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+                   var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
-               //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-               $('#weather').append(htmltable);
+                   //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+                   $('#weather').append(htmltable);
+                   $('#weatherblocdata').append(htmltable);
 
-
+               }
            }
 
        }
@@ -681,14 +706,14 @@
                    if (idlist == "No IDList") {
                        //alert(idlist);
                        //goSetup();
-                       document.getElementById('flip-calendar').value = "no";
+                       //document.getElementById('flip-c').value = "no";
                    } else {
                        // alert(go_ck);
                        //document.getElementById('flip-calendar').value = "yes";
                        testa(1, 0);
-                       $('#flip-calendar').val('yes').slider('refresh');
+                       //$('#flip-c').val('yes').slider('refresh');
                       
-                       $('#calblock').show();
+                       
 
                    }
                },
@@ -764,9 +789,9 @@
 
                    } else {
                        //alert(idlist);
-                       $('#flip-twitter').val('yes').slider('refresh');
-                       $('#tweets').show();
-                       getTweets();
+                       //$('#flip-t').val('yes').slider('refresh');
+                       //$('#tweets').show();
+                       getTweets(5);
                    }
                },
                error: function (xhr, error) {
@@ -836,25 +861,28 @@
        }
 
 
-       function getTweets() {
+       function getTweets(more) {
+          
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
            var latestID = document.getElementById('toptweet').innerHTML;
            var bannerhtml = "";
-           var tophtml = "<ul data-role=\"listview\">";
+           var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
+         
            var midhtml_mt = "";
            var midhtml_men = "";
            var midhtml_f = "";
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
-               data: "timenow=" + hournow,
+               data: "timenow=" + hournow + "&getnum=" + more,
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
                    //type = refresh
                    var tweettype = "none";
                    var timeout = "";
+                   var getmore = "";
                    var icon = "false";
                    $.each(jsonresp.mytweets, function (n, item) {
                        // alert(item.Tweet);
@@ -863,51 +891,96 @@
                            tweettype = "banner";
                            tweetxtra = item.ID;
                            timeout = item.BannerTime;
-                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
-               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+                           midhtml_mt = midhtml_mt + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
-
                        }
-                       if (item.MediaUrl.length > 1) {
-                       //picture
+                       else if (item.MediaUrl.length > 1) {
+                           //picture
                            tweettype = "media";
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
-                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
-               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+                           midhtml_mt = midhtml_mt + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+             "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
                        }
-                       if (item.EntityUrl.length > 1) {
+                       else if (item.EntityUrl.length > 1) {
                            //web page
                            midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
-               "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       } else {
+
+                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
                        }
-                       //tweetshtml = tweetshtml + "<tr><td class=\"td30\"><div class=\"tweet_ts\">" + item.TimeStamp + "</div></td><td><div style=\"cursor:pointer\" class=\"tweet\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "')\">" + item.Tweet + "</div></td></tr>";
-                     
+
+
+                   });
+
+                   $.each(jsonresp.home, function (n, item) {
+                       // alert(item.Tweet);
+                       var tweetxtra = "";
+                       if (item.BannerText.length > 1) {
+                           tweettype = "banner";
+                           tweetxtra = item.ID;
+                           timeout = item.BannerTime;
+                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       }
+                       else if (item.MediaUrl.length > 1) {
+                           //picture
+                           tweettype = "media";
+                           //  icon = "info";
+                           tweetxtra = item.MediaUrl;
+                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+             "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       }
+                       else if (item.EntityUrl.length > 1) {
+                           //web page
+                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       } else {
+
+                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+                       }
+
+
                    });
 
                    //clearTimeout(timerA);
                    //timerA = setTimeout(checkNewTweets, 600000);
                    var NewDate = new Date();
                    var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+                   getmore = parseInt(jsonresp.getmore + 5);
 
                    if (jsonresp.doBanner == "true") {
-                      // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
+                       // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
                        getBanner('banner', jsonresp.BannerID, jsonresp.bannertime, jsonresp.twitterID);
                    }
 
+                   var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\">Get More</div></a></li>";
+                   var getmoref = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\">Get More</div></a></li>";
                    $('#toptweet').html(jsonresp.latestid);
                    //var ua = navigator.userAgent;
                    //$('#toptweettime').html(timenow + ua);
-                   $('#mytweets').html(tophtml + midhtml_mt + "</ul>").trigger('create');
+                   $('#mytweets').html(tophtml + midhtml_mt + getmoremy + "</ul>").trigger('create');
+
                    $('#mentions').html(tophtml + midhtml_men + "</ul>").trigger('create');
-                   $('#following').html(tophtml + midhtml_f + "</ul>").trigger('create');
+                   $('#following').html(tophtml + midhtml_f + getmoref + "</ul>").trigger('create');
                },
                error: function (response) {
                    //alert(response.responseText);
                    //var r = jQuery.parseJSON(response.responseText);
-                
+
                },
                complete: function (xhr, status) {
                }
@@ -974,7 +1047,7 @@
                    var latesttweetID = jsonresp.LatestID;
                    //alert("session=" + latestID + "api= " + latesttweetID);
                    if (parseInt(latesttweetID) > parseInt(latestID)) {
-                       getTweets();
+                       getTweets(5);
                    } else {
                        var NewDate = new Date();
                        var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
@@ -1103,68 +1176,145 @@
            return date_str;
        }
 
+       function processSel(selection) {
+           var sels = selection.split(",");
+           var items = 0;
+           while (items < 8) {
+               var sel = sels[items];
+               var selsp = sel.split("=");
+               var flip = selsp[0];
+               var val = selsp[1];
+               $('#' + flip).val(val).slider('refresh');
+               sliderChange(val, flip);
+               items++;
+           }
+       }
 
-        
-       function sliderChange(val,id) {
-           var flipT = document.getElementById('flip-twitter').value;
-           var flipW = document.getElementById('flip-weather').value;
-           var flipN = document.getElementById('flip-news').value;
-           var flipC = document.getElementById('flip-calendar').value;
-           var flipG = document.getElementById('flip-getstarted').value;
-           var flipK = document.getElementById('flip-kindle').value;
-           var flipS = document.getElementById('flip-stats').value;
-           // alert(val + id);
+       function getSel() {
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/GetSel",
+               //data: "sel=" + selected,
+               //dataType: "text/plain",
+               success: function (sel) {
+                   // var arraysel = eval(sel);
+                   //alert(sel);
+                   processSel(sel);
+               },
+               error: function (response) {
+
+               },
+               complete: function (xhr, status) {
+                   console.debug(xhr); console.debug(status);
+
+               }
+
+           });
+       }
+
+
+       function saveSel() {
+           var selected = new Array();
+           var str = "twncgksb";
+           for (var i = 0; i < str.length; i++) {
+               var nextChar = str.charAt(i);
+               var flipstr = "flip-" + nextChar;
+               var flipval = document.getElementById(flipstr).value;
+
+               selected.push(flipstr + "=" + flipval);
+               //selected.push(("flip" + nextChar).val());
+               //   alert(nextChar)
+           }
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/SaveSel",
+               data: "selection=" + selected,
+               dataType: "text/plain",
+               success: function (json) {
+                   
+               },
+               error: function (response) {
+                
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+       }
+
+       function sliderChange(val, id) {
+           
+           var flipT = document.getElementById('flip-t').value;
+           var flipW = document.getElementById('flip-w').value;
+           var flipN = document.getElementById('flip-n').value;
+           var flipC = document.getElementById('flip-c').value;
+           var flipG = document.getElementById('flip-g').value;
+           var flipK = document.getElementById('flip-k').value;
+           var flipS = document.getElementById('flip-s').value;
+           var flipS = document.getElementById('flip-b').value;
 
            if (flipW == "yes" && flipC == "no") {
                $('#weatherbloc').show();
+               drawDaysnoCal();
            }
 
-           if (id == "flip-calendar") {
+           if (flipW == "no") {
+               $('#weatherbloc').hide();
+           }
+
+           if (id == "flip-c") {
                if (val == "no") {
                    $('#calblock').hide()
+                   $('#weatherbloc').hide();
                }
                if (val == "yes") {
+                   ggl_check();
+                   drawCal();
+                   drawNext5(0);
                    $('#calblock').show()
                    //$("#mentions").trigger('collapse');
                }
            }
 
-           if (id == "flip-getstarted") {
+           if (id == "flip-g") {
                if (val == "no") {
                    $('#welcome').hide()
                }
                if (val == "yes") {
                    $('#welcome').show()
-                   //$("#mentions").trigger('collapse');
+                   
                }
            }
 
-           if (id == "flip-twitter") {
+           if (id == "flip-t") {
                if (val == "no") {
                    $('#tweets').hide()
                }
                if (val == "yes") {
+                   twt_check();
                    $('#tweets').show()
-                   //$("#mentions").trigger('collapse');
+                  
                }
            }
 
-           if (id == "flip-kindle") {
+           if (id == "flip-k") {
                if (val == "no") {
                    $('#kindletricks').hide()
                }
                if (val == "yes") {
                    $('#kindletricks').show()
-                   //$("#mentions").trigger('collapse');
+                   
                }
            }
 
-           if (id == "flip-weather") {
+           if (id == "flip-w") {
                if (val == "no") {
                    $('#weather_next5').hide();
                    $('#weather').hide();
                }
                if (val == "yes") {
+                   GetWeather(0, 1);
                    $('#weather').show();
                    $('#weather_next5').show();
                   
@@ -1522,55 +1672,73 @@ function backFillCal(startrow) {
  
 <body>
 <div data-role="page">
-<div data-role="panel" id="mypanel" data-swipe-close="false">
+<div data-role="panel" id="mypanel" data-swipe-close="false" data-theme="b">
     <!-- panel content goes here -->
     <div class="displayslider">
-      <select data-mini="true" name="slider" id="flip-twitter" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+      <select data-mini="true" name="slider" id="flip-t" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Twitter</option>
 	<option value="yes">Twitter</option>
 </select>
 </div>
 <div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-calendar" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+   <select data-mini="true" name="slider" id="flip-c" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Calendar</option>
 	<option value="yes">Calendar</option>
 </select>
 </div>
 <div class="displayslider">
-    <select data-mini="true" name="slider" id="flip-news" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+    <select data-mini="true" name="slider" id="flip-n" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">News</option>
 	<option value="yes">News</option>
 </select>
 </div>
 <div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-weather" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+   <select data-mini="true" name="slider" id="flip-w" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Weather</option>
 	<option value="yes">Weather</option>
 </select>
 </div>
 <div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-getstarted" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+   <select data-mini="true" name="slider" id="flip-g" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Get Started</option>
 	<option value="yes">Get Started</option>
 </select>
 </div>
 <div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-stats" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
-	<option value="no">FD Stats</option>
-	<option value="yes">FD Stats</option>
+   <select data-mini="true" name="slider" id="flip-s" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Stats</option>
+	<option value="yes">Stats</option>
 </select>
 </div>
 <div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-kindle" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+   <select data-mini="true" name="slider" id="flip-k" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Kindle tricks</option>
 	<option value="yes">Kindle tricks</option>
 </select>
 </div>
-<p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini ui-btn-icon-notext ui-icon-delete">Setup</a></p>
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-b" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Blog</option>
+	<option value="yes">Blog</option>
+</select>
+</div>
+<fieldset data-role="controlgroup">
+    <legend></legend>
+    <input type="checkbox" name="checkbox-1a" id="checkbox-1a" checked="">
+    <label for="checkbox-1a">Page Down/Up opens Actions Menu</label>
+    <input type="checkbox" name="checkbox-2a" id="checkbox-2a">
+    <label for="checkbox-2a">Something else</label>
+</fieldset>
+<label for="text-basic">Header Text:</label>
+<input type="text" name="text-basic" id="text-basic" value="">
+<p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini">Close Panel</a>
+<div>
+<a href="#header" data-rel="close" onclick="saveSel()" class="ui-btn ui-btn-b ui-mini">Save and Close</a></div>
+</p>
 
 </div><!-- /panel -->
 
-<div data-role="popup" id="popupNested" data-theme="b" onmouseover="cancelRefresh()">
+<div data-role="popup" id="popupNested" data-theme="b">
 
   <div class="ui-body ui-body-b">
 <p></p>   
@@ -1579,7 +1747,7 @@ function backFillCal(startrow) {
     <li><a href="#">Refresh Twitter</a></li>
     <li><a href="#">Refresh Calendar</a></li>
     <li><a href="#">Show latest banner</a></li>
-    <li><a href="#">Manual banner</a></li>
+    <li><a href="#">Send tweet</a></li>
 </ul>
 <div id="refreshMsg">Refreshing all in 10s</div>
     </div>

@@ -9,14 +9,15 @@
 <div data-role="header">
 
  <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
-<h1>Fridge Door</h1>
+<h1><div id="headtext">Fridge Door</div></h1>
+<a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-action" data-transition="pop" data-position-to="window">Choose</a>
 </div>
 
 
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<div id="mainframe"><a id="lnkDialog" href="#popupNested" data-rel="popup" style='display:none;' class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-bars ui-btn-icon-left ui-btn-b" data-transition="pop" data-position-to="window">Choose a creature...</a>
+<div id="mainframe">
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>
@@ -25,6 +26,17 @@
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">Get Started</div>
 <p>Welcome to Fridge Door.</p>
+<div class="ui-grid-a ui-responsive">    
+    <div class="ui-block-a"><p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
+    <p><img src="../../Content/images/pics/IMG_5005.JPG" /></p>
+    </div>
+     <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
+    <p><img src="../../Content/images/pics/IMG_5005.JPG" /></p>
+     <p></p>
+     </div>
+     </div>
+
+<p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
      <%= ViewData["twitter"]%>
@@ -40,16 +52,65 @@
    <div id="townmsg"></div><div id="townlist"></div>
    </div>
 </div>
+<div id="blog">
+<div class="ui-body ui-body-a ui-corner-all">
+<div class="ui-grid-a ui-responsive">    
+    <div class="ui-block-a"><div style="font-size:20px">Blog</div>  
+    </div>
+     <div class="ui-block-b"><div style="font-size:10px">Last comment: </div>  
+     </div>
+     </div>
+<div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
+    <div data-role="collapsible">
+        <h3>Section 1 <span class="ui-li-count">12</span></h3>
+    <ul data-role="listview">
+    <li><a href="#">Acura</a></li>
+    <li><a href="#">Audi</a></li>
+    <li><a href="#">BMW</a></li>
+    <li><a href="#">Cadillac</a></li>
+    <li><a href="#">Ferrari</a></li>
+</ul>
+    </div>
+    <div data-role="collapsible">
+        <h3>Section 2</h3>
+    <p>I'm the collapsible content for section 2</p>
+    </div>
+    <div data-role="collapsible">
+        <h3>Section 3</h3>
+    <p>I'm the collapsible content for section 3</p>
+    </div>
+</div>
+  </div>
+</div>
+<div class="ui-body ui-body-a ui-corner-all">
+<div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
+    <div data-role="collapsible">
+        <h3>My Tweets<span class="ui-li-count">12</span></h3>
+  <div id="mytweets"></div>
+    </div>
+    <div data-role="collapsible">
+        <h3>Following<span class="ui-li-count">12</span></h3>
+  <div id="following"></div>
+    </div>
+   <div style="display:none" data-role="collapsible">
+        <h3>Mentions<span class="ui-li-count">12</span></h3>
+  <div id="mentions"></div>
+    </div>
+</div>
+  </div>
 <div id="tweets" style="display:none">
 <div data-role="collapsible">
     <h2>Tweets</h2>
-        <ul data-role="listview" data-theme="a" data-divider-theme="b">
+        <ul data-role="listview" data-theme="a">
             <li data-role="list-divider">Following<span class="ui-li-count"></span></li>
-            <li><div id="following"></div></li>
+            <li><div id="followingo"></div></li>
             <li data-role="list-divider">My Tweets<span class="ui-li-count"></span></li>
-            <li><div id="mytweets"></div></li>
+            <li><div id="mytweetso"></div></li>
              <li data-role="list-divider">Mentions<span class="ui-li-count"></span></li>
-            <li><div id="mentions"></div></li>
+            <li><div id="mentionso"></div></li>
+            <li data-role="list-divider">@FridgeDoor<span class="ui-li-count">Follow</span></li>
+            <li><div id="fridgedoor">
+               </div></li>
         </ul>
     </div>
 </div>
@@ -82,9 +143,15 @@
 </div>
 </div>
 <div id="weatherbloc" style="display:none">
+<div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px" id="weatherday">Today</div>
-<div id="weatherb">day b</div>
-<div id="weather_next5b">next 5 b</div>
+<div id="weatherblocdata">
+</div>
+<div id="calendarbloc_next5">
+</div>
+<div id="weatherbloc_next5">
+</div>
+</div>
 </div>
 <br />
 <div id="agentsID" style="display:none">

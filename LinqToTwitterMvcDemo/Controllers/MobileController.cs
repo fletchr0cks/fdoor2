@@ -573,6 +573,25 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
+        public void saveSel(string selection)
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveSel(userid, selection);
+
+        }
+
+        public string getSel()
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            var selection = dataRepository.getSel(userid);
+            return selection;
+
+        }
+
         public void saveG_refresh(string value)
         {
             Guid guid = checkGUID();
@@ -862,8 +881,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View("Mobile");
         }
 
-        public ActionResult JsonTweets(string timenow)
+        public ActionResult JsonTweets(string timenow, int getnum)
         {
+            
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
@@ -996,7 +1016,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 topname = mytweets.First().ScreenName;
             }
 
-            return Json(new { mytweets = mytweets.Take(6), topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
+            return Json(new { mytweets = mytweets.Take(getnum), home = home.Take(getnum), getmore = getnum, topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
 
         }

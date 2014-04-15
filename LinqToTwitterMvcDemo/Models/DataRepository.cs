@@ -59,6 +59,15 @@ namespace LinqToTwitterMvcDemo.Models
             return loc;
         }
 
+        public string getSel(int userid)
+        {
+            var user = from u in db.users
+                       where (u.id == userid)
+                       select u;
+            var sel = user.First().selection;
+            return sel;
+        }
+
 
         public int checkUserGgl(int userid)
         {
@@ -132,11 +141,22 @@ namespace LinqToTwitterMvcDemo.Models
 
         }
 
+        public void saveSel(int userid, string sel)
+        {
+            var us = db.users
+                  .Where(u => u.id == userid)
+                  .First();
+
+            us.selection = sel;
+            db.SubmitChanges();
+
+
+        }
+
       
 
         public void saveUseragent(string useragent, int userid, string UAmax)
         {
-
             device d = new device();
             d.userid = userid;
             d.useragent = useragent;
@@ -144,7 +164,6 @@ namespace LinqToTwitterMvcDemo.Models
             d.UAmax = UAmax;
             db.devices.InsertOnSubmit(d);
             db.SubmitChanges();
-
         }
 
         public int checkBanner(int userid, string bannerid)

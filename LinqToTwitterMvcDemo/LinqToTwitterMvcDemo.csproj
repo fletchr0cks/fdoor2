@@ -153,6 +153,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\jquery.mobile-1.4.0a.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons-png\action-black.png" />
