@@ -1471,7 +1471,7 @@ div.ui-mobile-viewport {
 	text-align: center;
 	display: block;
 	margin: 0 30%;
-	padding: .7em 0;
+	padding: .7em 1em;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
@@ -2811,7 +2811,7 @@ li.ui-block-e {
 }
 .ui-collapsible-inset,
 .ui-collapsible-set {
-	margin: .5em 0;
+	margin: .5em 1em;
 }
 .ui-collapsible-heading {
 	display: block;
@@ -3714,7 +3714,7 @@ fieldset.ui-controlgroup {
 }
 .ui-listview > .ui-li-has-thumb > .ui-btn,
 .ui-listview > .ui-li-static.ui-li-has-thumb {
-	min-height: 0.75em;
+	min-height: 3em;
 	padding-left: 3em;
 }
 /* ui-li-has-icon deprecated in 1.4. TODO: remove in 1.5 */
@@ -4551,7 +4551,7 @@ for Android 4.1 */
 	z-index: 1001; /* Fixed toolbars have z-index 1000 */
 }
 .ui-panel-inner {
-	padding: 1em;
+	padding: .7em 1em;
 }
 /* Container, page and wrapper */
 .ui-panel-page-container {

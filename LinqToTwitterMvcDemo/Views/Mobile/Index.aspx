@@ -28,10 +28,10 @@
 <p>Welcome to Fridge Door.</p>
 <div class="ui-grid-a ui-responsive">    
     <div class="ui-block-a"><p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
-    <p><img src="../../Content/images/pics/IMG_5005.JPG" /></p>
+    <div><img src="../../Content/images/pics/IMG_5005.JPG" /></div>
     </div>
      <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
-    <p><img src="../../Content/images/pics/IMG_5005.JPG" /></p>
+    <div><img src="../../Content/images/pics/IMG_5005.JPG" /></div>
      <p></p>
      </div>
      </div>
@@ -51,6 +51,7 @@
    </div>
    <div id="townmsg"></div><div id="townlist"></div>
    </div>
+   <br />
 </div>
 <div id="blog">
 <div class="ui-body ui-body-a ui-corner-all">
@@ -81,7 +82,9 @@
     </div>
 </div>
   </div>
+  <br />
 </div>
+<div id="tweets" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
     <div data-role="collapsible">
@@ -98,22 +101,8 @@
     </div>
 </div>
   </div>
-<div id="tweets" style="display:none">
-<div data-role="collapsible">
-    <h2>Tweets</h2>
-        <ul data-role="listview" data-theme="a">
-            <li data-role="list-divider">Following<span class="ui-li-count"></span></li>
-            <li><div id="followingo"></div></li>
-            <li data-role="list-divider">My Tweets<span class="ui-li-count"></span></li>
-            <li><div id="mytweetso"></div></li>
-             <li data-role="list-divider">Mentions<span class="ui-li-count"></span></li>
-            <li><div id="mentionso"></div></li>
-            <li data-role="list-divider">@FridgeDoor<span class="ui-li-count">Follow</span></li>
-            <li><div id="fridgedoor">
-               </div></li>
-        </ul>
-    </div>
-</div>
+  <br />
+  </div>
 <div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
@@ -141,6 +130,7 @@
 <div id="weather_next5">
 </div>
 </div>
+<br />
 </div>
 <div id="weatherbloc" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
@@ -153,7 +143,7 @@
 </div>
 </div>
 </div>
-<br />
+
 <div id="agentsID" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">147 Users</div>
