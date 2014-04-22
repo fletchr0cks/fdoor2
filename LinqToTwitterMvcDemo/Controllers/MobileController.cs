@@ -584,11 +584,25 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public string getSel()
         {
-            string guid_str = Request.Cookies["GUID"].Value;
-            Guid guid = new Guid(guid_str);
-            var userid = dataRepository.getID(guid);
-            var selection = dataRepository.getSel(userid);
-            return selection;
+            try
+            {
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                var userid = dataRepository.getID(guid);
+                var selection = dataRepository.getSel(userid);
+                if (selection == null)
+                {
+                    return "none";
+                }
+                else
+                {
+                    return selection;
+                }
+            }
+            catch
+            {
+                return null;
+            }
 
         }
 

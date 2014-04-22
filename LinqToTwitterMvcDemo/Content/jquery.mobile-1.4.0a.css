@@ -4804,6 +4804,8 @@ for Android 4.1 */
 
 .covercss {position:absolute; top:0px; left:0px; background-color:black; width:850px; height:1000px;z-index:3000}
 
+.sidemsg {padding-top:12px; color:#22AADD; padding-left:14px}
+
 #smlimg img 
 {
     height: auto;

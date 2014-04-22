@@ -40,9 +40,11 @@
 <div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
      <%= ViewData["twitter"]%>
+     <div class="divider" id="divider1"><hr /></div>
     </div>
      <div class="ui-block-b"><div style="font-size:20px">Google</div>
       <%= ViewData["google"]%>
+     <div class="divider" id="divider2" style="display:none"><hr /></div>
      </div>
     <div class="ui-block-c"><div style="font-size:20px">Location</div>
      <div id="setLocation"><%= ViewData["location"]%></div>
@@ -53,7 +55,7 @@
    </div>
    <br />
 </div>
-<div id="blog">
+<div id="blog" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Blog</div>  
@@ -64,13 +66,15 @@
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
     <div data-role="collapsible">
         <h3>Section 1 <span class="ui-li-count">12</span></h3>
-    <ul data-role="listview">
-    <li><a href="#">Acura</a></li>
-    <li><a href="#">Audi</a></li>
-    <li><a href="#">BMW</a></li>
-    <li><a href="#">Cadillac</a></li>
-    <li><a href="#">Ferrari</a></li>
-</ul>
+     <p>Blog entry here</p>
+    <form>
+    <div class="ui-grid-a ui-responsive">    
+    <div class="ui-block-a">Name</div>
+    <div class="ui-block-b"><input type="text" name="text-1" id="text-1" value=""></div>
+    </div>
+    <textarea name="textarea-1" id="textarea-1"></textarea>
+    <button class="ui-btn ui-btn-inline">Add Comment</button>
+</form>
     </div>
     <div data-role="collapsible">
         <h3>Section 2</h3>

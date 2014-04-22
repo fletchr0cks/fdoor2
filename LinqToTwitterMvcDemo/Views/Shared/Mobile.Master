@@ -79,6 +79,7 @@
                }
 
 
+               checkWidth();
                clearTimeout(timerB);
                timerB = setTimeout(loadBlack, 5000);
                saveLogin();
@@ -146,6 +147,20 @@
             } else {
                 return false
             }
+       }
+
+       function checkWidth() {
+           var browser_w = parseInt($(document).width())
+           if (parseInt(browser_w) < 560) {
+
+               $("#divider1").show();
+               $("#divider2").show();
+           } else {
+               $("#divider1").hide();
+               $("#divider2").hide();
+           }
+
+
        }
 
        function ChangeLoc() {
@@ -1198,8 +1213,12 @@
                //dataType: "text/plain",
                success: function (sel) {
                    // var arraysel = eval(sel);
-                   //alert(sel);
-                   processSel(sel);
+                   
+                   if (sel == "none") {
+                       processSel("flip-t=no,flip-w=no,flip-n=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=yes");
+                   } else {
+                       processSel(sel);
+                   }
                },
                error: function (response) {
 
@@ -1308,6 +1327,16 @@
                }
            }
 
+           if (id == "flip-b") {
+               if (val == "no") {
+                   $('#blog').hide()
+               }
+               if (val == "yes") {
+                   $('#blog').show()
+                   
+               }
+           }
+
            if (id == "flip-w") {
                if (val == "no") {
                    $('#weather_next5').hide();
@@ -1331,6 +1360,50 @@
 	      //alert(nextChar)
 	   }
 }
+
+function ListComments(PID) {
+    if (PID == 0) {
+        PID = document.getElementById("hidPID").innerHTML;
+        console.log(PID + "hid");
+    }
+    console.log(PID);
+    var ultop = "<ul data-role=\"listview\" data-inset=\"true\" class=\"ui-listview\">";
+    var ulbtm = "</ul>";
+    var comments_html2 = "";
+    var comments_html = "";
+    var ct = 0;
+    $.ajax({
+        type: "GET",
+        //url: "http://localhost:3192/Home/ListComments",
+        url: "http://uksledge.apphb.com/Home/ListComments",
+        data: "PID=" + PID,
+        dataType: "jsonp",
+        success: function (json) {
+            $.each(json.cmts, function (i, result) {
+                var para = "<li class=\"ui-li ui-li-static ui-body-c\"><p class=\"ui-li-heading\" style=\"color:#66A68B\">On " + result.datetime + ", " + result.username + " wrote:</p><p style=\"white-space: normal\" class=\"ui-li-desc\">" + result.comment + "</p></li>";
+                comments_html2 = comments_html2 + ultop + para + ulbtm;
+            });
+            ct = json.ct;
+        },
+        error: function (xhr, error) {
+            // console.debug(xhr); console.debug(error);
+
+        },
+        complete: function (xhr, status) {
+            if (ct == 0) {
+                $("#place_comments").html("No comments");
+            } else {
+                $("#place_comments").html(comments_html2 + "<div style=\"display:none\" id=\"hidPID\">" + PID + "</div>").trigger('create');
+                $("#addcomm").show();
+            }
+            $("#map_msg").html(ct + " comments loaded.");
+
+        }
+    });
+
+}
+
+
 function formatDate(num) {
     var NewDate = new Date();
     NewDate.setDate(NewDate.getDate() + num);
@@ -1692,11 +1765,16 @@ function backFillCal(startrow) {
 	<option value="yes">News</option>
 </select>
 </div>
+<div class="ui-grid-a ui-responsive">    
+<div class="ui-block-a">  
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-w" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Weather</option>
 	<option value="yes">Weather</option>
 </select>
+</div>
+</div>
+<div class="ui-block-b"><div class="sidemsg">Set location</div></div>
 </div>
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-g" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
@@ -1704,6 +1782,7 @@ function backFillCal(startrow) {
 	<option value="yes">Get Started</option>
 </select>
 </div>
+
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-s" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Stats</option>
