@@ -461,9 +461,16 @@
            var lat = get_cookie("lat");
            var lng = get_cookie("long");
            if (lat == null) {
+               $('#weather').hide();
+               $('#weather_next5').hide();
 
+               $('#sidemsg-w').html("Set location");
+               $('#flip-w').val('no').slider('refresh');
+               $('#flip-g').val('yes').slider('refresh');
+               $('#welcome').show();
            } else {
-
+               $('#weather').show();
+               $('#weather_next5').show();
                $('#weather').html("");
                $('#weatherblocdata').html("");
                //set_cookie("teststore", "val", 1);
@@ -1213,9 +1220,12 @@
                //dataType: "text/plain",
                success: function (sel) {
                    // var arraysel = eval(sel);
-                   
+                   //alert(sel);
                    if (sel == "none") {
                        processSel("flip-t=no,flip-w=no,flip-n=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=yes");
+                       //show getstarted and blog
+                       $('#welcome').show()
+                       $('#blog').show()
                    } else {
                        processSel(sel);
                    }
@@ -1273,14 +1283,7 @@
            var flipS = document.getElementById('flip-s').value;
            var flipS = document.getElementById('flip-b').value;
 
-           if (flipW == "yes" && flipC == "no") {
-               $('#weatherbloc').show();
-               drawDaysnoCal();
-           }
-
-           if (flipW == "no") {
-               $('#weatherbloc').hide();
-           }
+          
 
            if (id == "flip-c") {
                if (val == "no") {
@@ -1338,16 +1341,25 @@
            }
 
            if (id == "flip-w") {
+
+               if (flipW == "yes" && flipC == "no" && get_cookie("lat") != null) {
+                   $('#weatherbloc').show();
+                   drawDaysnoCal();
+               }
+
+             
+
                if (val == "no") {
                    $('#weather_next5').hide();
                    $('#weather').hide();
+                   $('#weatherbloc').hide();
                }
                if (val == "yes") {
+              
                    GetWeather(0, 1);
-                   $('#weather').show();
-                   $('#weather_next5').show();
-                  
+
                }
+
            }
        }
 
@@ -1774,7 +1786,7 @@ function backFillCal(startrow) {
 </select>
 </div>
 </div>
-<div class="ui-block-b"><div class="sidemsg">Set location</div></div>
+<div class="ui-block-b"><div id="sidemsg-w" class="sidemsg"></div></div>
 </div>
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-g" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >

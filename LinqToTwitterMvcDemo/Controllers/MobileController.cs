@@ -601,7 +601,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             catch
             {
-                return null;
+                return "none";
             }
 
         }
