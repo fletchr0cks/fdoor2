@@ -84,15 +84,15 @@
                clearTimeout(timerB);
                timerB = setTimeout(loadBlack, 5000);
                saveLogin();
-
+               ListArticles();
                users_check();
 
                getSel();
-               ListArticles();
+               
            });
 
            loadBlack();
-
+           
        });
 
        $(document).ready(function () {
@@ -1480,6 +1480,7 @@ function ListArticles() {
     var ulbtm = "</div>";
     var ct = 0;
     var para = "";
+    alert("la1");
     $.ajax({
         type: "POST",
         url: "/Mobile/getArticles",
