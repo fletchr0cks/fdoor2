@@ -141,6 +141,21 @@ namespace LinqToTwitterMvcDemo.Models
 
         }
 
+        public void saveComment(string comment, int userid, string name, int ArtID)
+        {
+           
+                comment c = new comment();
+                c.articleid = ArtID;
+                c.datetime = DateTime.Now;
+                c.comment1 = comment;
+                c.userid = userid;
+                c.name = name;
+                db.comments.InsertOnSubmit(c);
+                db.SubmitChanges();
+            
+        }
+
+
         public void saveSel(int userid, string sel)
         {
             var us = db.users

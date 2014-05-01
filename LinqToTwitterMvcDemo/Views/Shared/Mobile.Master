@@ -87,9 +87,10 @@
                users_check();
 
                getSel();
+               ListArticles();
            });
 
-           loadBlack()
+           loadBlack();
 
        });
 
@@ -1373,42 +1374,99 @@
 	   }
 }
 
-function ListComments(PID) {
-    if (PID == 0) {
-        PID = document.getElementById("hidPID").innerHTML;
-        console.log(PID + "hid");
-    }
-    console.log(PID);
-    var ultop = "<ul data-role=\"listview\" data-inset=\"true\" class=\"ui-listview\">";
-    var ulbtm = "</ul>";
-    var comments_html2 = "";
-    var comments_html = "";
-    var ct = 0;
+function AddComment(ArtID) {
+    var name = document.getElementById("commname_" + ArtID).value;
+    var comment = document.getElementById("commtext_" + ArtID).value;
+    $("#ArtCont_" + ArtID).html("Saving comment ...");
     $.ajax({
-        type: "GET",
-        //url: "http://localhost:3192/Home/ListComments",
-        url: "http://uksledge.apphb.com/Home/ListComments",
-        data: "PID=" + PID,
-        dataType: "jsonp",
+        type: "POST",
+        url: "/Mobile/SaveComment",
+        data: "ArtID=" + ArtID + "&comment=" + comment + "&name=" + name,
+        dataType: "json",
         success: function (json) {
-            $.each(json.cmts, function (i, result) {
-                var para = "<li class=\"ui-li ui-li-static ui-body-c\"><p class=\"ui-li-heading\" style=\"color:#66A68B\">On " + result.datetime + ", " + result.username + " wrote:</p><p style=\"white-space: normal\" class=\"ui-li-desc\">" + result.comment + "</p></li>";
-                comments_html2 = comments_html2 + ultop + para + ulbtm;
-            });
-            ct = json.ct;
+            //ListComments(ArtID);
         },
         error: function (xhr, error) {
             // console.debug(xhr); console.debug(error);
 
         },
         complete: function (xhr, status) {
-            if (ct == 0) {
-                $("#place_comments").html("No comments");
-            } else {
-                $("#place_comments").html(comments_html2 + "<div style=\"display:none\" id=\"hidPID\">" + PID + "</div>").trigger('create');
-                $("#addcomm").show();
-            }
-            $("#map_msg").html(ct + " comments loaded.");
+            //alert(para + ArtID);
+            //$("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
+            ListComments(ArtID);
+        }
+    });
+
+}
+
+function ListComments(ArtID) {
+
+    var ultop = "";
+    var num = "";
+    var comments_html2 = "";
+    var comments_html = "<div class=\"ui-grid-a ui-responsive\"><div>Name: " +
+         "<input type=\"text\" name=\"Namen_" + ArtID +"\" id=\"commname_" + ArtID + "\" value=\"\"></div>" +
+         "<textarea name=\"textarean_" + ArtID +"\" id=\"commtext_" + ArtID +"\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"AddComment(" + ArtID + ")\">Add Comment</button></div>";
+    var para = "";
+    $.ajax({
+        type: "POST",
+        url: "/Mobile/getComments",
+        data: "ArtID=" + ArtID,
+        dataType: "json",
+        success: function (json) {
+            $.each(json.Comments, function (i, result) {
+                para = para + "<div style=\"font-size:12px;padding-bottom:5px\">" + result.datetime + "</div>" +
+                "<div style=\"font-size:14px;padding-bottom:5px \">" + result.name + " </div>" +
+                "<div style=\"font-size:14px;padding-bottom:5px \">" + result.commenttxt + " </div>" +
+                "<div style=\"font-size:10px\">" + result.devicetxt + " </div><br />";
+                //comments_html2 = comments_html2 + ultop + para + ulbtm;
+            });
+            num = json.num;
+        },
+        error: function (xhr, error) {
+            // console.debug(xhr); console.debug(error);
+
+        },
+        complete: function (xhr, status) {
+            //alert(para + ArtID);
+            $("#CommBubble_" + ArtID).html(num + " comments");
+            $("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
+
+
+        }
+    });
+
+}
+
+
+function ListArticles() {
+    var ultop = "<div data-role=\"collapsible-set\" data-theme=\"a\" data-content-theme=\"a\" data-inset=\"false\">";
+    var ulbtm = "</div>";
+    var ct = 0;
+    var para = "";
+    $.ajax({
+        type: "POST",
+        url: "/Mobile/getArticles",
+        dataType: "json",
+        success: function (json) {
+            $.each(json.Articles, function (i, result) {
+                para = para + "<div data-role=\"collapsible\"><h3 onClick=\"ListComments(" + result.id + ")\">" + result.heading + "<span class=\"ui-li-count\" id=\"CommBubble_" + result.id + "\">" + result.NumComments + " comments</span></h3>" +
+                 "<div style=\"font-size:14px\">" + result.arttext + "</div><br /><br />" +
+                "<div id=\"ArtCont_" + result.id + "\">Loading comments ...</div></div>";
+                //<div id=\"ArtCont_" + result.id + "\"</div></div>";
+                //comments_html2 = comments_html2 + ultop + para + ulbtm;
+            });
+            // ct = result.NumComments;
+        },
+        error: function (xhr, error) {
+            // console.debug(xhr); console.debug(error);
+
+        },
+        complete: function (xhr, status) {
+
+            $("#BlogList").html(ultop + para + ulbtm).trigger('create');
+
+
 
         }
     });

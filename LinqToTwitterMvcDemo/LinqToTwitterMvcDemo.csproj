@@ -122,6 +122,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Calendar.cs" />
     <Compile Include="Models\CalendarEvent.cs" />
     <Compile Include="Models\CalIDs.cs" />

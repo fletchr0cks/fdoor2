@@ -582,6 +582,62 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
+        public void saveComment(string comment, int ArtID, string name)
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            dataRepository.saveComment(comment, userid, name, ArtID);
+
+        }
+
+         
+        public ActionResult getComments(int ArtID)
+        {
+
+            var comments = from co in db.comments
+                           where co.articleid == ArtID
+                           orderby co.datetime descending
+                           select new
+
+                           {
+                               commenttxt = co.comment1,
+                               datetime = String.Format("{0:d/M/yyyy HH:mm:ss}", co.datetime),
+                               name = co.name,
+                               devicetxt = co.user.devices.First().UAmax,
+
+                           };
+
+            var num = comments.Count();
+       
+            return Json(new { Comments = comments, num = num}, JsonRequestBehavior.AllowGet);
+             
+        }
+
+        public ActionResult getArticles()
+        {
+            var articles = from co in db.articles
+                           orderby co.datetime descending
+                           select new
+           {
+               //ImageUrl = tweet.Entities.,
+               
+               heading = co.heading,
+               datetime = String.Format("{0:d/M/yyyy HH:mm:ss}", co.datetime),
+               image = co.image,
+               id = co.id,
+               NumComments = co.comments.Count,
+               arttext = co.article1
+              // comments = 
+
+
+             };
+
+            return Json(new { Articles = articles}, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         public string getSel()
         {
             try
