@@ -1484,7 +1484,7 @@ function ListArticles() {
     $.ajax({
         type: "POST",
         url: "/Mobile/getArticles",
-        dataType: "json",
+        dataType: "text/plain",
         success: function (json) {
             $.each(json.Articles, function (i, result) {
                 para = para + "<div data-role=\"collapsible\"><h3 onClick=\"ListComments(" + result.id + ")\">" + result.heading + "<span class=\"ui-li-count\" id=\"CommBubble_" + result.id + "\">" + result.NumComments + " comments</span></h3>" +
