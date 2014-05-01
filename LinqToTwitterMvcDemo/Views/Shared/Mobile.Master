@@ -20,6 +20,7 @@
                // alert("innit");
                var timerS;
                var timerR;
+               
                //var timerB;
                $('#tweets_home').trigger('expand');
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
@@ -42,7 +43,7 @@
                    var toppix = $(window).scrollTop();
 
 
-                   if (parseInt(toppix) == 0) {
+                   if (parseInt(toppix) == 0 && kindle_sc == "on") {
                        $("#lnkDialog").click();
                        $('#refreshMsg').html("Refreshing all in 10 seconds");
                        timerR = setTimeout(fireRefresh, 10000);
@@ -1213,7 +1214,28 @@
            }
        }
 
+       function checkKindle_sc() {
+           var kindle_sc = "";
+           if ($("#checkbox-1a").is(":checked")) {
+               // $('#chkBox2').prop('checked', false).checkboxradio('refresh');
+               kindle_sc = "on";
+           } else {
+               kindle_sc = "off";
+           }
+
+           return kindle_sc;
+            
+       }
+
        function getSel() {
+           var kindle_sc = get_cookie("kindle_sc");
+           var header_text = get_cookie("header");
+           document.getElementById('header_text').value = header_text;
+           if (kindle_sc == "on") {
+               $('#checkbox-1a').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-1a').prop('checked', false).checkboxradio('refresh');
+           }
            $.ajax({
                type: "GET",
                url: "/Mobile/GetSel",
@@ -1246,6 +1268,18 @@
        function saveSel() {
            var selected = new Array();
            var str = "twncgksb";
+           var kindle_sc = "";
+           var header_text = document.getElementById("header_text").value;
+           if ($("#checkbox-1a").is(":checked")) {
+               // $('#chkBox2').prop('checked', false).checkboxradio('refresh');
+               kindle_sc = "on";
+           } else {
+           kindle_sc = "off";
+           }
+       //alert(kindle_sc + header_text);
+       //alert(checkKindle_sc());
+           set_cookie("kindle_sc", kindle_sc, 360);
+           set_cookie("header", header_text, 360);
            for (var i = 0; i < str.length; i++) {
                var nextChar = str.charAt(i);
                var flipstr = "flip-" + nextChar;
@@ -1271,6 +1305,8 @@
                }
 
            });
+          
+           //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
 
        function sliderChange(val, id) {
@@ -1873,13 +1909,13 @@ function backFillCal(startrow) {
 </div>
 <fieldset data-role="controlgroup">
     <legend></legend>
-    <input type="checkbox" name="checkbox-1a" id="checkbox-1a" checked="">
+    <input type="checkbox" name="checkbox-1a" id="checkbox-1a">
     <label for="checkbox-1a">Page Down/Up opens Actions Menu</label>
     <input type="checkbox" name="checkbox-2a" id="checkbox-2a">
     <label for="checkbox-2a">Something else</label>
 </fieldset>
 <label for="text-basic">Header Text:</label>
-<input type="text" name="text-basic" id="text-basic" value="">
+<input type="text" name="header_text" id="header_text" value="">
 <p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini">Close Panel</a>
 <div>
 <a href="#header" data-rel="close" onclick="saveSel()" class="ui-btn ui-btn-b ui-mini">Save and Close</a></div>
@@ -1890,7 +1926,7 @@ function backFillCal(startrow) {
 <div data-role="popup" id="popupNested" data-theme="b">
 
   <div class="ui-body ui-body-b">
-<p></p>   
+<p><div id="refreshMsg"></div></p>   
 <ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
     <li><a href="#">Refresh all</a></li>
     <li><a href="#">Refresh Twitter</a></li>
@@ -1898,7 +1934,6 @@ function backFillCal(startrow) {
     <li><a href="#">Show latest banner</a></li>
     <li><a href="#">Send tweet</a></li>
 </ul>
-<div id="refreshMsg">Refreshing all in 10s</div>
     </div>
 
 </div><!-- /popup -->

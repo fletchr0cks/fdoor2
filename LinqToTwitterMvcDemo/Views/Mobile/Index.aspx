@@ -9,7 +9,7 @@
 <div data-role="header">
 
  <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
-<h1><div id="headtext">Fridge Door</div></h1>
+<h1><div id="headtext">OK Fridge</div></h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-action" data-transition="pop" data-position-to="window">Choose</a>
 </div>
 
@@ -55,49 +55,13 @@
    </div>
    <br />
 </div>
-<div id="Blog2">
+<div id="blog" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
-<div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a"><div style="font-size:20px">Blog</div>  
-    </div>
-     <div class="ui-block-b"><div style="font-size:10px">Last comment: </div>  
-     </div>
-     </div>
+<div style="font-size:20px">Blog</div>
+     
      <div id="BlogList"></div>
      </div>
      </div>
-     
-<div id="blog" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a"><div style="font-size:20px">Blog</div>  
-    </div>
-     <div class="ui-block-b"><div style="font-size:10px">Last comment: </div>  
-     </div>
-     </div>
-<div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
-    <div data-role="collapsible">
-        <h3>Section 1 <span class="ui-li-count">12 Comments</span></h3>
-     <p>Blog entry here</p>
-    <form>
-    <div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a">Name</div>
-    <div class="ui-block-b"><input type="text" name="text-1" id="text-1" value=""></div>
-    </div>
-    <textarea name="textarea-1" id="textarea-1"></textarea>
-    <button class="ui-btn ui-btn-inline" onClick="AddComment()">Add Comment</button>
-</form>
-    </div>
-    <div data-role="collapsible">
-        <h3>Section 2</h3>
-    <p>I'm the collapsible content for section 2</p>
-    </div>
-    <div data-role="collapsible">
-        <h3>Section 3</h3>
-    <p>I'm the collapsible content for section 3</p>
-    </div>
-</div>
-  </div>
   <br />
 </div>
 <div id="tweets" style="display:none">
