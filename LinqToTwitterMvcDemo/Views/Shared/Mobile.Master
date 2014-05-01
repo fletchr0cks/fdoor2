@@ -41,7 +41,7 @@
                var fireMenu = function () {
                    clearTimeout(timerS);
                    var toppix = $(window).scrollTop();
-
+                   var kindle_sc = checkKindle_sc();
 
                    if (parseInt(toppix) == 0 && kindle_sc == "on") {
                        $("#lnkDialog").click();
@@ -1480,11 +1480,11 @@ function ListArticles() {
     var ulbtm = "</div>";
     var ct = 0;
     var para = "";
-    alert("la1");
+    //alert("la1");
     $.ajax({
         type: "POST",
         url: "/Mobile/getArticles",
-        dataType: "text/plain",
+        dataType: "json",
         success: function (json) {
             $.each(json.Articles, function (i, result) {
                 para = para + "<div data-role=\"collapsible\"><h3 onClick=\"ListComments(" + result.id + ")\">" + result.heading + "<span class=\"ui-li-count\" id=\"CommBubble_" + result.id + "\">" + result.NumComments + " comments</span></h3>" +
@@ -1501,7 +1501,7 @@ function ListArticles() {
         },
         complete: function (xhr, status) {
 
-            $("#BlogList").html(ultop + para + ulbtm).trigger('create');
+            $("#BlogList").html(para).trigger('create');
 
 
 

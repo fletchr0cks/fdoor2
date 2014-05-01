@@ -88,11 +88,17 @@
   </div>
  
 </div>
-<div id="blog" style="display:none">
+<div id="blog">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px">Blog</div>
-     
+     <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
      <div id="BlogList"></div>
+     <div data-role="collapsible">
+        <h3>Section 3</h3>
+    <p>I'm the collapsible content for section 3</p>
+    </div>
+     </div>
+     
      </div>
      </div>
   <br />
@@ -175,7 +181,12 @@
 <div style="font-size:30px">Kindle Tricks</div>
 <p style="font-size:18px"><strong>Easy shortcut menu</strong></p>
 <p>Just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
-    </div>
+<br />
+<p style="font-size:18px"><strong>Zero typing setup</strong></p>
+<p>To save typing your Twitter and Google credentials on the Kindle, so all the authentication on another device, then click the Zero Typing button on the left. </p>
+<p></p>
+
+</div>
 </div>
 <div id="toptweet" style="display:inline-block">20</div>
 <div style="display:inline-block" id="toptweettime"></div>
