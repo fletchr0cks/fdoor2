@@ -86,7 +86,7 @@
     </div>
 </div>
   </div>
-  <br />
+ 
 </div>
 <div id="blog" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
@@ -96,7 +96,7 @@
      </div>
      </div>
   <br />
-</div>
+
 <div id="tweets" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
