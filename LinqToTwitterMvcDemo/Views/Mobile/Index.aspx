@@ -55,39 +55,6 @@
    </div>
    <br />
 </div>
-<div id="Div1">
-<div class="ui-body ui-body-a ui-corner-all">
-<div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a"><div style="font-size:20px">Blog</div>  
-    </div>
-     <div class="ui-block-b"><div style="font-size:10px">Last comment: </div>  
-     </div>
-     </div>
-<div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
-    <div data-role="collapsible">
-        <h3>Section 1 <span class="ui-li-count">12</span></h3>
-     <p>Blog entry here</p>
-    <form>
-    <div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a">Name</div>
-    <div class="ui-block-b"><input type="text" name="text-1" id="text-1" value=""></div>
-    </div>
-    <textarea name="textarea-1" id="textarea-1"></textarea>
-    <button class="ui-btn ui-btn-inline">Add Comment</button>
-</form>
-    </div>
-    <div data-role="collapsible">
-        <h3>Section 2</h3>
-    <p>I'm the collapsible content for section 2</p>
-    </div>
-    <div data-role="collapsible">
-        <h3>Section 3</h3>
-    <p>I'm the collapsible content for section 3</p>
-    </div>
-</div>
-  </div>
- 
-</div>
 <div id="blog">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px">Blog</div>
