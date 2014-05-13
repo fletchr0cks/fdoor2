@@ -416,6 +416,7 @@
     <Content Include="Views\Home\testout.ascx" />
     <Content Include="Views\Mobile\Choose.aspx" />
     <Content Include="Views\Mobile\Index.aspx" />
+    <Content Include="Views\Mobile\parsetime.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

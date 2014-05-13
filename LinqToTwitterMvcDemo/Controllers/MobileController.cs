@@ -917,6 +917,11 @@ namespace LinqToTwitterMvcDemo.Controllers
             int userid = dataRepository.getID(guid);
             if (type == "Twitter")
             {
+                credentials.AccessToken = null;
+                credentials.ConsumerKey = null;
+                credentials.ConsumerSecret = null;
+                credentials.OAuthToken = null;
+                credentials.UserId = null;
                 dataRepository.del_twt(userid);
             }
 
@@ -1018,6 +1023,33 @@ namespace LinqToTwitterMvcDemo.Controllers
                  EntityUrl = GetTweetUrlEntities(tweet)
              });
 
+            var screenName = "okfridge";
+
+            var okfridge =
+                (from tweet in twitterCtx.Status
+                where tweet.Type == StatusType.User
+                      && tweet.ScreenName == screenName
+                      && tweet.Count == 10
+
+          
+             select new TweetViewModel
+             {
+                 //ImageUrl = tweet.Entities.,
+                 ScreenName = tweet.ScreenName,
+                 TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                 //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                 Tweet = tweet.Text,
+                 BannerText = GetBannerText(tweet),
+                 BannerTime = GetBannerTime(tweet),
+                 ID = tweet.StatusID,
+                 ImageUrl = tweet.User.ProfileImageUrl,
+                 //SinceID = tweet.SinceID,
+                 //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                 MediaUrl = GetTweetMediaUrl(tweet),
+                 EntityUrl = GetTweetUrlEntities(tweet)
+             });
+
+
             var home =
             (from tweet in twitterCtx.Status
              where tweet.Type == StatusType.Home
@@ -1086,7 +1118,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 topname = mytweets.First().ScreenName;
             }
 
-            return Json(new { mytweets = mytweets.Take(getnum), home = home.Take(getnum), getmore = getnum, topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
+            return Json(new { mytweets = mytweets.Take(getnum), okfridge = okfridge, home = home.Take(getnum), getmore = getnum, topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
 
         }
@@ -1256,22 +1288,165 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         private string GetBannerText(Status status)
         {
-            var tweet_txt = status.Text;
-            var bantxt = getBetween(tweet_txt, "#banner");
-            return bantxt;
-            //var tweet_type;
-           // if (tweet_txt.Contains("#bannernow"))
-          //  {
-          //      var bantxt = getBetween(tweet_txt, "#bannernow", "now");
-          //      return bantxt;
-          //  }
-          //  else if (tweet_txt.Contains("#bannertime"))
-          //  {
-          //      var bantxt = getBetween(tweet_txt, "#bannertime", "time");
-          //      return bantxt;
-          //  }
+            var banner = status.Text;
+            //var bantxt = getBetween(tweet_txt, "#banner");
+            var strStart = GetBannerTimeStr(banner);
+            int timeframe = Convert.ToInt32(strStart);
+            if (timeframe > 0)
+            {
+                var timetxt = GetBannerTimeFromStr(banner);
+                //is a number, remove  
+                int Start, End, end2;
+                Start = banner.IndexOf(timetxt, 0) + timetxt.Length;
+                End = banner.Length;
+                end2 = End - Start - 1;
+                //var banneronly = banner.Substring(Start + 1, End - (Start - 5));
+                var banneronly = banner.Substring(Start + 1, end2);
+                return banneronly;
+            }
+            else
+            {
+                //no time specified, do not remove anything
+                var bantxt = getBetween(banner, "#banner");
+
+                return bantxt;
+            }
+         
             
         }
+
+        private string GetBannerTimeStr(String tweet_txt)
+        {
+            //var tweet_txt = status.Text;
+            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            if (tfstart > 8)
+            {
+                try
+                {
+                    int start = tweet_txt.Length - 1;
+                    int end = tweet_txt.Length;
+                    var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
+                    //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
+                    var timetxt = bantxt.Split(' ')[0];
+                    var timeval = timetxt.Substring(0, timetxt.Length - 1);
+                    var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
+                    int time = Convert.ToInt32(timeval);
+                    try
+                    {
+                        int ms = 1;
+                        if (timeframe == "h")
+                        {
+                            ms = 3600000;
+
+                        }
+                        else if (timeframe == "m")
+                        {
+
+                            ms = 60000;
+                        }
+
+                        else if (timeframe == "s")
+                        {
+
+                            ms = 1000;
+                        }
+                        //var tweet_type;
+                        return Convert.ToString(ms * time);
+
+                    }
+                    catch
+                    {
+
+                        return null;
+
+                    }
+                    //return Convert.ToString(timeval + timeframe);
+
+                }
+                catch
+                {
+
+                    return null;
+                }
+            }
+            else
+            {
+
+                return null;
+
+            }
+
+            //return "10000";
+        }
+
+        private string GetBannerTimeFromStr(String tweet_txt)
+        {
+            //var tweet_txt = status.Text;
+            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            if (tfstart > 8)
+            {
+                try
+                {
+                    int start = tweet_txt.Length - 1;
+                    int end = tweet_txt.Length;
+                    var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
+                    //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
+                    var timetxt = bantxt.Split(' ')[0];
+                    var timeval = timetxt.Substring(0, timetxt.Length - 1);
+                    var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
+                    int time = Convert.ToInt32(timeval);
+                    return Convert.ToString(timeval + timeframe);
+
+                    //return Convert.ToString(timeval + timeframe);
+
+                }
+                catch
+                {
+
+                    return "0";
+                }
+            }
+            else
+            {
+
+                return "0";
+
+            }
+
+            //return "10000";
+        }
+
+        public ActionResult parsetime()
+        {
+            var banner = "hihi #banner here is the text";
+             //gets 20000 //return 20s or nothing if it's text
+            
+            
+                var strStart = GetBannerTimeStr(banner);
+                int timeframe = Convert.ToInt32(strStart);
+            if (timeframe > 0) {
+                var timetxt = GetBannerTimeFromStr(banner);
+                //is a number, remove  
+                int Start, End, end2;
+                Start = banner.IndexOf(timetxt, 0) + timetxt.Length;
+                End = banner.Length;
+                end2 = End - Start - 1;
+                //var banneronly = banner.Substring(Start + 1, End - (Start - 5));
+                var banneronly = banner.Substring(Start + 1, end2);
+                ViewData["banner"] = banneronly;
+            }
+        else
+            {
+                //no time specified, do not remove anything
+                var bantxt = getBetween(banner, "#banner");
+                ViewData["banner"] = bantxt;
+            }
+            //var out2 = GetBannerTime
+            //remove up to end of out1 from banner
+           
+            return View();
+        }
+
 
         private string GetBannerTime(Status status)
         {

@@ -8,8 +8,8 @@
      
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
-<script src="../../Scripts/jquery-1.10.2.js"></script>
-<script src="../../Scripts/jquery.mobile-1.4.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
    <script type="text/javascript">
 
@@ -376,7 +376,7 @@
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
-               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
+               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
                var lo = "";
@@ -385,7 +385,7 @@
                    lo = get_cookie("lo" + n1);
                }
                var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\">" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
+               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
 
            $('#calendar_next5').html(calnext5 + "</div>").trigger('create');
@@ -415,7 +415,7 @@
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
-               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\" style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
+               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
                var lo = "";
@@ -424,7 +424,7 @@
                    lo = get_cookie("lo" + n1);
                }
                var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-bar ui-bar-c\">" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
+               weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
 
            $('#calendarbloc_next5').html(calnext5 + "</div>").trigger('create');
@@ -1228,14 +1228,31 @@
        }
 
        function getSel() {
+        //   $('#checkbox-3d').prop('disabled', true).checkboxradio('refresh');
+        //   $('#checkbox-3ddiv').addClass("ui-disabled");
            var kindle_sc = get_cookie("kindle_sc");
            var header_text = get_cookie("header");
+           var autoupdate = get_cookie("autoupdate");
+           var banner_auto = get_cookie("banner_auto");
+           var banner_my = get_cookie("banner_my");
+           var banner_fol = get_cookie("banner_fol");
+           var banner_men = get_cookie("banner_men");
+           var banner_okf = get_cookie("banner_okf");
            document.getElementById('header_text').value = header_text;
            if (kindle_sc == "on") {
                $('#checkbox-1a').prop('checked', true).checkboxradio('refresh');
            } else {
                $('#checkbox-1a').prop('checked', false).checkboxradio('refresh');
            }
+           if (autoupdate == "on") {
+               $('#checkbox-2a').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-2a').prop('checked', false).checkboxradio('refresh');
+               $('#checkbox-3d').prop('disabled', true).checkboxradio('refresh');
+               $('#checkbox-3ddiv').addClass("ui-disabled");
+           }
+           
+          
            $.ajax({
                type: "GET",
                url: "/Mobile/GetSel",
@@ -1307,6 +1324,11 @@
            });
           
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
+       }
+
+       function checkboxChange(id) {
+           var autoupdate = document.getElementById('checkbox-2a').checked;
+           alert(val + " " + id);
        }
 
        function sliderChange(val, id) {
@@ -1912,32 +1934,58 @@ function backFillCal(startrow) {
     <legend></legend>
     <input type="checkbox" name="checkbox-1a" id="checkbox-1a">
     <label for="checkbox-1a">Page Down/Up opens Actions Menu</label>
-    <input type="checkbox" name="checkbox-2a" id="checkbox-2a">
-    <label for="checkbox-2a">Something else</label>
+    </fieldset>
+<fieldset data-role="controlgroup">
+    <input type="checkbox" name="checkbox-2a" id="checkbox-2a" onchange="checkboxChange(this.id)">
+    <label for="checkbox-2a">Auto update</label>
+
+     <input type="checkbox" name="checkbox-3" id="checkbox-3">
+    <label for="checkbox-3">Auto show banners</label>
+
+     <input type="checkbox" name="checkbox-3a" id="checkbox-3a">
+    <label for="checkbox-3a">My Tweets</label>
+
+     <input type="checkbox" name="checkbox-3b" id="checkbox-3b">
+    <label for="checkbox-3b">Following</label>
+
+     <input type="checkbox" name="checkbox-3c" id="checkbox-3c">
+    <label for="checkbox-3c">Mentions</label>
+    <div id="checkbox-3ddiv">
+     <input type="checkbox" name="checkbox-3d" id="checkbox-3d">
+    <label for="checkbox-3d">@okfridge</label></div>
+  
 </fieldset>
 <label for="text-basic">Header Text:</label>
 <input type="text" name="header_text" id="header_text" value="">
-<p><a href="#header" data-rel="close" class="ui-btn ui-btn-b ui-mini">Close Panel</a>
-<div>
-<a href="#header" data-rel="close" onclick="saveSel()" class="ui-btn ui-btn-b ui-mini">Save and Close</a></div>
+<p><a href="#zerotype" data-rel="popup" class="ui-btn ui-btn-c ui-mini" data-transition="pop" data-position-to="window">No Typing Setup</a>
+</p>
+
+<p><a href="#header" data-rel="close" class="ui-btn ui-btn-c ui-mini">Close Panel</a>
+</p>
+<p>
+<a href="#header" data-rel="close" onclick="saveSel()" class="ui-btn ui-btn-c ui-mini">Save and Close</a>
 </p>
 
 </div><!-- /panel -->
 
 <div data-role="popup" id="popupNested" data-theme="b">
-
   <div class="ui-body ui-body-b">
 <p><div id="refreshMsg"></div></p>   
 <ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
-    <li><a href="#">Refresh all</a></li>
+    <li><a href="#">Refresh All</a></li>
     <li><a href="#">Refresh Twitter</a></li>
     <li><a href="#">Refresh Calendar</a></li>
     <li><a href="#">Show latest banner</a></li>
-    <li><a href="#">Send tweet</a></li>
 </ul>
     </div>
-
 </div><!-- /popup -->
+
+<div data-role="popup" id="zerotype" data-theme="b">
+  <div class="ui-body ui-body-b">
+<p>Copy and paste this link ....</p>
+    </div>
+</div><!-- /popup -->
+
     <div data-role="header" data-position="fixed">
         <asp:ContentPlaceHolder ID="PageTitleContent" runat="server" />
     </div>
