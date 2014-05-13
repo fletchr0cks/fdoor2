@@ -1510,8 +1510,59 @@ namespace LinqToTwitterMvcDemo.Controllers
             //return "10000";
         }
 
+        private string GetBannerTimeStr(String tweet_txt)
+        {
+            //var tweet_txt = status.Text;
+            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            if (tfstart > 8)
+            {
+                try
+                {
+                    int start = tweet_txt.Length - 1;
+                    int end = tweet_txt.Length;
+                    var bantxt = tweet_txt.Substring(tfstart, (tweet_txt.Length - tfstart));
+                    //var time = Convert.ToInt32(tweet_txt.Substring(tweet_txt.Length - 2, tweet_txt.Length - 1));
+                    var timetxt = bantxt.Split(' ')[0];
+                    var timeval = timetxt.Substring(0, timetxt.Length - 1);
+                    var timeframe = timetxt.Substring(timetxt.Length - 1, 1);
+                    return Convert.ToString(timeval + timeframe);
+
+                }
+                catch
+                {
+
+                    return "0";
+                }
+            }
+            else
+            {
+
+                return "0";
+
+            }
+
+            //return "10000";
+        }
+
+        public ActionResult parsetime()
+        {
+            var banner = "hihi #banner here is the text";
+            var strStart = GetBannerTimeStr(banner); //gets 20000 //return 20s or nothing if it's text
+            //var out2 = GetBannerTime
+            //remove up to end of out1 from banner
+            int Start, End, end2;
+            Start = banner.IndexOf(strStart, 0) + strStart.Length;
+            End = banner.Length;
+            end2 = End - Start - 1;
+            //var banneronly = banner.Substring(Start + 1, End - (Start - 5));
+            var banneronly = banner.Substring(Start + 1, end2);
+            ViewData["banner"] = banneronly;
+            return View();
+        }
+
         public static string getBetween(string strSource, string strStart)
         {
+            //getBetween(tweet_txt, "#banner");
             int Start, End;
 
             if (strSource.Contains(strStart))
