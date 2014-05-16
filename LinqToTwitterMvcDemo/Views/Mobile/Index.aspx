@@ -9,7 +9,7 @@
 <div data-role="header">
 
  <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
-<h1><div id="headtext">OK Fridge</div></h1>
+<h1><div id="headtext">   </div></h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-action" data-transition="pop" data-position-to="window">Choose</a>
 </div>
 

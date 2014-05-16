@@ -1245,13 +1245,48 @@
                $('#checkbox-1a').prop('checked', false).checkboxradio('refresh');
            }
            if (autoupdate == "on") {
-               $('#checkbox-2a').prop('checked', true).checkboxradio('refresh');
+                 $('#checkbox-2a').prop('checked', true).checkboxradio('refresh');
            } else {
-               $('#checkbox-2a').prop('checked', false).checkboxradio('refresh');
-               $('#checkbox-3d').prop('disabled', true).checkboxradio('refresh');
-               $('#checkbox-3ddiv').addClass("ui-disabled");
+                 $('#checkbox-2a').prop('checked', false).checkboxradio('refresh');
            }
-           
+           if (banner_auto == "on") {
+               $('#checkbox-3').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-3').prop('checked', false).checkboxradio('refresh');
+               $('#checkbox-3d').prop('enabled', false).checkboxradio('refresh');
+               $('#checkbox-my-div').removeClass("ui-enabled");
+               $('#checkbox-my-div').addClass("ui-disabled"); 
+               $('#checkbox-fol-div').removeClass("ui-enabled");
+               $('#checkbox-fol-div').addClass("ui-disabled");
+               $('#checkbox-men-div').removeClass("ui-enabled");
+               $('#checkbox-men-div').addClass("ui-disabled");
+               $('#checkbox-okf-div').removeClass("ui-enabled");
+               $('#checkbox-okf-div').addClass("ui-disabled");
+           }
+
+           if (banner_my == "on") {
+               $('#checkbox-3a').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-3a').prop('checked', false).checkboxradio('refresh');
+           }
+
+           if (banner_fol == "on") {
+               $('#checkbox-3b').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-3b').prop('checked', false).checkboxradio('refresh');
+           }
+
+           if (banner_men == "on") {
+               $('#checkbox-3c').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-3c').prop('checked', false).checkboxradio('refresh');
+           }
+
+           if (banner_okf == "on") {
+               $('#checkbox-3d').prop('checked', true).checkboxradio('refresh');
+           } else {
+               $('#checkbox-3d').prop('checked', false).checkboxradio('refresh');
+           }           
           
            $.ajax({
                type: "GET",
@@ -1286,17 +1321,58 @@
            var selected = new Array();
            var str = "twncgksb";
            var kindle_sc = "";
+           var autoupdate = "";
+           var banner_auto = "";
+           var banner_my = "";
+           var banner_fol = "";
+           var banner_men = "";
+           var banner_okf = "";
            var header_text = document.getElementById("header_text").value;
            if ($("#checkbox-1a").is(":checked")) {
-               // $('#chkBox2').prop('checked', false).checkboxradio('refresh');
                kindle_sc = "on";
            } else {
-           kindle_sc = "off";
+               kindle_sc = "off";
+           }
+           if ($("#checkbox-2a").is(":checked")) {
+               autoupdate = "on";
+           } else {
+               autoupdate = "off";
+           }
+           if ($("#checkbox-3").is(":checked")) {
+               banner_auto = "on";
+           } else {
+               banner_auto = "off";
+           }
+           if ($("#checkbox-3a").is(":checked")) {
+               banner_my = "on";
+           } else {
+               banner_my = "off";
+           }
+           if ($("#checkbox-3b").is(":checked")) {
+               banner_fol = "on";
+           } else {
+               banner_fol = "off";
+           }
+           if ($("#checkbox-3c").is(":checked")) {
+               banner_men = "on";
+           } else {
+               banner_men = "off";
+           }
+           if ($("#checkbox-3d").is(":checked")) {
+               banner_okf = "on";
+           } else {
+               banner_okf = "off";
            }
        //alert(kindle_sc + header_text);
        //alert(checkKindle_sc());
            set_cookie("kindle_sc", kindle_sc, 360);
            set_cookie("header", header_text, 360);
+           set_cookie("autoupdate", autoupdate, 360);
+           set_cookie("banner_auto", banner_auto, 360);
+           set_cookie("banner_my", banner_auto, 360);
+           set_cookie("banner_fol", banner_auto, 360);
+           set_cookie("banner_men", banner_auto, 360);
+           set_cookie("banner_okf", banner_auto, 360);
            for (var i = 0; i < str.length; i++) {
                var nextChar = str.charAt(i);
                var flipstr = "flip-" + nextChar;
@@ -1326,9 +1402,32 @@
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
 
-       function checkboxChange(id) {
-           var autoupdate = document.getElementById('checkbox-2a').checked;
-           alert(val + " " + id);
+       function checkboxChange(id,val) {
+           var autoupdate = document.getElementById('checkbox-3').checked;
+          // alert(id + val);
+           if (val == true) {
+               $('#checkbox-3d').prop('enabled', true).checkboxradio('refresh');
+               $('#checkbox-my-div').removeClass("ui-disabled");
+               $('#checkbox-my-div').addClass("ui-enabled");
+               $('#checkbox-fol-div').removeClass("ui-disabled");
+               $('#checkbox-fol-div').addClass("ui-enabled");
+               $('#checkbox-men-div').removeClass("ui-disabled");
+               $('#checkbox-men-div').addClass("ui-enabled");
+               $('#checkbox-okf-div').removeClass("ui-disabled");
+               $('#checkbox-okf-div').addClass("ui-enabled");
+           } else {
+          // alert(val);
+               $('#checkbox-3d').prop('enabled', false).checkboxradio('refresh');
+               $('#checkbox-my-div').removeClass("ui-enabled");
+               $('#checkbox-my-div').addClass("ui-disabled");
+               $('#checkbox-fol-div').removeClass("ui-enabled");
+               $('#checkbox-fol-div').addClass("ui-disabled");
+               $('#checkbox-men-div').removeClass("ui-enabled");
+               $('#checkbox-men-div').addClass("ui-disabled");
+               $('#checkbox-okf-div').removeClass("ui-enabled");
+               $('#checkbox-okf-div').addClass("ui-disabled");
+       
+           }
        }
 
        function sliderChange(val, id) {
@@ -1936,21 +2035,21 @@ function backFillCal(startrow) {
     <label for="checkbox-1a">Page Down/Up opens Actions Menu</label>
     </fieldset>
 <fieldset data-role="controlgroup">
-    <input type="checkbox" name="checkbox-2a" id="checkbox-2a" onchange="checkboxChange(this.id)">
+    <input type="checkbox" name="checkbox-2a" id="checkbox-2a">
     <label for="checkbox-2a">Auto update</label>
 
-     <input type="checkbox" name="checkbox-3" id="checkbox-3">
+     <input type="checkbox" name="checkbox-3" id="checkbox-3" onchange="checkboxChange(this.id, this.checked)">
     <label for="checkbox-3">Auto show banners</label>
-
+        <div id="checkbox-my-div">
      <input type="checkbox" name="checkbox-3a" id="checkbox-3a">
-    <label for="checkbox-3a">My Tweets</label>
-
+    <label for="checkbox-3a">My Tweets</label></div>
+    <div id="checkbox-fol-div">
      <input type="checkbox" name="checkbox-3b" id="checkbox-3b">
-    <label for="checkbox-3b">Following</label>
-
+    <label for="checkbox-3b">Following</label></div>
+    <div id="checkbox-men-div">
      <input type="checkbox" name="checkbox-3c" id="checkbox-3c">
-    <label for="checkbox-3c">Mentions</label>
-    <div id="checkbox-3ddiv">
+    <label for="checkbox-3c">Mentions</label></div>
+    <div id="checkbox-okf-div">
      <input type="checkbox" name="checkbox-3d" id="checkbox-3d">
     <label for="checkbox-3d">@okfridge</label></div>
   

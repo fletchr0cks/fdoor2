@@ -1416,37 +1416,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             //return "10000";
         }
 
-        public ActionResult parsetime()
-        {
-            var banner = "hihi #banner here is the text";
-             //gets 20000 //return 20s or nothing if it's text
-            
-            
-                var strStart = GetBannerTimeStr(banner);
-                int timeframe = Convert.ToInt32(strStart);
-            if (timeframe > 0) {
-                var timetxt = GetBannerTimeFromStr(banner);
-                //is a number, remove  
-                int Start, End, end2;
-                Start = banner.IndexOf(timetxt, 0) + timetxt.Length;
-                End = banner.Length;
-                end2 = End - Start - 1;
-                //var banneronly = banner.Substring(Start + 1, End - (Start - 5));
-                var banneronly = banner.Substring(Start + 1, end2);
-                ViewData["banner"] = banneronly;
-            }
-        else
-            {
-                //no time specified, do not remove anything
-                var bantxt = getBetween(banner, "#banner");
-                ViewData["banner"] = bantxt;
-            }
-            //var out2 = GetBannerTime
-            //remove up to end of out1 from banner
-           
-            return View();
-        }
-
+  
 
         private string GetBannerTime(Status status)
         {
@@ -1510,7 +1480,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             //return "10000";
         }
 
-        private string GetBannerTimeStr(String tweet_txt)
+        private string GetBannerTimeStr2(String tweet_txt)
         {
             //var tweet_txt = status.Text;
             int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
@@ -1542,22 +1512,6 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
 
             //return "10000";
-        }
-
-        public ActionResult parsetime()
-        {
-            var banner = "hihi #banner here is the text";
-            var strStart = GetBannerTimeStr(banner); //gets 20000 //return 20s or nothing if it's text
-            //var out2 = GetBannerTime
-            //remove up to end of out1 from banner
-            int Start, End, end2;
-            Start = banner.IndexOf(strStart, 0) + strStart.Length;
-            End = banner.Length;
-            end2 = End - Start - 1;
-            //var banneronly = banner.Substring(Start + 1, End - (Start - 5));
-            var banneronly = banner.Substring(Start + 1, end2);
-            ViewData["banner"] = banneronly;
-            return View();
         }
 
         public static string getBetween(string strSource, string strStart)
