@@ -698,11 +698,13 @@ namespace LinqToTwitterMvcDemo.Controllers
         public JsonResult getAgents()
         {
             var kindles = (from s in db.devices where s.UAmax.Contains("kindle") select s).Count().ToString();
-            var chromes = (from s in db.devices where s.UAmax.Contains("chrome") select s).Count().ToString();
+            var iOS = (from s in db.devices where s.UAmax.Contains("Mac") select s).Count().ToString();
+            var windows = (from s in db.devices where s.UAmax.Contains("Windows") select s).Count().ToString();
+            var total = (from s in db.devices select s).Count().ToString();
                       //TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                   
 
-            return Json(new { kindles = kindles, chromes = chromes }, JsonRequestBehavior.AllowGet);
+            return Json(new { kindles = kindles, iOS = iOS, windows = windows, total = total }, JsonRequestBehavior.AllowGet);
         }
 
         public Guid checkGUID()

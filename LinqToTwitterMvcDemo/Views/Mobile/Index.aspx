@@ -21,7 +21,7 @@
 <div class="closeBanner" id="banner_header">
 </div>
 <div class="bigbanner" id="banner_area"></div>
-<div class="covercss" id="covertop">cover</div>
+<div class="covercss" id="covertop"></div>
 <div id="welcome" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">Get Started</div>
@@ -55,7 +55,7 @@
    </div>
    <br />
 </div>
-<div id="blog">
+<div id="blog" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px">Blog</div>
      <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
@@ -94,7 +94,7 @@
 <div class="ui-grid-a">
     <div class="ui-block-a"><div style="font-size:20px" id="chosenDay">Today</div>
     
-    <div id="eventsDay">event here</div>
+    <div id="eventsDay"></div>
     </div>
     <div class="ui-block-b">    
     <div class="ui-grid-f">
@@ -129,18 +129,9 @@
 </div>
 </div>
 </div>
+<br />
+<div id="stats" style="display:none">
 
-<div id="agentsID" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:30px">147 Users</div>
-    <div class="ui-grid-d">
-    <div class="ui-block-a"><p style="font-size:16px">Kindle</p><p>22</p></div>
-     <div class="ui-block-b"><p style="font-size:16px">iOS</p><p>2</p></div>
-   <div class="ui-block-c"><p style="font-size:16px">Android</p><p>100</p></div>
-  <div class="ui-block-d"><p style="font-size:16px">Linux</p><p>100</p></div>
-    <div class="ui-block-e"><p style="font-size:16px">Windows</p><p>100</p></div>
-   </div>
-    </div>
 </div>
 
 <div id="kindletricks" style="display:none">

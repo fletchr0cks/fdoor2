@@ -391,17 +391,38 @@ namespace LinqToTwitterMvcDemo.Models
                          where (u.guid == guid)
                          select u).First().id;
 
+                var usr = db.users
+                  .Where(u => u.id == userID)
+                    .First();
+
+                usr.lastlogin = DateTime.Now;
+                db.SubmitChanges();
+
                 return userID;
 
             } 
             catch
             {
-                user user = new user();
-                user.guid = guid;
-                user.lastlogin = DateTime.Now;
-                db.users.InsertOnSubmit(user);
-                db.SubmitChanges();
-                return user.id;
+                try
+                {
+                    user user = new user();
+                    user.guid = guid;
+                    user.lastlogin = DateTime.Now;
+                    db.users.InsertOnSubmit(user);
+                    db.SubmitChanges();
+                    return user.id;
+                }
+                catch
+                {
+                    var userID = (from u in db.users
+                                  where (u.guid == guid)
+                                  select u).First().id;
+
+                    
+                    return userID;
+
+
+                }
             }
                
            
