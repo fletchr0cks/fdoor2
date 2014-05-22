@@ -792,7 +792,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public void saveLocation(string lat, string lng, string loc)
+        public JsonResult saveLocation(string lat, string lng, string loc)
         {
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
@@ -802,7 +802,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             //SetCookie("long", lng);
             //save cookie
             //RedirectToAction("Index_T");
-            //return RedirectToAction("Choose");
+            return Json(new { loc = loc }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult SaveTwID(string id)
@@ -939,6 +939,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 DelCookie("lat", "");
                 DelCookie("long", "");
+                dataRepository.clearWeather(userid);
                 //cycle thru others
 
             }

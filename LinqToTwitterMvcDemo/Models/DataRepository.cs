@@ -319,15 +319,15 @@ namespace LinqToTwitterMvcDemo.Models
 
         }
 
-        public void MovePlace(string latval, string longval, int PID)
+        public void clearWeather(int userid)
         {
-           // var place = db.places
-          //      .Where(p => p.PID == PID)
-         //       .First();
-
-           // place.LatVal = Convert.ToDecimal(latval);
-           // place.LongVal = Convert.ToDecimal(longval);
-           // db.SubmitChanges();
+            var usr = db.users
+                .Where(p => p.id == userid)
+                .First();
+            usr.lat = null;
+            usr.lng = null;
+            usr.location = null;
+            db.SubmitChanges();
 
         }
 

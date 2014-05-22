@@ -167,8 +167,9 @@
 
        function getZeroURL() {
            var guid = get_cookie("GUID");
+           var cookies = listCookies();
            $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" +guid);
-
+           $("#allcookies").html(cookies);
        }
 
        function ChangeLoc() {
@@ -186,25 +187,29 @@
        function SaveLoc(lat, lng, loc) {
            set_cookie("lat", lat, 365);
            set_cookie("long", lng, 365);
+           //var loc = "";
+           $('#setLocation').html("Saving ...").trigger('create');
            $.ajax({
                type: "GET",
                url: "/Mobile/saveLocation",
                data: "lat=" + lat + "&lng=" + lng + "&loc=" + loc,
-               dataType: "json",
+               dataType: "text/plain", //nothing returned
                success: function (json) {
-
+                  
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
-                   // return idlist;
+                  
+                   var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
+                   $('#setLocation').html(html).trigger('create');
                }
 
            });
            //alert(lat + "," + lng);
-           GetWeather(0, 1);
-           document.location.href = '/';
+           //GetWeather(0, 1);
+           //document.location.href = '/';
        }
 
 
@@ -363,7 +368,8 @@
       }
 
 
-      function drawDays(min, idlistj) {         
+      function drawDays(min, idlistj) {
+             
            var n = parseInt(min);
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
@@ -386,24 +392,43 @@
                var img = get_cookie("icon" + n1);
                var hi = "";
                var lo = "";
+               var icon = "";
                if (n1 < 4) {
                    hi = get_cookie("hi" + n1);
                    lo = get_cookie("lo" + n1);
+                   icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                }
-               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+            
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
 
            $('#calendar_next5').html(calnext5 + "</div>").trigger('create');
            var ckcheck = get_cookie("lat");
            if (ckcheck != null) {
+               n = min * 2;
+               var n2 = n + 1;
+              // var n2 = parseInt(n + 1);
+               var forecast2 = get_cookie("day" + n2);
+               var forecast = get_cookie("day" + n);
+               var img = get_cookie("icon" + n);
+               var img2 = get_cookie("icon" + n);
+               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+               var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+               var day = "day.";
+               var day2 = "day2.";
+               var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
+               //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+               
+               $('#weather').html(htmltable);
                $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
            }
        }
 
 
-       function drawDaysnoCal() {
-           var n = parseInt(1);
+       function drawDaysnoCal(n) {
+           //var n = parseInt(1);
+           $('#weatherday').html("<strong>" + formatDateFull(n) + "</strong>");
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
            var weathernext5 = "<div class=\"ui-grid-d\">";
@@ -421,17 +446,33 @@
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
-               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"testa(" + n2 + "," + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
+               
+               calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"drawDaysnoCal(" + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
                var lo = "";
+               var icon = "";
                if (n1 < 4) {
                    hi = get_cookie("hi" + n1);
                    lo = get_cookie("lo" + n1);
+                   icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                }
-               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+                
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
+           n = n * 2;
+           var n2 = n + 1;
+           
+           var forecast2 = get_cookie("day" + n2);
+           var forecast = get_cookie("day" + n);
+           var img2 = get_cookie("icon" + n);
+           var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+           var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+           var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>"  + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + icon2 + "</td><td>"  + forecast2 + "</td></tr></table>";
+           //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
+           //$('#weather').append(htmltable);
+           $('#weatherblocdata').html(htmltable);
 
            $('#calendarbloc_next5').html(calnext5 + "</div>").trigger('create');
            $('#weatherbloc_next5').html(weathernext5 + "</div>").trigger('create');
@@ -487,20 +528,19 @@
                min = min * 2;
                max = min + 1;
                var ck = get_cookie("day0");
-               //alert("ck=" + ck);
-               if (ck == null) {
-                   //alert("ck is null");
+               //get weather cookie creation time
+               var w_data = get_cookie("w_data");
+               var epoch = Math.round(new Date().getTime() / 1000)
+               var diff = parseInt(parseInt(epoch) - parseInt(w_data));
+           
+               if (ck == null && diff > 2000) {
+                    //alert("diff:" + diff + " new data");
                    //$('#weather').html(loc);
                    $.ajax({
                        type: "GET",
                        url: "http://api.wunderground.com/api/bf45926a1b878028/forecast/geolookup/q/" + loc + ".json",
                        dataType: "jsonp",
                        success: function (json) {
-                           //var json = eval('(' + jsontxt + ')');
-                           //var jsontext = JSON.stringify(json);
-                           // $.each(json.Id, function (i, idlist) {
-                           //alert(jsontext);
-                           //});
                            var i = 0;
                            while (i < 8) {
                                var text = json['forecast']['txt_forecast']['forecastday'][i]['fcttext_metric'];
@@ -535,14 +575,14 @@
                            //set_cookie("0icon", forecast, 1);
                            //var htmltable = "<table><tr><td>" + day + ":  </td><td>" + forecast + "</td></tr><tr><td>" + day2 + ":  </td><td>" + forecast2 + "</td></tr></table>";
                            //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-                           var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>" + forecast + "</td></tr></table></br>" +
-            "<table><tr><td>Night <br />" + img2 + "</td><td>" + forecast2 + "</td></tr></table>";
+                           var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>min:" + min + " " + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + img2 + "</td><td>max:" + max + " " + forecast2 + "</td></tr></table>";
                            //alert(htmltable);
-                           $('#weather').append(htmltable);
+                           $('#weather').html(htmltable);
                            $('#weatherblocdata').append(htmltable);
                            //next 5 ???
-                           var epoch = Math.round(new Date().getTime() / 1000)
-
+                           var epoch = Math.round(new Date().getTime() / 1000);
+                           set_cookie("w_data", epoch, 2);
                        },
                        error: function (xhr, error) {
                            console.debug(xhr); console.debug(error);
@@ -564,7 +604,7 @@
                    var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
                    //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-                   $('#weather').append(htmltable);
+                   $('#weather').html(htmltable);
                    $('#weatherblocdata').append(htmltable);
 
                }
@@ -1537,10 +1577,13 @@
                
                if (flipW == "yes" && flipC == "no" && get_cookie("lat") != null) {
                    $('#weatherbloc').show();
-                   drawDaysnoCal();
+                   drawDaysnoCal(0);
                }
 
-             
+               if (flipW == "yes" && flipC == "yes") {
+                   $('#weatherbloc').hide();
+                   //drawDaysnoCal(0);
+               }
 
                if (val == "no") {
                    $('#weather_next5').hide();
@@ -2108,7 +2151,7 @@ function backFillCal(startrow) {
 
 <div data-role="popup" id="popupNested" data-theme="b">
   <div class="ui-body ui-body-b">
-<p><div id="refreshMsg"></div></p>   
+<p><div id="refreshMsg"></div></p>   *
 <ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
     <li><a href="#">Refresh All</a></li>
     <li><a href="#">Refresh Twitter</a></li>
@@ -2123,6 +2166,7 @@ function backFillCal(startrow) {
 <p>Copy and paste this link into a text file. Use the Send to Kindle feature in Amazon to send that file to your Kindle. When it appears, just click on the link.</p>
  <p></p>
  <p><div id="zeroURL"></div></p>
+ <div id="allcookies"></div>
     </div>
 </div><!-- /popup -->
 
