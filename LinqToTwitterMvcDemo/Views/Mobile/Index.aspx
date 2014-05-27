@@ -74,16 +74,20 @@
 <div class="ui-body ui-body-a ui-corner-all">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
     <div data-role="collapsible">
-        <h3>My Tweets<span class="ui-li-count">12</span></h3>
+        <h3>My Tweets</h3>
   <div id="mytweets"></div>
     </div>
     <div data-role="collapsible">
-        <h3>Following<span class="ui-li-count">12</span></h3>
+        <h3>Following</h3>
   <div id="following"></div>
     </div>
-   <div style="display:none" data-role="collapsible">
-        <h3>Mentions<span class="ui-li-count">12</span></h3>
+   <div data-role="collapsible">
+        <h3>Mentions</h3>
   <div id="mentions"></div>
+    </div>
+    <div data-role="collapsible">
+        <h3>OK Fridge</h3>
+  <div id="okf"></div>
     </div>
 </div>
   </div>

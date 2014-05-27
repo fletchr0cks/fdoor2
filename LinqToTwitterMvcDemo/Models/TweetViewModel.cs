@@ -15,6 +15,8 @@ namespace LinqToTwitterMvcDemo.Models
         /// </summary>
         public string ImageUrl { get; set; }
 
+        public string TwitterID { get; set; }
+
         public string EntityUrl { get; set; }
 
         /// <summary>
@@ -41,6 +43,8 @@ namespace LinqToTwitterMvcDemo.Models
         public string BannerTime { get; set; }
 
         public ulong SinceID { get; set; }
+
+        public int doBanner { get; set; }
 
         //public List<MediaMention> MediaMentions { get; set; }
 
