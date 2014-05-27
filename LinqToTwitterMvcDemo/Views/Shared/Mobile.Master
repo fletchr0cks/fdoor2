@@ -204,6 +204,7 @@
                   
                    var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
                    $('#setLocation').html(html).trigger('create');
+                   $("#townlist").html("").trigger('create');
                }
 
            });
@@ -531,8 +532,10 @@
                //get weather cookie creation time
                var w_data = get_cookie("w_data");
                var epoch = Math.round(new Date().getTime() / 1000)
-               var diff = parseInt(parseInt(epoch) - parseInt(w_data));
-           
+               var diff = parseInt(3000);
+               if (w_data != null) {
+                diff = parseInt(parseInt(epoch) - parseInt(w_data));
+               }
                if (ck == null && diff > 2000) {
                     //alert("diff:" + diff + " new data");
                    //$('#weather').html(loc);
@@ -956,10 +959,13 @@
            var latestID = document.getElementById('toptweet').innerHTML;
            var bannerhtml = "";
            var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
-         
+           $('getmoremy').html("Loading ...");
+           $('getmoref').html("Loading ...");
+           $('getmoremen').html("Loading ...");
            var midhtml_mt = "";
            var midhtml_men = "";
            var midhtml_f = "";
+           var midhtml_okf = "";
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
@@ -981,7 +987,7 @@
                            timeout = item.BannerTime;
                            midhtml_mt = midhtml_mt + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.MediaUrl.length > 1) {
                            //picture
@@ -990,18 +996,18 @@
                            tweetxtra = item.MediaUrl;
                            midhtml_mt = midhtml_mt + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
              "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
                            midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
                            midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
 
 
@@ -1016,7 +1022,7 @@
                            timeout = item.BannerTime;
                            midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.MediaUrl.length > 1) {
                            //picture
@@ -1025,22 +1031,58 @@
                            tweetxtra = item.MediaUrl;
                            midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
              "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
                            midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
                            midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong>PM</p></a></li>";
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
 
 
                    });
+
+                   $.each(jsonresp.mentions, function (n, item) {
+                       // alert(item.Tweet);
+                       var tweetxtra = "";
+                       if (item.BannerText.length > 1) {
+                           tweettype = "banner";
+                           tweetxtra = item.ID;
+                           timeout = item.BannerTime;
+                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                       }
+                       else if (item.MediaUrl.length > 1) {
+                           //picture
+                           tweettype = "media";
+                           //  icon = "info";
+                           tweetxtra = item.MediaUrl;
+                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','" + timeout + "','" + item.ScreenName + "')\">" +
+             "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                       }
+                       else if (item.EntityUrl.length > 1) {
+                           //web page
+                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                       } else {
+
+                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                       }
+
+
+                   });
+
 
                    //clearTimeout(timerA);
                    //timerA = setTimeout(checkNewTweets, 600000);
@@ -1050,13 +1092,16 @@
 
                    if (jsonresp.doBanner == "true") {
                        // bannerWait(jsonresp.timetillbanner, jsonresp.BannerID, jsonresp.topname);
+                       //use topname herexx
                        getBanner('banner', jsonresp.BannerID, jsonresp.bannertime, jsonresp.twitterID);
                    }
 
                    var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoremy\">Get More</div></a></li>";
                    var getmoref = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoref\">Get More</div></a></li>";
+                   var getmoremen = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoremen\">Get More</div></a></li>";
                    $('#toptweet').html(jsonresp.latestid);
                    //var ua = navigator.userAgent;
                    //$('#toptweettime').html(timenow + ua);

@@ -1109,19 +1109,23 @@ namespace LinqToTwitterMvcDemo.Controllers
             var latesttime = mytweets.First().TimeStamp;
             //var topBanner = GetBannerText(friendTweets.First())
             var doBanner = "false";
-            var BannerID = mytweets.First().ID;
+            //if ((mytweets.First().BannerText.Length > 1)
+            var BannerID = okfridge.First().ID;
+            BannerID = mentions.First().ID;
+            BannerID = home.First().ID;    
+            BannerID = mytweets.First().ID;
             var bannertime = "";
             var topname = "";
             int banchk = dataRepository.checkBanner(Convert.ToInt32(userid),BannerID);
+            //check each tweet type for a banner and overwrite banner ID. Have to pass which tweettype of banner it is
             if ((mytweets.First().BannerText.Length > 1) && (banchk == 0))
             {
-                doBanner = "true";
-                
+                doBanner = "true";               
                 bannertime = mytweets.First().BannerTime;
                 topname = mytweets.First().ScreenName;
             }
 
-            return Json(new { mytweets = mytweets.Take(getnum), okfridge = okfridge, home = home.Take(getnum), getmore = getnum, topname = topname, mentions = mentions, latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
+            return Json(new { mytweets = mytweets.Take(getnum), okfridge = okfridge.Take(getnum), home = home.Take(getnum), getmore = getnum, topname = topname, mentions = mentions.Take(getnum), latestid = latestid, doBanner = doBanner, BannerID = BannerID, twitterID = tname, bannertime = bannertime}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
 
         }
