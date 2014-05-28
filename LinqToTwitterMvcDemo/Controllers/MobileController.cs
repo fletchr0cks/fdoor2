@@ -1160,6 +1160,76 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             twitterCtx = new TwitterContext(auth);
 
+            if (type == "home")
+            {
+                var friendTweets =
+                    (from tweet in twitterCtx.Status
+                     where tweet.Type == StatusType.Home
+                     && tweet.StatusID == ID
+                     && tweet.Count == 1
+                     select new TweetViewModel
+                     {
+                         TwitterID = tweet.User.Name,
+                         ScreenName = tweet.StatusID,
+                         BannerText = GetBannerText(tweet),
+                         BannerTime = GetBannerTime(tweet),
+                     });
+
+                var oauthToken = auth.Credentials.OAuthToken;
+                var oauthAccessT = auth.Credentials.AccessToken;
+                var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+                ViewData["authdeets"] = oauthAccessT;
+                //var latestid = friendTweets.First().ID;
+                //var banner = friendTweets.First().BannerText; 
+                int banchk = dataRepository.checkBanner(Convert.ToInt32(userid), ID);
+                if (banchk == 0 || invoke == "click")
+                {
+                    dataRepository.saveBanner(Convert.ToInt32(userid), ID, friendTweets.First().BannerText);
+                    return Json(new { doBanner = "true", bannerDeets = friendTweets }, JsonRequestBehavior.AllowGet);
+                    //return friendtweets and extract text in javascript
+                }
+                else
+                {
+                    return Json(new { doBanner = "false" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
+            if (type == "my")
+            {
+                var friendTweets =
+                    (from tweet in twitterCtx.Status
+                     where tweet.Type == StatusType.Mentions
+                     && tweet.StatusID == ID
+                     && tweet.Count == 1
+                     select new TweetViewModel
+                     {
+                         TwitterID = tweet.User.Name,
+                         ScreenName = tweet.StatusID,
+                         BannerText = GetBannerText(tweet),
+                         BannerTime = GetBannerTime(tweet),
+                     });
+
+                var oauthToken = auth.Credentials.OAuthToken;
+                var oauthAccessT = auth.Credentials.AccessToken;
+                var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+                ViewData["authdeets"] = oauthAccessT;
+                //var latestid = friendTweets.First().ID;
+                //var banner = friendTweets.First().BannerText; 
+                int banchk = dataRepository.checkBanner(Convert.ToInt32(userid), ID);
+                if (banchk == 0 || invoke == "click")
+                {
+                    dataRepository.saveBanner(Convert.ToInt32(userid), ID, friendTweets.First().BannerText);
+                    return Json(new { doBanner = "true", bannerDeets = friendTweets }, JsonRequestBehavior.AllowGet);
+                    //return friendtweets and extract text in javascript
+                }
+                else
+                {
+                    return Json(new { doBanner = "false" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+
             if (type == "mentions")
             {
                 var friendTweets =
@@ -1196,12 +1266,14 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             else
             {
+                //okf
+                var screenName = "okfridge";
 
-                var friendTweets =
+                var okfridge =
                     (from tweet in twitterCtx.Status
-                     where (tweet.Type == StatusType.User)
-                     && tweet.StatusID == ID
-                     && tweet.Count == 1
+                     where tweet.Type == StatusType.User
+                           && tweet.ScreenName == screenName
+                            && tweet.Count == 1
                      select new TweetViewModel
                      {
                          TwitterID = tweet.User.Name,
@@ -1311,14 +1383,14 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             }
 
-            else
+            else if (type == "home")
             {
 
                 var friendTweets =
                     (from tweet in twitterCtx.Status
-                     where (tweet.Type == StatusType.User)
+                     where (tweet.Type == StatusType.Home)
                      && tweet.StatusID == ID
-                     && tweet.Count == 1
+                     //&& tweet.Count == 1
                      select new TweetViewModel
                      {
                          TwitterID = tweet.User.Name,
@@ -1333,6 +1405,33 @@ namespace LinqToTwitterMvcDemo.Controllers
                 ViewData["authdeets"] = oauthAccessT;
 
                 return Json(new { tweetDeets = friendTweets }, JsonRequestBehavior.AllowGet);
+
+            }
+
+            else
+            {
+                //okf
+                var screenName = "okfridge";
+
+                var okfridge =
+                    (from tweet in twitterCtx.Status
+                     where tweet.Type == StatusType.User
+                           && tweet.ScreenName == screenName
+                            && tweet.Count == 1
+                     select new TweetViewModel
+                     {
+                         TwitterID = tweet.User.Name,
+                         ScreenName = tweet.StatusID,
+                         TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                         Tweet = tweet.Text,
+
+                     });
+                var oauthToken = auth.Credentials.OAuthToken;
+                var oauthAccessT = auth.Credentials.AccessToken;
+                var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
+                ViewData["authdeets"] = oauthAccessT;
+
+                return Json(new { tweetDeets = okfridge }, JsonRequestBehavior.AllowGet);
 
             }
         }
