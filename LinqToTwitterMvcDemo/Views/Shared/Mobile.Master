@@ -897,7 +897,7 @@
 
        function getBanner(type, ID, invoke, tw_type) {
            // alert(ID);
-           
+           $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\"><div id=\"twitterID\"></div></a>").trigger('create');
            var browser_h = parseInt($(document).height())
            if (type == "banner") {
                $.ajax({
@@ -914,12 +914,12 @@
                            var timeout = jsonresp.bannerDeets[0].BannerTime;
                            var screenname = jsonresp.bannerDeets[0].ScreenName;
                            var twitterID = jsonresp.bannerDeets[0].TwitterID;
-                           $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Banner from " + twitterID + ":</a>").trigger('create');
                            $('#banner_area').html(bannertxt);
+                           $('#twitterID').html("Banner from " + twitterID + ":");
                            if (timeout != 0) {
                                clearTimeout(timer1);
                                timer1 = setTimeout(timerStart1, timeout);
-                           } 
+                           }
                        }
 
                    },
@@ -938,6 +938,7 @@
            }
 
            if (type == 'media') {
+               
                var imghtml = "<img src=" + ID + "/>";
                $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Image from " + screenname + ":</a>").trigger('create');
                //<div class="ui-icnput-btn ui-btn ui-btn-b">
@@ -1048,7 +1049,7 @@
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
@@ -1084,7 +1085,7 @@
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
-                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+                           midhtml_men = midhtml_men + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','mentions')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
@@ -1121,7 +1122,7 @@
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
-                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getTweet('" + item.ID + "')\">" +
+                           midhtml_f = midhtml_f + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','home')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
@@ -1180,7 +1181,7 @@
                    $('#following').html(tophtml + midhtml_f + getmoref + "</ul>").trigger('create');
                    $('#okf').html(tophtml + midhtml_okf + getmoref + "</ul>").trigger('create');
 
-                   if (get_cookie("autoupdate") == "on")) {
+                   if (get_cookie("autoupdate") == "on") {
                    clearTimeout(timerA);
                    timerA = setTimeout(checkNewTweets, 600000);
                    }

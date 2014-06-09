@@ -1198,10 +1198,11 @@ namespace LinqToTwitterMvcDemo.Controllers
             if (type == "my")
             {
                 var friendTweets =
+
                     (from tweet in twitterCtx.Status
-                     where tweet.Type == StatusType.Mentions
+                     where tweet.Type == StatusType.User
                      && tweet.StatusID == ID
-                     && tweet.Count == 1
+  //                   && tweet.Count == 1
                      select new TweetViewModel
                      {
                          TwitterID = tweet.User.Name,
@@ -1215,7 +1216,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                 var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
                 ViewData["authdeets"] = oauthAccessT;
                 //var latestid = friendTweets.First().ID;
-                //var banner = friendTweets.First().BannerText; 
+                //
+                
+                var banner = friendTweets.First().BannerText; 
                 int banchk = dataRepository.checkBanner(Convert.ToInt32(userid), ID);
                 if (banchk == 0 || invoke == "click")
                 {
@@ -1273,7 +1276,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                     (from tweet in twitterCtx.Status
                      where tweet.Type == StatusType.User
                            && tweet.ScreenName == screenName
-                            && tweet.Count == 1
+                           && tweet.StatusID == ID
+                            //&& tweet.Count == 1
                      select new TweetViewModel
                      {
                          TwitterID = tweet.User.Name,
@@ -1287,12 +1291,12 @@ namespace LinqToTwitterMvcDemo.Controllers
                 var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
                 ViewData["authdeets"] = oauthAccessT;
                 //var latestid = friendTweets.First().ID;
-                //var banner = friendTweets.First().BannerText; 
+                var banner = okfridge.First().BannerText; 
                 int banchk = dataRepository.checkBanner(Convert.ToInt32(userid), ID);
                 if (banchk == 0 || invoke == "click")
                 {
-                    dataRepository.saveBanner(Convert.ToInt32(userid), ID, friendTweets.First().BannerText);
-                    return Json(new { doBanner = "true", bannerDeets = friendTweets }, JsonRequestBehavior.AllowGet);
+                    dataRepository.saveBanner(Convert.ToInt32(userid), ID, okfridge.First().BannerText);
+                    return Json(new { doBanner = "true", bannerDeets = okfridge }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -1417,6 +1421,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     (from tweet in twitterCtx.Status
                      where tweet.Type == StatusType.User
                            && tweet.ScreenName == screenName
+                           && tweet.StatusID == ID
                             && tweet.Count == 1
                      select new TweetViewModel
                      {
