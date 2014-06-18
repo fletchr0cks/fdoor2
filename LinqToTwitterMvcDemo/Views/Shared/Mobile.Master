@@ -964,7 +964,8 @@
        }
 
        function getTweet(ID,type) {
-
+           var midhtml_media = "";
+           var midhtml_web = "";
            $('#full_tweet').html("Retieving tweet ...");
            $.ajax({
                type: "GET",
@@ -974,7 +975,22 @@
                success: function (json) {
                    var jsonresp = eval(json);
                    var tweet = jsonresp.tweetDeets[0].Tweet;
-                   $('#full_tweet').html(tweet);
+                   if (jsonresp.tweetDeets[0].MediaUrl.length > 1) {
+                       //picture
+                       //  icon = "info";
+                       var tweetxtra = jsonresp.tweetDeets[0].MediaUrl;
+                       var tweettype = "media";
+                       midhtml_media = midhtml_media + "<p><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','" + type + "')\">" +
+             "<img src=\"" + jsonresp.tweetDeets[0].ImageUrl + "\">" +
+        "<div class=\"tweets1\">Open image</div></a></p>";
+                   }
+                   else if (jsonresp.tweetDeets[0].EntityUrl.length > 1) {
+                       //web page
+                       midhtml_web = midhtml_web + "<p><a href=\"#\" onclick=\"getWebPage('" + jsonresp.tweetDeets[0].EntityUrl + "')\">" +              
+                        "<div class=\"tweets1\">Open link</div></a><p>";
+                   }
+
+                   $('#full_tweet').html(tweet + midhtml_web + midhtml_media);
                },
                error: function (response) {
                    //alert(response.responseText);
@@ -2243,12 +2259,11 @@ function backFillCal(startrow) {
 
 <div data-role="popup" id="popupNested" data-theme="b">
   <div class="ui-body ui-body-b">
-<p><div id="refreshMsg"></div></p>   *
+<p><div id="refreshMsg"></div></p>
 <ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
     <li><a href="#">Refresh All</a></li>
-    <li><a href="#">Refresh Twitter</a></li>
-    <li><a href="#">Refresh Calendar</a></li>
-    <li><a href="#">Show latest banner</a></li>
+    <li><a href="#" onclick="getTweets(5)">Refresh Twitter</a></li>
+    <li><a href="#" onclick="testa(1, 0)">Refresh Calendar</a></li>
 </ul>
     </div>
 </div><!-- /popup -->

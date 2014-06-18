@@ -1350,7 +1350,10 @@ namespace LinqToTwitterMvcDemo.Controllers
                          TwitterID = tweet.User.Name,
                          ScreenName = tweet.StatusID,
                          TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
-                         Tweet = tweet.Text, 
+                         Tweet = tweet.Text,
+                         ImageUrl = tweet.User.ProfileImageUrl,
+                         MediaUrl = GetTweetMediaUrl(tweet),
+                         EntityUrl = GetTweetUrlEntities(tweet),
                      });
 
                 var oauthToken = auth.Credentials.OAuthToken;
@@ -1376,7 +1379,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ScreenName = tweet.StatusID,
                          TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                          Tweet = tweet.Text,
-
+                         ImageUrl = tweet.User.ProfileImageUrl,
+                         MediaUrl = GetTweetMediaUrl(tweet),
+                         EntityUrl = GetTweetUrlEntities(tweet),
                      });
                 var oauthToken = auth.Credentials.OAuthToken;
                 var oauthAccessT = auth.Credentials.AccessToken;
@@ -1401,7 +1406,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ScreenName = tweet.StatusID,
                          TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                          Tweet = tweet.Text,
-
+                         ImageUrl = tweet.User.ProfileImageUrl,
+                         MediaUrl = GetTweetMediaUrl(tweet),
+                         EntityUrl = GetTweetUrlEntities(tweet),                
                      });
                 var oauthToken = auth.Credentials.OAuthToken;
                 var oauthAccessT = auth.Credentials.AccessToken;
@@ -1429,7 +1436,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                          ScreenName = tweet.StatusID,
                          TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
                          Tweet = tweet.Text,
-
+                         ImageUrl = tweet.User.ProfileImageUrl,
+                         MediaUrl = GetTweetMediaUrl(tweet),
+                         EntityUrl = GetTweetUrlEntities(tweet),
                      });
                 var oauthToken = auth.Credentials.OAuthToken;
                 var oauthAccessT = auth.Credentials.AccessToken;
