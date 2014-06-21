@@ -167,9 +167,9 @@
 
        function getZeroURL() {
            var guid = get_cookie("GUID");
-           var cookies = listCookies();
+           //var cookies = listCookies();
            $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" +guid);
-           $("#allcookies").html(cookies);
+           //$("#allcookies").html(cookies);
        }
 
        function ChangeLoc() {
@@ -900,6 +900,10 @@
            $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"/ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\"><div id=\"twitterID\"></div></a>").trigger('create');
            var browser_h = parseInt($(document).height())
            if (type == "banner") {
+               window.scrollTo(0, 0);
+               $('#banner_header').show();
+               $("#banner_area").show();
+               $('#twitterID').html("Retrieving banner");
                $.ajax({
                    type: "GET",
                    url: "/Mobile/GetBanner",
@@ -907,9 +911,7 @@
                    dataType: "json",
                    success: function (json) {
                        var jsonresp = eval(json);
-                       if (jsonresp.doBanner == "true") {
-                           $('#banner_header').show();
-                           $("#banner_area").show();
+                       if (jsonresp.doBanner == "true") {                          
                            var bannertxt = jsonresp.bannerDeets[0].BannerText;
                            var timeout = jsonresp.bannerDeets[0].BannerTime;
                            var screenname = jsonresp.bannerDeets[0].ScreenName;
@@ -966,6 +968,7 @@
        function getTweet(ID,type) {
            var midhtml_media = "";
            var midhtml_web = "";
+           var midhtml = "";
            $('#full_tweet').html("Retieving tweet ...");
            $.ajax({
                type: "GET",
@@ -986,10 +989,10 @@
                    }
                    else if (jsonresp.tweetDeets[0].EntityUrl.length > 1) {
                        //web page
-                       midhtml_web = midhtml_web + "<p><a href=\"#\" onclick=\"getWebPage('" + jsonresp.tweetDeets[0].EntityUrl + "')\">" +              
+                       midhtml_web = midhtml_web + "<p><a href=\"#\" onclick=\"getWebPage('" + jsonresp.tweetDeets[0].EntityUrl + "')\">" +
                         "<div class=\"tweets1\">Open link</div></a><p>";
                    }
-
+                   
                    $('#full_tweet').html(tweet + midhtml_web + midhtml_media);
                },
                error: function (response) {
@@ -1054,13 +1057,13 @@
                            tweettype = "media";
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
+                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
              "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {

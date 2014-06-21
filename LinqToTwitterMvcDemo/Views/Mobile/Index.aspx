@@ -150,7 +150,7 @@
 
 </div>
 </div>
-<div id="toptweet" style="display:inline-block">20</div>
-<div style="display:inline-block" id="toptweettime"></div>
+<div id="toptweet" style="display:none">20</div>
+<div style="display:none" id="toptweettime"></div>
     </div>
 </asp:Content>

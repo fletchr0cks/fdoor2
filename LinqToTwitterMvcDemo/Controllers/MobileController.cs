@@ -1429,7 +1429,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                      where tweet.Type == StatusType.User
                            && tweet.ScreenName == screenName
                            && tweet.StatusID == ID
-                            && tweet.Count == 1
+                         //&& tweet.Count == 1
+                           
                      select new TweetViewModel
                      {
                          TwitterID = tweet.User.Name,
@@ -1444,7 +1445,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 var oauthAccessT = auth.Credentials.AccessToken;
                 var userd = auth.Credentials.ScreenName + " " + auth.Credentials.UserId;
                 ViewData["authdeets"] = oauthAccessT;
-
+                //var tweetch = okfridge.First().Tweet;
                 return Json(new { tweetDeets = okfridge }, JsonRequestBehavior.AllowGet);
 
             }
