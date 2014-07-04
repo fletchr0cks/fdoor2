@@ -371,7 +371,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
 
             //NOTE: Key piece here, from Andrew's reply -> access_type=offline forces a refresh token to be issued
-            string Url = "https://accounts.google.com/o/oauth2/auth?scope={0}&redirect_uri={1}&response_type={2}&client_id={3}&state={4}&access_type=offline&approval_prompt=force";
+            string Url = "https://accounts.google.com/o/oauth2/auth?scope={0}&redirect_uri={1}&response_type={2}&client_id={3}&state={4}&access_type=online&approval_prompt=force";
             string scope = UrlEncodeForGoogle("https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly").Replace("%20", "+");
             var request = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Contains("~"));
             string urlBase = Request.Url.ToString();
