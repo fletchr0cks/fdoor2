@@ -1591,7 +1591,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             //var tweet_txt = status.Text;
             int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
-            if (tfstart > 8)
+            if (tfstart >= 8)
             {
                 try
                 {
@@ -1655,7 +1655,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             //var tweet_txt = status.Text;
             int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
-            if (tfstart > 8)
+            if (tfstart >= 8)
             {
                 try
                 {
@@ -1694,7 +1694,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
             var tweet_txt = status.Text;
             int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
-            if (tfstart > 8)
+            if (tfstart >= 8)
             {
                 try
                 {
