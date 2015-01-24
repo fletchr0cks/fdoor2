@@ -959,9 +959,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View("Mobile");
         }
 
-        public ActionResult JsonTweets(string timenow, int getnum)
+        public ActionResult JsonTweets(string timenow, int getnum, string tweettypes)
         {
-            
+            //radio butoon choice for tweet type: my, folow, okf, all
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             string tname = dataRepository.getT_twtid(dataRepository.getID(guid));

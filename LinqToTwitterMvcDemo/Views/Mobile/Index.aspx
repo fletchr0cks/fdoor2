@@ -70,6 +70,9 @@
      </div>
   <br />
 
+<div id="tweetsfull" style="display:none">Loading Tweets ....
+</div>
+
 <div id="tweets" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">

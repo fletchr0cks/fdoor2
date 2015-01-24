@@ -20,7 +20,7 @@
                // alert("innit");
                var timerS;
                var timerR;
-               
+
                //var timerB;
                $('#tweets_home').trigger('expand');
                if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
@@ -88,22 +88,22 @@
                //users_check();
 
                getSel();
-               
+
            });
 
            loadBlack();
-           
+
        });
 
        $(document).ready(function () {
 
            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-           
+
 
 
        });
 
-       
+
 
 
        function loadBlack() {
@@ -115,8 +115,8 @@
            //testa(1, 0);
            //calcDays();
 
-           
-          
+
+
 
            var lat = get_cookie("lat");
            var lng = get_cookie("long");
@@ -126,7 +126,7 @@
                //getTowns();
                //alert("towns");
            } else {
-             //  GetWeather(lat, lng, 0, 1);
+               //  GetWeather(lat, lng, 0, 1);
            }
 
            // alert(tw_ck + go_ck);
@@ -144,11 +144,11 @@
 
        function isKindle() {
            var agent = navigator.userAgent;
-            if (agent.indexOf("Kindle") > 0) {
-                return true
-            } else {
-                return false
-            }
+           if (agent.indexOf("Kindle") > 0) {
+               return true
+           } else {
+               return false
+           }
        }
 
        function checkWidth() {
@@ -168,7 +168,7 @@
        function getZeroURL() {
            var guid = get_cookie("GUID");
            //var cookies = listCookies();
-           $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" +guid);
+           $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + guid);
            //$("#allcookies").html(cookies);
        }
 
@@ -180,7 +180,7 @@
            // $('#locBtn').html("");
            var html = "<div id=\"towns\"><input type=\"text\" id=\"town\" value=\"North Berwick\" />" +
                 "<button onclick=\"setTown()\" class=\"ui-btn ui-btn-b ui-shadow ui-corner-all ui-icon-search\">Search</button></div>";
-                //"<div id=\"townmsg\"><div><div id=\"townlist\"><div>";
+           //"<div id=\"townmsg\"><div><div id=\"townlist\"><div>";
            $('#setLocation').html(html).trigger('create');
        }
 
@@ -195,13 +195,13 @@
                data: "lat=" + lat + "&lng=" + lng + "&loc=" + loc,
                dataType: "text/plain", //nothing returned
                success: function (json) {
-                  
+
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
-                  
+
                    var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
                    $('#setLocation').html(html).trigger('create');
                    $("#townlist").html("").trigger('create');
@@ -241,12 +241,12 @@
 
                },
                error: function (xhr, error) {
-                  // console.debug(xhr); console.debug(error);
-                  // alert(xhr + "  " + error);
+                   // console.debug(xhr); console.debug(error);
+                   // alert(xhr + "  " + error);
                },
                complete: function (xhr, status) {
-                  // console.debug(xhr); console.debug(status);
-                  // alert(xhr + " complete" + status);
+                   // console.debug(xhr); console.debug(status);
+                   // alert(xhr + " complete" + status);
 
                }
 
@@ -364,13 +364,13 @@
            });
 
 
-          drawDays(min,idlistj);
+           drawDays(min, idlistj);
 
-      }
+       }
 
 
-      function drawDays(min, idlistj) {
-             
+       function drawDays(min, idlistj) {
+
            var n = parseInt(min);
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
@@ -378,8 +378,8 @@
            var aplhastr = "abcde";
            for (var i = 0; i < aplhastr.length; i++) {
                var nextChar = aplhastr.charAt(i);
-           //}
-           //while (end < 5) {
+               //}
+               //while (end < 5) {
                end++;
                var n1 = parseInt(n + end);
                //alert(n1 + "..." + end);
@@ -399,7 +399,7 @@
                    lo = get_cookie("lo" + n1);
                    icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                }
-            
+
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
 
@@ -408,7 +408,7 @@
            if (ckcheck != null) {
                n = min * 2;
                var n2 = n + 1;
-              // var n2 = parseInt(n + 1);
+               // var n2 = parseInt(n + 1);
                var forecast2 = get_cookie("day" + n2);
                var forecast = get_cookie("day" + n);
                var img = get_cookie("icon" + n);
@@ -420,7 +420,7 @@
                var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
                //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-               
+
                $('#weather').html(htmltable);
                $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
            }
@@ -447,7 +447,7 @@
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
-               
+
                calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"drawDaysnoCal(" + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
@@ -458,29 +458,29 @@
                    lo = get_cookie("lo" + n1);
                    icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
                }
-                
+
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
            }
            n = n * 2;
            var n2 = n + 1;
-           
+
            var forecast2 = get_cookie("day" + n2);
            var forecast = get_cookie("day" + n);
            var img2 = get_cookie("icon" + n);
            var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
            var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
-           var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>"  + forecast + "</td></tr></table></br>" +
-            "<table><tr><td>Night <br />" + icon2 + "</td><td>"  + forecast2 + "</td></tr></table>";
+           var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
            //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
            //$('#weather').append(htmltable);
            $('#weatherblocdata').html(htmltable);
 
            $('#calendarbloc_next5').html(calnext5 + "</div>").trigger('create');
            $('#weatherbloc_next5').html(weathernext5 + "</div>").trigger('create');
-           
+
        }
 
-       
+
        var timer1;
 
        var timer2;
@@ -534,10 +534,10 @@
                var epoch = Math.round(new Date().getTime() / 1000)
                var diff = parseInt(3000);
                if (w_data != null) {
-                diff = parseInt(parseInt(epoch) - parseInt(w_data));
+                   diff = parseInt(parseInt(epoch) - parseInt(w_data));
                }
                if (ck == null && diff > 2000) {
-                    //alert("diff:" + diff + " new data");
+                   //alert("diff:" + diff + " new data");
                    //$('#weather').html(loc);
                    $.ajax({
                        type: "GET",
@@ -631,7 +631,7 @@
                    } else {
                        var summary = jsonresp['summary'];
 
-                      // alert("not refreshing");
+                       // alert("not refreshing");
                        var item_ct = 0;
                        for (_obj in jsonresp.items) item_ct++;
                        //alert(item_ct);
@@ -671,7 +671,7 @@
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
-                  
+
                },
                complete: function (xhr, status) {
                }
@@ -782,7 +782,7 @@
                        $('#flip-g').val('yes').slider('refresh');
                        $('#welcome').show();
                    } else {
-                       
+
                        drawCal();
                        drawNext5(0);
                        $('#calblock').show();
@@ -819,7 +819,7 @@
                                     "<div class=\"ui-block-c\"><p style=\"font-size:16px\">Android</p><p>100</p></div>" +
                                     "<div class=\"ui-block-d\"><p style=\"font-size:16px\">Linux</p><p>100</p></div>" +
                                     "<div class=\"ui-block-e\"><p style=\"font-size:16px\">Windows</p><p>" + jsonresp.windows + "</p></div></div>";
-                   
+
                    $('#stats').html(html_top + total_html + grid_html);
 
                },
@@ -839,7 +839,7 @@
                url: "/Mobile/saveLogin",
                dataType: "json",
                success: function (json) {
-               
+
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
@@ -911,7 +911,7 @@
                    dataType: "json",
                    success: function (json) {
                        var jsonresp = eval(json);
-                       if (jsonresp.doBanner == "true") {                          
+                       if (jsonresp.doBanner == "true") {
                            var bannertxt = jsonresp.bannerDeets[0].BannerText;
                            var timeout = jsonresp.bannerDeets[0].BannerTime;
                            var screenname = jsonresp.bannerDeets[0].ScreenName;
@@ -940,12 +940,12 @@
            }
 
            if (type == 'media') {
-               
+
                var imghtml = "<img src=" + ID + "/>";
                $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Image from " + screenname + ":</a>").trigger('create');
                //<div class="ui-icnput-btn ui-btn ui-btn-b">
-        //Close
-        //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
+               //Close
+               //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
                //</div>
                $('#banner_header').show();
                $("#banner_area").show();
@@ -965,7 +965,7 @@
 
        }
 
-       function getTweet(ID,type) {
+       function getTweet(ID, type) {
            var midhtml_media = "";
            var midhtml_web = "";
            var midhtml = "";
@@ -992,7 +992,7 @@
                        midhtml_web = midhtml_web + "<p><a href=\"#\" onclick=\"getWebPage('" + jsonresp.tweetDeets[0].EntityUrl + "')\">" +
                         "<div class=\"tweets1\">Open link</div></a><p>";
                    }
-                   
+
                    $('#full_tweet').html(tweet + midhtml_web + midhtml_media);
                },
                error: function (response) {
@@ -1011,7 +1011,7 @@
 
 
        function getTweets(more) {
-          
+
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
            var latestID = document.getElementById('toptweet').innerHTML;
@@ -1020,14 +1020,23 @@
            $('getmoremy').html("Loading ...");
            $('getmoref').html("Loading ...");
            $('getmoremen').html("Loading ...");
-           var midhtml_mt = "";
+           var midhtml_my = "";
            var midhtml_men = "";
-           var midhtml_f = "";
+           var midhtml_fol = "";
            var midhtml_okf = "";
+           var tweettypes = get_cookie("tweets");
+         
+           if (tweettypes == "all") {
+               $('#tweetsfull').hide();
+               $('#tweets').show();
+           } else {
+               $('#tweets').hide();
+               $('#tweetsfull').show();
+           }
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
-               data: "timenow=" + hournow + "&getnum=" + more,
+               data: "timenow=" + hournow + "&getnum=" + more + "&tweettypes=" + tweettypes,
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
@@ -1048,7 +1057,7 @@
                            midhtml_okf = midhtml_okf + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_okf") == "on")) {
+                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'okf');
                            }
                        }
@@ -1084,7 +1093,7 @@
                            midhtml_men = midhtml_men + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','mentions')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_men") == "on")) {
+                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'mentions');
                            }
                        }
@@ -1118,10 +1127,10 @@
                            //alert(item.BannerText);
                            tweettype = "banner";
                            tweetxtra = item.ID;
-                           midhtml_f = midhtml_f + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
+                           midhtml_fol = midhtml_fol + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_fol") == "on")) {
+                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'home');
                            }
                        }
@@ -1130,18 +1139,18 @@
                            tweettype = "media";
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
-                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
+                           midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
              "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
-                           midhtml_f = midhtml_f + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+                           midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
-                           midhtml_f = midhtml_f + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','home')\">" +
+                           midhtml_fol = midhtml_fol + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','home')\">" +
                "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
@@ -1155,9 +1164,9 @@
                            //alert(item.BannerText);
                            tweettype = "banner";
                            tweetxtra = item.ID;
-                           midhtml_mt = midhtml_mt + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
+                           midhtml_my = midhtml_my + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_my") == "on")) {
+                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'my');
                            }
                        }
@@ -1166,43 +1175,55 @@
                            tweettype = "media";
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
-                           midhtml_mt = midhtml_mt + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
+                           midhtml_my = midhtml_my + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
-                           midhtml_mt = midhtml_mt + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+                           midhtml_my = midhtml_my + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
-                           midhtml_mt = midhtml_mt + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','my')\">" +
+                           midhtml_my = midhtml_my + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','my')\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
 
                    });
 
-                   
+
                    var NewDate = new Date();
                    var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
                    getmore = parseInt(jsonresp.getmore + 5);
 
                    var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
                    "<div class=\"tweets1\" id=\"getmoremy\">Get More</div></a></li>";
-                   var getmoref = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   var getmorefol = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
                    "<div class=\"tweets1\" id=\"getmoref\">Get More</div></a></li>";
                    var getmoremen = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
                    "<div class=\"tweets1\" id=\"getmoremen\">Get More</div></a></li>";
+                   var getmoreokf = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoreokf\">Get More</div></a></li>";
                    $('#toptweet').html(jsonresp.latestid);
                    //var ua = navigator.userAgent;
                    //$('#toptweettime').html(timenow + ua);
-                   $('#mytweets').html(tophtml + midhtml_mt + getmoremy + "</ul>").trigger('create');
-                   $('#mentions').html(tophtml + midhtml_men + getmoref + "</ul>").trigger('create');
-                   $('#following').html(tophtml + midhtml_f + getmoref + "</ul>").trigger('create');
-                   $('#okf').html(tophtml + midhtml_okf + getmoref + "</ul>").trigger('create');
+                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
+                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
+                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
+                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
+
+                   if (tweettypes == "my") {
+                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
+                   } else if (tweettypes == "men") {
+                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
+                   } else if (tweettypes == "fol") {
+                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
+                   } else if (tweettypes == "okf") {
+                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
+                   }
 
                    if (get_cookie("autoupdate") == "on") {
-                   clearTimeout(timerA);
-                   timerA = setTimeout(checkNewTweets, 600000);
+                       clearTimeout(timerA);
+                       timerA = setTimeout(checkNewTweets, 600000);
                    }
                },
                error: function (response) {
@@ -1220,16 +1241,16 @@
            //$('#cal').toggle();
            //$('#iframe1').toggle();
            document.location.href = url;
-         }
-
-       function timetest(ID) {
-            //alert("hihi" + ID);
-            //clearTimeout(timer1);
        }
 
-       function bannerWait(timetillbanner,ID,screenname) {
-           
-          // alert(timetillbanner);
+       function timetest(ID) {
+           //alert("hihi" + ID);
+           //clearTimeout(timer1);
+       }
+
+       function bannerWait(timetillbanner, ID, screenname) {
+
+           // alert(timetillbanner);
            //timer1 = setTimeout(timerStart1(ID), 5000);
            setTimeout(function () {
                getBanner("banner", ID, "5000", screenname);
@@ -1398,70 +1419,53 @@
            }
 
            return kindle_sc;
-            
+
        }
 
        function getSel() {
-        //   $('#checkbox-3d').prop('disabled', true).checkboxradio('refresh');
-        //   $('#checkbox-3ddiv').addClass("ui-disabled");
+           //   $('#checkbox-3d').prop('disabled', true).checkboxradio('refresh');
+           //   $('#checkbox-3ddiv').addClass("ui-disabled");
            var kindle_sc = get_cookie("kindle_sc");
            var header_text = get_cookie("header");
-           var autoupdate = get_cookie("autoupdate");
+           //var autoupdate = get_cookie("autoupdate");
            var banner_auto = get_cookie("banner_auto");
-           var banner_my = get_cookie("banner_my");
-           var banner_fol = get_cookie("banner_fol");
-           var banner_men = get_cookie("banner_men");
-           var banner_okf = get_cookie("banner_okf");
+        
+           var TweetRadio = get_cookie("tweets");
+         
+           if (TweetRadio == "all") {
+               $('#radio-3e').attr('checked', true).checkboxradio('refresh');
+               
+           }
+           if (TweetRadio == "my") {
+               $('#radio-3a').attr('checked', true).checkboxradio('refresh'); 
+           }
+           if (TweetRadio == "fol") {
+               $('#radio-3b').attr('checked', true).checkboxradio('refresh'); 
+           }
+           if (TweetRadio == "men") {
+               $('#radio-3c').attr('checked', true).checkboxradio('refresh'); 
+           }
+           if (TweetRadio == "okf") {
+               $('#radio-3d').attr('checked', true).checkboxradio('refresh');
+           }               
+
            document.getElementById('header_text').value = header_text;
            if (kindle_sc == "on") {
                $('#checkbox-1a').prop('checked', true).checkboxradio('refresh');
            } else {
                $('#checkbox-1a').prop('checked', false).checkboxradio('refresh');
            }
-           if (autoupdate == "on") {
-                 $('#checkbox-2a').prop('checked', true).checkboxradio('refresh');
-           } else {
-                 $('#checkbox-2a').prop('checked', false).checkboxradio('refresh');
-           }
+          
            if (banner_auto == "on") {
                $('#checkbox-3').prop('checked', true).checkboxradio('refresh');
            } else {
                $('#checkbox-3').prop('checked', false).checkboxradio('refresh');
-               $('#checkbox-3d').prop('enabled', false).checkboxradio('refresh');
-               $('#checkbox-my-div').removeClass("ui-enabled");
-               $('#checkbox-my-div').addClass("ui-disabled"); 
-               $('#checkbox-fol-div').removeClass("ui-enabled");
-               $('#checkbox-fol-div').addClass("ui-disabled");
-               $('#checkbox-men-div').removeClass("ui-enabled");
-               $('#checkbox-men-div').addClass("ui-disabled");
-               $('#checkbox-okf-div').removeClass("ui-enabled");
-               $('#checkbox-okf-div').addClass("ui-disabled");
+              
            }
 
-           if (banner_my == "on") {
-               $('#checkbox-3a').prop('checked', true).checkboxradio('refresh');
-           } else {
-               $('#checkbox-3a').prop('checked', false).checkboxradio('refresh');
-           }
-
-           if (banner_fol == "on") {
-               $('#checkbox-3b').prop('checked', true).checkboxradio('refresh');
-           } else {
-               $('#checkbox-3b').prop('checked', false).checkboxradio('refresh');
-           }
-
-           if (banner_men == "on") {
-               $('#checkbox-3c').prop('checked', true).checkboxradio('refresh');
-           } else {
-               $('#checkbox-3c').prop('checked', false).checkboxradio('refresh');
-           }
-
-           if (banner_okf == "on") {
-               $('#checkbox-3d').prop('checked', true).checkboxradio('refresh');
-           } else {
-               $('#checkbox-3d').prop('checked', false).checkboxradio('refresh');
-           }           
           
+        
+
            $.ajax({
                type: "GET",
                url: "/Mobile/GetSel",
@@ -1495,13 +1499,12 @@
            var selected = new Array();
            var str = "twcgksb";
            var kindle_sc = "";
-           var autoupdate = "";
+         
            var banner_auto = "";
-           var banner_my = "";
-           var banner_fol = "";
-           var banner_men = "";
-           var banner_okf = "";
-           var header_text = document.getElementById("header_text").value;
+
+           var TweetRadio = $("#tweettypesmenu :radio:checked").val();
+           //$('radio3:checked').val();
+            var header_text = document.getElementById("header_text").value;
            if ($("#checkbox-1a").is(":checked")) {
                kindle_sc = "on";
            } else {
@@ -1517,36 +1520,15 @@
            } else {
                banner_auto = "off";
            }
-           if ($("#checkbox-3a").is(":checked")) {
-               banner_my = "on";
-           } else {
-               banner_my = "off";
-           }
-           if ($("#checkbox-3b").is(":checked")) {
-               banner_fol = "on";
-           } else {
-               banner_fol = "off";
-           }
-           if ($("#checkbox-3c").is(":checked")) {
-               banner_men = "on";
-           } else {
-               banner_men = "off";
-           }
-           if ($("#checkbox-3d").is(":checked")) {
-               banner_okf = "on";
-           } else {
-               banner_okf = "off";
-           }
-       //alert(kindle_sc + header_text);
-       //alert(checkKindle_sc());
+  
+           //alert(kindle_sc + header_text);
+           //alert(checkKindle_sc());
            set_cookie("kindle_sc", kindle_sc, 360);
            set_cookie("header", header_text, 360);
-           set_cookie("autoupdate", autoupdate, 360);
+           //set_cookie("autoupdate", autoupdate, 360);
            set_cookie("banner_auto", banner_auto, 360);
-           set_cookie("banner_my", banner_auto, 360);
-           set_cookie("banner_fol", banner_auto, 360);
-           set_cookie("banner_men", banner_auto, 360);
-           set_cookie("banner_okf", banner_auto, 360);
+          
+           set_cookie("tweets", TweetRadio, 360);
            for (var i = 0; i < str.length; i++) {
                var nextChar = str.charAt(i);
                var flipstr = "flip-" + nextChar;
@@ -1563,49 +1545,22 @@
                data: "selection=" + selected,
                dataType: "text/plain",
                success: function (json) {
-                   
+
                },
                error: function (response) {
-                
+
                },
                complete: function (xhr, status) {
                }
 
            });
-          
+
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
 
-       function checkboxChange(id,val) {
-           var autoupdate = document.getElementById('checkbox-3').checked;
-          // alert(id + val);
-           if (val == true) {
-               $('#checkbox-3d').prop('enabled', true).checkboxradio('refresh');
-               $('#checkbox-my-div').removeClass("ui-disabled");
-               $('#checkbox-my-div').addClass("ui-enabled");
-               $('#checkbox-fol-div').removeClass("ui-disabled");
-               $('#checkbox-fol-div').addClass("ui-enabled");
-               $('#checkbox-men-div').removeClass("ui-disabled");
-               $('#checkbox-men-div').addClass("ui-enabled");
-               $('#checkbox-okf-div').removeClass("ui-disabled");
-               $('#checkbox-okf-div').addClass("ui-enabled");
-           } else {
-          // alert(val);
-               $('#checkbox-3d').prop('enabled', false).checkboxradio('refresh');
-               $('#checkbox-my-div').removeClass("ui-enabled");
-               $('#checkbox-my-div').addClass("ui-disabled");
-               $('#checkbox-fol-div').removeClass("ui-enabled");
-               $('#checkbox-fol-div').addClass("ui-disabled");
-               $('#checkbox-men-div').removeClass("ui-enabled");
-               $('#checkbox-men-div').addClass("ui-disabled");
-               $('#checkbox-okf-div').removeClass("ui-enabled");
-               $('#checkbox-okf-div').addClass("ui-disabled");
-       
-           }
-       }
-
+     
        function sliderChange(val, id) {
-           
+
            var flipT = document.getElementById('flip-t').value;
            var flipW = document.getElementById('flip-w').value;
            //var flipN = document.getElementById('flip-n').value;
@@ -1625,7 +1580,7 @@
                }
                if (val == "yes") {
                    ggl_check();
-                   
+
                    //$("#mentions").trigger('collapse');
                }
            }
@@ -1638,18 +1593,22 @@
                }
                if (val == "yes") {
                    $('#welcome').show();
-                   
+
                }
            }
 
            if (id == "flip-t") {
                if (val == "no") {
                    $('#tweets').hide()
+                   $('#tweetsfull').hide()
+                   $('#tweettype_list').hide()
                }
                if (val == "yes") {
                    twt_check();
-                   $('#tweets').show()
-                  
+                   //$('#tweets').show()
+                   //$('#tweetsfull').show()
+                   $('#tweettype_list').show()
+
                }
            }
 
@@ -1659,7 +1618,7 @@
                }
                if (val == "yes") {
                    $('#kindletricks').show()
-                   
+
                }
            }
 
@@ -1669,7 +1628,7 @@
                }
                if (val == "yes") {
                    $('#blog').show()
-                   
+
                }
            }
 
@@ -1685,7 +1644,7 @@
            }
 
            if (id == "flip-w") {
-               
+
                if (flipW == "yes" && flipC == "no" && get_cookie("lat") != null) {
                    $('#weatherbloc').show();
                    drawDaysnoCal(0);
@@ -1702,7 +1661,7 @@
                    $('#weatherbloc').hide();
                }
                if (val == "yes") {
-              
+
                    GetWeather(0, 1);
 
                }
@@ -1710,216 +1669,214 @@
            }
        }
 
-       function iterateAlphabet()
-	{
-	   var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	   for(var i=0; i<str.length; i++)
-	   {
-	      var nextChar = str.charAt(i);
-	      //alert(nextChar)
-	   }
-}
+       function iterateAlphabet() {
+           var str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+           for (var i = 0; i < str.length; i++) {
+               var nextChar = str.charAt(i);
+               //alert(nextChar)
+           }
+       }
 
-function AddComment(ArtID) {
-    var name = document.getElementById("commname_" + ArtID).value;
-    var comment = document.getElementById("commtext_" + ArtID).value;
-    $("#ArtCont_" + ArtID).html("Saving comment ...");
-    $.ajax({
-        type: "POST",
-        url: "/Mobile/SaveComment",
-        data: "ArtID=" + ArtID + "&comment=" + comment + "&name=" + name,
-        dataType: "json",
-        success: function (json) {
-            //ListComments(ArtID);
-        },
-        error: function (xhr, error) {
-            // console.debug(xhr); console.debug(error);
+       function AddComment(ArtID) {
+           var name = document.getElementById("commname_" + ArtID).value;
+           var comment = document.getElementById("commtext_" + ArtID).value;
+           $("#ArtCont_" + ArtID).html("Saving comment ...");
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/SaveComment",
+               data: "ArtID=" + ArtID + "&comment=" + comment + "&name=" + name,
+               dataType: "json",
+               success: function (json) {
+                   //ListComments(ArtID);
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
 
-        },
-        complete: function (xhr, status) {
-            //alert(para + ArtID);
-            //$("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
-            ListComments(ArtID);
-        }
-    });
+               },
+               complete: function (xhr, status) {
+                   //alert(para + ArtID);
+                   //$("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
+                   ListComments(ArtID);
+               }
+           });
 
-}
+       }
 
-function ListComments(ArtID) {
+       function ListComments(ArtID) {
 
-    var ultop = "";
-    var num = "";
-    var comments_html2 = "";
-    var comments_html = "<div class=\"ui-grid-a ui-responsive\"><div>Name: " +
-         "<input type=\"text\" name=\"Namen_" + ArtID +"\" id=\"commname_" + ArtID + "\" value=\"\"></div>" +
-         "<textarea name=\"textarean_" + ArtID +"\" id=\"commtext_" + ArtID +"\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"AddComment(" + ArtID + ")\">Add Comment</button></div>";
-    var para = "";
-    $.ajax({
-        type: "POST",
-        url: "/Mobile/getComments",
-        data: "ArtID=" + ArtID,
-        dataType: "json",
-        success: function (json) {
-            $.each(json.Comments, function (i, result) {
-                para = para + "<div style=\"font-size:12px;padding-bottom:5px\">" + result.datetime + "</div>" +
+           var ultop = "";
+           var num = "";
+           var comments_html2 = "";
+           var comments_html = "<div class=\"ui-grid-a ui-responsive\"><div>Name: " +
+         "<input type=\"text\" name=\"Namen_" + ArtID + "\" id=\"commname_" + ArtID + "\" value=\"\"></div>" +
+         "<textarea name=\"textarean_" + ArtID + "\" id=\"commtext_" + ArtID + "\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"AddComment(" + ArtID + ")\">Add Comment</button></div>";
+           var para = "";
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/getComments",
+               data: "ArtID=" + ArtID,
+               dataType: "json",
+               success: function (json) {
+                   $.each(json.Comments, function (i, result) {
+                       para = para + "<div style=\"font-size:12px;padding-bottom:5px\">" + result.datetime + "</div>" +
                 "<div style=\"font-size:14px;padding-bottom:5px \">" + result.name + " </div>" +
                 "<div style=\"font-size:14px;padding-bottom:5px \">" + result.commenttxt + " </div>" +
                 "<div style=\"font-size:10px\">" + result.devicetxt + " </div><br />";
-                //comments_html2 = comments_html2 + ultop + para + ulbtm;
-            });
-            num = json.num;
-        },
-        error: function (xhr, error) {
-            // console.debug(xhr); console.debug(error);
+                       //comments_html2 = comments_html2 + ultop + para + ulbtm;
+                   });
+                   num = json.num;
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
 
-        },
-        complete: function (xhr, status) {
-            //alert(para + ArtID);
-            $("#CommBubble_" + ArtID).html(num + " comments");
-            $("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
-
-
-        }
-    });
-
-}
+               },
+               complete: function (xhr, status) {
+                   //alert(para + ArtID);
+                   $("#CommBubble_" + ArtID).html(num + " comments");
+                   $("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
 
 
-function ListArticles() {
-    var ultop = "<div data-role=\"collapsible-set\" data-theme=\"a\" data-content-theme=\"a\" data-inset=\"false\">";
-    var ulbtm = "</div>";
-    var ct = 0;
-    var para = "";
-    //alert("la1");
-    $.ajax({
-        type: "POST",
-        url: "/Mobile/getArticles",
-        dataType: "json",
-        success: function (json) {
-            $.each(json.Articles, function (i, result) {
-                para = para + "<div data-role=\"collapsible\"><h3 onClick=\"ListComments(" + result.id + ")\">" + result.heading + "<span class=\"ui-li-count\" id=\"CommBubble_" + result.id + "\">" + result.NumComments + " comments</span></h3>" +
+               }
+           });
+
+       }
+
+
+       function ListArticles() {
+           var ultop = "<div data-role=\"collapsible-set\" data-theme=\"a\" data-content-theme=\"a\" data-inset=\"false\">";
+           var ulbtm = "</div>";
+           var ct = 0;
+           var para = "";
+           //alert("la1");
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/getArticles",
+               dataType: "json",
+               success: function (json) {
+                   $.each(json.Articles, function (i, result) {
+                       para = para + "<div data-role=\"collapsible\"><h3 onClick=\"ListComments(" + result.id + ")\">" + result.heading + "<span class=\"ui-li-count\" id=\"CommBubble_" + result.id + "\">" + result.NumComments + " comments</span></h3>" +
                  "<div style=\"font-size:14px\">" + result.arttext + "</div><br /><br />" +
                 "<div id=\"ArtCont_" + result.id + "\">Loading comments ...</div></div>";
-                //<div id=\"ArtCont_" + result.id + "\"</div></div>";
-                //comments_html2 = comments_html2 + ultop + para + ulbtm;
-            });
-            // ct = result.NumComments;
-        },
-        error: function (xhr, error) {
-            // console.debug(xhr); console.debug(error);
+                       //<div id=\"ArtCont_" + result.id + "\"</div></div>";
+                       //comments_html2 = comments_html2 + ultop + para + ulbtm;
+                   });
+                   // ct = result.NumComments;
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
 
-        },
-        complete: function (xhr, status) {
+               },
+               complete: function (xhr, status) {
 
-            $("#BlogList").html(para).trigger('create');
-
-
-
-        }
-    });
-
-}
+                   $("#BlogList").html(para).trigger('create');
 
 
-function formatDate(num) {
-    var NewDate = new Date();
-    NewDate.setDate(NewDate.getDate() + num);
-    var day;
-    var month;
-    var date = NewDate.getUTCDate();
-    var month = NewDate.getUTCMonth();
-    return date;
-}
 
-function formatDateDayNum(num) {
-    var NewDate = new Date();
-    NewDate.setDate(NewDate.getDate() + num);
-    var day;
-    var month;
-    var date = NewDate.getUTCDate();
-    var daynum = NewDate.getUTCDay();
-  //  alert(date);
-    return daynum;
-}
+               }
+           });
 
-	function formatDateDay(num) {
-	    var NewDate = new Date();
-	    NewDate.setDate(NewDate.getDate() + num);
-	    var day;
-	    var month;
-	    var date = NewDate.getUTCDate();
-	    var daynum = NewDate.getUTCDay();
-	    //alert(NewDate + " d: " + date + " n: " + daynum);
-	    if (parseInt(daynum) == 1) {
-	        day = "a";
-	    } else if (parseInt(daynum) == 2) {
-	        day = "b";
-	    } else if (parseInt(daynum) == 3) {
-	        day = "c";
-	    } else if (parseInt(daynum) == 4) {
-	        day = "d";
-	    } else if (parseInt(daynum) == 5) {
-	        day = "e";
-	    } else if (parseInt(daynum) == 6) {
-	        day = "f";
-	    } else if (parseInt(daynum) == 0) {
-	        day = "g";
-	    }
+       }
 
-	    if (parseInt(date) < 10) {
-	        date = "0" + date;
-	    }
 
-	    var date_str = day;
+       function formatDate(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var month = NewDate.getUTCMonth();
+           return date;
+       }
 
-	    return date_str;
-	}
+       function formatDateDayNum(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var daynum = NewDate.getUTCDay();
+           //  alert(date);
+           return daynum;
+       }
 
-	function daysBackToMon() {
-	    var NewDate = new Date();
-	    i = 7;
-	    daysback = 0;
-	    while (i >= 0) {
-	        i--;
-	        NewDate.setDate(NewDate.getDate() - i);
-	        var daynum = NewDate.getUTCDay();
-	        alert("daynum=" + daynum + " i=" + i);
-	        if (parseInt(daynum) == 1) {
-	            daysback = i;
-	        }
-	        daysback++;
-	    }
+       function formatDateDay(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var daynum = NewDate.getUTCDay();
+           //alert(NewDate + " d: " + date + " n: " + daynum);
+           if (parseInt(daynum) == 1) {
+               day = "a";
+           } else if (parseInt(daynum) == 2) {
+               day = "b";
+           } else if (parseInt(daynum) == 3) {
+               day = "c";
+           } else if (parseInt(daynum) == 4) {
+               day = "d";
+           } else if (parseInt(daynum) == 5) {
+               day = "e";
+           } else if (parseInt(daynum) == 6) {
+               day = "f";
+           } else if (parseInt(daynum) == 0) {
+               day = "g";
+           }
 
-	    return daysback;
+           if (parseInt(date) < 10) {
+               date = "0" + date;
+           }
 
-	}
+           var date_str = day;
 
-    function renderTweets(num,type) {
-         var tophtml = "<ul data-role=\"listview\" data-split-icon=\"gear\" data-split-theme=\"a\">";
-        //var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
-        var midhtml = "";
-        while (num > 0) {
-            midhtml = midhtml + "<li><a href=\"index.html\">" +
+           return date_str;
+       }
+
+       function daysBackToMon() {
+           var NewDate = new Date();
+           i = 7;
+           daysback = 0;
+           while (i >= 0) {
+               i--;
+               NewDate.setDate(NewDate.getDate() - i);
+               var daynum = NewDate.getUTCDay();
+               alert("daynum=" + daynum + " i=" + i);
+               if (parseInt(daynum) == 1) {
+                   daysback = i;
+               }
+               daysback++;
+           }
+
+           return daysback;
+
+       }
+
+       function renderTweets(num, type) {
+           var tophtml = "<ul data-role=\"listview\" data-split-icon=\"gear\" data-split-theme=\"a\">";
+           //var tophtml = "<ul data-role=\"listview\" data-theme=\"a\" data-divider-theme=\"a\" data-count-theme=\"b\">"
+           var midhtml = "";
+           while (num > 0) {
+               midhtml = midhtml + "<li><a href=\"index.html\">" +
                 "<img src=\"http://abs.twimg.com/sticky/default_profile_images/default_profile_3_normal.png\">" +
           "<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
              "<p class=\"ui-li-aside\"><strong>6:24</strong>PM</p>" +
                 "</a><a href=\"lists-split-purchase.html\" data-rel=\"dialog\" data-transition=\"slideup\">Purchase album</a></li>";
-            //midhtml = midhtml + "<li><table><tr><td>2m</td><td>" +
-            //"<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
-            //"</td></tr></table></li>";
-            num--;
-        }
+               //midhtml = midhtml + "<li><table><tr><td>2m</td><td>" +
+               //"<div class=\"tweets1\">Hey Stephen, if you're available at 10am tomorrow, we've got a meeting with the jQuery team.</div>" +
+               //"</td></tr></table></li>";
+               num--;
+           }
 
-        $('#' + type).html(tophtml + midhtml + "</ul>").trigger('create');
-    }
+           $('#' + type).html(tophtml + midhtml + "</ul>").trigger('create');
+       }
 
-	function drawNext5(start) {
-	    var end = 5
-	    while (end > -1) {	        
-	        $('#next' + end).html(formatDateNext(end));
-            end--;
-	    }
-	}
+       function drawNext5(start) {
+           var end = 5
+           while (end > -1) {
+               $('#next' + end).html(formatDateNext(end));
+               end--;
+           }
+       }
 
        function drawCal() {
            var calhtmltop = "<div class=\"ui-grid-f\">";
@@ -1931,229 +1888,228 @@ function formatDateDayNum(num) {
            var startrow = 1;
            var dayID = 1;
            var daynow = 0;
-          // alert(startDate);
+           // alert(startDate);
            while (end < 5) {
                end++;
-           for(var i=0; i<aplhastr.length; i++)
-	   {
-	       var nextChar = aplhastr.charAt(i);
-	       calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
-	       dayID++;
-	   }
+               for (var i = 0; i < aplhastr.length; i++) {
+                   var nextChar = aplhastr.charAt(i);
+                   calhtmlmid = calhtmlmid + "<div class=\"ui-block-" + nextChar + "\"><div class=\"ui-body ui-body-d\" id=\"Cal" + dayID + "\">ID " + dayID + "</div></div>";
+                   dayID++;
+               }
 
-	   $('#caldata').html(calhtmltop + calhtmlmid + "</div>");
+               $('#caldata').html(calhtmltop + calhtmlmid + "</div>");
 
-}
-backFillCal(startrow);
-}
+           }
+           backFillCal(startrow);
+       }
 
-function backFillCal(startrow) {
-            var rowfactor = parseInt(startrow * 7);
-            var todaynum = formatDateDayNum(0);
-            var todayID = parseInt(rowfactor + todaynum);
-            var end = (0 - todayID);      
-            var start = 0;
-            while (start < 36) {
-                var html = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_other\">" + formatDate(end) + "</div>";
-                var html_today = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_today\">" + formatDate(end) + "</div>";
-                $('#Cal' + start).html(html);
-                if (end == 0) {
-                    $('#Cal' + start).html(html_today);
-                }
-                start++;
-                end++;
-            }
-        }
+       function backFillCal(startrow) {
+           var rowfactor = parseInt(startrow * 7);
+           var todaynum = formatDateDayNum(0);
+           var todayID = parseInt(rowfactor + todaynum);
+           var end = (0 - todayID);
+           var start = 0;
+           while (start < 36) {
+               var html = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_other\">" + formatDate(end) + "</div>";
+               var html_today = "<div style=\"cursor:pointer\" onclick=\"testa(" + parseInt(end + 1) + "," + end + ")\" class=\"cal_today\">" + formatDate(end) + "</div>";
+               $('#Cal' + start).html(html);
+               if (end == 0) {
+                   $('#Cal' + start).html(html_today);
+               }
+               start++;
+               end++;
+           }
+       }
 
-        function formatDateDayID(num) {
-            var NewDate = new Date();
-            NewDate.setDate(NewDate.getDate() + num);
-            var day;
-            var month;
-            var date = NewDate.getUTCDate();
-            var daynum = NewDate.getUTCDay();
-            //alert(NewDate + " d: " + date + " n: " + daynum);
-            if (parseInt(daynum) == 1) {
-                day = "Monday";
-            } else if (parseInt(daynum) == 2) {
-                day = "Tuesday";
-            } else if (parseInt(daynum) == 3) {
-                day = "Wednesday";
-            } else if (parseInt(daynum) == 4) {
-                day = "Thursday";
-            } else if (parseInt(daynum) == 5) {
-                day = "Friday";
-            } else if (parseInt(daynum) == 6) {
-                day = "Saturday";
-            } else if (parseInt(daynum) == 0) {
-                day = "Sunday";
-            }
+       function formatDateDayID(num) {
+           var NewDate = new Date();
+           NewDate.setDate(NewDate.getDate() + num);
+           var day;
+           var month;
+           var date = NewDate.getUTCDate();
+           var daynum = NewDate.getUTCDay();
+           //alert(NewDate + " d: " + date + " n: " + daynum);
+           if (parseInt(daynum) == 1) {
+               day = "Monday";
+           } else if (parseInt(daynum) == 2) {
+               day = "Tuesday";
+           } else if (parseInt(daynum) == 3) {
+               day = "Wednesday";
+           } else if (parseInt(daynum) == 4) {
+               day = "Thursday";
+           } else if (parseInt(daynum) == 5) {
+               day = "Friday";
+           } else if (parseInt(daynum) == 6) {
+               day = "Saturday";
+           } else if (parseInt(daynum) == 0) {
+               day = "Sunday";
+           }
 
-            if (parseInt(date) < 10) {
-                date = "0" + date;
-            }
+           if (parseInt(date) < 10) {
+               date = "0" + date;
+           }
 
-            var date_str = day + date;
+           var date_str = day + date;
 
-            return date_str;
-        }
-
-
-        function parseISO8601DateFull(s) {
-
-            var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
-
-            var d = [];
-            try {
-                d = s.match(re);
-                if (!d) {
-                    throw "Couldn't parse ISO 8601 date string '" + s + "'";
-                }
-                //alert(d);
-                // parse strings, leading zeros into proper ints
-                var a = [1, 2, 3, 4, 5, 6, 10, 11];
-                for (var i in a) {
-                    d[a[i]] = parseInt(d[a[i]], 10);
-                    //alert(d[a[i]]);
-                }
-                d[7] = parseFloat(d[7]);
-                var hr = parseInt(d[4], 10);
-                var min = parseInt(d[5], 10);
-                if (hr < 10) {
-                    hr = "0" + hr;
-                }
-                if (min < 10) {
-                    min = "0" + min;
-                }
-                // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
-                // note that month is 0-11, not 1-12
-                // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
-                var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
-                //alert(ms + d[2]);
-                // if there are milliseconds, add them
-                if (d[7] > 0) {
-                    ms += Math.round(d[7] * 1000);
-                }
-
-                // if there's a timezone, calculate it
-                if (d[8] != "Z" && d[10]) {
-                    var offset = d[10] * 60 * 60 * 1000;
-                    if (d[11]) {
-                        offset += d[11] * 60 * 1000;
-                    }
-                    if (d[9] == "-") {
-                        ms -= offset;
-                    }
-                    else {
-                        ms += offset;
-                    }
-                }
-                //alert(ms);
-
-                return new Date(ms);
-            } catch (error) {
-                return ("All day");
-            }
-            //return new Date(ms);
-        };
-
-        function get_cookie(name) {
-            var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-            if (results)
-                return (unescape(results[2]));
-            else
-                return null;
-        }
-
-        function listCookies() {
-            var theCookies = document.cookie.split(';');
-            var aString = '';
-            for (var i = 1; i <= theCookies.length; i++) {
-                aString += i + ' ' + theCookies[i - 1] + "<br/>";
-            }
-            return aString;
-        }
-
-        function set_cookie(name, value, days) {
-            //value = "data here";
-            //alert("set cookie: " + name + " " + value);
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toGMTString();
-            document.cookie = name + '=' + value + expires + '; path=/'
-
-        }
+           return date_str;
+       }
 
 
-        function parseISO8601Date(s) {
+       function parseISO8601DateFull(s) {
 
-            // parenthese matches:
-            // year month day    hours minutes seconds  
-            // dotmilliseconds 
-            // tzstring plusminus hours minutes
-            var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
+           var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
 
-            var d = [];
-            try {
-                d = s.match(re);
+           var d = [];
+           try {
+               d = s.match(re);
+               if (!d) {
+                   throw "Couldn't parse ISO 8601 date string '" + s + "'";
+               }
+               //alert(d);
+               // parse strings, leading zeros into proper ints
+               var a = [1, 2, 3, 4, 5, 6, 10, 11];
+               for (var i in a) {
+                   d[a[i]] = parseInt(d[a[i]], 10);
+                   //alert(d[a[i]]);
+               }
+               d[7] = parseFloat(d[7]);
+               var hr = parseInt(d[4], 10);
+               var min = parseInt(d[5], 10);
+               if (hr < 10) {
+                   hr = "0" + hr;
+               }
+               if (min < 10) {
+                   min = "0" + min;
+               }
+               // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
+               // note that month is 0-11, not 1-12
+               // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
+               var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+               //alert(ms + d[2]);
+               // if there are milliseconds, add them
+               if (d[7] > 0) {
+                   ms += Math.round(d[7] * 1000);
+               }
 
-                // "2010-12-07T11:00:00.000-09:00" parses to:
-                //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
-                //     "00", "00", ".000", "-09:00", "-", "09", "00"]
-                // "2010-12-07T11:00:00.000Z" parses to:
-                //  ["2010-12-07T11:00:00.000Z",      "2010", "12", "07", "11", 
-                //     "00", "00", ".000", "Z", undefined, undefined, undefined]
+               // if there's a timezone, calculate it
+               if (d[8] != "Z" && d[10]) {
+                   var offset = d[10] * 60 * 60 * 1000;
+                   if (d[11]) {
+                       offset += d[11] * 60 * 1000;
+                   }
+                   if (d[9] == "-") {
+                       ms -= offset;
+                   }
+                   else {
+                       ms += offset;
+                   }
+               }
+               //alert(ms);
 
-                if (!d) {
-                    throw "Couldn't parse ISO 8601 date string '" + s + "'";
-                }
-                //alert(d);
-                // parse strings, leading zeros into proper ints
-                var a = [1, 2, 3, 4, 5, 6, 10, 11];
-                for (var i in a) {
-                    d[a[i]] = parseInt(d[a[i]], 10);
-                    //alert(d[a[i]]);
-                }
-                d[7] = parseFloat(d[7]);
-                var hr = parseInt(d[4], 10);
-                var min = parseInt(d[5], 10);
-                if (hr < 10) {
-                    hr = "0" + hr;
-                }
-                if (min < 10) {
-                    min = "0" + min;
-                }
-                // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
-                // note that month is 0-11, not 1-12
-                // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
-                var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
-                //alert(ms + d[2]);
-                // if there are milliseconds, add them
-                if (d[7] > 0) {
-                    ms += Math.round(d[7] * 1000);
-                }
+               return new Date(ms);
+           } catch (error) {
+               return ("All day");
+           }
+           //return new Date(ms);
+       };
 
-                // if there's a timezone, calculate it
-                if (d[8] != "Z" && d[10]) {
-                    var offset = d[10] * 60 * 60 * 1000;
-                    if (d[11]) {
-                        offset += d[11] * 60 * 1000;
-                    }
-                    if (d[9] == "-") {
-                        ms -= offset;
-                    }
-                    else {
-                        ms += offset;
-                    }
-                }
-                //alert(ms);
-                var outp = hr + ":" + min;
-                return outp;
-            } catch (error) {
-                return ("All day");
-            }
-            //return new Date(ms);
-        };
+       function get_cookie(name) {
+           var results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+           if (results)
+               return (unescape(results[2]));
+           else
+               return null;
+       }
+
+       function listCookies() {
+           var theCookies = document.cookie.split(';');
+           var aString = '';
+           for (var i = 1; i <= theCookies.length; i++) {
+               aString += i + ' ' + theCookies[i - 1] + "<br/>";
+           }
+           return aString;
+       }
+
+       function set_cookie(name, value, days) {
+           //value = "data here";
+           //alert("set cookie: " + name + " " + value);
+           var date = new Date();
+           date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+           var expires = "; expires=" + date.toGMTString();
+           document.cookie = name + '=' + value + expires + '; path=/'
+
+       }
+
+
+       function parseISO8601Date(s) {
+
+           // parenthese matches:
+           // year month day    hours minutes seconds  
+           // dotmilliseconds 
+           // tzstring plusminus hours minutes
+           var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(\.\d+)?(Z|([+-])(\d\d):(\d\d))/;
+
+           var d = [];
+           try {
+               d = s.match(re);
+
+               // "2010-12-07T11:00:00.000-09:00" parses to:
+               //  ["2010-12-07T11:00:00.000-09:00", "2010", "12", "07", "11",
+               //     "00", "00", ".000", "-09:00", "-", "09", "00"]
+               // "2010-12-07T11:00:00.000Z" parses to:
+               //  ["2010-12-07T11:00:00.000Z",      "2010", "12", "07", "11", 
+               //     "00", "00", ".000", "Z", undefined, undefined, undefined]
+
+               if (!d) {
+                   throw "Couldn't parse ISO 8601 date string '" + s + "'";
+               }
+               //alert(d);
+               // parse strings, leading zeros into proper ints
+               var a = [1, 2, 3, 4, 5, 6, 10, 11];
+               for (var i in a) {
+                   d[a[i]] = parseInt(d[a[i]], 10);
+                   //alert(d[a[i]]);
+               }
+               d[7] = parseFloat(d[7]);
+               var hr = parseInt(d[4], 10);
+               var min = parseInt(d[5], 10);
+               if (hr < 10) {
+                   hr = "0" + hr;
+               }
+               if (min < 10) {
+                   min = "0" + min;
+               }
+               // Date.UTC(year, month[, date[, hrs[, min[, sec[, ms]]]]])
+               // note that month is 0-11, not 1-12
+               // see https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date/UTC
+               var ms = Date.UTC(d[1], d[2] - 1, d[3], d[4], d[5], d[6]);
+               //alert(ms + d[2]);
+               // if there are milliseconds, add them
+               if (d[7] > 0) {
+                   ms += Math.round(d[7] * 1000);
+               }
+
+               // if there's a timezone, calculate it
+               if (d[8] != "Z" && d[10]) {
+                   var offset = d[10] * 60 * 60 * 1000;
+                   if (d[11]) {
+                       offset += d[11] * 60 * 1000;
+                   }
+                   if (d[9] == "-") {
+                       ms -= offset;
+                   }
+                   else {
+                       ms += offset;
+                   }
+               }
+               //alert(ms);
+               var outp = hr + ":" + min;
+               return outp;
+           } catch (error) {
+               return ("All day");
+           }
+           //return new Date(ms);
+       };
 
 
      </script>
@@ -2175,6 +2131,22 @@ function backFillCal(startrow) {
 </div>
 <div class="ui-block-b"><div id="sidemsg-t" class="sidemsg"></div></div>
 </div>
+<div id="tweettype_list" style="display:none">
+
+<fieldset data-role="controlgroup" data-mini="true" name="tweettypesmenu" id="tweettypesmenu">
+     <input type="radio" name="radio-3" id="radio-3e" value="all">
+    <label for="radio-3e">All</label>
+     <input type="radio" name="radio-3" id="radio-3a" value="my">
+    <label for="radio-3a">My Tweets</label>
+     <input type="radio" name="radio-3" id="radio-3b" value="fol">
+    <label for="radio-3b">Following</label>
+     <input type="radio" name="radio-3" id="radio-3c" value="men">
+    <label for="radio-3c">Mentions</label>
+     <input type="radio" name="radio-3" id="radio-3d" value="okf">
+    <label for="radio-3d">@okfridge</label>  
+</fieldset>
+</div>
+
 <div class="ui-grid-a ui-responsive">    
 <div class="ui-block-a"> 
 <div class="displayslider">
@@ -2224,23 +2196,8 @@ function backFillCal(startrow) {
 </div>
 
 <fieldset data-role="controlgroup">
-    <input type="checkbox" name="checkbox-2a" id="checkbox-2a">
-    <label for="checkbox-2a">Auto update</label>
-
-     <input type="checkbox" name="checkbox-3" id="checkbox-3" onchange="checkboxChange(this.id, this.checked)">
-    <label for="checkbox-3">Auto show banners</label>
-        <div id="checkbox-my-div">
-     <input type="checkbox" name="checkbox-3a" id="checkbox-3a">
-    <label for="checkbox-3a">My Tweets</label></div>
-    <div id="checkbox-fol-div">
-     <input type="checkbox" name="checkbox-3b" id="checkbox-3b">
-    <label for="checkbox-3b">Following</label></div>
-    <div id="checkbox-men-div">
-     <input type="checkbox" name="checkbox-3c" id="checkbox-3c">
-    <label for="checkbox-3c">Mentions</label></div>
-    <div id="checkbox-okf-div">
-     <input type="checkbox" name="checkbox-3d" id="checkbox-3d">
-    <label for="checkbox-3d">@okfridge</label></div>  
+    <input type="checkbox" name="checkbox-3" id="checkbox-3">
+    <label for="checkbox-3">Auto update</label>
 </fieldset>
 
 <label for="text-basic">Header Text:</label>
