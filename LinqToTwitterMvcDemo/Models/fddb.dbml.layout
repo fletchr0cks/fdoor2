@@ -52,7 +52,7 @@
         <classShapeMoniker Id="9156f563-ba9a-4269-b188-c0a8d373677a" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.875 : 3.25); (7.875 : 0.84375); (7.375 : 0.84375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.875 : 3.25); (7.875 : 0.84375); (7.375 : 0.84375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_device" />
       <nodes>
         <classShapeMoniker Id="20a2985f-c222-400f-98f7-5909f25f9629" />
@@ -72,7 +72,7 @@
         <elementListCompartment Id="3b96fd52-46cb-45e9-83e4-b416fccfbb57" absoluteBounds="8.39, 1.71, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.875 : 3.25); (8.875 : 3.2131982421875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.875 : 3.25); (8.875 : 3.2131982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_article" />
       <nodes>
         <classShapeMoniker Id="20a2985f-c222-400f-98f7-5909f25f9629" />
@@ -85,14 +85,14 @@
         <elementListCompartment Id="2751cda1-78e7-4f24-9eaf-7ee227a60ac0" absoluteBounds="12.265, 2.335, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(10.375 : 2.54409912109375); (12.25 : 2.54409912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(10.375 : 2.54409912109375); (12.25 : 2.54409912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/article/article_comment" />
       <nodes>
         <classShapeMoniker Id="f41b86e2-d7f9-4d8f-b724-fd5929e2de8b" />
         <classShapeMoniker Id="3f71ed6a-10dd-4569-9e66-796b78f24fd4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(9.375 : 3.54409912109375); (12.25 : 3.54409912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(9.375 : 3.54409912109375); (12.25 : 3.54409912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_comment" />
       <nodes>
         <classShapeMoniker Id="20a2985f-c222-400f-98f7-5909f25f9629" />

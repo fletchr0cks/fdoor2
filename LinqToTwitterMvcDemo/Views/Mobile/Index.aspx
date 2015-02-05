@@ -96,6 +96,9 @@
   </div>
   <br />
   </div>
+<div id="days2go" style="display:none">
+</div>
+
 <div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">

@@ -4949,7 +4949,12 @@ for Android 4.1 */
 
 .tweets1 {font-family: 'Helvetica', cursive;color: #000; font-size:18px; white-space:normal}
 
+.d2gtxt {font-family: 'Helvetica', cursive;color: #000; font-size:24px; white-space:normal}
+.d2g {font-family: 'Helvetica', cursive;color: #000; font-size:36px; white-space:normal}
+
+td.td80 {width: 80px}
 .listItemNoIcon .ui-icon
+
 {
 
  display: none;

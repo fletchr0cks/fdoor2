@@ -165,6 +165,10 @@
 
        }
 
+       function editD2g() {
+           $("#DatesList").html("Dates here");
+       }
+
        function getZeroURL() {
            var guid = get_cookie("GUID");
            //var cookies = listCookies();
@@ -882,6 +886,7 @@
                        //alert(idlist);
                        //$('#flip-t').val('yes').slider('refresh');
                        //$('#tweets').show();
+                       $('#tweettype_list').show()
                        getTweets(5);
                    }
                },
@@ -1009,6 +1014,118 @@
            });
        }
 
+       function getDays2Go() {
+
+
+       }
+    
+       function editDays2Go() {       
+           var idlistj = get_cookie("IDList");          
+           var jsonc = idlistj;
+           var jsone = eval('(' + jsonc + ')');
+           var jsone2 = eval('(' + jsonc + ')');
+        
+           var emails = ""
+           //alert(idlistj);
+
+           $.each(jsone.Id, function (i, idlist) {
+
+               var email = getID(i, idlistj);
+               var name = getFn(i, idlistj);
+               emails = emails + "<div><button class=\"ui-btn ui-btn-inline\" onClick=\"FutureDates('" + email + "')\">" + email + "</button>";
+               //getevents(email, name, i, max, min);
+               //getfutureevents(email, name, i, max, min);
+               // alert(idlist[0]);
+           });
+           $('#days2go').html("<div class=\"ui-body ui-body-a ui-corner-all\">Select Calendar" + "<div><form>" + emails + "</form></div></div>").trigger('create');
+          
+           }
+
+           function FutureDates1(email) {
+               alert(email);
+           }
+
+     function FutureDates(email) {
+               alert(email);
+              var max = 10;
+              var min = 1;
+              var midhtml = "";
+              var tophtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
+           $.ajax({
+               type: "POST",
+               url: "/Mobile/DoneTest",
+               data: "email=" + email + "&max=" + max + "&min=" + min,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var typej = jsonresp['type'];
+                   if (typej == "refresh") {
+                       //alert("refreshing");
+                       window.location.href = '/Mobile/GoogleRefresh';
+                   } else {
+                       var summary = jsonresp['summary'];
+
+                       // alert("not refreshing");
+                       var item_ct = 0;
+                       for (_obj in jsonresp.items) item_ct++;
+                       //alert(item_ct);
+                       if (item_ct != 0) {
+                           var datestr = formatDate(min);
+                           //$('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
+                           $.each(jsonresp.items, function (n, item) {
+                               if (item.status != "cancelled") {
+                                   var datetest = item.start.dateTime;
+                                   var datetest2 = item.start.date;
+                                   var start_dt = new Date(item.start.dateTime);
+                                   var end_dt = new Date(item.end.dateTime);
+                                   var start_d = new Date(item.start.date);
+                                   var end_d = new Date(item.end.date);
+                                   var stf = parseISO8601Date(item.start.dateTime);
+                                   var endf = parseISO8601Date(item.end.dateTime);
+                                   //var dts = formatDT(itemstart,"start",itemend);
+                                   var dte = "";
+                                   if (start_dt != "Invalid Date") {
+                                       // dte = start_dt.toString('H:mm tt') + " - " + end_dt;
+                                   } else {
+                                       // dte = "All day";
+                                   }
+                                   //formatDT(itemstart, itemend, min); write this back in
+                                   var location = "";
+                                   if (item.location != undefined) {
+                                       location = ", " + item.location;
+                                   }
+                                   midhtml = midhtml + "<div class=\"term3\" onClick=\"SetD2Go()\">" + start_d + " - " + end_dt + ": " + item.summary + "</div>";
+                               }
+
+                           });
+                       } else {
+                           //     $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                       }
+                   }
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+
+               },
+               complete: function (xhr, status) {
+               }
+
+           });
+
+
+           //var midhtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table><tr><td class=\"td80\"><div class=\"d2g\" id=\"days_party\">02</div></td>" + 
+          //  "<td><div class=\"d2gtxt\">Days until Ursula's party</div></td></tr><tr></table></div>";
+
+       
+           $('#days2go').html(tophtml + midhtml + "</table></div>").trigger('create');
+           //$('#days2go').html(midhtml);
+   //         <ul data-role="listview">
+
+
+       }
+
+ 
 
        function getTweets(more) {
 
@@ -1569,7 +1686,7 @@
            var flipK = document.getElementById('flip-k').value;
            var flipS = document.getElementById('flip-s').value;
            var flipS = document.getElementById('flip-b').value;
-
+           var flipD = document.getElementById('flip-d').value;
            //clearTimeout(timerA);
            //timerA = setTimeout(checkNewTweets, 600000);
 
@@ -1607,7 +1724,7 @@
                    twt_check();
                    //$('#tweets').show()
                    //$('#tweetsfull').show()
-                   $('#tweettype_list').show()
+                  
 
                }
            }
@@ -1619,6 +1736,17 @@
                if (val == "yes") {
                    $('#kindletricks').show()
 
+               }
+           }
+
+           if (id == "flip-d") {
+               if (val == "no") {
+                   $('#days2go').hide()
+               }
+               if (val == "yes") {
+                   $('#days2go').show()
+                   getDays2Go();
+                   $('#sidemsg-d').show();
                }
            }
 
@@ -2120,7 +2248,7 @@
 <div data-role="page">
 <div data-role="panel" id="mypanel" data-swipe-close="false" data-theme="b">
     <!-- panel content goes here -->
-    <div class="ui-grid-a ui-responsive">    
+<div class="ui-grid-a ui-responsive">    
 <div class="ui-block-a"> 
     <div class="displayslider">
       <select data-mini="true" name="slider" id="flip-t" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
@@ -2157,6 +2285,20 @@
 </div>
 </div>
 <div class="ui-block-b"><div id="sidemsg-c" class="sidemsg"></div></div>
+</div>
+<div class="ui-grid-b ui-responsive"> 
+<div class="ui-block-a">  
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-d" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Days to Go</option>
+	<option value="yes">Days to Go</option>
+</select>
+</div>
+</div>
+<div class="ui-block-b"></div>
+<div style="display:none" id="sidemsg-d" class="ui-block-c">
+<a href="#" data-rel="close" class="ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all" onclick="editDays2Go()">Edit</a>
+</div>
 </div>
 <div class="ui-grid-a ui-responsive">    
 <div class="ui-block-a">  
@@ -2234,6 +2376,13 @@
  <p></p>
  <p><div id="zeroURL"></div></p>
  <div id="allcookies"></div>
+    </div>
+</div><!-- /popup -->
+
+<div data-role="popup" id="editD2g" data-theme="b">
+  <div class="ui-body ui-body-b">
+ <div id="DatesList"></div>
+ <div id="emailIDs"></div>
     </div>
 </div><!-- /popup -->
 
