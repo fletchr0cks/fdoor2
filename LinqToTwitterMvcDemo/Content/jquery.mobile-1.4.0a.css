@@ -4952,6 +4952,9 @@ for Android 4.1 */
 .d2gtxt {font-family: 'Helvetica', cursive;color: #000; font-size:24px; white-space:normal}
 .d2g {font-family: 'Helvetica', cursive;color: #000; font-size:36px; white-space:normal}
 
+.days_head {font-family: 'Helvetica', cursive;color: #000; font-size:52px; padding-top: 10px}
+.days_text {font-family: 'Helvetica', cursive;color: #000; font-size:38px; padding-top: 18px}
+
 td.td80 {width: 80px}
 .listItemNoIcon .ui-icon
 

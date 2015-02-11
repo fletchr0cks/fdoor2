@@ -451,7 +451,8 @@ namespace LinqToTwitterMvcDemo.Controllers
             request.Method = "POST";
             request.KeepAlive = true;
             request.ContentType = "application/x-www-form-urlencoded";
-            string param = string.Format(data, code, _GoogleClientId, _GoogleSecret, redirect_uri_encode, grant_type);
+            var approval_prompt = "force";
+            string param = string.Format(data, code, _GoogleClientId, _GoogleSecret, redirect_uri_encode, grant_type, approval_prompt);
             var bs = Encoding.UTF8.GetBytes(param);
             using (Stream reqStream = request.GetRequestStream())
             {

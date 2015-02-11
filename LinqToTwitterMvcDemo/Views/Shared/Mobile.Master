@@ -8,12 +8,14 @@
      
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+
 
    <script type="text/javascript">
-
-
+   
        $(document).bind("pageinit", function () {
 
            $(function () {
@@ -98,9 +100,7 @@
        $(document).ready(function () {
 
            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-
-
-
+   
        });
 
 
@@ -1032,7 +1032,7 @@
 
                var email = getID(i, idlistj);
                var name = getFn(i, idlistj);
-               emails = emails + "<div><button class=\"ui-btn ui-btn-inline\" onClick=\"FutureDates('" + email + "')\">" + email + "</button>";
+               emails = emails + "<div onClick=\"FutureDates('" + email + "')\">" + email + "</div>";
                //getevents(email, name, i, max, min);
                //getfutureevents(email, name, i, max, min);
                // alert(idlist[0]);
@@ -1046,79 +1046,83 @@
            }
 
      function FutureDates(email) {
-               alert(email);
+             //  alert(email);
               var max = 10;
               var min = 1;
               var midhtml = "";
               var tophtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
-           $.ajax({
-               type: "POST",
-               url: "/Mobile/DoneTest",
-               data: "email=" + email + "&max=" + max + "&min=" + min,
-               dataType: "json",
-               success: function (json) {
-                   var jsonresp = eval(json);
-                   //type = refresh
-                   var typej = jsonresp['type'];
-                   if (typej == "refresh") {
-                       //alert("refreshing");
-                       window.location.href = '/Mobile/GoogleRefresh';
-                   } else {
-                       var summary = jsonresp['summary'];
+              $.ajax({
+                  type: "POST",
+                  url: "/Mobile/DoneTest",
+                  data: "email=" + email + "&max=" + max + "&min=" + min,
+                  dataType: "json",
+                  success: function (json) {
+                      var jsonresp = eval(json);
+                      //type = refresh
+                      var typej = jsonresp['type'];
+                      if (typej == "refresh") {
+                          alert("refreshing");
+                          //window.location.href = '/Mobile/GoogleRefresh';
+                      } else {
+                          var summary = jsonresp['summary'];
 
-                       // alert("not refreshing");
-                       var item_ct = 0;
-                       for (_obj in jsonresp.items) item_ct++;
-                       //alert(item_ct);
-                       if (item_ct != 0) {
-                           var datestr = formatDate(min);
-                           //$('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
-                           $.each(jsonresp.items, function (n, item) {
-                               if (item.status != "cancelled") {
-                                   var datetest = item.start.dateTime;
-                                   var datetest2 = item.start.date;
-                                   var start_dt = new Date(item.start.dateTime);
-                                   var end_dt = new Date(item.end.dateTime);
-                                   var start_d = new Date(item.start.date);
-                                   var end_d = new Date(item.end.date);
-                                   var stf = parseISO8601Date(item.start.dateTime);
-                                   var endf = parseISO8601Date(item.end.dateTime);
-                                   //var dts = formatDT(itemstart,"start",itemend);
-                                   var dte = "";
-                                   if (start_dt != "Invalid Date") {
-                                       // dte = start_dt.toString('H:mm tt') + " - " + end_dt;
-                                   } else {
-                                       // dte = "All day";
-                                   }
-                                   //formatDT(itemstart, itemend, min); write this back in
-                                   var location = "";
-                                   if (item.location != undefined) {
-                                       location = ", " + item.location;
-                                   }
-                                   midhtml = midhtml + "<div class=\"term3\" onClick=\"SetD2Go()\">" + start_d + " - " + end_dt + ": " + item.summary + "</div>";
-                               }
+                          // alert("not refreshing");
+                          var item_ct = 0;
+                          for (_obj in jsonresp.items) item_ct++;
+                          //alert(item_ct);
+                          if (item_ct != 0) {
+                              var datestr = formatDate(min);
+                              //$('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
+                              $.each(jsonresp.items, function (n, item) {
+                                  if (item.status != "cancelled") {
+                                      var datetest = item.start.dateTime;
+                                      var datetest2 = item.start.date;
+                                      var start_dt = new Date(item.start.dateTime);
+                                      var end_dt = new Date(item.end.dateTime);
+                                      var start_d = new Date(item.start.date);
+                                      var end_d = new Date(item.end.date);
+                                      var stf = parseISO8601Date(item.start.dateTime);
+                                      var endf = parseISO8601Date(item.end.dateTime);
+                                      //var dts = formatDT(itemstart,"start",itemend);
+                                      var dte = "";
+                                      if (start_dt != "Invalid Date") {
+                                          // dte = start_dt.toString('H:mm tt') + " - " + end_dt;
+                                      } else {
+                                          // dte = "All day";
+                                      }
+                                      //formatDT(itemstart, itemend, min); write this back in
+                                      var location = "";
+                                      if (item.location != undefined) {
+                                          location = ", " + item.location;
+                                      }
+                                      //alert(start_dt + item.summary);
+                                      midhtml = midhtml + "<div class=\"term3\" onClick=\"SetD2Go()\">" + item.summary + "</div>";
+                                  }
 
-                           });
-                       } else {
-                           //     $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
-                       }
-                   }
-               },
-               error: function (xhr, error) {
-                   // console.debug(xhr); console.debug(error);
+                              });
+                          } else {
+                              //     $('#sum' + i).append("<br /><div class=\"term1\">No events for " + name + "</div>");
+                          }
+                      }
+                  },
+                  error: function (xhr, error) {
+                      //console.debug(xhr); console.debug(error);
 
-               },
-               complete: function (xhr, status) {
-               }
+                  },
+                  complete: function (xhr, status) {
+                      //console.debug(xhr); console.debug(error);
+                      $('#days2go').html(tophtml + midhtml + "</table></div>").trigger('create');
+                      
+                  }
 
-           });
+              });
 
 
            //var midhtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table><tr><td class=\"td80\"><div class=\"d2g\" id=\"days_party\">02</div></td>" + 
-          //  "<td><div class=\"d2gtxt\">Days until Ursula's party</div></td></tr><tr></table></div>";
+          //  "<td><div class=\"dgtxt\">Days until Ursula's party</div></td></tr><tr></table></div>";
 
-       
-           $('#days2go').html(tophtml + midhtml + "</table></div>").trigger('create');
+              //alert(midhtml);
+           
            //$('#days2go').html(midhtml);
    //         <ul data-role="listview">
 
@@ -1172,7 +1176,7 @@
                            tweettype = "banner";
                            tweetxtra = item.ID;
                            midhtml_okf = midhtml_okf + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
+          //     "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                            if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'okf');
@@ -1184,18 +1188,18 @@
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-             "<img src=\"" + item.ImageUrl + "\">" +
+           //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
+             //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
+             //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
 
@@ -1513,6 +1517,7 @@
        }
 
        function processSel(selection) {
+           set_cookie("Sel", selection, 360);
            var sels = selection.split(",");
            var items = 0;
            while (items < 7) {
@@ -1644,8 +1649,11 @@
            set_cookie("header", header_text, 360);
            //set_cookie("autoupdate", autoupdate, 360);
            set_cookie("banner_auto", banner_auto, 360);
-          
+
            set_cookie("tweets", TweetRadio, 360);
+           if (TweetRadio.length > 1 && document.getElementById('flip-t').value == "yes") {
+               getTweets(5);
+           }
            for (var i = 0; i < str.length; i++) {
                var nextChar = str.charAt(i);
                var flipstr = "flip-" + nextChar;
@@ -1710,7 +1718,7 @@
                }
                if (val == "yes") {
                    $('#welcome').show();
-
+                  
                }
            }
 
@@ -1745,8 +1753,8 @@
                }
                if (val == "yes") {
                    $('#days2go').show()
-                   getDays2Go();
-                   $('#sidemsg-d').show();
+                  // getDays2Go();
+                   //$('#sidemsg-d').show();
                }
            }
 
@@ -2246,7 +2254,7 @@
  
 <body>
 <div data-role="page">
-<div data-role="panel" id="mypanel" data-swipe-close="false" data-theme="b">
+<div data-role="panel" id="mypanel" data-swipe-close="false" data-theme="b" data-dismissible="false">
     <!-- panel content goes here -->
 <div class="ui-grid-a ui-responsive">    
 <div class="ui-block-a"> 

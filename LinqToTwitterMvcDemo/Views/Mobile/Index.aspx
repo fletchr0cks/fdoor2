@@ -32,8 +32,10 @@
     </div>
      <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
     <div><img src="../../Content/images/pics/IMG_5005.JPG" /></div>
+     
      <p></p>
      </div>
+     
      </div>
 
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
@@ -97,6 +99,16 @@
   <br />
   </div>
 <div id="days2go" style="display:none">
+
+
+<table>
+      <tr><td class="td80"><div class="days_head" id="days_party">02</div></td>
+      <td><div class="days_text">Days until Ursula's party</div></td>
+      </tr>
+     <tr><td class="td80"><div class="days_head" id="days_holiday">15</div></td>
+      <td><div class="days_text">Days until snowboarding trip</div></td>
+      </tr>
+    </table>
 </div>
 
 <div id="calblock" style="display:none">
