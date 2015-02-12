@@ -152,6 +152,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                         //get from db lat lng and set cookies
 
+                        return RedirectToAction("Index");
                     }
                     catch
                     {
@@ -958,6 +959,12 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
 
             return View("Mobile");
+        }
+
+        public ActionResult Bday()
+        {
+
+            return View("Bday");
         }
 
         public ActionResult JsonTweets(string timenow, int getnum, string tweettypes)

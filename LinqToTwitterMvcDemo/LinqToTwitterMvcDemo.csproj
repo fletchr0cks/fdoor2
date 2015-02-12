@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\flexslider.css" />
+    <Content Include="Content\images\bday.jpg" />
     <Content Include="Content\images\bg_play_pause.png" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\jquery.mobile-1.4.0a.css" />
@@ -424,6 +425,7 @@
     <Content Include="Views\Home\Mobile.aspx" />
     <Content Include="Views\Home\SetTwitterID.aspx" />
     <Content Include="Views\Home\testout.ascx" />
+    <Content Include="Views\Mobile\Bday.aspx" />
     <Content Include="Views\Mobile\Choose.aspx" />
     <Content Include="Views\Mobile\Index.aspx" />
     <Content Include="Views\Mobile\parsetime.aspx" />

@@ -2296,6 +2296,7 @@
 </div>
 <div class="ui-block-b"><div id="sidemsg-c" class="sidemsg"></div></div>
 </div>
+<div style="display:none">
 <div class="ui-grid-b ui-responsive"> 
 <div class="ui-block-a">  
 <div class="displayslider">
@@ -2303,6 +2304,7 @@
 	<option value="no">Days to Go</option>
 	<option value="yes">Days to Go</option>
 </select>
+</div>
 </div>
 </div>
 <div class="ui-block-b"></div>
