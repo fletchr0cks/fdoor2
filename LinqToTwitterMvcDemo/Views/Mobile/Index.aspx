@@ -39,7 +39,7 @@
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
-     <%= ViewData["twitter"]%>
+     <div> tw btn here <%= ViewData["twitter"]%> </div>
      <div class="divider" id="divider1"><hr /></div>
     </div>
      <div class="ui-block-b"><div style="font-size:20px">Google</div>
