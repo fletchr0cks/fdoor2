@@ -1342,10 +1342,10 @@
                        $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
                    }
 
-                   if (get_cookie("autoupdate") == "on") {
+                //   if (get_cookie("autoupdate") == "on") {
                        clearTimeout(timerA);
-                       timerA = setTimeout(checkNewTweets, 600000);
-                   }
+                       timerA = setTimeout(checkNewTweets, 60000);
+                  // }
                },
                error: function (response) {
                    //alert(response.responseText);
@@ -1551,7 +1551,7 @@
            var header_text = get_cookie("header");
            //var autoupdate = get_cookie("autoupdate");
            var banner_auto = get_cookie("banner_auto");
-        
+           banner_auto = "on"
            var TweetRadio = get_cookie("tweets");
          
            if (TweetRadio == "all") {
@@ -1569,9 +1569,11 @@
            }
            if (TweetRadio == "okf") {
                $('#radio-3d').attr('checked', true).checkboxradio('refresh');
-           }               
+           }
 
-           document.getElementById('header_text').value = header_text;
+           //alert(header_text);
+           $("#header_text").html(header_text).trigger('create');
+          // document.getElementById('header_text').value = header_text;
            if (kindle_sc == "on") {
                $('#checkbox-1a').prop('checked', true).checkboxradio('refresh');
            } else {
@@ -1637,11 +1639,11 @@
            } else {
                autoupdate = "off";
            }
-           if ($("#checkbox-3").is(":checked")) {
+           //if ($("#checkbox-3").is(":checked")) {
                banner_auto = "on";
-           } else {
-               banner_auto = "off";
-           }
+           //} else {
+             //  banner_auto = "off";
+           //}
   
            //alert(kindle_sc + header_text);
            //alert(checkKindle_sc());
@@ -2325,12 +2327,13 @@
 	<option value="yes">Get Started</option>
 </select>
 </div>
-
+<div style="display:none">
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-s" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Stats</option>
 	<option value="yes">Stats</option>
 </select>
+</div>
 </div>
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-k" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
@@ -2338,21 +2341,25 @@
 	<option value="yes">Kindle tricks</option>
 </select>
 </div>
+<div style="display:none">
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-b" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
 	<option value="no">Blog</option>
 	<option value="yes">Blog</option>
 </select>
 </div>
-
+</div>
+<div style="display:none">
 <fieldset data-role="controlgroup">
     <input type="checkbox" name="checkbox-3" id="checkbox-3">
     <label for="checkbox-3">Auto update</label>
 </fieldset>
-
+</div>
+<div style="display:none">
 <label for="text-basic">Header Text:</label>
 <input type="text" name="header_text" id="header_text" value="">
-<p><a href="#zerotype" data-rel="popup" class="ui-btn ui-btn-b ui-mini" onclick="getZeroURL()" data-transition="pop" data-position-to="window">No Typing Setup</a>
+</div>
+<p><a href="#zerotype" data-rel="popup" class="ui-btn ui-btn-b ui-mini" onclick="getZeroURL()" data-transition="pop" data-position-to="window">Kindle No Typing Setup</a>
 </p>
 <fieldset data-role="controlgroup">
     <legend></legend>

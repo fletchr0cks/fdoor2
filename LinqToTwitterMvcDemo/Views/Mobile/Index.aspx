@@ -9,7 +9,7 @@
 <div data-role="header">
 
  <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
-<h1><div id="headtext">   </div></h1>
+<h1>FridgeDoor</h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-action" data-transition="pop" data-position-to="window">Choose</a>
 </div>
 
@@ -32,10 +32,8 @@
     </div>
      <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
     <div><img src="../../Content/images/pics/IMG_5005.JPG" /></div>
-     
      <p></p>
      </div>
-     
      </div>
 
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
@@ -163,7 +161,7 @@
 <p>Just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
 <br />
 <p style="font-size:18px"><strong>Zero typing setup</strong></p>
-<p>To save typing your Twitter and Google credentials on the Kindle, so all the authentication on another device, then click the Zero Typing button on the left. </p>
+<p>To save typing your Twitter and Google credentials on the Kindle, do all the authentication on another device, then click the Kindle No Typing Setup button on the left and follow the instructions. </p>
 <p></p>
 
 </div>
