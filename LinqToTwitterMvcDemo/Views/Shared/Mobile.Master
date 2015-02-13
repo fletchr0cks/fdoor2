@@ -182,7 +182,7 @@
 
        function SetLoc() {
            // $('#locBtn').html("");
-           var html = "<div id=\"towns\"><input type=\"text\" id=\"town\" value=\"North Berwick\" />" +
+           var html = "<div id=\"towns\"><input type=\"text\" id=\"town\" />" +
                 "<button onclick=\"setTown()\" class=\"ui-btn ui-btn-b ui-shadow ui-corner-all ui-icon-search\">Search</button></div>";
            //"<div id=\"townmsg\"><div><div id=\"townlist\"><div>";
            $('#setLocation').html(html).trigger('create');
@@ -425,7 +425,7 @@
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
                //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
 
-               $('#weather').html(htmltable);
+               $('#weather').html(htmltable).trigger('create');
                $('#weather_next5').html(weathernext5 + "</div>").trigger('create');
            }
        }
@@ -433,11 +433,11 @@
 
        function drawDaysnoCal(n) {
            //var n = parseInt(1);
-           $('#weatherday').html("<strong>" + formatDateFull(n) + "</strong>");
+           $('#weatherday').html("<strong>" + formatDateFull(n) + "</strong>").trigger('create');
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
            var weathernext5 = "<div class=\"ui-grid-d\">";
-           var aplhastr = "abcde";
+           var aplhastr = "abc";
            for (var i = 0; i < aplhastr.length; i++) {
                var nextChar = aplhastr.charAt(i);
                //}
@@ -585,8 +585,8 @@
                            var htmltable = "<table><tr><td>Day <br />" + img1 + "</td><td>min:" + min + " " + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + img2 + "</td><td>max:" + max + " " + forecast2 + "</td></tr></table>";
                            //alert(htmltable);
-                           $('#weather').html(htmltable);
-                           $('#weatherblocdata').append(htmltable);
+                           $('#weather').html(htmltable).trigger('create');
+                           $('#weatherblocdata').append(htmltable).trigger('create');
                            //next 5 ???
                            var epoch = Math.round(new Date().getTime() / 1000);
                            set_cookie("w_data", epoch, 2);
@@ -611,8 +611,8 @@
                    var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
                    //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
-                   $('#weather').html(htmltable);
-                   $('#weatherblocdata').append(htmltable);
+                   $('#weather').html(htmltable).trigger('create');
+                   $('#weatherblocdata').append(htmltable).trigger('create');
 
                }
            }
@@ -664,7 +664,7 @@
                                    if (item.location != undefined) {
                                        location = ", " + item.location;
                                    }
-                                   $('#sum' + i).append("<div class=\"term3\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + location + "</div>");
+                                   $('#sum' + i).append("<div class=\"term3\">" + stf + " - " + endf + "</div>    <div class=\"term1evt\">" + item.summary + location + "</div>").trigger('create');
                                }
 
                            });
@@ -1587,8 +1587,8 @@
               
            }
 
-          
-        
+
+
 
            $.ajax({
                type: "GET",
@@ -1601,8 +1601,8 @@
                    if (sel == "none") {
                        processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=no");
                        //show getstarted and blog
-                       $('#welcome').show()
-                       $('#blog').show()
+                       $('#welcome').show();
+
                    } else {
                        processSel(sel);
                    }
@@ -1623,7 +1623,7 @@
            var selected = new Array();
            var str = "twcgksb";
            var kindle_sc = "";
-         
+          
            var banner_auto = "";
 
            var TweetRadio = $("#tweettypesmenu :radio:checked").val();
@@ -1682,7 +1682,9 @@
                }
 
            });
-
+           if (document.getElementById('flip-w').value == "yes") {
+               document.location.href = '/';      
+           }
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
 
@@ -1696,7 +1698,7 @@
            var flipG = document.getElementById('flip-g').value;
            var flipK = document.getElementById('flip-k').value;
            var flipS = document.getElementById('flip-s').value;
-           var flipS = document.getElementById('flip-b').value;
+           var flipB = document.getElementById('flip-b').value;
            var flipD = document.getElementById('flip-d').value;
            //clearTimeout(timerA);
            //timerA = setTimeout(checkNewTweets, 600000);
