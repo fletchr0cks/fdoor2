@@ -1599,7 +1599,7 @@
                    // var arraysel = eval(sel);
                    //alert(sel);
                    if (sel == "none") {
-                       processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=yes");
+                       processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=no");
                        //show getstarted and blog
                        $('#welcome').show()
                        $('#blog').show()
@@ -1640,20 +1640,20 @@
                autoupdate = "off";
            }
            //if ($("#checkbox-3").is(":checked")) {
-               banner_auto = "on";
+              banner_auto = "on";
            //} else {
              //  banner_auto = "off";
            //}
   
            //alert(kindle_sc + header_text);
-           //alert(checkKindle_sc());
+          // alert(checkKindle_sc());
            set_cookie("kindle_sc", kindle_sc, 360);
            set_cookie("header", header_text, 360);
            //set_cookie("autoupdate", autoupdate, 360);
            set_cookie("banner_auto", banner_auto, 360);
-
+          
            set_cookie("tweets", TweetRadio, 360);
-           if (TweetRadio.length > 1 && document.getElementById('flip-t').value == "yes") {
+           if (TweetRadio != undefined && document.getElementById('flip-t').value == "yes") {
                getTweets(5);
            }
            for (var i = 0; i < str.length; i++) {
@@ -1672,12 +1672,13 @@
                data: "selection=" + selected,
                dataType: "text/plain",
                success: function (json) {
-
+                   
                },
                error: function (response) {
-
+                   
                },
                complete: function (xhr, status) {
+                   
                }
 
            });
