@@ -372,7 +372,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
 
             //NOTE: Key piece here, from Andrew's reply -> access_type=offline forces a refresh token to be issued
-            string Url = "https://accounts.google.com/o/oauth2/auth?scope={0}&redirect_uri={1}&response_type={2}&client_id={3}&state={4}&access_type=online&approval_prompt=force";
+            string Url = "https://accounts.google.com/o/oauth2/auth?scope={0}&redirect_uri={1}&response_type={2}&client_id={3}&state={4}&access_type=offline&approval_prompt=force";
             string scope = UrlEncodeForGoogle("https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.readonly").Replace("%20", "+");
             var request = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Contains("~"));
             string urlBase = Request.Url.ToString();
@@ -452,8 +452,8 @@ namespace LinqToTwitterMvcDemo.Controllers
             request.Method = "POST";
             request.KeepAlive = true;
             request.ContentType = "application/x-www-form-urlencoded";
-            var approval_prompt = "force";
-            string param = string.Format(data, code, _GoogleClientId, _GoogleSecret, redirect_uri_encode, grant_type, approval_prompt);
+           // var approval_prompt = "force";
+            string param = string.Format(data, code, _GoogleClientId, _GoogleSecret, redirect_uri_encode, grant_type);
             var bs = Encoding.UTF8.GetBytes(param);
             using (Stream reqStream = request.GetRequestStream())
             {
@@ -756,7 +756,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 redirect_uri_encode = UrlEncodeForGoogle(_ReturnUrl_local);
             }
 
-            else
+            else //not saving token
             {
                 redirect_uri_encode = UrlEncodeForGoogle(_ReturnUrl);
             }
@@ -941,8 +941,10 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 DelCookie("lat", "");
                 DelCookie("long", "");
+                DelCookie("day0", "");
                 dataRepository.clearWeather(userid);
                 //cycle thru others
+                //day0 t0 7, icon 0 to 7, h11 to 3
 
             }
 

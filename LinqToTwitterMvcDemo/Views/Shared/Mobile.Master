@@ -9,13 +9,16 @@
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
 
+  <link href="../../Content/style.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="../../Scripts/swipeview.js"></script>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
 
-   <script type="text/javascript">
+<script type="text/javascript">
    
+
        $(document).bind("pageinit", function () {
 
            $(function () {
@@ -209,6 +212,8 @@
                    var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
                    $('#setLocation').html(html).trigger('create');
                    $("#townlist").html("").trigger('create');
+                   $("#townmsg").html("").trigger('create');
+                   GetWeather(0, 1);
                }
 
            });
@@ -451,7 +456,7 @@
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
                var dayID = formatDateDayID(n1);
-
+               
                calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"drawDaysnoCal(" + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
                var img = get_cookie("icon" + n1);
                var hi = "";
@@ -519,8 +524,10 @@
                $('#weather_next5').hide();
 
                $('#sidemsg-w').html("Set location");
+               $('#greeting').hide;
                $('#flip-w').val('no').slider('refresh');
                $('#flip-g').val('yes').slider('refresh');
+               $('#greeting').hide();
                $('#welcome').show();
            } else {
                $('#weather').show();
@@ -784,6 +791,7 @@
                        $('#sidemsg-c').html("Authenticate");
                        $('#flip-c').val('no').slider('refresh');
                        $('#flip-g').val('yes').slider('refresh');
+                       $('#greeting').hide();
                        $('#welcome').show();
                    } else {
 
@@ -872,6 +880,7 @@
                        $('#sidemsg-t').html("Authenticate");
                        $('#flip-t').val('no').slider('refresh');
                        $('#flip-g').val('yes').slider('refresh');
+                       $('#greeting').hide();
                        $('#welcome').show();
                        $('#tweets').hide();
 
@@ -879,6 +888,7 @@
                        $('#sidemsg-t').html("Authenticate");
                        $('#flip-t').val('no').slider('refresh');
                        $('#flip-g').val('yes').slider('refresh');
+                       $('#greeting').hide();
                        $('#welcome').show();
                        $('#tweets').hide();
 
@@ -1061,8 +1071,8 @@
                       //type = refresh
                       var typej = jsonresp['type'];
                       if (typej == "refresh") {
-                          alert("refreshing");
-                          //window.location.href = '/Mobile/GoogleRefresh';
+                          //alert("refreshing");
+                          window.location.href = '/Mobile/GoogleRefresh';
                       } else {
                           var summary = jsonresp['summary'];
 
@@ -1723,6 +1733,7 @@
                }
                if (val == "yes") {
                    $('#welcome').show();
+                   $('#greeting').show();
                   
                }
            }
