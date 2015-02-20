@@ -9,9 +9,6 @@
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
 
-  <link href="../../Content/style.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="../../Scripts/swipeview.js"></script>
-
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
@@ -455,10 +452,9 @@
                var daynum = formatDate(n1);
                var dispday = formatDateNext(n1);
                dispday = dispday.substring(0, 3) + " " + daynum;
-               var dayID = formatDateDayID(n1);
-               
+               var dayID = formatDateDayID(n1);          
                calnext5 = calnext5 + "<div style=\"cursor:pointer\" class=\"ui-block-" + nextChar + "\"><div style=\"font-size:12px;text-align:left\" onclick=\"drawDaysnoCal(" + n1 + ")\" id=\"" + dayID + "\"><div class=\"term3\">" + dispday + "</div></div></div>";
-               var img = get_cookie("icon" + n1);
+               var img = get_cookie("icon" + parseInt(n1 * 2)); //fix cal weather
                var hi = "";
                var lo = "";
                var icon = "";
@@ -956,8 +952,9 @@
 
            if (type == 'media') {
 
-               var imghtml = "<img src=" + ID + "/>";
-               $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Image from " + screenname + ":</a>").trigger('create');
+               var imghtml = "<img src=\"" + ID + "\"/>"; //g/"/>
+               
+               $('#banner_header').html("<a href=\"#\" onclick=\"closeBanner()\" class=\"ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-top\">Close</a>").trigger('create');
                //<div class="ui-icnput-btn ui-btn ui-btn-b">
                //Close
                //<input type="button" data-enhanced="true" value="Enhanced - Theme swatch B">
@@ -1024,8 +1021,86 @@
            });
        }
 
-       function getDays2Go() {
+       function getDays2Go(type) {
+           var html_top = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
+           var html_mid = "";
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/getDays2Go",
+               //data: "latestID=" + latestID,
+               dataType: "json",
+               success: function (json) {
+                   $.each(json.Days2Go, function (i, result) {
+                       if (type == "normal") {
+                           html_mid = html_mid + "<tr><td class=\"td80\"><div class=\"days_head\" id=\"days_party\">" + result.days + "</div></td>" +
+                                  "<td><div class=\"days_text\">" + result.daystxt + result.text + "</div></td></tr>";
+                       } else {
+                           html_mid = html_mid + "<tr><td><div id=\"days_party\">" + result.days + "</div></td>" +
+                                  "<td><div>" + result.daystxt + result.text + "</div></td><td>" +
+                                  "<a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onclick=\"removeDays2Go('" + result.id + "')\">Remove</a></td></tr>";
+                       }
+                   });
+                   num = json.num;
 
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+                   if (type == "small") {
+                       $('#days2go').append(html_top + html_mid + "<tr><td><a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onclick=\"getDays2Go('normal')\">Done Editing</a></td></tr></table></div>");
+                   } else {
+                       $('#days2go').html(html_top + html_mid + "</table></div>");
+                   }
+               }
+
+           });
+
+
+       }
+
+       function removeDays2Go(id) {
+          
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/removeDays2Go",
+               data: "id=" + id,
+               //dataType: "json",
+               success: function (json) {
+                  
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   // return idlist;
+                   editDays2Go();
+               }
+
+           });
+
+
+       }
+
+
+       function setDays2Go(eventname, eventdt) {
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/setDays2Go",
+               data: "eventname=" + eventname + "&eventdatetime=" + eventdt,
+               dataType: "json",
+               success: function (json) {
+
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   getDays2Go("normal");
+               }
+
+           });
 
        }
     
@@ -1042,23 +1117,19 @@
 
                var email = getID(i, idlistj);
                var name = getFn(i, idlistj);
-               emails = emails + "<div onClick=\"FutureDates('" + email + "')\">" + email + "</div>";
+               emails = emails + "<div style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "',10,1)\">" + email + "</div>";
                //getevents(email, name, i, max, min);
                //getfutureevents(email, name, i, max, min);
                // alert(idlist[0]);
            });
-           $('#days2go').html("<div class=\"ui-body ui-body-a ui-corner-all\">Select Calendar" + "<div><form>" + emails + "</form></div></div>").trigger('create');
-          
+           $('#days2go').html("<div class=\"ui-body ui-body-a ui-corner-all\"><b>Select Calendar</b>" + "<div><form>" + emails + "</form></div></div>").trigger('create');
+
+           getDays2Go("small");
            }
 
-           function FutureDates1(email) {
-               alert(email);
-           }
-
-     function FutureDates(email) {
+  
+     function FutureDates(email,max,min) {
              //  alert(email);
-              var max = 10;
-              var min = 1;
               var midhtml = "";
               var tophtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
               $.ajax({
@@ -1095,10 +1166,14 @@
                                       var endf = parseISO8601Date(item.end.dateTime);
                                       //var dts = formatDT(itemstart,"start",itemend);
                                       var dte = "";
+                                      var datedb = "";
+                                      // alert(start_dt);
                                       if (start_dt != "Invalid Date") {
-                                          // dte = start_dt.toString('H:mm tt') + " - " + end_dt;
+                                          dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
+                                          datedb = datetest
                                       } else {
-                                          // dte = "All day";
+                                          dte = item.start.date;
+                                          datedb = datetest2;
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
                                       var location = "";
@@ -1106,7 +1181,7 @@
                                           location = ", " + item.location;
                                       }
                                       //alert(start_dt + item.summary);
-                                      midhtml = midhtml + "<div class=\"term3\" onClick=\"SetD2Go()\">" + item.summary + "</div>";
+                                      midhtml = midhtml + "<div class=\"term3\" style=\"cursor:pointer\" onClick=\"setDays2Go('" + item.summary + "','" + datedb + "')\">" + dte + ": " + item.summary + "</div>";
                                   }
 
                               });
@@ -1121,8 +1196,11 @@
                   },
                   complete: function (xhr, status) {
                       //console.debug(xhr); console.debug(error);
-                      $('#days2go').html(tophtml + midhtml + "</table></div>").trigger('create');
-                      
+                      max = parseInt(max + 10);
+                      min = parseInt(min + 10);
+                      var getmore = "<div class=\"term3\" style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "'," + max + "," + min + ")\">Get More</div>";
+                      $('#days2go').html(tophtml + midhtml + getmore + "</div>").trigger('create');
+
                   }
 
               });
@@ -1337,19 +1415,19 @@
                    $('#toptweet').html(jsonresp.latestid);
                    //var ua = navigator.userAgent;
                    //$('#toptweettime').html(timenow + ua);
-                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
-                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
-                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
-                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
+                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul><p></p><br /><p></p>").trigger('create');
+                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul><p></p><br /><p></p>").trigger('create');
+                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul><p></p><br /><p></p>").trigger('create');
+                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul><p></p><br /><p></p>").trigger('create');
 
                    if (tweettypes == "my") {
-                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul><p></p><br /><p></p>").trigger('create');
                    } else if (tweettypes == "men") {
-                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul><p></p><br /><p></p>").trigger('create');
                    } else if (tweettypes == "fol") {
-                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul><p></p><br /><p></p>").trigger('create');
                    } else if (tweettypes == "okf") {
-                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul><p></p><br /><p></p>").trigger('create');
                    }
 
                 //   if (get_cookie("autoupdate") == "on") {
@@ -1530,7 +1608,7 @@
            set_cookie("Sel", selection, 360);
            var sels = selection.split(",");
            var items = 0;
-           while (items < 7) {
+           while (items < 8) {
                var sel = sels[items];
                var selsp = sel.split("=");
                var flip = selsp[0];
@@ -1631,7 +1709,7 @@
 
        function saveSel() {
            var selected = new Array();
-           var str = "twcgksb";
+           var str = "twcgksbd";
            var kindle_sc = "";
           
            var banner_auto = "";
@@ -1716,11 +1794,11 @@
            if (id == "flip-c") {
                if (val == "no") {
                    $('#calblock').hide()
-                   //   $('#weatherbloc').hide();
+                   //  
                }
                if (val == "yes") {
                    ggl_check();
-
+                   $('#weatherbloc').hide();
                    //$("#mentions").trigger('collapse');
                }
            }
@@ -1766,11 +1844,12 @@
            if (id == "flip-d") {
                if (val == "no") {
                    $('#days2go').hide()
+                   $('#sidemsg-d').hide();
                }
                if (val == "yes") {
                    $('#days2go').show()
-                  // getDays2Go();
-                   //$('#sidemsg-d').show();
+                    getDays2Go("normal");
+                   $('#sidemsg-d').show();
                }
            }
 
@@ -2310,7 +2389,6 @@
 </div>
 <div class="ui-block-b"><div id="sidemsg-c" class="sidemsg"></div></div>
 </div>
-<div style="display:none">
 <div class="ui-grid-b ui-responsive"> 
 <div class="ui-block-a">  
 <div class="displayslider">
@@ -2318,7 +2396,6 @@
 	<option value="no">Days to Go</option>
 	<option value="yes">Days to Go</option>
 </select>
-</div>
 </div>
 </div>
 <div class="ui-block-b"></div>
@@ -2399,12 +2476,30 @@
     <li><a href="#" onclick="testa(1, 0)">Refresh Calendar</a></li>
 </ul>
     </div>
-</div><!-- /popup -->
-
+</div>
+<!-- /popup -->
 <div data-role="popup" id="zerotype" data-theme="b">
   <div class="ui-body ui-body-b">
 <p>Copy and paste this link into a text file. Use the Send to Kindle feature in Amazon to send that file to your Kindle. When it appears, just click on the link.</p>
  <p></p>
+ <div id="wrapper"></div>
+<div id="greeting"><p>Welcome to Fridge Door.</p>
+<div class="ui-grid-a ui-responsive">    
+    <div class="ui-block-a"><p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
+    	
+	<ul id="nav">
+		<li id="prev" onclick="gallery.prev()">-</li>
+		<li class="selected" onclick="gallery.goToPage(0)"></li>
+		<li onclick="gallery.goToPage(1)"></li>
+		<li onclick="gallery.goToPage(2)"></li>
+		<li onclick="gallery.goToPage(3)"></li>
+		<li onclick="gallery.goToPage(4)"></li>
+		<li onclick="gallery.goToPage(5)"></li>
+		<li id="next" onclick="gallery.next()">+</li>
+	</ul>
+    </div>
+    </div>
+    </div>
  <p><div id="zeroURL"></div></p>
  <div id="allcookies"></div>
     </div>

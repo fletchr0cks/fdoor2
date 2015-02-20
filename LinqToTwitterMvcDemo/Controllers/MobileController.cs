@@ -593,6 +593,14 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
+        public void setDays2Go(string eventname, DateTime eventdatetime)
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            dataRepository.setDays2Go(eventname, eventdatetime, userid);
+
+        }
          
         public ActionResult getComments(int ArtID)
         {
@@ -615,6 +623,122 @@ namespace LinqToTwitterMvcDemo.Controllers
             return Json(new { Comments = comments, num = num}, JsonRequestBehavior.AllowGet);
              
         }
+
+        public void removeDays2Go(int id)
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            dataRepository.delDays2Go(userid, id);
+        }
+
+        public ActionResult getDays2Go()
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            var userid = dataRepository.getID(guid);
+            var diff = "";
+            var days2go = from d in db.days2gos
+                           //where co.articleid == ArtID
+                           orderby d.eventdatetime descending
+                           select new
+
+                           {
+                               text = d.eventname,
+                               days = formatDays2Go(Convert.ToDateTime(d.eventdatetime)),
+                               daystxt = formatDays2GoStr(Convert.ToDateTime(d.eventdatetime)),
+                               id = d.id,
+                               //name = co.name,
+                               //devicetxt = co.user.devices.First().UAmax,
+
+                           };
+
+            var num = days2go.Count();
+
+            return Json(new { Days2Go = days2go, num = num }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        private string formatDays2GoStr(DateTime datetime)
+        {
+            DateTime now = DateTime.Now;
+            int days2go = (datetime - now).Days + 1;
+            var time_txt = "";
+            
+            if (Convert.ToInt32(days2go) == 0)  //less than 1 day to go
+            {
+                var hoursago = (datetime - now).Hours;
+                time_txt = " Hours until ";
+
+                if (Convert.ToInt32(hoursago) < 1)
+                {
+                    var minsago = (datetime - now).Minutes;
+                    time_txt = " Minutes until ";
+
+                    if (Convert.ToInt32(minsago) < 1)
+                    {
+                        var secsago = (datetime - now).Seconds;
+                        time_txt = " Seconds until ";
+                    }
+
+                }
+
+            }
+
+            if (Convert.ToInt32(days2go) > 0)  
+            {
+                var days2 = (datetime - now).Days + 1;
+                if (Convert.ToInt32(days2) == 1)
+                {
+                    time_txt = " Day until ";
+                }
+                else
+                {
+                    time_txt = " Days until ";
+                }
+            }
+
+
+            return time_txt;
+        }
+
+        private string formatDays2Go(DateTime datetime)
+        {
+            DateTime now = DateTime.Now;
+            int days2go = (datetime - now).Days + 1;
+            var time_txt = "";
+
+            if (Convert.ToInt32(days2go) == 0)  //less than 1 day to go
+            {
+                var hoursago = (datetime - now).Hours;
+                time_txt = hoursago + " ";
+
+                if (Convert.ToInt32(hoursago) < 1)
+                {
+                    var minsago = (datetime - now).Minutes;
+                    time_txt = minsago  + " ";
+
+                    if (Convert.ToInt32(minsago) < 1)
+                    {
+                        var secsago = (datetime - now).Seconds;
+                        time_txt = secsago + " ";
+                    }
+
+                }
+
+            }
+
+            if (Convert.ToInt32(days2go) > 0)
+            {
+                var days2 = (datetime - now).Days + 1;
+
+                time_txt = days2 + " ";
+            }
+
+
+            return time_txt;
+        }
+
 
         public ActionResult getArticles()
         {

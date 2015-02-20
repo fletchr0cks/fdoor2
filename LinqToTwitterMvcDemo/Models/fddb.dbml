@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataSource" Class="fddbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db61a6afb29dc84f4597e3a2b500ebed20" Class="fddbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=61a6afb2-9dc8-4f45-97e3-a2b500ebed20.sqlserver.sequelizer.com;Initial Catalog=db61a6afb29dc84f4597e3a2b500ebed20;Persist Security Info=True;User ID=zpwsjtycbbjskoza" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="db61a6afb29dc84f4597e3a2b500ebed20ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ggl" Member="ggls">
     <Type Name="ggl">
@@ -67,6 +67,7 @@
       <Association Name="user_banner" Member="banners" ThisKey="id" OtherKey="userid" Type="banner" />
       <Association Name="user_article" Member="articles" ThisKey="id" OtherKey="userid" Type="article" />
       <Association Name="user_comment" Member="comments" ThisKey="id" OtherKey="userid" Type="comment" />
+      <Association Name="user_days2go" Member="days2gos" ThisKey="id" OtherKey="userid" Type="days2go" />
     </Type>
   </Table>
   <Table Name="dbo.articles" Member="articles">
@@ -91,6 +92,16 @@
       <Column Name="name" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="article_comment" Member="article" ThisKey="articleid" OtherKey="id" Type="article" IsForeignKey="true" />
       <Association Name="user_comment" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.days2go" Member="days2gos">
+    <Type Name="days2go">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="userid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="eventid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="eventdatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="eventname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Association Name="user_days2go" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

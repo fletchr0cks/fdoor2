@@ -59,6 +59,7 @@ namespace LinqToTwitterMvcDemo.Models
             return loc;
         }
 
+
         public string getSel(int userid)
         {
             var user = from u in db.users
@@ -153,6 +154,20 @@ namespace LinqToTwitterMvcDemo.Models
                 db.comments.InsertOnSubmit(c);
                 db.SubmitChanges();
             
+        }
+
+        public void setDays2Go(string eventname, DateTime eventdatetime, int userid)
+        {
+
+            days2go d = new days2go();
+            d.userid = userid;
+            //d.eventid = id;
+            d.eventname = eventname;
+            d.eventdatetime = eventdatetime;
+            //c.name = name;
+            db.days2gos.InsertOnSubmit(d);
+            db.SubmitChanges();
+
         }
 
 
@@ -280,6 +295,16 @@ namespace LinqToTwitterMvcDemo.Models
                  .First();
 
             t.status = 0;
+            db.SubmitChanges();
+
+        }
+
+        public void delDays2Go(int userid, int id)
+        {
+            var d = db.days2gos
+                 .Where(u => u.userid == userid && u.id == id);
+
+            db.days2gos.DeleteAllOnSubmit(d);
             db.SubmitChanges();
 
         }

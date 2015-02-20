@@ -62,6 +62,11 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View("Index", model);
         }
 
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         private GoogleAuthenticator GetAuthenticator()
         {
             var authenticator = (GoogleAuthenticator)Session["authenticator"];
