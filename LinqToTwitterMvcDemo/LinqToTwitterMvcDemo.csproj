@@ -159,6 +159,9 @@
     <Content Include="Content\images\bg_play_pause.png" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\images\ss1.gif" />
+    <Content Include="Content\images\ss2.gif" />
+    <Content Include="Content\images\ss3.gif" />
+    <Content Include="Content\images\ss4.gif" />
     <Content Include="Content\jquery.mobile-1.4.0a.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons-png\action-black.png" />

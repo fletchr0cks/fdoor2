@@ -773,7 +773,7 @@
        }
 
 
-       function ggl_check() {
+       function ggl_check(type) {
            $.ajax({
                type: "GET",
                url: "/Mobile/checkGglIDlist",
@@ -784,19 +784,28 @@
                    //alert("ggl check=" + jsonresp.IDlist);
                    idlist = jsonresp.IDlist;
                    if (idlist == "No IDList") {
-                       $('#sidemsg-c').html("Authenticate");
-                       $('#flip-c').val('no').slider('refresh');
-                       $('#flip-g').val('yes').slider('refresh');
+                       if (type == "cal") {
+                           $('#sidemsg-c').html("Authenticate");
+                           $('#flip-c').val('no').slider('refresh');
+                           $('#flip-g').val('yes').slider('refresh');
+                       } else {
+                           $('#flip-d').val('no').slider('refresh');
+                          
+                       }
+
                        $('#greeting').hide();
                        $('#welcome').show();
                    } else {
-
-                       drawCal();
-                       drawNext5(0);
-                       $('#calblock').show();
-                       testa(1, 0);
-                       //$('#flip-c').val('yes').slider('refresh');
-
+                       if (type == "cal") {
+                           drawCal();
+                           drawNext5(0);
+                           $('#calblock').show();
+                           testa(1, 0);
+                       } else {
+                           $('#days2go').show()
+                           getDays2Go("normal");
+                           $('#sidemsg-d').show();
+                       }
                    }
                },
                error: function (xhr, error) {
@@ -1606,9 +1615,10 @@
 
        function processSel(selection) {
            set_cookie("Sel", selection, 360);
+          
            var sels = selection.split(",");
            var items = 0;
-           while (items < 8) {
+           while (items < 7) {
                var sel = sels[items];
                var selsp = sel.split("=");
                var flip = selsp[0];
@@ -1685,8 +1695,9 @@
                //dataType: "text/plain",
                success: function (sel) {
                    // var arraysel = eval(sel);
-                   //alert(sel);
+
                    if (sel == "none") {
+                     
                        processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=no");
                        //show getstarted and blog
                        $('#welcome').show();
@@ -1797,7 +1808,7 @@
                    //  
                }
                if (val == "yes") {
-                   ggl_check();
+                   ggl_check("cal");
                    $('#weatherbloc').hide();
                    //$("#mentions").trigger('collapse');
                }
@@ -1847,9 +1858,8 @@
                    $('#sidemsg-d').hide();
                }
                if (val == "yes") {
-                   $('#days2go').show()
-                    getDays2Go("normal");
-                   $('#sidemsg-d').show();
+                   ggl_check("days");
+                  
                }
            }
 

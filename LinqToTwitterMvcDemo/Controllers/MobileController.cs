@@ -637,9 +637,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             var userid = dataRepository.getID(guid);
-            var diff = "";
+            
             var days2go = from d in db.days2gos
-                           //where co.articleid == ArtID
+                           where d.userid == userid
                            orderby d.eventdatetime descending
                            select new
 
