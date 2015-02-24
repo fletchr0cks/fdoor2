@@ -1066,6 +1066,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 DelCookie("lat", "");
                 DelCookie("long", "");
                 DelCookie("day0", "");
+                DelCookie("w_data", "");
                 dataRepository.clearWeather(userid);
                 //cycle thru others
                 //day0 t0 7, icon 0 to 7, h11 to 3
