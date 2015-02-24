@@ -4954,7 +4954,7 @@ for Android 4.1 */
 
 .days_head {font-family: 'Helvetica', cursive;color: #000; font-size:52px; padding-top: 10px}
 .days_text {font-family: 'Helvetica', cursive;color: #000; font-size:38px; padding-top: 18px}
-.img_sml {width: 100px; height: auto}
+.img_sml {width: 200px; height: auto}
 td.td80 {width: 80px}
 .listItemNoIcon .ui-icon
 
@@ -4986,6 +4986,6 @@ td.td80 {width: 80px}
 #smallIMG
 {
     height: auto;
-    width: 200px;
+    width: 280px;
 }
 

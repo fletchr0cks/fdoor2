@@ -28,17 +28,21 @@
 <div id="greeting"><p>Welcome to Fridge Door.</p>
 <div class="ui-grid-a ui-responsive">    
     <div class="ui-block-a"><p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
-    <div><img id="smallIMG" src="../../Content/images/ss2.gif" />
-    <img id="smallIMG" src="../../Content/images/ss3.gif" />
+    <div><img id="smallIMG" src="../../Content/images/ss_cal1.gif" />
+    <img id="smallIMG" src="../../Content/images/ss_days2.gif" />
     </div>    
     </div>
      <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
-    <div><img id="smallIMG" src="../../Content/images/ss2.gif" />
-      <img id="smallIMG" src="../../Content/images/ss3.gif" />
-      <img id="smallIMG" src="../../Content/images/ss3.gif" /></div>
+    <div><img id="smallIMG" src="../../Content/images/ss_t1.gif" />
+      <img id="smallIMG" src="../../Content/images/ss_t2.gif" />
+      <img id="smallIMG" src="../../Content/images/bann_hb.gif" />
+      <img id="smallIMG" src="../../Content/images/bann_hh.gif" /></div>
      <p></p>
      </div>
      </div>
+     <p>This site is designed to work in the Kindle experimental browser. Once you have done the authentication on a device with an easier keyboard, click on the Kindle No Typing Setup to get your user-specific link to send to your Kindle.
+     When that's done, stick it to your fridge with adhesive-backed velcro!    
+     </p>
      </div>
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
