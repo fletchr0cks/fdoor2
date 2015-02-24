@@ -32,7 +32,7 @@
     <img id="smallIMG" src="../../Content/images/ss_days2.gif" />
     </div>    
     </div>
-     <div class="ui-block-b"><p>Or, a Twitter powered display or sign: Tweets to your account registered to Fridge Door containing #banner will display in a large font for a specified time, or until dismissed.</p>
+     <div class="ui-block-b"><p>Or, a Twitter powered display or sign: View Tweets to your account registered to Fridge Door. Tweets containing #banner will display in a large font for a specified time, or until dismissed.</p>
     <div><img id="smallIMG" src="../../Content/images/ss_t1.gif" />
       <img id="smallIMG" src="../../Content/images/ss_t2.gif" />
       <img id="smallIMG" src="../../Content/images/bann_hb.gif" />

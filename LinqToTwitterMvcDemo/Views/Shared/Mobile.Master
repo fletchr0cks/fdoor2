@@ -790,7 +790,8 @@
                            $('#flip-g').val('yes').slider('refresh');
                        } else {
                            $('#flip-d').val('no').slider('refresh');
-                          
+                           $('#sidemsg-d1').show();
+                           $('#sidemsg-d1').html("Authenticate");
                        }
 
                        $('#greeting').hide();
@@ -2409,8 +2410,11 @@
 </div>
 </div>
 <div class="ui-block-b"></div>
-<div style="display:none" id="sidemsg-d" class="ui-block-c">
+<div class="ui-block-c">
+<div style="display:none" id="sidemsg-d1" class="sidemsg"></div>
+<div style="display:none" id="sidemsg-d">
 <a href="#" data-rel="close" class="ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all" onclick="editDays2Go()">Edit</a>
+</div>
 </div>
 </div>
 <div class="ui-grid-a ui-responsive">    
