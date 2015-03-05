@@ -29,6 +29,21 @@
                    //alert("collapsed");
                }
 
+               $(window).bind('resize', function (event) {
+                   var content_height = $.mobile.activePage.children('[data-role="content"]').height(),
+            header_height = $.mobile.activePage.children('[data-role="header"]').height(),
+            footer_height = $.mobile.activePage.children('[data-role="footer"]').height(),
+            window_height = $(this).height();
+
+                   if (content_height < (window_height - header_height - footer_height)) {
+                       $.mobile.activePage.css('min-height', (content_height + header_height + footer_height));
+                       setTimeout(function () {
+                           $.mobile.activePage.children('[data-role="footer"]').css('top', 0);
+                       }, 500);
+                   }
+                   event.stopImmediatePropagation();
+               }).trigger('resize');
+
                $(window).scroll(function () {
                    var toppix = $(window).scrollTop();
                    if (parseInt(toppix) > 0) {
@@ -634,7 +649,17 @@
                    var typej = jsonresp['type'];
                    if (typej == "refresh") {
                        //alert("refreshing");
-                       window.location.href = '/Mobile/GoogleRefresh';
+                       //window.location.href = '/Mobile/GoogleRefresh';
+                       $.ajax({
+                           type: "GET",
+                           url: "/Mobile/GoogleRefresh",
+
+                           dataType: "json",
+                           success: function () {
+                               getevents(email, name, i, max, min)
+                           },
+                           error: function () { getevents(email, name, i, max, min); }
+                       });
                    } else {
                        var summary = jsonresp['summary'];
 
@@ -701,7 +726,17 @@
                    var typej = jsonresp['type'];
                    if (typej == "refresh") {
                        //alert("refreshing");
-                       window.location.href = '/Mobile/GoogleRefresh';
+                       //window.location.href = '/Mobile/GoogleRefresh';
+                       $.ajax({
+                           type: "GET",
+                           url: "/Mobile/GoogleRefresh",
+
+                           dataType: "json",
+                           success: function () {
+                               getfutureevents(email, name, i, max, min);
+                           },
+                           error: function () { getfutureevents(email, name, i, max, min); }
+                       });
                    } else {
                        var summary = jsonresp['summary'];
 
@@ -1094,11 +1129,11 @@
        }
 
 
-       function setDays2Go(eventname, eventdt) {
+       function setDays2Go(eventname, eventdt, eventid) {
            $.ajax({
                type: "GET",
                url: "/Mobile/setDays2Go",
-               data: "eventname=" + eventname + "&eventdatetime=" + eventdt,
+               data: "eventname=" + eventname + "&eventdatetime=" + eventdt + "&eventid=" + eventid,
                dataType: "json",
                success: function (json) {
 
@@ -1127,7 +1162,7 @@
 
                var email = getID(i, idlistj);
                var name = getFn(i, idlistj);
-               emails = emails + "<div style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "',10,1)\">" + email + "</div>";
+               emails = emails + "<a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "',10,1)\">" + email + "</a>";
                //getevents(email, name, i, max, min);
                //getfutureevents(email, name, i, max, min);
                // alert(idlist[0]);
@@ -1153,7 +1188,18 @@
                       var typej = jsonresp['type'];
                       if (typej == "refresh") {
                           //alert("refreshing");
-                          window.location.href = '/Mobile/GoogleRefresh';
+                          //window.location.href = '/Mobile/GoogleRefresh';
+                          $.ajax({
+                              type: "GET",
+                              url: "/Mobile/GoogleRefresh",
+
+                              dataType: "json",
+                              success: function () {
+                                  FutureDates(email, max, min)
+                              },
+                              error: function () { FutureDates(email, max, min); }
+                          });
+
                       } else {
                           var summary = jsonresp['summary'];
 
@@ -1174,6 +1220,7 @@
                                       var end_d = new Date(item.end.date);
                                       var stf = parseISO8601Date(item.start.dateTime);
                                       var endf = parseISO8601Date(item.end.dateTime);
+                                      var eventname = item.summary.replace("'", "\\'")
                                       //var dts = formatDT(itemstart,"start",itemend);
                                       var dte = "";
                                       var datedb = "";
@@ -1191,7 +1238,7 @@
                                           location = ", " + item.location;
                                       }
                                       //alert(start_dt + item.summary);
-                                      midhtml = midhtml + "<div class=\"term3\" style=\"cursor:pointer\" onClick=\"setDays2Go('" + item.summary + "','" + datedb + "')\">" + dte + ": " + item.summary + "</div>";
+                                      midhtml = midhtml + "<a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"setDays2Go('" + eventname + "','" + datedb + "','" + item.htmlLink + "')\">" + dte + ": " + item.summary + "</a></div>";
                                   }
 
                               });
@@ -1619,12 +1666,13 @@
           
            var sels = selection.split(",");
            var items = 0;
-           while (items < 7) {
+           while (items < 8) {
                var sel = sels[items];
                var selsp = sel.split("=");
                var flip = selsp[0];
                var val = selsp[1];
                $('#' + flip).val(val).slider('refresh');
+               //alert(val + " " + flip);
                sliderChange(val, flip);
                items++;
            }

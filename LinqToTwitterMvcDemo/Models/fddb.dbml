@@ -101,6 +101,7 @@
       <Column Name="eventid" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="eventdatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="eventname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="eventURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="user_days2go" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>
   </Table>

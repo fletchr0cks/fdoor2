@@ -593,12 +593,13 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public void setDays2Go(string eventname, DateTime eventdatetime)
+        public void setDays2Go(string eventname, DateTime eventdatetime, string eventid)
         {
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             var userid = dataRepository.getID(guid);
-            dataRepository.setDays2Go(eventname, eventdatetime, userid);
+            eventid = eventid.Split('=')[1];
+            dataRepository.setDays2Go(eventname, eventdatetime, userid, eventid);
 
         }
          
@@ -648,15 +649,106 @@ namespace LinqToTwitterMvcDemo.Controllers
                                days = formatDays2Go(Convert.ToDateTime(d.eventdatetime)),
                                daystxt = formatDays2GoStr(Convert.ToDateTime(d.eventdatetime)),
                                id = d.id,
+                               //fulljson = getEventDetails(d.eventURL),
                                //name = co.name,
                                //devicetxt = co.user.devices.First().UAmax,
 
                            };
 
-            var num = days2go.Count();
+            var num = 4;
 
             return Json(new { Days2Go = days2go, num = num }, JsonRequestBehavior.AllowGet);
 
+        }
+
+        private ActionResult getEventDetails(string eventID)
+        {
+            //try session token first
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string refresh_token = dataRepository.getG_refreshtoken(dataRepository.getID(guid));
+            string Url = "https://accounts.google.com/o/oauth2/token";
+            string grant_type = "refresh_token";
+            var request_url = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Contains("~"));
+            string urlBase = Request.Url.ToString();
+            Uri myUri = new Uri(Request.Url.ToString());
+            string redirect_uri_encode;
+            if (request_url.Contains("localhost"))
+            {
+                redirect_uri_encode = UrlEncodeForGoogle(_ReturnUrl_local);
+            }
+
+            else //not saving token
+            {
+                redirect_uri_encode = UrlEncodeForGoogle(_ReturnUrl);
+            }
+            string data = "client_id={0}&client_secret={1}&refresh_token={2}&grant_type={3}";
+
+            HttpWebRequest request = HttpWebRequest.Create(Url) as HttpWebRequest;
+            string result = null;
+            request.Method = "POST";
+            request.KeepAlive = true;
+            request.ContentType = "application/x-www-form-urlencoded";
+            string param = string.Format(data, _GoogleClientId, _GoogleSecret, refresh_token, grant_type);
+            var bs = Encoding.UTF8.GetBytes(param);
+            using (Stream reqStream = request.GetRequestStream())
+            {
+                reqStream.Write(bs, 0, bs.Length);
+            }
+
+            using (WebResponse response = request.GetResponse())
+            {
+                var sr = new StreamReader(response.GetResponseStream());
+                result = sr.ReadToEnd();
+                sr.Close();
+            }
+
+            var jsonSerializer = new JavaScriptSerializer();
+            var tokenData = jsonSerializer.Deserialize<GoogleTokenData>(result);
+            //var CalCookie = new HttpCookie("CalToken", tokenData.Access_Token);
+
+            //CalCookie.Expires = DateTime.Now.AddYears(1);
+            //Response.AppendCookie(CalCookie);
+
+            Session["GoogleAPIToken"] = tokenData.Access_Token;
+
+            var accessToken = Session["GoogleAPIToken"];
+            //Request.Cookies["CalToken"].Value;
+            var email = "miriam.orchid@gmail.com";
+            var urlBuilder2 = new System.Text.StringBuilder();
+            urlBuilder2.Append("https://");
+            urlBuilder2.Append("www.googleapis.com");
+            urlBuilder2.Append("/calendar/v3/calendars/" + email + "/events");
+            urlBuilder2.Append("/" + eventID);
+            //updatedMin=2013-03-28T12%3A00%3A00.000%2B00%3A00");
+            // urlBuilder.Append("&access_token=4/ZsN6Wn19QrcPbk6WarRGEIXSHaKO.QubFbrJ1OpsSOl05ti8ZT3ZDPtonfAI");
+            var url = urlBuilder2.ToString();
+
+            var httpWebRequest = HttpWebRequest.Create(urlBuilder2.ToString())
+                as HttpWebRequest;
+            //httpWebRequest.ContentType = "application/json ; charset=UTF-8";
+            httpWebRequest.CookieContainer = new CookieContainer();
+            httpWebRequest.Headers["Authorization"] =
+                string.Format("Bearer {0}", accessToken);
+            //try
+            //{
+
+                var responsec = httpWebRequest.GetResponse();
+                var outj = responsec.ReadReponse();
+                var outj2 = outj;
+                //string textout = responsec.ReadReponse();
+                var jsonS = new JavaScriptSerializer();
+                var textout = jsonS.DeserializeObject(outj2);
+                return Json(textout);
+
+            //}
+            //catch
+            //{
+              //  return Json(new { type = "refresh" });
+            //}
+
+
+          //  return View();
         }
 
         private string formatDays2GoStr(DateTime datetime)
@@ -855,7 +947,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public ActionResult GoogleRefresh()
+        public void GoogleRefresh()
         {
             //use refresh token to get new access token
             //            POST /o/oauth2/token HTTP/1.1
@@ -914,7 +1006,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             Session["GoogleAPIToken"] = tokenData.Access_Token;
 
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
 
         }
 

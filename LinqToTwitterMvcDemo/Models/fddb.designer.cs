@@ -2047,6 +2047,8 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private string _eventname;
 		
+		private string _eventURL;
+		
 		private EntityRef<user> _user;
 		
     #region Extensibility Method Definitions
@@ -2063,6 +2065,8 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OneventdatetimeChanged();
     partial void OneventnameChanging(string value);
     partial void OneventnameChanged();
+    partial void OneventURLChanging(string value);
+    partial void OneventURLChanged();
     #endregion
 		
 		public days2go()
@@ -2171,6 +2175,26 @@ namespace LinqToTwitterMvcDemo.Models
 					this._eventname = value;
 					this.SendPropertyChanged("eventname");
 					this.OneventnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_eventURL", DbType="VarChar(MAX)")]
+		public string eventURL
+		{
+			get
+			{
+				return this._eventURL;
+			}
+			set
+			{
+				if ((this._eventURL != value))
+				{
+					this.OneventURLChanging(value);
+					this.SendPropertyChanging();
+					this._eventURL = value;
+					this.SendPropertyChanged("eventURL");
+					this.OneventURLChanged();
 				}
 			}
 		}

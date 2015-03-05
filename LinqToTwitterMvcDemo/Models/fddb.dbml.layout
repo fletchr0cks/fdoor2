@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.125, 8.5" name="fddb">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 17.125, 8.5" name="fddb">
   <DataContextMoniker Name="/fddbDataContext" />
   <nestedChildShapes>
     <classShape Id="0cd3dd54-7dbd-4acb-898f-270b0a018924" absoluteBounds="3.25, 0.75, 2, 1.7708968098958331">
@@ -45,7 +45,7 @@
         <classShapeMoniker Id="0cd3dd54-7dbd-4acb-898f-270b0a018924" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.375 : 5.13267002604167); (2.375 : 5.13267002604167); (2.375 : 4.8381982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(7.375 : 5.13267002604167); (4.08333333333333 : 5.13267002604167 : JumpStart); (3.91666666666667 : 5.13267002604167 : JumpEnd); (2.375 : 5.13267002604167); (2.375 : 4.8381982421875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_twt" />
       <nodes>
         <classShapeMoniker Id="20a2985f-c222-400f-98f7-5909f25f9629" />
@@ -99,17 +99,17 @@
         <classShapeMoniker Id="3f71ed6a-10dd-4569-9e66-796b78f24fd4" />
       </nodes>
     </associationConnector>
-    <classShape Id="de3d3be0-69a9-4194-871b-99e2568c85ef" absoluteBounds="13.875, 0.5, 2, 1.7708968098958331">
+    <classShape Id="2a85cca9-d1b9-4397-a67f-5e7d9ac9c61e" absoluteBounds="14.875, 0.5, 2, 1.9631982421875">
       <DataClassMoniker Name="/fddbDataContext/days2go" />
       <nestedChildShapes>
-        <elementListCompartment Id="55312a32-9942-44af-9f2b-7c46adfdc8c2" absoluteBounds="13.89, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a79f6047-130d-4f70-a104-69398034a633" absoluteBounds="14.89, 0.96, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(8.1250025 : 3.25); (8.1250025 : 1.0468775); (13.875 : 1.0468775)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(8.1250025 : 3.25); (8.1250025 : 1.0468775); (14.875 : 1.0468775)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/fddbDataContext/user/user_days2go" />
       <nodes>
         <classShapeMoniker Id="20a2985f-c222-400f-98f7-5909f25f9629" />
-        <classShapeMoniker Id="de3d3be0-69a9-4194-871b-99e2568c85ef" />
+        <classShapeMoniker Id="2a85cca9-d1b9-4397-a67f-5e7d9ac9c61e" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
