@@ -156,7 +156,7 @@ namespace LinqToTwitterMvcDemo.Models
             
         }
 
-        public void setDays2Go(string eventname, DateTime eventdatetime, int userid, string eventid)
+        public void setDays2Go(string eventname, string eventdatetime, int userid, string eventid)
         {
 
             days2go d = new days2go();

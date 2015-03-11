@@ -4975,9 +4975,9 @@ td.td80 {width: 80px}
 .term3 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px;}
 .term4 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px;}
 .cal_today {background-color: Gray; color: White; width:50px; border-width:1px; border-color:Black}
-.cal_other {width:50px}
+.cal_other{width:50px}
 .closeBanner { width:100%;height:40px;color:Black;font-size:20px;cursor:pointer;z-index:1100;position:absolute; top:-5px;left:0px;background-color:White;display:none}
-.bigbanner { color:Black;font-size:80px;z-index:1000;width:100%;height:700px;position:absolute;padding-top:60px; top:0px;left:0px;text-align:center;background-color:White;display:none}
+.bigbanner {color:Black;font-size:90px;z-index:1000;width:100%;height:700px;position:absolute;padding-top:100px; top:0px;left:0px;text-align:center;background-color:White;display:none}
 
 .covercss {position:absolute; top:0px; left:0px; background-color:black; width:850px; height:1000px;z-index:3000}
 

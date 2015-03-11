@@ -1069,6 +1069,7 @@
        function getDays2Go(type) {
            var html_top = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
            var html_mid = "";
+           var num = 0;
            $.ajax({
                type: "GET",
                url: "/Mobile/getDays2Go",
@@ -1094,7 +1095,9 @@
                complete: function (xhr, status) {
                    // return idlist;
                    if (type == "small") {
-                       $('#days2go').append(html_top + html_mid + "<tr><td><a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onclick=\"getDays2Go('normal')\">Done Editing</a></td></tr></table></div>");
+                       if (num > 0) {
+                           $('#days2go').append(html_top + html_mid + "<tr><td><a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onclick=\"getDays2Go('normal')\">Done Editing</a></td></tr></table></div>");
+                       }
                    } else {
                        $('#days2go').html(html_top + html_mid + "</table></div>");
                    }
@@ -1162,11 +1165,12 @@
 
                var email = getID(i, idlistj);
                var name = getFn(i, idlistj);
-               emails = emails + "<a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "',10,1)\">" + email + "</a>";
+               emails = emails + "<a href=\"#\" class=\"ui-btn ui-icon-check ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "',10,1)\">" + email + "</a>";
                //getevents(email, name, i, max, min);
                //getfutureevents(email, name, i, max, min);
                // alert(idlist[0]);
            });
+           emails = emails + "<a href=\"#\" class=\"ui-btn ui-icon-minus ui-btn-a ui-mini ui-btn-icon-left ui-corner-all\" style=\"cursor:pointer\" onClick=\"getDays2Go('normal')\">Exit</a>";
            $('#days2go').html("<div class=\"ui-body ui-body-a ui-corner-all\"><b>Select Calendar</b>" + "<div><form>" + emails + "</form></div></div>").trigger('create');
 
            getDays2Go("small");
@@ -1227,10 +1231,10 @@
                                       // alert(start_dt);
                                       if (start_dt != "Invalid Date") {
                                           dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
-                                          datedb = datetest
+                                          datedb = toEpoch(datetest);
                                       } else {
                                           dte = item.start.date;
-                                          datedb = datetest2;
+                                          datedb = toEpoch(datetest2);
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
                                       var location = "";
@@ -1238,7 +1242,7 @@
                                           location = ", " + item.location;
                                       }
                                       //alert(start_dt + item.summary);
-                                      midhtml = midhtml + "<a href=\"#\" class=\"ui-btn ui-icon-gear ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"setDays2Go('" + eventname + "','" + datedb + "','" + item.htmlLink + "')\">" + dte + ": " + item.summary + "</a></div>";
+                                      midhtml = midhtml + "<a href=\"#\" class=\"ui-btn ui-icon-check ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"setDays2Go('" + eventname + "','" + datedb + "','" + item.htmlLink + "')\">" + dte + ": " + item.summary + "</a></div>";
                                   }
 
                               });
@@ -1255,7 +1259,7 @@
                       //console.debug(xhr); console.debug(error);
                       max = parseInt(max + 10);
                       min = parseInt(min + 10);
-                      var getmore = "<div class=\"term3\" style=\"cursor:pointer\" onClick=\"FutureDates('" + email + "'," + max + "," + min + ")\">Get More</div>";
+                      var getmore = "<a href=\"#\" class=\"ui-btn ui-icon-plus ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"FutureDates('" + email + "'," + max + "," + min + ")\">Get More</a></div>";
                       $('#days2go').html(tophtml + midhtml + getmore + "</div>").trigger('create');
 
                   }
@@ -2191,6 +2195,16 @@
 
            }
            backFillCal(startrow);
+       }
+
+       function toEpoch(datestring) {
+          // datestring.getTime();
+           var newdt = new Date(datestring);
+           var epoch = parseInt(newdt.getTime() / 1000);
+           return epoch;
+        //var parts = datestring.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
+        //return Date.UTC(+parts[3], parts[2]-1, +parts[1], +parts[4], +parts[5]);
+       
        }
 
        function backFillCal(startrow) {

@@ -593,12 +593,13 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public void setDays2Go(string eventname, DateTime eventdatetime, string eventid)
+        public void setDays2Go(string eventname, string eventdatetime, string eventid)
         {
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             var userid = dataRepository.getID(guid);
             eventid = eventid.Split('=')[1];
+            
             dataRepository.setDays2Go(eventname, eventdatetime, userid, eventid);
 
         }
@@ -640,14 +641,14 @@ namespace LinqToTwitterMvcDemo.Controllers
             var userid = dataRepository.getID(guid);
             
             var days2go = from d in db.days2gos
-                           where d.userid == userid
+                           where d.userid == userid 
+                           //&& (Convert.ToInt64(d.eventdatetime) > Convert.ToInt64(DateTime.UtcNow))
                            orderby d.eventdatetime descending
                            select new
-
                            {
                                text = d.eventname,
-                               days = formatDays2Go(Convert.ToDateTime(d.eventdatetime)),
-                               daystxt = formatDays2GoStr(Convert.ToDateTime(d.eventdatetime)),
+                               days = formatDays2GoE(d.eventdatetime), //formatDays2Go(Convert.ToDateTime(d.eventdatetime)),
+                               daystxt = formatDays2GoStrE(d.eventdatetime), //formatDays2GoStr(Convert.ToDateTime(d.eventdatetime)),
                                id = d.id,
                                //fulljson = getEventDetails(d.eventURL),
                                //name = co.name,
@@ -655,7 +656,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                            };
 
-            var num = 4;
+            var num = days2go.Count();
 
             return Json(new { Days2Go = days2go, num = num }, JsonRequestBehavior.AllowGet);
 
@@ -751,37 +752,43 @@ namespace LinqToTwitterMvcDemo.Controllers
           //  return View();
         }
 
-        private string formatDays2GoStr(DateTime datetime)
+        private string formatDays2GoStrE(string datetime)
         {
-            DateTime now = DateTime.Now;
-            int days2go = (datetime - now).Days + 1;
+            System.TimeSpan timeDifference = DateTime.UtcNow -
+           new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            long unixEpochTime = System.Convert.ToInt64(timeDifference.TotalSeconds);
+
+            var dt = Convert.ToInt64(datetime);
+            Int64 diff = dt - unixEpochTime;
+            int days2go = Convert.ToInt32(diff / 86400);
             var time_txt = "";
-            
+
+
             if (Convert.ToInt32(days2go) == 0)  //less than 1 day to go
             {
-                var hoursago = (datetime - now).Hours;
-                time_txt = " Hours until ";
+                var hoursago = Convert.ToInt32(diff / 3600);
+                time_txt = " hours until ";
 
                 if (Convert.ToInt32(hoursago) < 1)
                 {
-                    var minsago = (datetime - now).Minutes;
-                    time_txt = " Minutes until ";
+                    var minsago = Convert.ToInt32(diff / 60);
+                    time_txt = " minutes until ";
 
-                    if (Convert.ToInt32(minsago) < 1)
+                    if (Convert.ToInt32(minsago) < 60)
                     {
-                        var secsago = (datetime - now).Seconds;
-                        time_txt = " Seconds until ";
+                        var secsago = diff; //Convert.ToInt32(diff / 86400);
+                        time_txt = " seconds until ";
                     }
 
                 }
 
             }
-
-            if (Convert.ToInt32(days2go) > 0)  
+            else
             {
-                var days2 = (datetime - now).Days + 1;
-                if (Convert.ToInt32(days2) == 1)
+
+                if (Convert.ToInt32(days2go) == 1)
                 {
+                    //var days2 = Convert.ToInt32(diff / 24);
                     time_txt = " Day until ";
                 }
                 else
@@ -789,9 +796,52 @@ namespace LinqToTwitterMvcDemo.Controllers
                     time_txt = " Days until ";
                 }
             }
+            return time_txt;
+        }
+
+
+        private string formatDays2GoE(string datetime)
+        {
+            //var now = Convert.ToInt64(DateTime.UtcNow);
+            System.TimeSpan timeDifference = DateTime.UtcNow -
+            new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            long unixEpochTime = System.Convert.ToInt64(timeDifference.TotalSeconds);
+
+            var dt = Convert.ToInt64(datetime);
+            Int64 diff = dt - unixEpochTime;
+            int days2go = Convert.ToInt32(diff / 86400);
+            var time_txt = "";
+
+            if (Convert.ToInt32(days2go) == 0)  //less than 1 day to go
+            {
+                var hoursago = Convert.ToInt32(diff / 3600);
+                time_txt = hoursago + " ";
+
+                if (Convert.ToInt32(hoursago) < 1)
+                {
+                    var minsago = Convert.ToInt32(diff / 60);
+                    time_txt = minsago + " ";
+
+                    if (Convert.ToInt32(minsago) < 1)
+                    {
+                        var secsago = diff; //Convert.ToInt32(diff / 86400);
+                        time_txt = secsago + " ";
+                    }
+
+                }
+
+            }
+
+            if (Convert.ToInt32(days2go) > 0)
+            {
+                //var days2 = Convert.ToInt32(diff / 24);
+
+                time_txt = days2go + " ";
+            }
 
 
             return time_txt;
+            
         }
 
         private string formatDays2Go(DateTime datetime)

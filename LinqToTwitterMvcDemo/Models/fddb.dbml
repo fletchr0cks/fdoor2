@@ -94,12 +94,20 @@
       <Association Name="user_comment" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.bannerTypes" Member="bannerTypes">
+    <Type Name="bannerType">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bannerText" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="length" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="textType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Table Name="dbo.days2go" Member="days2gos">
     <Type Name="days2go">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="userid" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="eventid" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="eventdatetime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="eventdatetime" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="eventname" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="eventURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Association Name="user_days2go" Member="user" ThisKey="userid" OtherKey="id" Type="user" IsForeignKey="true" />

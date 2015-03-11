@@ -51,6 +51,9 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Insertcomment(comment instance);
     partial void Updatecomment(comment instance);
     partial void Deletecomment(comment instance);
+    partial void InsertbannerType(bannerType instance);
+    partial void UpdatebannerType(bannerType instance);
+    partial void DeletebannerType(bannerType instance);
     partial void Insertdays2go(days2go instance);
     partial void Updatedays2go(days2go instance);
     partial void Deletedays2go(days2go instance);
@@ -147,6 +150,14 @@ namespace LinqToTwitterMvcDemo.Models
 			get
 			{
 				return this.GetTable<comment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<bannerType> bannerTypes
+		{
+			get
+			{
+				return this.GetTable<bannerType>();
 			}
 		}
 		
@@ -2031,6 +2042,140 @@ namespace LinqToTwitterMvcDemo.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.bannerTypes")]
+	public partial class bannerType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _bannerText;
+		
+		private int _length;
+		
+		private int _textType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnbannerTextChanging(string value);
+    partial void OnbannerTextChanged();
+    partial void OnlengthChanging(int value);
+    partial void OnlengthChanged();
+    partial void OntextTypeChanging(int value);
+    partial void OntextTypeChanged();
+    #endregion
+		
+		public bannerType()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bannerText", DbType="NVarChar(50)")]
+		public string bannerText
+		{
+			get
+			{
+				return this._bannerText;
+			}
+			set
+			{
+				if ((this._bannerText != value))
+				{
+					this.OnbannerTextChanging(value);
+					this.SendPropertyChanging();
+					this._bannerText = value;
+					this.SendPropertyChanged("bannerText");
+					this.OnbannerTextChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_length", DbType="Int NOT NULL")]
+		public int length
+		{
+			get
+			{
+				return this._length;
+			}
+			set
+			{
+				if ((this._length != value))
+				{
+					this.OnlengthChanging(value);
+					this.SendPropertyChanging();
+					this._length = value;
+					this.SendPropertyChanged("length");
+					this.OnlengthChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_textType", DbType="Int NOT NULL")]
+		public int textType
+		{
+			get
+			{
+				return this._textType;
+			}
+			set
+			{
+				if ((this._textType != value))
+				{
+					this.OntextTypeChanging(value);
+					this.SendPropertyChanging();
+					this._textType = value;
+					this.SendPropertyChanged("textType");
+					this.OntextTypeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.days2go")]
 	public partial class days2go : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2043,7 +2188,7 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private System.Nullable<int> _eventid;
 		
-		private System.Nullable<System.DateTime> _eventdatetime;
+		private string _eventdatetime;
 		
 		private string _eventname;
 		
@@ -2061,7 +2206,7 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnuseridChanged();
     partial void OneventidChanging(System.Nullable<int> value);
     partial void OneventidChanged();
-    partial void OneventdatetimeChanging(System.Nullable<System.DateTime> value);
+    partial void OneventdatetimeChanging(string value);
     partial void OneventdatetimeChanged();
     partial void OneventnameChanging(string value);
     partial void OneventnameChanged();
@@ -2139,8 +2284,8 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_eventdatetime", DbType="DateTime")]
-		public System.Nullable<System.DateTime> eventdatetime
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_eventdatetime", DbType="VarChar(50)")]
+		public string eventdatetime
 		{
 			get
 			{
