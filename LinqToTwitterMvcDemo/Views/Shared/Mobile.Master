@@ -1260,7 +1260,9 @@
                       max = parseInt(max + 10);
                       min = parseInt(min + 10);
                       var getmore = "<a href=\"#\" class=\"ui-btn ui-icon-plus ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"FutureDates('" + email + "'," + max + "," + min + ")\">Get More</a></div>";
-                      $('#days2go').html(tophtml + midhtml + getmore + "</div>").trigger('create');
+                      var cancel = "<a href=\"#\" class=\"ui-btn ui-icon-minus ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"getDays2Go('normal')\">Cancel</a></div>";
+
+                      $('#days2go').html(tophtml + midhtml + getmore + cancel + "</div>").trigger('create');
 
                   }
 
@@ -2200,7 +2202,9 @@
        function toEpoch(datestring) {
           // datestring.getTime();
            var newdt = new Date(datestring);
+           alert(newdt);
            var epoch = parseInt(newdt.getTime() / 1000);
+           alert(epoch)
            return epoch;
         //var parts = datestring.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
         //return Date.UTC(+parts[3], parts[2]-1, +parts[1], +parts[4], +parts[5]);
