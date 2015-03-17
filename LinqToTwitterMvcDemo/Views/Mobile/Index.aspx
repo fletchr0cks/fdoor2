@@ -7,11 +7,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 
 <div data-role="header">
-
- <a href="#mypanel" class="ui-btn-left ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-gear">Setup</a>
-<h1>FridgeDoor</h1>
-<a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-btn-icon-notext ui-icon-action" data-transition="pop" data-position-to="window">Choose</a>
+<a href="#mypanel" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Setup</a>
+<h1></h1>
+<a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-refresh" data-transition="pop" data-position-to="window">Refresh</a>
 </div>
+
 
 
 </asp:Content>
@@ -147,7 +147,15 @@
 <div id="stats" style="display:none">
 
 </div>
+<div id="map" style="display:none">
+    <div id="map_msg" class="ui-bar ui-bar-b"></div>
+		<div id="map_overlay" style="z-index:5000;position:absolute;display:none;background-color:Gray;opacity:0.8;height:300px"><h4 style="text-align:center;padding-top:100px">Loading sites....</h4></div>
+		<div id="map_canvas" style="height:500px;"></div>
+       <div id="place_name"></div>
+       <div id="place_comments"></div>
+       <a href="#" class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-right" onClick="closeMap()">Close Map</a>
 
+       </div>
 <div id="kindletricks" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:30px">Kindle Tricks</div>

@@ -8,7 +8,10 @@
      
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
-
+<script type="text/javascript" src="../../Scripts/markerclusterer.js"></script>
+  <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?v=3">
+    </script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
 
@@ -760,19 +763,35 @@
                                    var end_d = new Date(item.end.date);
                                    var stf = parseISO8601Date(item.start.dateTime);
                                    var endf = parseISO8601Date(item.end.dateTime);
+                                   //alert(datetest + "   b   " + datetest2 + "   c   " + start_d);
                                    if (endf == "All day") {
                                        endf = "";
                                    }
-                                   var daytest = parseISO8601DateFull(item.start.dateTime);
+                                   var daytest = "";
+                                   var res = "";
+                                   var fullday = "";
+                                   var justdate = "";
+                                   if (start_dt != "Invalid Date") {
+                                 
+                                       daytest = parseISO8601DateFull(item.start.dateTime);
+                                       res = daytest.toString().split(" ");
+                                       fullday = getProperDay(res[0]);
+                                       justdate = res[2];
+                                   } else {
+                                     
+                                       daytest = start_d; //Sun Mar 02 
+                                       res = daytest.toString().split(" ");
+                                       fullday = getProperDay(res[0]);
+                                       justdate = res[2];
+                                   }
+
+
                                    //alert("daytest=" + daytest);
-                                   var res = daytest.toString().split(" ");
-                                   // alert(res);
-                                   var fullday = getProperDay(res[0]);
-                                   var justdate = res[2];
+                                 
                                    //$('#debug').append(fullday);
 
                                    day = fullday + justdate; //needs a day of week number
-                                   //alert(day + item.summary);
+                               
                                    $('#' + day).append("<div class=\"term4\">" + stf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
@@ -869,9 +888,10 @@
                    var grid_html = "<div class=\"ui-grid-d\">" +
                                    "<div class=\"ui-block-a\"><p style=\"font-size:16px\">Kindle</p><p>" + jsonresp.kindles + "</p></div>" +
                                     "<div class=\"ui-block-b\"><p style=\"font-size:16px\">iOS</p><p>" + jsonresp.iOS + "</p></div>" +
-                                    "<div class=\"ui-block-c\"><p style=\"font-size:16px\">Android</p><p>100</p></div>" +
-                                    "<div class=\"ui-block-d\"><p style=\"font-size:16px\">Linux</p><p>100</p></div>" +
-                                    "<div class=\"ui-block-e\"><p style=\"font-size:16px\">Windows</p><p>" + jsonresp.windows + "</p></div></div>";
+                                    "<div class=\"ui-block-c\"><p style=\"font-size:16px\">Android</p>" + jsonresp.android + "</p></div>" +
+                                    "<div class=\"ui-block-d\"><p style=\"font-size:16px\">Windows</p><p>" + jsonresp.windows + "</p></div>" +
+                                    "<div class=\"ui-block-e\"><p style=\"font-size:16px\">Locations</p><p>" + jsonresp.locations + "</p>" +
+                                    "<p><a href=\"#\" class=\"ui-btn ui-mini ui-btn-inline ui-icon-location ui-btn-icon-notext\" onClick=\"displayMap()\">Display map</a></p></div></div>";
 
                    $('#stats').html(html_top + total_html + grid_html);
 
@@ -885,6 +905,92 @@
 
            });
        }
+
+       function setMarkers(map, bounds_map, PID) {
+           clearTimeout(timer_m);
+           //var bds_fmt = "50,-4,60,4";
+           var bds_fmt = format_bounds(bounds_map.toString());
+           var marktxt = "";
+           removeMarkers();
+           var markers_array = [];
+           var ct = 0;
+           if (parseInt(PID) > 0) {
+               //        var infoWindowLive = new google.maps.InfoWindow({ content: 'This one: ' + PID });
+           }
+           var timage = 'marker_search.png';
+           var position = getPosition();
+           var latlng = position.split(',');
+           var tlat = latlng[0];
+           var tlng = latlng[1];
+           var hereLatLng = new google.maps.LatLng(latlng);
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/getLocations",
+               data: "bounds=" + bds_fmt,
+               dataType: "jsonp",
+               success: function (json) {
+                   var json_loc = { "points": [{ "lat": tlat, "longval": tlng, "name": "You are here!", "PID": "1"}] };
+                   ct = json.ct; //56.208,-3.15
+                   $.merge(json.points, json_loc.points);
+                   var jsontext = JSON.stringify(json);
+
+                   $.each(json.points, function (i, markers) {
+                       console.log(json);
+                       if (markers.PID == parseInt(PID)) {
+                           var image = 'marker_search.png';
+                           ListComments(markers.PID);
+                           $('#place_name').html(markers.name);
+                       } else if (markers.PID == 1) {
+                           var image = 'marker_search.png';
+                       } else {
+                           var image = 'marker_s4.png';
+                       }
+                       //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
+                       var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
+                       var markerp = new google.maps.Marker({ 'position': siteLatLng, 'icon': image });
+                       if (markers.name == "You are here!") {
+                       } else {
+                           markers_array.push(markerp);
+                       }
+                       google.maps.event.addListener(markerp, "click", function () {
+                           //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
+                           if (markers.PID != 1) {
+                               ListComments(markers.PID);
+                               $('#place_name').html(markers.name);
+                           } else {
+                               $('#place_name').html(markers.name);
+                           }
+                           //infoWindow.open(map, markerp);
+                       });
+
+                   });
+
+
+                   var mcOptions = { gridSize: 100, maxZoom: 18 };
+                   $("#map_overlay").fadeOut();
+                   var markerCluster = new MarkerClusterer(map, markers_array, mcOptions);
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+
+               },
+               complete: function (xhr, status) {
+
+                   var bannermsg = "";
+                   if (ct == 0) {
+                       $("#map_msg").html("No sledging sites in this view.");
+
+                   } else {
+                       $("#map_msg").html(ct + " Loaded. Click to see comments.");
+
+                   }
+
+               }
+           });
+
+       }
+
 
        function saveLogin() {
            $.ajax({
@@ -1234,7 +1340,7 @@
                                           datedb = toEpoch(datetest);
                                       } else {
                                           dte = item.start.date;
-                                          datedb = toEpoch(datetest2);
+                                          datedb = toEpoch(parseISO8601_short(datetest2));
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
                                       var location = "";
@@ -1753,7 +1859,7 @@
 
                    if (sel == "none") {
                      
-                       processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=no");
+                       processSel("flip-t=no,flip-w=no,flip-c=no,flip-g=yes,flip-k=no,flip-s=no,flip-b=no,flip-d=no");
                        //show getstarted and blog
                        $('#welcome').show();
 
@@ -2136,7 +2242,7 @@
                i--;
                NewDate.setDate(NewDate.getDate() - i);
                var daynum = NewDate.getUTCDay();
-               alert("daynum=" + daynum + " i=" + i);
+             
                if (parseInt(daynum) == 1) {
                    daysback = i;
                }
@@ -2202,9 +2308,9 @@
        function toEpoch(datestring) {
           // datestring.getTime();
            var newdt = new Date(datestring);
-           alert(newdt);
+           
            var epoch = parseInt(newdt.getTime() / 1000);
-           alert(epoch)
+        
            return epoch;
         //var parts = datestring.match(/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/);
         //return Date.UTC(+parts[3], parts[2]-1, +parts[1], +parts[4], +parts[5]);
@@ -2262,6 +2368,22 @@
            return date_str;
        }
 
+       function parseISO8601_short(dateStringInRange) {
+        
+           var isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s*$/,
+        date = new Date(NaN), month,
+        parts = isoExp.exec(dateStringInRange);
+
+           if (parts) {
+               month = +parts[2];
+               date.setFullYear(parts[1], month - 1, parts[3]);
+               if (month != date.getMonth() + 1) {
+                   date.setTime(NaN);
+               }
+           }
+         
+           return date;
+       }
 
        function parseISO8601DateFull(s) {
 
@@ -2420,6 +2542,197 @@
        };
 
 
+       function closeMap() {
+           $("#map").hide();
+       }
+
+       function displayMap() {
+          
+           timerM1 = setInterval(function () { startmap() }, 1000);
+       }
+
+
+       var timerM1;
+
+       function startmap() {
+           clearTimeout(timerM1);
+          
+           var lat = get_cookie("lat");
+           var lng = get_cookie("long");
+          
+           var map = new GoogleMap(lat, lng);
+           map.initialize();
+           //google.maps.event.trigger(map, 'resize');
+
+       }
+
+       function GoogleMap(lat, lng) {
+          // $("#map_overlay").fadeIn();
+           $("#map").show();
+           this.initialize = function () {
+
+               var map = showMap();
+               $('#place_name').html("&nbsp");
+               $('#place_name').html("&nbsp");
+               $('#place_comments').html("&nbsp");
+               $('#comments_ct').html("&nbsp");
+               $("#addcomm").hide();
+           }
+           var showMap = function () {
+               ;
+               var mapOptions = {
+                   zoom: 16,
+                   center: new google.maps.LatLng(parseFloat(lat), parseFloat(lng)),
+                   mapTypeId: google.maps.MapTypeId.ROADMAP
+               }
+               var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions)
+               var bounds;
+
+               google.maps.event.addListener(map, 'bounds_changed', (function () {
+                   bounds = map.getBounds();
+                   $("#map_msg").html("Map moved ...");
+                   var timer;
+                   return function () {
+                       clearTimeout(timer);
+                       timer = setTimeout(function () {
+
+                           bounds = map.getBounds();
+                           $("#map_msg").html("Downloading sites ...");
+                           setMarkers(map, bounds, "0");
+                       }, 2000);
+                   }
+               } ()));
+
+
+               infowindow = new google.maps.InfoWindow({
+                   content: "holding..."
+               });
+               $("#map_msg").html("Loading markers ... ");
+
+               return map;
+           }
+
+       }
+
+       var timer_m;
+
+       function setMarkers(map, bounds_map, PID) {
+           clearTimeout(timer_m);
+           //var bds_fmt = "50,-4,60,4";
+           var bds_fmt = format_bounds(bounds_map.toString());
+           var marktxt = "";
+           removeMarkers();
+           var markers_array = [];
+           var ct = 0;
+           if (parseInt(PID) > 0) {
+               //        var infoWindowLive = new google.maps.InfoWindow({ content: 'This one: ' + PID });
+           }
+           //var timage = '../../Content/images/pin.png';
+           var position = getPosition();
+           var latlng = position.split(',');
+           var tlat = latlng[0];
+           var tlng = latlng[1];
+           var hereLatLng = new google.maps.LatLng(latlng);
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/GetSitesInRange",
+               data: "bounds=" + bds_fmt,
+               dataType: "json",
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //var json_loc = { "points": [{ "lat": tlat, "longval": tlng, "name": "You are here!", "PID": "1"}] };
+                   ct = jsonresp.ct; //56.208,-3.15
+                   //$.merge(json.points, json_loc.points);
+                   //var jsontext = JSON.stringify(json);
+                  
+                   $.each(jsonresp.points, function (i, markers) {
+                       //console.log(jsonresp);
+                       //if (markers.PID == parseInt(PID)) {
+                       //  var image = 'marker_search.png';
+                       //    ListComments(markers.PID);
+                       //    $('#place_name').html(markers.name);
+                       //} else if (markers.PID == 1) {
+                       //    var image = '../../Content/images/pin.png';
+                       // } else {
+                       var image = '../../Content/images/pin.png';
+                       // }
+                       //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
+                       var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
+                       var markerp = new google.maps.Marker({ 'position': siteLatLng});
+                       //if (markers.name == "You are here!") {
+                      // } else {
+                          markers_array.push(markerp);
+                     //  }
+                       google.maps.event.addListener(markerp, "click", function () {
+                           //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
+                           if (markers.PID != 1) {
+                               //     ListComments(markers.PID);
+                               $('#place_name').html(markers.name);
+                           } else {
+                               $('#place_name').html(markers.name);
+                           }
+                           //infoWindow.open(map, markerp);
+                       });
+
+                   });
+
+
+                   var mcOptions = { gridSize: 100, maxZoom: 18 };
+                   //$("#map_overlay").fadeOut();
+                   var markerCluster = new MarkerClusterer(map, markers_array, mcOptions);
+               },
+               error: function (xhr, error) {
+                   console.debug(xhr); console.debug(error);
+
+               },
+               complete: function (xhr, status) {
+
+                   var bannermsg = "";
+                   if (ct == 0) {
+                       $("#map_msg").html("No users in this view.");
+
+                   } else {
+                       $("#map_msg").html(ct + " Loaded. Click to see comments.");
+
+                   }
+
+               }
+           });
+
+       }
+
+       var markers = [];
+
+       function removeMarkers() {
+           for (var i = 0; i < markers.length; i++) {
+               markers[i].setMap(null);
+           }
+           markers.length = 0;
+
+       }
+
+       function getPosition() {
+           var lat = get_cookie("lat");
+           var lng = get_cookie("long");
+
+           var loc = lat + "," + lng;
+
+           return loc;
+
+       }
+    
+
+       function format_bounds(bds) {
+
+           var bds2 = bds.replace("((", "");
+           var bds3 = bds2.replace("))", "");
+           var bds4 = bds3.replace("), (", ",");
+           var bds5 = bds4.replace(" ", "");
+           var bds6 = bds5.replace(" ", "");
+           return (bds6);
+       }
+
      </script>
     
 </head>
@@ -2500,13 +2813,11 @@
 	<option value="yes">Get Started</option>
 </select>
 </div>
-<div style="display:none">
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-s" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
-	<option value="no">Stats</option>
-	<option value="yes">Stats</option>
+	<option value="no">Community</option>
+	<option value="yes">Community</option>
 </select>
-</div>
 </div>
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-k" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >

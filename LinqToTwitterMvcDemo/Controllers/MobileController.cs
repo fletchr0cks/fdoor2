@@ -963,16 +963,51 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetSitesInRange(string bounds)
+        {
+         
+            string[] boundsbits = bounds.Split(',');
+            var latS = boundsbits[0];
+            var longW = boundsbits[1];
+            var latN = boundsbits[2];
+            var longE = boundsbits[3];
+
+            var data = from pl in db.users
+                       where (Convert.ToDecimal(pl.lat) >= Convert.ToDecimal(latS) && Convert.ToDecimal(pl.lat) <= Convert.ToDecimal(latN))
+                       where (Convert.ToDecimal(pl.lng) >= Convert.ToDecimal(longW) && Convert.ToDecimal(pl.lng) <= Convert.ToDecimal(longE))
+                      
+                      // orderby pl.Name descending
+                       select new
+                       {
+                           lat = Convert.ToString(pl.lat),
+                           longval = Convert.ToString(pl.lng),
+                           //name = pl.Name,
+                           //PID = pl.PID,
+                       };
+
+            int ct = data.Count();
+
+            return Json(new { points = data, ct = ct }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult getAgents()
         {
-            var kindles = (from s in db.devices where s.UAmax.Contains("kindle") select s).Count().ToString();
-            var iOS = (from s in db.devices where s.UAmax.Contains("Mac") select s).Count().ToString();
-            var windows = (from s in db.devices where s.UAmax.Contains("Windows") select s).Count().ToString();
-            var total = (from s in db.devices select s).Count().ToString();
-                      //TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
-                  
+           // var uniqueColors =
+            //   (from dbo in database.MainTable
+             //   where dbo.Property == true
+             //   select dbo.Color.Name).Distinct().OrderBy(name => name);
 
-            return Json(new { kindles = kindles, iOS = iOS, windows = windows, total = total }, JsonRequestBehavior.AllowGet);
+            var kindles = (from s in db.devices where s.UAmax.Contains("kindle") select s.user.id).Distinct().OrderBy(name => name).Count().ToString();
+            var iOS = (from s in db.devices where s.UAmax.Contains("Mac") select s.user.id).Distinct().OrderBy(name => name).Count().ToString();
+            var windows = (from s in db.devices where s.UAmax.Contains("Windows") select s.user.id).Distinct().OrderBy(name => name).Count().ToString();
+            var android = (from s in db.devices where s.UAmax.Contains("Android") select s.user.id).Distinct().OrderBy(name => name).Count().ToString();
+            var locations = (from s in db.users select s.location).Distinct().OrderBy(loc => loc).Count().ToString();
+            var twtr_usrs = (from s in db.twts select s.twtid).Distinct().OrderBy(loc => loc).Count().ToString();
+            var ggl_usrs = (from s in db.ggls select s.idlist).Distinct().OrderBy(loc => loc).Count().ToString();
+            var total = (from s in db.devices select s.user.id).Distinct().OrderBy(name => name).Count().ToString();
+                      //TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),                  
+            return Json(new { kindles = kindles, iOS = iOS, windows = windows, android = android, total = total, locations = locations, twtr_usrs = twtr_usrs, ggl_usrs = ggl_usrs }, JsonRequestBehavior.AllowGet);
         }
 
         public Guid checkGUID()
