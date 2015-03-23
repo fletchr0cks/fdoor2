@@ -982,8 +982,10 @@ namespace LinqToTwitterMvcDemo.Controllers
                        {
                            lat = Convert.ToString(pl.lat),
                            longval = Convert.ToString(pl.lng),
+                           google = pl.ggls.First(),
+                           twitter = pl.twts.First(),
                            //name = pl.Name,
-                           //PID = pl.PID,
+                           UID = pl.id,
                        };
 
             int ct = data.Count();

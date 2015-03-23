@@ -1334,7 +1334,7 @@
                                       //var dts = formatDT(itemstart,"start",itemend);
                                       var dte = "";
                                       var datedb = "";
-                                      // alert(start_dt);
+                                      alert(start_dt);
                                       if (start_dt != "Invalid Date") {
                                           dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
                                           datedb = toEpoch(datetest);
@@ -1343,6 +1343,7 @@
                                           datedb = toEpoch(parseISO8601_short(datetest2));
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
+                                      alert(dte + " .... " + datedb);
                                       var location = "";
                                       if (item.location != undefined) {
                                           location = ", " + item.location;
@@ -1950,7 +1951,7 @@
 
      
        function sliderChange(val, id) {
-
+           
            var flipT = document.getElementById('flip-t').value;
            var flipW = document.getElementById('flip-w').value;
            //var flipN = document.getElementById('flip-n').value;
@@ -2037,10 +2038,12 @@
            if (id == "flip-s") {
                if (val == "no") {
                    $('#stats').hide()
+                   $('#map').hide()
                }
                if (val == "yes") {
                    users_check();
                    $('#stats').show()
+                   $('#map').show()
 
                }
            }
@@ -2069,6 +2072,7 @@
                }
 
            }
+           SaveSel();
        }
 
        function iterateAlphabet() {
@@ -2559,7 +2563,11 @@
           
            var lat = get_cookie("lat");
            var lng = get_cookie("long");
-          
+           if (lat == null) {
+               lat = 0;
+               lng = 0;
+           }
+
            var map = new GoogleMap(lat, lng);
            map.initialize();
            //google.maps.event.trigger(map, 'resize');
@@ -2567,6 +2575,10 @@
        }
 
        function GoogleMap(lat, lng) {
+           var zoom = 10;
+           if (lat == 0) {
+               zoom = 2
+           }
           // $("#map_overlay").fadeIn();
            $("#map").show();
            this.initialize = function () {
@@ -2581,7 +2593,7 @@
            var showMap = function () {
                ;
                var mapOptions = {
-                   zoom: 16,
+                   zoom: zoom,
                    center: new google.maps.LatLng(parseFloat(lat), parseFloat(lng)),
                    mapTypeId: google.maps.MapTypeId.ROADMAP
                }
@@ -2597,7 +2609,7 @@
                        timer = setTimeout(function () {
 
                            bounds = map.getBounds();
-                           $("#map_msg").html("Downloading sites ...");
+                           $("#map_msg").html("Loading ...");
                            setMarkers(map, bounds, "0");
                        }, 2000);
                    }
@@ -2650,8 +2662,8 @@
                        //console.log(jsonresp);
                        //if (markers.PID == parseInt(PID)) {
                        //  var image = 'marker_search.png';
-                       //    ListComments(markers.PID);
-                       //    $('#place_name').html(markers.name);
+                           ListComments(markers.UID
+                           $('#place_name').html(markers.google);
                        //} else if (markers.PID == 1) {
                        //    var image = '../../Content/images/pin.png';
                        // } else {
@@ -2693,7 +2705,7 @@
                        $("#map_msg").html("No users in this view.");
 
                    } else {
-                       $("#map_msg").html(ct + " Loaded. Click to see comments.");
+                       $("#map_msg").html(ct + " Loaded. Click pin for more information.");
 
                    }
 
