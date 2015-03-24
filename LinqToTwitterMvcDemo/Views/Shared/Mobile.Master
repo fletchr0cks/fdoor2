@@ -1329,12 +1329,15 @@
                                       var res = "";
                                       var newdate = "";
                                       if (start_dt != "Invalid Date") {
-                                          dte = parseISO8601DateFull(item.start.dateTime);
+                                          dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
+                                          datedb = toEpoch(datetest);
+                                          //dte = parseISO8601DateFull(item.start.dateTime);
+                                          //dte = item.start.dateTime;
                                           res = dte.toString().split(" ");
                                           newdate = res[0] + " " + res[1] + " " + res[2];
-                                          
+
                                           datedb = toEpoch(start_dt);
-                                          alert("date time: " + item.start.dateTime + "|  |" + newdate + " .... " + datedb);
+                                          alert("date time: " + dte + "    " + item.start.dateTime + "|  |" + newdate);
                                       } else {
                                           dte = item.start.date;
                                           datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
@@ -1347,7 +1350,7 @@
                                           location = ", " + item.location;
                                       }
                                       //alert(start_dt + item.summary);
-                                      midhtml = midhtml + "<a href=\"#\" class=\"ui-btn ui-icon-check ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"setDays2Go('" + eventname + "','" + datedb + "','" + item.htmlLink + "')\">" + dte + ": " + item.summary + "</a></div>";
+                                      midhtml = midhtml + "<a href=\"#\" class=\"ui-btn ui-icon-check ui-btn-c ui-mini ui-btn-icon-left ui-corner-all\" onClick=\"setDays2Go('" + eventname + "','" + datedb + "','" + item.htmlLink + "')\">" + stf + dte + ": " + item.summary + "</a></div>";
                                   }
 
                               });
