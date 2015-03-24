@@ -1336,10 +1336,10 @@
                                       var datedb = "";
 
                                       if (start_dt != "Invalid Date") {
-                                          
+
                                           dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
-                                          datedb = toEpoch(item.start.dateTime);
-                                          alert("date time: " + item.start.dateTime + " .... " + datedb);
+                                          datedb = toEpoch(start_dt);
+                                          alert("date time: " + start_dt + " .... " + datedb);
                                       } else {
                                           dte = item.start.date;
                                           datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
