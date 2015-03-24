@@ -763,37 +763,27 @@
                                    var end_d = new Date(item.end.date);
                                    var stf = parseISO8601Date(item.start.dateTime);
                                    var endf = parseISO8601Date(item.end.dateTime);
-                                   //alert(datetest + "   b   " + datetest2 + "   c   " + start_d);
+                                   //alert(item.summary + " " + endf);
                                    if (endf == "All day") {
-                                       endf = "";
-                                   }
-                                   var daytest = "";
-                                   var res = "";
-                                   var fullday = "";
-                                   var justdate = "";
-                                   if (start_dt != "Invalid Date") {
-
-                                       daytest = parseISO8601DateFull(item.start.dateTime);
-                                       alert("datetime " + daytest);
-                                       res = daytest.toString().split(" ");
-                                       fullday = getProperDay(res[0]);
-                                       justdate = res[2];
+                                       stf = endf;
+                                       var daytest = parseISO8601_short(item.start.date); //formats date from yyyy-mm-dd
+                                       alert("daytest=" + daytest);
+                                       var res = daytest.toString().split(" ");
+                                       // alert(res);
+                                       var fullday = getProperDay(res[0]);
+                                       var justdate = res[2];
                                    } else {
-
-                                       daytest = start_d; //Sun Mar 02 
-                                       alert("day " + daytest);
-                                       res = daytest.toString().split(" ");
-                                       fullday = getProperDay(res[0]);
-                                       justdate = res[2];
+                                       var daytest = parseISO8601DateFull(item.start.dateTime);
+                                       //alert("daytimetest=" + daytest);
+                                       var res = daytest.toString().split(" ");
+                                       // alert(res);
+                                       var fullday = getProperDay(res[0]);
+                                       var justdate = res[2];
                                    }
-
-
-                                   //alert("daytest=" + daytest);
-
                                    //$('#debug').append(fullday);
 
                                    day = fullday + justdate; //needs a day of week number
-                                   alert(day);
+                                   //alert(day);
                                    $('#' + day).append("<div class=\"term4\">" + stf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
