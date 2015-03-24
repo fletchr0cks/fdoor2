@@ -1334,16 +1334,19 @@
                                       //var dts = formatDT(itemstart,"start",itemend);
                                       var dte = "";
                                       var datedb = "";
-                                      alert(start_dt);
+
                                       if (start_dt != "Invalid Date") {
+                                          
                                           dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
-                                          datedb = toEpoch(datetest);
+                                          datedb = toEpoch(dte);
+                                          alert("date time: " + item.start.dateTime + " .... " + datedb);
                                       } else {
                                           dte = item.start.date;
-                                          datedb = toEpoch(parseISO8601_short(datetest2));
+                                          datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
+                                          alert("just date: " + datetest2 + " .... " + datedb);
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
-                                      alert(dte + " .... " + datedb);
+                                     // alert(dte + " .... " + datedb);
                                       var location = "";
                                       if (item.location != undefined) {
                                           location = ", " + item.location;
