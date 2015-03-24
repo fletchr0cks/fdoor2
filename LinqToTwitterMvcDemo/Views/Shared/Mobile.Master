@@ -772,14 +772,16 @@
                                    var fullday = "";
                                    var justdate = "";
                                    if (start_dt != "Invalid Date") {
-                                 
+
                                        daytest = parseISO8601DateFull(item.start.dateTime);
+                                       alert("datetime " + daytest);
                                        res = daytest.toString().split(" ");
                                        fullday = getProperDay(res[0]);
                                        justdate = res[2];
                                    } else {
-                                     
+
                                        daytest = start_d; //Sun Mar 02 
+                                       alert("day " + daytest);
                                        res = daytest.toString().split(" ");
                                        fullday = getProperDay(res[0]);
                                        justdate = res[2];
@@ -787,11 +789,11 @@
 
 
                                    //alert("daytest=" + daytest);
-                                 
+
                                    //$('#debug').append(fullday);
 
                                    day = fullday + justdate; //needs a day of week number
-                               
+                                   alert(day);
                                    $('#' + day).append("<div class=\"term4\">" + stf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
@@ -1334,19 +1336,22 @@
                                       //var dts = formatDT(itemstart,"start",itemend);
                                       var dte = "";
                                       var datedb = "";
-
+                                      var res = "";
+                                      var newdate = "";
                                       if (start_dt != "Invalid Date") {
-
-                                          dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
+                                          dte = parseISO8601DateFull(item.start.dateTime);
+                                          res = dte.toString().split(" ");
+                                          newdate = res[0] + " " + res[1] + " " + res[2];
+                                          
                                           datedb = toEpoch(start_dt);
-                                          alert("date time: " + start_dt + " .... " + datedb);
+                                          alert("date time: " + item.start.dateTime + "|  |" + newdate + " .... " + datedb);
                                       } else {
                                           dte = item.start.date;
                                           datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
-                                          alert("just date: " + datetest2 + " .... " + datedb);
+                                          //alert("just date: " + datetest2 + " .... " + datedb);
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
-                                     // alert(dte + " .... " + datedb);
+                                      // alert(dte + " .... " + datedb);
                                       var location = "";
                                       if (item.location != undefined) {
                                           location = ", " + item.location;
