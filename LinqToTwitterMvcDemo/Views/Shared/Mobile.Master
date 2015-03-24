@@ -1329,15 +1329,24 @@
                                       var res = "";
                                       var newdate = "";
                                       if (start_dt != "Invalid Date") {
-                                          dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
-                                          datedb = toEpoch(datetest);
+                                          //dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
+                                          //datedb = toEpoch(datetest);
                                           //dte = parseISO8601DateFull(item.start.dateTime);
                                           //dte = item.start.dateTime;
-                                          res = dte.toString().split(" ");
-                                          newdate = res[0] + " " + res[1] + " " + res[2];
+                                          //res = dte.toString().split(" ");
 
-                                          datedb = toEpoch(start_dt);
-                                          alert("date time: " + dte + "    " + item.start.dateTime + "|  |" + newdate);
+                                          //works in kindle:
+                                          var daytest = parseISO8601DateFull(item.start.dateTime);
+                                          datedb = toEpoch(daytest);
+                                          //var res = daytest.toString().split(" ");
+                                          // alert(res);
+                                          //var fullday = getProperDay(res[0]);
+                                          //var justdate = res[2];
+
+                                          //newdate = res[0] + " " + res[1] + " " + res[2];
+
+                                          //datedb = toEpoch(start_dt);
+                                          alert("date time: " + daytest + datedb);
                                       } else {
                                           dte = item.start.date;
                                           datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
