@@ -104,7 +104,7 @@
                clearTimeout(timerB);
                timerB = setTimeout(loadBlack, 5000);
                saveLogin();
-               ListArticles();
+               //ListArticles();
                //users_check();
 
                getSel();
@@ -2072,7 +2072,7 @@
                }
 
            }
-           SaveSel();
+           //saveSel();
        }
 
        function iterateAlphabet() {
@@ -2657,13 +2657,13 @@
                    ct = jsonresp.ct; //56.208,-3.15
                    //$.merge(json.points, json_loc.points);
                    //var jsontext = JSON.stringify(json);
-                  
+
                    $.each(jsonresp.points, function (i, markers) {
                        //console.log(jsonresp);
                        //if (markers.PID == parseInt(PID)) {
                        //  var image = 'marker_search.png';
-                           ListComments(markers.UID
-                           $('#place_name').html(markers.google);
+                       ListComments(markers.UID);
+                       $('#place_name').html(markers.google);
                        //} else if (markers.PID == 1) {
                        //    var image = '../../Content/images/pin.png';
                        // } else {
@@ -2671,11 +2671,11 @@
                        // }
                        //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
                        var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
-                       var markerp = new google.maps.Marker({ 'position': siteLatLng});
+                       var markerp = new google.maps.Marker({ 'position': siteLatLng });
                        //if (markers.name == "You are here!") {
-                      // } else {
-                          markers_array.push(markerp);
-                     //  }
+                       // } else {
+                       markers_array.push(markerp);
+                       //  }
                        google.maps.event.addListener(markerp, "click", function () {
                            //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
                            if (markers.PID != 1) {
