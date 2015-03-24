@@ -1338,7 +1338,7 @@
                                       if (start_dt != "Invalid Date") {
                                           
                                           dte = parseISO8601DateFull(item.start.dateTime) //.toString('H:mm tt') + " - " + end_dt;
-                                          datedb = toEpoch(dte);
+                                          datedb = toEpoch(item.start.dateTime);
                                           alert("date time: " + item.start.dateTime + " .... " + datedb);
                                       } else {
                                           dte = item.start.date;
