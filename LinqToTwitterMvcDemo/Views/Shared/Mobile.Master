@@ -1277,7 +1277,8 @@
   
      function FutureDates(email,max,min) {
              //  alert(email);
-              var midhtml = "";
+         var midhtml = "";
+         var datetest = "e";
               var tophtml = "<div class=\"ui-body ui-body-a ui-corner-all\"><table>";
               $.ajax({
                   type: "POST",
@@ -1314,7 +1315,7 @@
                               //$('#sum' + i).append("<br /><div class=\"term1\">" + name + "</div>");
                               $.each(jsonresp.items, function (n, item) {
                                   if (item.status != "cancelled") {
-                                      var datetest = item.start.dateTime;
+                                      datetest = item.start.dateTime;
                                       var datetest2 = item.start.date;
                                       var start_dt = new Date(item.start.dateTime);
                                       var end_dt = new Date(item.end.dateTime);
@@ -1328,8 +1329,8 @@
                                       var datedb = "";
                                       var res = "";
                                       var newdate = "";
-                                      alert(start_d);
-                                      if (start_d == "Invalid Date") {
+                                      alert(datetest);
+                                      if (datetest != undefined) {//(start_d == "Invalid Date") { = is date and time
                                           //dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
                                           //datedb = toEpoch(datetest);
                                           //dte = parseISO8601DateFull(item.start.dateTime);
