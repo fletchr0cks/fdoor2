@@ -1329,7 +1329,7 @@
                                       var res = "";
                                       var newdate = "";
                                       alert(start_d);
-                                      if (start_d != "Invalid Date") {
+                                      if (start_d == "Invalid Date") {
                                           //dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
                                           //datedb = toEpoch(datetest);
                                           //dte = parseISO8601DateFull(item.start.dateTime);
