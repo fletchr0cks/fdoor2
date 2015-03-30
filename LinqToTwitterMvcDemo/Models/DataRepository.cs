@@ -193,7 +193,7 @@ namespace LinqToTwitterMvcDemo.Models
             d.lastlogin = DateTime.Now;
             d.UAmax = UAmax;
             db.devices.InsertOnSubmit(d);
-            //db.SubmitChanges();
+            db.SubmitChanges();
         }
 
         public int checkBanner(int userid, string bannerid)

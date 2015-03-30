@@ -767,7 +767,7 @@
                                    if (endf == "All day") {
                                        stf = endf;
                                        var daytest = parseISO8601_short(item.start.date); //formats date from yyyy-mm-dd
-                                       alert("daytest=" + daytest);
+                                       //alert("daytest=" + daytest);
                                        var res = daytest.toString().split(" ");
                                        // alert(res);
                                        var fullday = getProperDay(res[0]);
@@ -876,7 +876,7 @@
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
-                   var total_html = "<div style=\"font-size:30px\">" + jsonresp.total + " Users</div>";
+                   var total_html = "<div style=\"font-size:30px\">" + jsonresp.total + " Devices</div>";
                    var grid_html = "<div class=\"ui-grid-d\">" +
                                    "<div class=\"ui-block-a\"><p style=\"font-size:16px\">Kindle</p><p>" + jsonresp.kindles + "</p></div>" +
                                     "<div class=\"ui-block-b\"><p style=\"font-size:16px\">iOS</p><p>" + jsonresp.iOS + "</p></div>" +
@@ -898,91 +898,7 @@
            });
        }
 
-       function setMarkers(map, bounds_map, PID) {
-           clearTimeout(timer_m);
-           //var bds_fmt = "50,-4,60,4";
-           var bds_fmt = format_bounds(bounds_map.toString());
-           var marktxt = "";
-           removeMarkers();
-           var markers_array = [];
-           var ct = 0;
-           if (parseInt(PID) > 0) {
-               //        var infoWindowLive = new google.maps.InfoWindow({ content: 'This one: ' + PID });
-           }
-           var timage = 'marker_search.png';
-           var position = getPosition();
-           var latlng = position.split(',');
-           var tlat = latlng[0];
-           var tlng = latlng[1];
-           var hereLatLng = new google.maps.LatLng(latlng);
-
-           $.ajax({
-               type: "GET",
-               url: "/Mobile/getLocations",
-               data: "bounds=" + bds_fmt,
-               dataType: "jsonp",
-               success: function (json) {
-                   var json_loc = { "points": [{ "lat": tlat, "longval": tlng, "name": "You are here!", "PID": "1"}] };
-                   ct = json.ct; //56.208,-3.15
-                   $.merge(json.points, json_loc.points);
-                   var jsontext = JSON.stringify(json);
-
-                   $.each(json.points, function (i, markers) {
-                       console.log(json);
-                       if (markers.PID == parseInt(PID)) {
-                           var image = 'marker_search.png';
-                           ListComments(markers.PID);
-                           $('#place_name').html(markers.name);
-                       } else if (markers.PID == 1) {
-                           var image = 'marker_search.png';
-                       } else {
-                           var image = 'marker_s4.png';
-                       }
-                       //var infoWindow = new google.maps.InfoWindow({ content: 'Place ID' + markers.PID });
-                       var siteLatLng = new google.maps.LatLng(markers.lat, markers.longval);
-                       var markerp = new google.maps.Marker({ 'position': siteLatLng, 'icon': image });
-                       if (markers.name == "You are here!") {
-                       } else {
-                           markers_array.push(markerp);
-                       }
-                       google.maps.event.addListener(markerp, "click", function () {
-                           //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
-                           if (markers.PID != 1) {
-                               ListComments(markers.PID);
-                               $('#place_name').html(markers.name);
-                           } else {
-                               $('#place_name').html(markers.name);
-                           }
-                           //infoWindow.open(map, markerp);
-                       });
-
-                   });
-
-
-                   var mcOptions = { gridSize: 100, maxZoom: 18 };
-                   $("#map_overlay").fadeOut();
-                   var markerCluster = new MarkerClusterer(map, markers_array, mcOptions);
-               },
-               error: function (xhr, error) {
-                   console.debug(xhr); console.debug(error);
-
-               },
-               complete: function (xhr, status) {
-
-                   var bannermsg = "";
-                   if (ct == 0) {
-                       $("#map_msg").html("No sledging sites in this view.");
-
-                   } else {
-                       $("#map_msg").html(ct + " Loaded. Click to see comments.");
-
-                   }
-
-               }
-           });
-
-       }
-
+      
 
        function saveLogin() {
            $.ajax({
@@ -1329,7 +1245,7 @@
                                       var datedb = "";
                                       var res = "";
                                       var newdate = "";
-                                      alert(datetest);
+                                      //alert(datetest);
                                       if (datetest != undefined) {//(start_d == "Invalid Date") { = is date and time
                                           //dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
                                           //datedb = toEpoch(datetest);
@@ -1348,11 +1264,11 @@
                                           //newdate = res[0] + " " + res[1] + " " + res[2];
 
                                           //datedb = toEpoch(start_dt);
-                                          alert("date time: " + daytest + datedb);
+                                          //alert("date time: " + daytest + datedb);
                                       } else {
                                           //dte = item.start.date;
                                           datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle yes
-                                          alert("just date: " + datetest2 + " .... " + datedb);
+                                          //alert("just date: " + datetest2 + " .... " + datedb);
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
                                       // alert(dte + " .... " + datedb);
@@ -2640,7 +2556,7 @@
 
        var timer_m;
 
-       function setMarkers(map, bounds_map, PID) {
+       function setMarkers(map, bounds_map, PID) {  //this one
            clearTimeout(timer_m);
            //var bds_fmt = "50,-4,60,4";
            var bds_fmt = format_bounds(bounds_map.toString());
@@ -2745,15 +2661,20 @@
            return loc;
 
        }
-    
+
 
        function format_bounds(bds) {
 
-           var bds2 = bds.replace("((", "");
-           var bds3 = bds2.replace("))", "");
-           var bds4 = bds3.replace("), (", ",");
-           var bds5 = bds4.replace(" ", "");
-           var bds6 = bds5.replace(" ", "");
+           if (bds.indexOf("NaN") > -1) {
+               var bds6 = "-30,-180,80,180";
+           } else {
+               var bds2 = bds.replace("((", "");
+               var bds3 = bds2.replace("))", "");
+               var bds4 = bds3.replace("), (", ",");
+               var bds5 = bds4.replace(" ", "");
+               var bds6 = bds5.replace(" ", "");
+       }
+       //alert(bds.indexOf("NaN") + "  " + bds6);
            return (bds6);
        }
 

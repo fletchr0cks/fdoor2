@@ -972,7 +972,9 @@ namespace LinqToTwitterMvcDemo.Controllers
             var longW = boundsbits[1];
             var latN = boundsbits[2];
             var longE = boundsbits[3];
-
+            //var ct = 0;
+            var numusers = (from pl in db.users
+                            select pl).Count();
             var data = from pl in db.users
                        where (Convert.ToDecimal(pl.lat) >= Convert.ToDecimal(latS) && Convert.ToDecimal(pl.lat) <= Convert.ToDecimal(latN))
                        where (Convert.ToDecimal(pl.lng) >= Convert.ToDecimal(longW) && Convert.ToDecimal(pl.lng) <= Convert.ToDecimal(longE))
@@ -982,13 +984,13 @@ namespace LinqToTwitterMvcDemo.Controllers
                        {
                            lat = Convert.ToString(pl.lat),
                            longval = Convert.ToString(pl.lng),
-                           google = pl.ggls.First(),
-                           twitter = pl.twts.First(),
+                           google = "some deets", //pl.ggls.First().id,//select from ggl ...
+                           //twitter = pl.twts.First().id,
                            //name = pl.Name,
                            UID = pl.id,
                        };
 
-            int ct = data.Count();
+            var ct = data.Count();
 
             return Json(new { points = data, ct = ct }, JsonRequestBehavior.AllowGet);
         }
