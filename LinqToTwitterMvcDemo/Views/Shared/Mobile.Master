@@ -1328,7 +1328,8 @@
                                       var datedb = "";
                                       var res = "";
                                       var newdate = "";
-                                      if (start_dt != "Invalid Date") {
+                                      alert(start_d);
+                                      if (start_d != "Invalid Date") {
                                           //dte = parseISO8601DateFull(item.start.dateTime); //.toString('H:mm tt') + " - " + end_dt;
                                           //datedb = toEpoch(datetest);
                                           //dte = parseISO8601DateFull(item.start.dateTime);
@@ -1339,7 +1340,7 @@
                                           var daytest = parseISO8601DateFull(item.start.dateTime);
                                           datedb = toEpoch(daytest);
                                           //var res = daytest.toString().split(" ");
-                                          // alert(res);
+                                          //alert(res);
                                           //var fullday = getProperDay(res[0]);
                                           //var justdate = res[2];
 
@@ -1348,9 +1349,9 @@
                                           //datedb = toEpoch(start_dt);
                                           alert("date time: " + daytest + datedb);
                                       } else {
-                                          dte = item.start.date;
-                                          datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle
-                                          //alert("just date: " + datetest2 + " .... " + datedb);
+                                          //dte = item.start.date;
+                                          datedb = toEpoch(parseISO8601_short(datetest2)); //works in kindle yes
+                                          alert("just date: " + datetest2 + " .... " + datedb);
                                       }
                                       //formatDT(itemstart, itemend, min); write this back in
                                       // alert(dte + " .... " + datedb);
