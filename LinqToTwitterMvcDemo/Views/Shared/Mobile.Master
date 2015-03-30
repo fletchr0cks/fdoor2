@@ -783,7 +783,7 @@
                                    //$('#debug').append(fullday);
 
                                    day = fullday + justdate; //needs a day of week number
-                                   alert(day);
+                                   //alert(day);
                                    $('#' + day).append("<div class=\"term4\">" + stf + "</div><div class=\"term1evt\">" + item.summary + "</div>");
 
                                }
