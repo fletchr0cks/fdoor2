@@ -26,7 +26,7 @@
             var timerS;
             var timerR;
             var timerRefAll;
-            timerRefAll = setTimeout(RefreshPage, 1000000);
+            timerRefAll = setTimeout(RefreshPage, 100000);
             //var timerB;
             $('#tweets_home').trigger('expand');
             if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
@@ -891,9 +891,9 @@
                                     "<div class=\"ui-block-d\"><p style=\"font-size:16px\">Windows</p><p>" + jsonresp.windows + "</p></div>" +                                
                                     "</div>";
                    var grid2_html = "<div class=\"ui-grid-b\">" +
-                                    "<div class=\"ui-block-a\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_small.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.twtr_usrs + "</div></div></div>" +
-                                    "<div class=\"ui-block-b\"><div style=\"font-size:30px\"><img src=\"../../Content/images/calendar-64.png\"/>" + jsonresp.ggl_usrs + "</div></div>" +
-                                    "<div class=\"ui-block-c\"><div style=\"font-size:30px\"><img src=\"../../Content/images/maps_small.png\"/>" + jsonresp.locations +
+                                    "<div class=\"ui-block-a\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_small.png\"/><div style=\"display:inline;color:#5EA9DD;padding-top:10px\">" + jsonresp.twtr_usrs + "</div></div></div>" +
+                                    "<div class=\"ui-block-b\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-64.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.ggl_usrs + "</div></div></div>" +
+                                    "<div class=\"ui-block-c\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/maps_small.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.locations +
                                     "<a href=\"#\" class=\"ui-btn ui-mini ui-btn-inline ui-icon-location ui-btn-icon-notext\" onClick=\"displayMap()\">Display map</a></div></div></div>";
                    //+ maps small icon and move locations
 
@@ -1884,7 +1884,7 @@
 
            });
            if (document.getElementById('flip-w').value == "yes") {
-               document.location.href = '/';      
+               //document.location.href = '/';      
            }
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
