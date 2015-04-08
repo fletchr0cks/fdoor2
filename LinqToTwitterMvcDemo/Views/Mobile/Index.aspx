@@ -63,18 +63,7 @@
    </div>
    <br />
 </div>
-<div id="blog" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:20px">Blog</div>
-     <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
-     <div id="BlogList"></div>
-     <div data-role="collapsible">
-        <h3>Section 3</h3>
-    <p>I'm the collapsible content for section 3</p>
-    </div>
-     </div>
-     </div>
-     </div>
+
 <div id="tweetsfull" style="display:none">Loading Tweets ....</div>
 <br />
 <div id="tweets" style="display:none">
@@ -145,8 +134,18 @@
 </div>
 <br />
 <div id="stats" style="display:none">
-
-</div>
+</div><div id="blog" style="display:none">
+<div class="ui-body ui-body-a ui-corner-all">
+<div style="font-size:20px">Blog</div>
+     <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
+     <div id="BlogList"></div>
+     <div data-role="collapsible">
+        <h3>Section 3</h3>
+    <p>I'm the collapsible content for section 3</p>
+    </div>
+     </div>
+     </div>
+     </div>
 <div id="map" style="display:none">
     <div id="map_msg" class="ui-bar ui-bar-b"></div>
 		<div id="map_overlay" style="z-index:5000;position:absolute;display:none;background-color:Gray;opacity:0.8;height:300px"><h4 style="text-align:center;padding-top:100px">Loading sites....</h4></div>
@@ -154,7 +153,6 @@
        <div id="place_name"></div>
        <div id="place_comments"></div>
        <a href="#" class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-right" onClick="closeMap()">Close Map</a>
-
        </div>
 <div id="kindletricks" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">

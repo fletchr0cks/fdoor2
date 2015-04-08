@@ -965,8 +965,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult GetSitesInRange(string bounds)
-        {
-         
+        {        
             string[] boundsbits = bounds.Split(',');
             var latS = boundsbits[0];
             var longW = boundsbits[1];
@@ -984,9 +983,10 @@ namespace LinqToTwitterMvcDemo.Controllers
                        {
                            lat = Convert.ToString(pl.lat),
                            longval = Convert.ToString(pl.lng),
-                           google = "some deets", //pl.ggls.First().id,//select from ggl ...
-                           //twitter = pl.twts.First().id,
-                           //name = pl.Name,
+                           google = (from s in db.ggls where s.id == pl.id select s.idlist).Distinct().OrderBy(loc => loc).Count().ToString(), 
+                           twitter = (from s in db.twts where s.id == pl.id select s.twtid).Distinct().OrderBy(loc => loc).Count().ToString(),
+                           last = Convert.ToString((from u in db.users where u.id == pl.id select u.lastlogin).First()),
+                           place = (from u in db.users where u.id == pl.id select u.location).First(),
                            UID = pl.id,
                        };
 

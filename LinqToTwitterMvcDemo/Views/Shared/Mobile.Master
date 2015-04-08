@@ -25,8 +25,7 @@
             // alert("innit");
             var timerS;
             var timerR;
-            var timerRefAll;
-            timerRefAll = setTimeout(RefreshPage, 100000);
+           
             //var timerB;
             $('#tweets_home').trigger('expand');
             if ($('#tweets_home').hasClass('ui-collapsible-collapsed')) {
@@ -80,11 +79,7 @@
             };
 
 
-            var RefreshPage = function () {
-                clearTimeout(timerRefAll);
-                //alert("refresh");
-                document.location.href = '/';
-            };
+            
 
             function cancelRefresh() {
                 // alert("moved");
@@ -115,6 +110,8 @@
             //users_check();
 
             getSel();
+            var timerRefAll;
+            timerRefAll = setTimeout(RefreshPage, 100000);
 
         });
 
@@ -157,6 +154,13 @@
            // alert(tw_ck + go_ck);
        }
 
+
+       var RefreshPage = function () {
+           clearTimeout(timerRefAll);
+           alert("refresh");
+           document.location.href = '/';
+       };
+
        function Auth(val, type) {
            if (val == "1") {
                document.location.href = '/Mobile/Auth' + type;
@@ -196,9 +200,9 @@
 
        function getZeroURL() {
            var guid = get_cookie("GUID");
-           //var cookies = listCookies();
+           var cookies = listCookies();
            $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + guid);
-           //$("#allcookies").html(cookies);
+           $("#allcookies").html(cookies);
        }
 
        function ChangeLoc() {
@@ -885,19 +889,19 @@
                    var jsonresp = eval(json);
                    var total_html = "<div style=\"font-size:30px\">" + jsonresp.total + " Devices</div>";
                    var grid_html = "<div class=\"ui-grid-c\">" +
-                                   "<div class=\"ui-block-a\"><p style=\"font-size:16px\">Kindle</p><p>" + jsonresp.kindles + "</p></div>" +
-                                    "<div class=\"ui-block-b\"><p style=\"font-size:16px\">iOS</p><p>" + jsonresp.iOS + "</p></div>" +
-                                    "<div class=\"ui-block-c\"><p style=\"font-size:16px\">Android</p>" + jsonresp.android + "</p></div>" +
-                                    "<div class=\"ui-block-d\"><p style=\"font-size:16px\">Windows</p><p>" + jsonresp.windows + "</p></div>" +                                
+                                   "<div class=\"ui-block-a\"><p style=\"font-size:16px;text-align: center\">Kindle</p><p style=\"text-align: center\">" + jsonresp.kindles + "</p></div>" +
+                                    "<div class=\"ui-block-b\"><p style=\"font-size:16px;text-align: center\">iOS</p><p style=\"text-align: center\">" + jsonresp.iOS + "</p></div>" +
+                                    "<div class=\"ui-block-c\"><p style=\"font-size:16px;text-align: center\">Android</p><p style=\"text-align: center\">" + jsonresp.android + "</p></div>" +
+                                    "<div class=\"ui-block-d\"><p style=\"font-size:16px;text-align: center\">Windows</p><p style=\"text-align: center\">" + jsonresp.windows + "</p></div>" +                                
                                     "</div>";
                    var grid2_html = "<div class=\"ui-grid-b\">" +
-                                    "<div class=\"ui-block-a\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_small.png\"/><div style=\"display:inline;color:#5EA9DD;padding-top:10px\">" + jsonresp.twtr_usrs + "</div></div></div>" +
-                                    "<div class=\"ui-block-b\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-64.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.ggl_usrs + "</div></div></div>" +
-                                    "<div class=\"ui-block-c\"><div style=\"font-size:30px\"><img style=\"vertical-align: text-top\" src=\"../../Content/images/maps_small.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.locations +
-                                    "<a href=\"#\" class=\"ui-btn ui-mini ui-btn-inline ui-icon-location ui-btn-icon-notext\" onClick=\"displayMap()\">Display map</a></div></div></div>";
+                                    "<div class=\"ui-block-a\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_small.png\"/><div style=\"display:inline;color:#5EA9DD;padding-top:10px\">" + jsonresp.twtr_usrs + "</div></div></div>" +
+                                    "<div class=\"ui-block-b\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-64.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.ggl_usrs + "</div></div></div>" +
+                                    "<div class=\"ui-block-c\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/maps_small.png\"/><div style=\"display:inline;color:#5EA9DD\">" +
+                                    "<a href=\"#\" class=\"ui-btn ui-btn-inline ui-btn-icon-right ui-icon-location\" onClick=\"displayMap()\">" + jsonresp.locations + "</a></div></div></div>";
                    //+ maps small icon and move locations
 
-                   $('#stats').html(html_top + total_html + grid_html + html_top + grid2_html);
+                   $('#stats').html(html_top + total_html + grid_html + html_top + grid2_html).trigger('create');
 
                },
                error: function (xhr, error) {
@@ -2604,7 +2608,7 @@
                        //if (markers.PID == parseInt(PID)) {
                        //  var image = 'marker_search.png';
                        //MarkerDetails(markers.UID);
-                       $('#place_name').html(markers.google);
+                       $('#place_name').html(markers.place);
                        //} else if (markers.PID == 1) {
                        //    var image = '../../Content/images/pin.png';
                        // } else {
@@ -2620,10 +2624,10 @@
                        google.maps.event.addListener(markerp, "click", function () {
                            //$('#map_markers').fadeOut().html("<p>Click: " + markers.name + markers.PID + "</p>").fadeIn();
                            if (markers.UID != 1) {
-                               MarkerDetails(markers.UID);
-                               $('#place_name').html(markers.name);
+                               MarkerDetails(markers.google, markers.twitter, markers.last);
+                               $('#place_name').html(markers.place);
                            } else {
-                               $('#place_name').html(markers.name);
+                               $('#place_name').html(markers.place);
                            }
                            //infoWindow.open(map, markerp);
                        });
@@ -2631,7 +2635,7 @@
                    });
 
 
-                   var mcOptions = { gridSize: 100, maxZoom: 18 };
+                   var mcOptions = { gridSize: 100, maxZoom: 10 };
                    //$("#map_overlay").fadeOut();
                    var markerCluster = new MarkerClusterer(map, markers_array, mcOptions);
                },
@@ -2665,8 +2669,8 @@
 
        }
 
-       function MarkerDetails(UID) {
-           $("#place_comments").html("more info here");
+       function MarkerDetails(google,twitter,last) {
+           $("#place_comments").html("google " + google + " " + twitter + " " + last);
        }
 
        function getPosition() {

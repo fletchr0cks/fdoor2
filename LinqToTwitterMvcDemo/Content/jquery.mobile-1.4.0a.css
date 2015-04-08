@@ -4989,3 +4989,9 @@ td.td80 {width: 80px}
     width: 280px;
 }
 
+#logoIMG
+{
+    height: auto;
+    width: 45px;
+    padding-right: 15px;
+}
