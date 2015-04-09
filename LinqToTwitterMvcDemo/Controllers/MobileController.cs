@@ -316,8 +316,11 @@ namespace LinqToTwitterMvcDemo.Controllers
                 {
                     //have refresh token, get new access token
                     //do GUID cookie check
-                    var granted = Request.Cookies["Granted"].Value;
-                    if (granted == "True")
+                    string guid_str = Request.Cookies["GUID"].Value;
+                    Guid guid = new Guid(guid_str);
+                    var userid = dataRepository.getID(guid);
+                    var refreshchk = dataRepository.getG_refreshtoken(userid);
+                    if (refreshchk.Length > 5)
                     {
                         return Redirect("/Mobile/GoogleRefresh");
                     }
