@@ -47,6 +47,11 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult Index(string zcguid)
         {
+
+            var token1 = Session["GoogleAPIToken"];
+            ViewData["token"] = token1;
+
+
             if (zcguid == null) //id parameter is set ?
             {
 
