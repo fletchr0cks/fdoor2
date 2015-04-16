@@ -4991,7 +4991,14 @@ td.td80 {width: 80px}
 
 #logoIMG
 {
+    padding-top: 5px;
     height: auto;
-    width: 45px;
-    padding-right: 15px;
+    width: 180px;
+}
+
+#headerIMG
+{
+    height: 30px;
+    width: auto;
+    
 }

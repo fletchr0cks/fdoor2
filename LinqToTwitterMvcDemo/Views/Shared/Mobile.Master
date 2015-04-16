@@ -25,6 +25,7 @@
             // alert("innit");
             var timerS;
             var timerR;
+            var timerRefAll;
            
             //var timerB;
             $('#tweets_home').trigger('expand');
@@ -79,7 +80,11 @@
             };
 
 
-            
+            var RefreshPage = function () {
+                clearTimeout(timerRefAll);
+                //alert("refresh");
+                document.location.href = '/';
+            };
 
             function cancelRefresh() {
                 // alert("moved");
@@ -93,7 +98,7 @@
 
             var timerB;
             if (isKindle() == true) {
-                $("#covertop").show();
+                //$("#covertop").show();
                 $('#flip-k').val('yes').slider('refresh');
                 $('#kindletricks').show();
             } else {
@@ -104,14 +109,14 @@
 
             checkWidth();
             clearTimeout(timerB);
-            timerB = setTimeout(loadBlack, 5000);
+            //timerB = setTimeout(loadBlack, 1000);
             saveLogin();
             //ListArticles();
             //users_check();
 
             getSel();
-            var timerRefAll;
-            timerRefAll = setTimeout(RefreshPage, 100000);
+            
+            timerRefAll = setTimeout(RefreshPage, 3600000);
 
         });
 
@@ -155,11 +160,7 @@
        }
 
 
-       var RefreshPage = function () {
-           clearTimeout(timerRefAll);
-           alert("refresh");
-           document.location.href = '/';
-       };
+      
 
        function Auth(val, type) {
            if (val == "1") {

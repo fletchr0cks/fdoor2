@@ -7,13 +7,10 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 
 <div data-role="header">
-<a href="#mypanel" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Setup</a>
-<h1></h1>
+<a href="#mypanel" class="ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-gear">Setup</a>
+<h1><img id="headerIMG" src="../../Content/images/header.png" /></h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-refresh" data-transition="pop" data-position-to="window">Refresh</a>
 </div>
-
-
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
@@ -24,15 +21,25 @@
 <div class="covercss" id="covertop"></div>
 <div id="welcome" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:30px">Get Started</div>
-<div id="greeting"><p>Welcome to Fridge Door.</p>
+<div id="greeting">
 <div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a"><p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
+    <div class="ui-block-a" style="width:75%">
+    <div style="font-size:30px">Welcome to OK Fridge.</div>
+    <p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
+
+    <p>Or, a Twitter powered display or sign: View Tweets to your account registered to Fridge Door. Tweets containing #banner will display in a large font for a specified time, or until dismissed.</p>
+    
+    </div>
+    <div class="ui-block-b" style="width:25%" ><img id="logoIMG" src="../../Content/images/logo_large.png" /></div>
+</div>
+<div style="height:70px"></div>
+<div class="ui-grid-a ui-responsive">    
+    <div class="ui-block-a">
     <div><img id="smallIMG" src="../../Content/images/ss_cal1.gif" />
     <img id="smallIMG" src="../../Content/images/ss_days2.gif" />
     </div>    
     </div>
-     <div class="ui-block-b"><p>Or, a Twitter powered display or sign: View Tweets to your account registered to Fridge Door. Tweets containing #banner will display in a large font for a specified time, or until dismissed.</p>
+     <div class="ui-block-b">
     <div><img id="smallIMG" src="../../Content/images/ss_t1.gif" />
       <img id="smallIMG" src="../../Content/images/ss_t2.gif" />
       <img id="smallIMG" src="../../Content/images/bann_hb.gif" />
@@ -44,6 +51,7 @@
      When that's done, stick it to your fridge with adhesive-backed velcro! <p> <%= ViewData["token"]%> </p>   
      </p>
      </div>
+<div style="font-size:30px">Get Started</div>
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
