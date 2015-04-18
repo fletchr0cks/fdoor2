@@ -4993,6 +4993,13 @@ td.td80 {width: 80px}
 {
     padding-top: 5px;
     height: auto;
+    width: 30px;
+}
+
+#OKFlogoIMG
+{
+    padding-top: 5px;
+    height: auto;
     width: 180px;
 }
 

@@ -161,6 +161,7 @@
     <Content Include="Content\images\bg_play_pause.png" />
     <Content Include="Content\images\calendar-64.png" />
     <Content Include="Content\images\header.PNG" />
+    <Content Include="Content\images\logo.ico" />
     <Content Include="Content\images\logo_large.PNG" />
     <Content Include="Content\images\maps_small.png" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />

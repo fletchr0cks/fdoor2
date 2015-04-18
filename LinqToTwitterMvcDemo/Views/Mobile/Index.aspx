@@ -30,23 +30,29 @@
     <p>Or, a Twitter powered display or sign: View Tweets to your account registered to Fridge Door. Tweets containing #banner will display in a large font for a specified time, or until dismissed.</p>
     
     </div>
-    <div class="ui-block-b" style="width:25%" ><img id="logoIMG" src="../../Content/images/logo_large.png" /></div>
+    <div class="ui-block-b" style="width:25%" ><img id="OKFlogoIMG" src="../../Content/images/logo_large.png" /></div>
 </div>
-<div style="height:70px"></div>
-<div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a">
-    <div><img id="smallIMG" src="../../Content/images/ss_cal1.gif" />
-    <img id="smallIMG" src="../../Content/images/ss_days2.gif" />
-    </div>    
+<div style="height:20px"></div>
+<div class="ui-body ui-body-a ui-corner-all">
+<p>OK Fridge In Action</p>
+<div data-role="collapsible-set" data-theme="a" data-content-theme="a">
+    <div data-role="collapsible">
+        <h3>Google Calendar</h3>
+  <div><img id="smallIMG" src="../../Content/images/ss_cal1.gif" />
+  <img id="smallIMG" src="../../Content/images/ss_days2.gif" /></div>
     </div>
-     <div class="ui-block-b">
-    <div><img id="smallIMG" src="../../Content/images/ss_t1.gif" />
-      <img id="smallIMG" src="../../Content/images/ss_t2.gif" />
-      <img id="smallIMG" src="../../Content/images/bann_hb.gif" />
+    <div data-role="collapsible">
+        <h3>Twitter</h3>
+  <div><img id="smallIMG" src="../../Content/images/ss_t1.gif" />
+      <img id="smallIMG" src="../../Content/images/ss_t2.gif" /></div>
+    </div>
+   <div data-role="collapsible">
+        <h3>Twitter-powered Banners</h3>
+  <div> <img id="smallIMG" src="../../Content/images/bann_hb.gif" />
       <img id="smallIMG" src="../../Content/images/bann_hh.gif" /></div>
-     <p></p>
-     </div>
-     </div>
+    </div>
+</div>
+</div>
      <p>This site is designed to work in the Kindle experimental browser. Once you have done the authentication on a device with an easier keyboard, click on the Kindle No Typing Setup to get your user-specific link to send to your Kindle.
      When that's done, stick it to your fridge with adhesive-backed velcro! <p> <%= ViewData["token"]%> </p>   
      </p>
@@ -75,8 +81,7 @@
 <div id="tweetsfull" style="display:none">Loading Tweets ....</div>
 <br />
 <div id="tweets" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
+<div data-role="collapsible-set" data-theme="a" data-content-theme="a">
     <div data-role="collapsible">
         <h3>My Tweets</h3>
   <div id="mytweets"></div>
@@ -92,9 +97,8 @@
     <div data-role="collapsible">
         <h3>OK Fridge</h3>
   <div id="okf"></div>
-    </div>
 </div>
-  </div>
+</div>
   <br />
   </div>
 <div id="days2go" style="display:none">
@@ -141,19 +145,19 @@
 </div>
 </div>
 <br />
-<div id="stats" style="display:none">
-</div><div id="blog" style="display:none">
+
+<div id="blog" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:20px">Blog</div>
+<div style="font-size:20px">What's happening at OK Fridge</div>
      <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
      <div id="BlogList"></div>
-     <div data-role="collapsible">
-        <h3>Section 3</h3>
-    <p>I'm the collapsible content for section 3</p>
-    </div>
      </div>
      </div>
      </div>
+
+<br />
+<div id="stats" style="display:none">
+</div>
 <div id="map" style="display:none">
     <div id="map_msg" class="ui-bar ui-bar-b"></div>
 		<div id="map_overlay" style="z-index:5000;position:absolute;display:none;background-color:Gray;opacity:0.8;height:300px"><h4 style="text-align:center;padding-top:100px">Loading sites....</h4></div>
