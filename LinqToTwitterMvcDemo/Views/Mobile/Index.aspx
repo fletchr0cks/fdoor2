@@ -6,9 +6,9 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 
-<div data-role="header">
+<div data-role="header" data-theme="c">
 <a href="#mypanel" class="ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-gear">Setup</a>
-<h1><img id="headerIMG" src="../../Content/images/header.png" /></h1>
+<h1><img id="headerIMG" src="../../Content/images/logo_header2.png" /></h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-refresh" data-transition="pop" data-position-to="window">Refresh</a>
 </div>
 </asp:Content>

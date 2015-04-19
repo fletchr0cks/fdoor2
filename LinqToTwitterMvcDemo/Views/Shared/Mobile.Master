@@ -81,7 +81,7 @@
             var RefreshPage = function () {
                 clearTimeout(timerRefAll);
                 //alert("refresh");
-                document.location.href = '/';
+                location.reload();
             };
 
             function cancelRefresh() {
@@ -114,7 +114,7 @@
 
             getSel();
             ListArticles();
-            timerRefAll = setTimeout(RefreshPage, 3600000);
+            timerRefAll = setTimeout(RefreshPage, 360000);
 
         });
 
