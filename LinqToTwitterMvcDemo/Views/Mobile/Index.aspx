@@ -6,10 +6,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 
-<div data-role="header" data-theme="c">
-<a href="#mypanel" class="ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-gear">Setup</a>
-<h1><img id="headerIMG" src="../../Content/images/logo_header2.png" /></h1>
-<a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn-right ui-btn ui-btn-b ui-btn-inline ui-mini ui-corner-all ui-icon-refresh" data-transition="pop" data-position-to="window">Refresh</a>
+<div data-role="header" data-theme="a">
+<a href="#mypanel" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-corner-all">Setup</a>
+<h1><img id="headerIMG" src="../../Content/images/logo_header4.png" /></h1>
+<a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn ui-icon-refresh ui-btn-icon-notext ui-corner-all" data-transition="pop" data-position-to="window">Refresh</a>
 </div>
 </asp:Content>
 
@@ -24,14 +24,19 @@
 <div id="greeting">
 <div class="ui-grid-a ui-responsive">    
     <div class="ui-block-a" style="width:75%">
-    <div style="font-size:30px">Welcome to OK Fridge.</div>
-    <p>Use this site to render your Google calendar for today and the next five days, with weather for your location. </p>
-
-    <p>Or, a Twitter powered display or sign: View Tweets to your account registered to Fridge Door. Tweets containing #banner will display in a large font for a specified time, or until dismissed.</p>
-    
+    <div style="font-size:30px">Welcome.</div>
+    <p>This site is designed to turn an unused Kindle, iPad or Android tablet into an information and messaging centre that shows:</p>
+    <ul>
+<li>Your Google Calendar for today and the next five days.</li>
+<li>Twitter content - either your Tweets, Tweets from users you follow or mentions.</li>
+<li>Weather for any location.</li>
+</ul>
+  
     </div>
     <div class="ui-block-b" style="width:25%" ><img id="OKFlogoIMG" src="../../Content/images/logo_large.png" /></div>
 </div>
+<p>Once authenticated, OK Fridge can display Tweets sent to public or even private Twitter accounts making it ideal for a secure household messaging system. If all members of the household use the same Twitter ID, including the device running OK Fridge everyone can see each other’s messages. There’s also a special hastag to display parts of your messages in a larger font size on the OK Fridge device. See the Twitter-powered section below.
+</p>
 <div style="height:20px"></div>
 <div class="ui-body ui-body-a ui-corner-all">
 <p>OK Fridge In Action</p>

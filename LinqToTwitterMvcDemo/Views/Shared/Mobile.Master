@@ -114,7 +114,7 @@
 
             getSel();
             ListArticles();
-            timerRefAll = setTimeout(RefreshPage, 360000);
+            timerRefAll = setTimeout(RefreshPage, 3600000);
 
         });
 
