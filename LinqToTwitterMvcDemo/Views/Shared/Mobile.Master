@@ -1915,11 +1915,14 @@
            if (id == "flip-c") {
                if (val == "no") {
                    $('#calblock').hide()
+                   $('#calmenulink').html("").trigger('create');
                    //  
                }
                if (val == "yes") {
                    ggl_check("cal");
                    $('#weatherbloc').hide();
+                   $('#calmenulink').html("<ul data-role=\"listview\" style=\"margin:0; width:250px;\" data-theme=\"b\" data-inset=\"true\">" +
+                   "<li><a href=\"#\" data-rel=\"back\" onclick=\"testa(1, 0)\"> really Refresh Calendar</a></li></ul>").trigger('create');
                    //$("#mentions").trigger('collapse');
                }
            }
@@ -1942,9 +1945,13 @@
                    $('#tweets').hide()
                    $('#tweetsfull').hide()
                    $('#tweettype_list').hide()
+                   $('#twtmenulink').html("").trigger('create');
                }
                if (val == "yes") {
                    twt_check();
+                   $('#twtmenulink').html("<ul data-role=\"listview\" style=\"margin:0; width:250px;\" data-theme=\"b\" data-inset=\"true\">" +
+                   "<li><a href=\"#\" data-rel=\"back\" onclick=\"getTweets(5)\">Refresh Twitter</a></li></ul>").trigger('create');
+                 
                    //$('#tweets').show()
                    //$('#tweetsfull').show()
                   
@@ -2791,20 +2798,6 @@
 	<option value="yes">Community</option>
 </select>
 </div>
-<div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-k" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
-	<option value="no">Kindle tricks</option>
-	<option value="yes">Kindle tricks</option>
-</select>
-</div>
-<div style="display:none">
-<div class="displayslider">
-   <select data-mini="true" name="slider" id="flip-b" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
-	<option value="no">Blog</option>
-	<option value="yes">Blog</option>
-</select>
-</div>
-</div>
 <div style="display:none">
 <fieldset data-role="controlgroup">
     <input type="checkbox" name="checkbox-3" id="checkbox-3">
@@ -2833,11 +2826,8 @@
 <div data-role="popup" id="popupNested" data-theme="b">
   <div class="ui-body ui-body-b">
 <p><div id="refreshMsg"></div></p>
-<ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
-    <li><a href="#" data-rel="back" onclick="location.reload()">Refresh All</a></li>
-    <li><a href="#" data-rel="back" onclick="getTweets(5)">Refresh Twitter</a></li>
-    <li><a href="#" data-rel="back" onclick="testa(1, 0)">Refresh Calendar</a></li>
-</ul>
+<div id="twtmenulink"></div>
+<div id="calmenulink"></div>
     </div>
 </div>
 <!-- /popup -->
