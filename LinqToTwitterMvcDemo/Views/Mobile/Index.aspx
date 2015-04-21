@@ -27,7 +27,8 @@
     <div style="font-size:30px">Welcome.</div>
     <p>This site is designed to turn an unused Kindle, iPad or Android tablet into an information and messaging centre that shows:</p>
     <ul>
-<li>Your Google Calendar for today and the next five days.</li>
+<li>Your Google calendar for today and the next five days.</li>
+<li>Number of days countdown to an event in your Google calendar.</li>
 <li>Twitter content - either your Tweets, Tweets from users you follow or mentions.</li>
 <li>Weather for any location.</li>
 </ul>
@@ -35,11 +36,11 @@
     </div>
     <div class="ui-block-b" style="width:25%" ><img id="OKFlogoIMG" src="../../Content/images/logo_large.png" /></div>
 </div>
-<p>Once authenticated, OK Fridge can display Tweets sent to public or even private Twitter accounts making it ideal for a secure household messaging system. If all members of the household use the same Twitter ID, including the device running OK Fridge everyone can see each other’s messages. There’s also a special hastag to display parts of your messages in a larger font size on the OK Fridge device. See the Twitter-powered section below.
+<p>Once authenticated, OK Fridge can display Tweets sent to public or even private Twitter accounts making it ideal for a secure household messaging system. If all members of the household use the same Twitter ID, including the device running OK Fridge everyone can see each other’s messages. There’s also a special hastag to display parts of your messages in a larger font size on the OK Fridge device. See the Twitter-powered Banners section below.
 </p>
 <div style="height:20px"></div>
 <div class="ui-body ui-body-a ui-corner-all">
-<p>OK Fridge In Action</p>
+<div style="font-size:30px">OK fridge in Action</div>
 <div data-role="collapsible-set" data-theme="a" data-content-theme="a">
     <div data-role="collapsible">
         <h3>Google Calendar</h3>

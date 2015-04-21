@@ -1903,18 +1903,19 @@ namespace LinqToTwitterMvcDemo.Controllers
             else
             {
                 //no time specified, do not remove anything
-                var bantxt = getBetween(banner, "#banner");
+                var bantxt = getBetween(banner, "#okbnnr");
 
                 return bantxt;
             }
          
             
         }
-
+        //#banner
+        //#okbnnr
         private string GetBannerTimeStr(String tweet_txt)
         {
             //var tweet_txt = status.Text;
-            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            int tfstart = tweet_txt.IndexOf("#okbnnr", 0) + 8;
             if (tfstart >= 8)
             {
                 try
@@ -1978,7 +1979,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         private string GetBannerTimeFromStr(String tweet_txt)
         {
             //var tweet_txt = status.Text;
-            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            int tfstart = tweet_txt.IndexOf("#okbnnr", 0) + 8;
             if (tfstart >= 8)
             {
                 try
@@ -2017,7 +2018,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         private string GetBannerTime(Status status)
         {
             var tweet_txt = status.Text;
-            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            int tfstart = tweet_txt.IndexOf("#okbnnr", 0) + 8;
             if (tfstart >= 8)
             {
                 try
@@ -2079,7 +2080,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         private string GetBannerTimeStr2(String tweet_txt)
         {
             //var tweet_txt = status.Text;
-            int tfstart = tweet_txt.IndexOf("#banner", 0) + 8;
+            int tfstart = tweet_txt.IndexOf("#okbnnr", 0) + 8;
             if (tfstart > 8)
             {
                 try
