@@ -74,7 +74,7 @@
             var fireRefresh = function () {
                 clearTimeout(timerR);
                 //alert("refresh");
-                document.location.href = '/';
+                location.reload();
             };
 
 
@@ -114,6 +114,7 @@
 
             getSel();
             ListArticles();
+            getZeroURL();
             timerRefAll = setTimeout(RefreshPage, 3600000);
 
         });
@@ -200,7 +201,11 @@
        function getZeroURL() {
            var guid = get_cookie("GUID");
            var cookies = listCookies();
+           if (guid != undefined) {
            $("#zeroURL").html("http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + guid);
+          } else {
+          $("#zeroURL").html("Google or Twitter not yet authenticated");
+           }
            $("#allcookies").html(cookies);
        }
 
@@ -2829,9 +2834,9 @@
   <div class="ui-body ui-body-b">
 <p><div id="refreshMsg"></div></p>
 <ul data-role="listview" style="margin:0; width:250px;" data-theme="b" data-inset="true">
-    <li><a href="#">Refresh All</a></li>
-    <li><a href="#" onclick="getTweets(5)">Refresh Twitter</a></li>
-    <li><a href="#" onclick="testa(1, 0)">Refresh Calendar</a></li>
+    <li><a href="#" data-rel="back" onclick="location.reload()">Refresh All</a></li>
+    <li><a href="#" data-rel="back" onclick="getTweets(5)">Refresh Twitter</a></li>
+    <li><a href="#" data-rel="back" onclick="testa(1, 0)">Refresh Calendar</a></li>
 </ul>
     </div>
 </div>

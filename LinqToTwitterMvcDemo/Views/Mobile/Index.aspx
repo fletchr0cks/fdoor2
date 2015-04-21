@@ -58,9 +58,8 @@
     </div>
 </div>
 </div>
-     <p>This site is designed to work in the Kindle experimental browser. Once you have done the authentication on a device with an easier keyboard, click on the Kindle No Typing Setup to get your user-specific link to send to your Kindle.
-     When that's done, stick it to your fridge with adhesive-backed velcro! <p> <%= ViewData["token"]%> </p>   
-     </p>
+ <p> <%= ViewData["token"]%> </p>   
+    
      </div>
 <div style="font-size:30px">Get Started</div>
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
@@ -79,6 +78,14 @@
     </div>
    </div>
    <div id="townmsg"></div><div id="townlist"></div>
+   <div style="font-size:30px">Kindle Setup</div>
+<p style="font-size:18px"><strong>Zero typing setup</strong></p>
+<p>To save typing your Twitter and Google credentials on the Kindle, do all the authentication on another device, then send the link below to your Kindle as a text attachment.</p>
+<p></p>
+<div id="zeroURL"></div>
+<br />
+<p style="font-size:18px"><strong>Easy shortcut menu</strong></p>
+<p>Activate the <strong>Page Down/Up Shortcut</strong> checkbox in the Setup menu on the left. When viewing in the Kindle, just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
    </div>
    <br />
 </div>
@@ -171,18 +178,7 @@
        <div id="place_comments"></div>
        <a href="#" class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-right" onClick="closeMap()">Close Map</a>
        </div>
-<div id="kindletricks" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:30px">Kindle Tricks</div>
-<p style="font-size:18px"><strong>Easy shortcut menu</strong></p>
-<p>Just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
-<br />
-<p style="font-size:18px"><strong>Zero typing setup</strong></p>
-<p>To save typing your Twitter and Google credentials on the Kindle, do all the authentication on another device, then click the Kindle No Typing Setup button on the left and follow the instructions. </p>
-<p></p>
 
-</div>
-</div>
 <div id="toptweet" style="display:none">20</div>
 <div style="display:none" id="toptweettime"></div>
     </div>
