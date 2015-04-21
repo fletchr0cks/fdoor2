@@ -59,9 +59,7 @@
     </div>
 </div>
 </div>
- <p> <%= ViewData["token"]%> </p>   
-    
-     </div>
+</div>
 <div style="font-size:30px">Get Started</div>
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
@@ -75,10 +73,11 @@
      </div>
     <div class="ui-block-c"><div style="font-size:20px">Location</div>
      <div id="setLocation"><%= ViewData["location"]%></div>
-     
     </div>
    </div>
    <div id="townmsg"></div><div id="townlist"></div>
+   <br />
+   <br />
    <div style="font-size:30px">Kindle Setup</div>
 <p style="font-size:18px"><strong>Zero typing setup</strong></p>
 <p>To save typing your Twitter and Google credentials on the Kindle, do all the authentication on another device, then send the link below to your Kindle as a text attachment.</p>

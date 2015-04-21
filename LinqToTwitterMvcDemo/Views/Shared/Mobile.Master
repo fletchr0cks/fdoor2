@@ -2799,6 +2799,21 @@
 </select>
 </div>
 <div style="display:none">
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-k" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Kindle tricks</option>
+	<option value="yes">Kindle tricks</option>
+</select>
+</div>
+<div style="display:none">
+<div class="displayslider">
+   <select data-mini="true" name="slider" id="flip-b" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
+	<option value="no">Blog</option>
+	<option value="yes">Blog</option>
+</select>
+</div>
+</div>
+<div style="display:none">
 <fieldset data-role="controlgroup">
     <input type="checkbox" name="checkbox-3" id="checkbox-3">
     <label for="checkbox-3">Auto update</label>
