@@ -194,7 +194,8 @@ div.ui-mobile-viewport {
 	text-align: center;
 	display: block;
 	margin: 0 10%;
-	padding: .2em 0;
+	padding-top: 0.2em;
+	padding-bottom: 0;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;

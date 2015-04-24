@@ -2070,10 +2070,10 @@
            var ultop = "";
            var num = "";
            var comments_html2 = "";
-           var comments_html = "<div class=\"ui-grid-a ui-responsive\"><div>Name: " +
-         "<input type=\"text\" name=\"Namen_" + ArtID + "\" id=\"commname_" + ArtID + "\" value=\"\"></div>" +
+           var comments_html = "<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:16px;padding-bottom:5px \">Add your name and a comment:</div><div class=\"ui-grid-a ui-responsive\"><div>Name: " +
+         "<input type=\"text\" name=\"Namen_" + ArtID + "\" id=\"commname_" + ArtID + "\" value=\"\"></div>Comment:" +
          "<textarea name=\"textarean_" + ArtID + "\" id=\"commtext_" + ArtID + "\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"AddComment(" + ArtID + ")\">Add Comment</button></div>";
-           var para = "";
+           var para = "<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:16px\"><strong>Comments</strong></div><br />";
            $.ajax({
                type: "POST",
                url: "/Mobile/getComments",
@@ -2081,10 +2081,10 @@
                dataType: "json",
                success: function (json) {
                    $.each(json.Comments, function (i, result) {
-                       para = para + "<div style=\"font-size:12px;padding-bottom:5px\">" + result.datetime + "</div>" +
-                "<div style=\"font-size:14px;padding-bottom:5px \">" + result.name + " </div>" +
+                       para = para + "<div style=\"font-size:10px;padding-bottom:5px\">" + result.datetime + "</div>" +
+                "<div style=\"font-size:16px;padding-bottom:5px \">" + result.name + " </div>" +
                 "<div style=\"font-size:14px;padding-bottom:5px \">" + result.commenttxt + " </div>" +
-                "<div style=\"font-size:10px\">" + result.devicetxt + " </div><br />";
+                "<div style=\"font-size:10px\"></div><br />";
                        //comments_html2 = comments_html2 + ultop + para + ulbtm;
                    });
                    num = json.num;
@@ -2096,7 +2096,7 @@
                complete: function (xhr, status) {
                    //alert(para + ArtID);
                    $("#CommBubble_" + ArtID).html(num + " comments");
-                   $("#ArtCont_" + ArtID).html(ultop + para + comments_html).trigger('create');
+                   $("#ArtCont_" + ArtID).html(ultop + para + "</div><br />" + comments_html + "</div>").trigger('create');
 
 
                }
@@ -2805,6 +2805,7 @@
 	<option value="yes">Kindle tricks</option>
 </select>
 </div>
+</div>
 <div style="display:none">
 <div class="displayslider">
    <select data-mini="true" name="slider" id="flip-b" data-role="slider"  data-theme="e" onchange="sliderChange(this.value,this.id)" >
@@ -2822,9 +2823,9 @@
 <div style="display:none">
 <label for="text-basic">Header Text:</label>
 <input type="text" name="header_text" id="header_text" value="">
-</div>
 <p><a href="#zerotype" data-rel="popup" class="ui-btn ui-btn-b ui-mini" onclick="getZeroURL()" data-transition="pop" data-position-to="window">Kindle No Typing Setup</a>
 </p>
+</div>
 <fieldset data-role="controlgroup">
     <legend></legend>
     <input type="checkbox" name="checkbox-1a" id="checkbox-1a">
@@ -2841,6 +2842,7 @@
 <div data-role="popup" id="popupNested" data-theme="b">
   <div class="ui-body ui-body-b">
 <p><div id="refreshMsg"></div></p>
+
 <div id="twtmenulink"></div>
 <div id="calmenulink"></div>
     </div>

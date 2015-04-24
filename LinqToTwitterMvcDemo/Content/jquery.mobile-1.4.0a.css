@@ -933,7 +933,7 @@ html .ui-alt-icon .ui-radio-off:after {
 html .ui-bar-a .ui-bar-inherit,
 html .ui-body-a .ui-bar-inherit,
 html body .ui-group-theme-a .ui-bar-inherit {
-	background: 			#FFF /*{a-bar-background-color} was 000000 */;
+	background: 			#000000 /*{a-bar-background-color} was FFF */;
 	border-color:	 		#  /*{a-bar-border}*/;
 	color: 					#FFF /*{a-bar-color}*/;
 	text-shadow: 0 /*{a-bar-shadow-x}*/ 1px /*{a-bar-shadow-y}*/ 0 /*{a-bar-shadow-radius}*/ 	#eee /*{a-bar-shadow-color}*/;
@@ -947,7 +947,7 @@ html body .ui-group-theme-a .ui-bar-inherit {
 .ui-overlay-a,
 .ui-page-theme-a,
 .ui-page-theme-a .ui-panel-wrapper {
-	background: 			#FFF /*{a-page-background-color} was f9f9f9*/;
+	background: 			#f9f9f9 /*{a-page-background-color} was f9f9f9*/;
 	border-color:	 		#bbb /*{a-page-border}*/;
 	color: 					#333 /*{a-page-color}*/;
 	text-shadow: 0 /*{a-page-shadow-x}*/ 1px /*{a-page-shadow-y}*/ 0 /*{a-page-shadow-radius}*/ 	#f3f3f3 /*{a-page-shadow-color}*/;
@@ -1259,8 +1259,8 @@ html head + body .ui-body-b.ui-focus {
 html .ui-bar-c .ui-bar-inherit,
 html .ui-body-c .ui-bar-inherit,
 html body .ui-group-theme-c .ui-bar-inherit {
-	background-color: #FFF /*{c-bar-background-color} was 1b1b1b */;
-	border-color: #FFF /*{c-bar-border} was 1b1b1b*/;
+	background-color: #1b1b1b /*{c-bar-background-color} was 1b1b1b */;
+	border-color: #1b1b1b /*{c-bar-border} was 1b1b1b*/;
 	color: #fff /*{c-bar-color}*/;
 	text-shadow: 0 /*{c-bar-shadow-x}*/ 1px /*{c-bar-shadow-y}*/ 0 /*{c-bar-shadow-radius}*/ #111 /*{c-bar-shadow-color}*/;
 	font-weight: bold;
@@ -1273,7 +1273,7 @@ html body .ui-group-theme-c .ui-bar-inherit {
 .ui-overlay-c,
 .ui-page-theme-c,
 .ui-page-theme-c .ui-panel-wrapper {
-	background-color: #FFF /*{c-page-background-color} was 252525*/;
+	background-color: #252525 /*{c-page-background-color} was 252525*/;
 	border-color: #454545 /*{c-page-border}*/;
 	color: #fff /*{c-page-color}*/;
 	text-shadow: 0 /*{c-page-shadow-x}*/ 1px /*{c-page-shadow-y}*/ 0 /*{c-page-shadow-radius}*/ #111 /*{c-page-shadow-color}*/;

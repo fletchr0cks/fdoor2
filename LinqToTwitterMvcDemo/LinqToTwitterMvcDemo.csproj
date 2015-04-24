@@ -165,7 +165,10 @@
     <Content Include="Content\images\logo_header2.PNG" />
     <Content Include="Content\images\logo_header3.PNG" />
     <Content Include="Content\images\logo_header4.PNG" />
+    <Content Include="Content\images\logo_header5.PNG" />
+    <Content Include="Content\images\logo_header6.PNG" />
     <Content Include="Content\images\logo_large.PNG" />
+    <Content Include="Content\images\logo_large2.PNG" />
     <Content Include="Content\images\maps_small.png" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\images\ss1.gif" />
