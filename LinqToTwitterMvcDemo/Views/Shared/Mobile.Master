@@ -751,9 +751,9 @@
 
                            dataType: "json",
                            success: function () {
-                               getfutureevents(email, name, i, max, min);
+                               getfutureevents(email, name, i, 1, 0);
                            },
-                           error: function () { getfutureevents(email, name, i, max, min); }
+                           error: function () { getfutureevents(email, name, i, 1, 0); }
                        });
                    } else {
                        var summary = jsonresp['summary'];
