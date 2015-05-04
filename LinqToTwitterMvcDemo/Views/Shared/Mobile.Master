@@ -1344,9 +1344,11 @@
            var latestID = document.getElementById('toptweet').innerHTML;
            var bannerhtml = "";
            var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
-           $('getmoremy').html("Loading ...");
-           $('getmoref').html("Loading ...");
-           $('getmoremen').html("Loading ...");
+           var loading = "<li><div>Loading .... </div></li>";
+           $('#tweetsfull').html(tophtml + loading + "</ul>").trigger('create');
+           $('#getmoremy').html("Loading ...");
+           $('#getmoref').html("Loading ...");
+           $('#getmoremen').html("Loading ...");
            var midhtml_my = "";
            var midhtml_men = "";
            var midhtml_fol = "";
@@ -1550,7 +1552,7 @@
 
                 //   if (get_cookie("autoupdate") == "on") {
                        clearTimeout(timerA);
-                       timerA = setTimeout(checkNewTweets, 60000);
+                       timerA = setTimeout(checkNewTweets, 3600000);
                   // }
                },
                error: function (response) {
@@ -1922,7 +1924,7 @@
                    ggl_check("cal");
                    $('#weatherbloc').hide();
                    $('#calmenulink').html("<ul data-role=\"listview\" style=\"margin:0; width:250px;\" data-theme=\"b\" data-inset=\"true\">" +
-                   "<li><a href=\"#\" data-rel=\"back\" onclick=\"testa(1, 0)\"> really Refresh Calendar</a></li></ul>").trigger('create');
+                   "<li><a href=\"#\" data-rel=\"back\" onclick=\"testa(1, 0)\">Refresh Calendar</a></li></ul>").trigger('create');
                    //$("#mentions").trigger('collapse');
                }
            }
