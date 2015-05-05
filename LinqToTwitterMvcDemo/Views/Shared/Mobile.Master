@@ -1552,7 +1552,7 @@
 
                 //   if (get_cookie("autoupdate") == "on") {
                        clearTimeout(timerA);
-                       timerA = setTimeout(checkNewTweets, 3600000);
+                       timerA = setTimeout(checkNewTweets, 300000);
                   // }
                },
                error: function (response) {
