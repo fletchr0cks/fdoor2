@@ -902,7 +902,7 @@
                                     "<div class=\"ui-block-a\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_small.png\"/><div style=\"display:inline;color:#5EA9DD;padding-top:10px\">" + jsonresp.twtr_usrs + "</div></div></div>" +
                                     "<div class=\"ui-block-b\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-64.png\"/><div style=\"display:inline;color:#5EA9DD\">" + jsonresp.ggl_usrs + "</div></div></div>" +
                                     "<div class=\"ui-block-c\"><div style=\"font-size:30px\"><img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/maps_small.png\"/><div style=\"display:inline;color:#5EA9DD\">" +
-                                    "<a href=\"#\" class=\"ui-btn ui-btn-inline ui-btn-icon-right ui-icon-location\" onClick=\"displayMap()\">" + jsonresp.locations + "</a></div></div></div>";
+                                    "<a href=\"#\" class=\"ui-btn ui-btn-inline ui-btn-icon-right ui-icon-location\" onClick=\"displayMap(); return false;\">" + jsonresp.locations + "</a></div></div></div>";
                    //+ maps small icon and move locations
 
                    $('#stats').html(html_top + total_html + grid_html + html_top + grid2_html).trigger('create');
@@ -2510,8 +2510,16 @@
        }
 
        function displayMap() {
-
+           //alert("map");
+           //var top = $('#map').position().top;
+           //$(window).scrollTop(top);
+           var el = document.getElementById("map");
+           el.style.visibility = "visible";
+           el.style.display = "block";
+           el.scrollIntoView(true);
+          // $('#map')[0].scrollIntoView(true);
            timerM1 = setInterval(function () { startmap() }, 1000);
+           $('#map_spacer').show();
            $('#map').show();
        }
 
@@ -2535,7 +2543,7 @@
        }
 
        function GoogleMap(lat, lng) {
-           var zoom = 10;
+           var zoom = 6;
            if (lat == 0) {
                zoom = 2
            }
@@ -2623,7 +2631,7 @@
                        //if (markers.PID == parseInt(PID)) {
                        //  var image = 'marker_search.png';
                        //MarkerDetails(markers.UID);
-                       $('#place_name').html(markers.place);
+                       //$('#place_name').html(markers.place);
                        //} else if (markers.PID == 1) {
                        //    var image = '../../Content/images/pin.png';
                        // } else {
@@ -2642,7 +2650,7 @@
                                MarkerDetails(markers.google, markers.twitter, markers.last);
                                $('#place_name').html(markers.place);
                            } else {
-                               $('#place_name').html(markers.place);
+                               //$('#place_name').html(markers.place);
                            }
                            //infoWindow.open(map, markerp);
                        });
@@ -2684,8 +2692,21 @@
 
        }
 
-       function MarkerDetails(google,twitter,last) {
-           $("#place_comments").html("google " + google + " " + twitter + " " + last);
+       function MarkerDetails(google, twitter, last) {
+           var html = "<div>";
+           var g_html = "";
+           var t_html = "";
+           if (google == 1) {
+               g_html = "<img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_logo_blue.png\"/>";
+           }
+
+           if (twitter == 1) {
+               t_html = "<img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-32.png\"/>";
+           }
+
+           html = html + g_html + t_html + " Last access: " + last + "</div>";
+
+           $("#place_comments").html(html).trigger('create');
        }
 
        function getPosition() {

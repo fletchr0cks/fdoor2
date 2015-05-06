@@ -985,14 +985,14 @@ namespace LinqToTwitterMvcDemo.Controllers
             var data = from pl in db.users
                        where (Convert.ToDecimal(pl.lat) >= Convert.ToDecimal(latS) && Convert.ToDecimal(pl.lat) <= Convert.ToDecimal(latN))
                        where (Convert.ToDecimal(pl.lng) >= Convert.ToDecimal(longW) && Convert.ToDecimal(pl.lng) <= Convert.ToDecimal(longE))
-                      
+                       where pl.location != null
                       // orderby pl.Name descending
                        select new
                        {
                            lat = Convert.ToString(pl.lat),
                            longval = Convert.ToString(pl.lng),
-                           google = (from s in db.ggls where s.id == pl.id select s.idlist).Distinct().OrderBy(loc => loc).Count().ToString(), 
-                           twitter = (from s in db.twts where s.id == pl.id select s.twtid).Distinct().OrderBy(loc => loc).Count().ToString(),
+                           google = (from s in db.ggls where s.userid == pl.id select s.idlist).Distinct().OrderBy(loc => loc).Count().ToString(), 
+                           twitter = (from s in db.twts where s.userid == pl.id select s.twtid).Distinct().OrderBy(loc => loc).Count().ToString(),
                            last = Convert.ToString((from u in db.users where u.id == pl.id select u.lastlogin).First()),
                            place = (from u in db.users where u.id == pl.id select u.location).First(),
                            UID = pl.id,

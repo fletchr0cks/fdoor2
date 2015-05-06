@@ -6,7 +6,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="PageTitleContent" runat="server">
 
-<div data-role="header" data-theme="a">
+<div data-role="header" data-theme="b">
 <a href="#mypanel" class="ui-btn ui-icon-gear ui-btn-icon-notext ui-corner-all">Setup</a>
 <h1><img id="headerIMG" src="../../Content/images/logo_header6.png" /></h1>
 <a id="lnkDialog" href="#popupNested" data-rel="popup" class="ui-btn ui-icon-refresh ui-btn-icon-notext ui-corner-all" data-transition="pop" data-position-to="window">Refresh</a>
@@ -59,8 +59,9 @@
       <img id="smallIMG" src="../../Content/images/bann_hh.gif" /></div>
       <div>Include #okbnnr in your tweet and all the text after the hashtag will display as a banner.</div>
       <div>Add hours or minutes and you can choose for how long the banner is displayed:</div>
-      <div>#okbnnr 30m</div>
-      <div>#okbnnr 2h</div>
+      <p></p>
+      <div>#okbnnr 30m &lt;your banner&gt;</div>
+      <div>#okbnnr 2h &lt;your banner&gt;</div>
     </div>
 </div>
 </div>
@@ -175,12 +176,13 @@
 <br />
 <div id="stats" style="display:none">
 </div>
+<div id="map_spacer" style="display:none"></div>
 <div id="map" style="display:none">
     <div id="map_msg" class="ui-bar ui-bar-b"></div>
 		<div id="map_overlay" style="z-index:5000;position:absolute;display:none;background-color:Gray;opacity:0.8;height:300px"><h4 style="text-align:center;padding-top:100px">Loading sites....</h4></div>
-		<div id="map_canvas" style="height:500px;"></div>
-       <div id="place_name"></div>
-       <div id="place_comments"></div>
+		<div id="map_canvas" style="height:380px;"></div>
+       <div id="place_name" class="ui-bar ui-bar-b"></div>
+       <div id="place_comments" class="ui-bar ui-bar-b"></div>
        <a href="#" class="ui-btn ui-btn-inline ui-icon-delete ui-btn-icon-right" onClick="closeMap()">Close Map</a>
        </div>
 
