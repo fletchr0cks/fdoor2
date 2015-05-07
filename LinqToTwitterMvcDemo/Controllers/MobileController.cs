@@ -63,7 +63,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                     string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
                     if (tname == null)
                     {
-                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your tweets.</div>";
+                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
                     }
                     else
                     {
@@ -98,7 +98,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 }
                 catch
                 {
-                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your Google calendar.</div>";
+                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your Google calendar.</div>";
                     //<button onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</button><div>Allows Fridge Door to read your Google calendar</div>";
                 }
 
