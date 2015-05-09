@@ -409,7 +409,7 @@
 
 
        function drawDays(min, idlistj) {
-
+       //check for cookie??
            var n = parseInt(min);
            var end = 0;
            var calnext5 = "<div class=\"ui-grid-d\">";
@@ -423,6 +423,7 @@
                var n1 = parseInt(n + end);
                //alert(n1 + "..." + end);
                var n2 = parseInt(n1 + 1);
+           
                var day = formatDateDay(n1);
                var daynum = formatDate(n1);
                var dispday = formatDateNext(n1);
@@ -2696,11 +2697,11 @@
            var html = "<div>";
            var g_html = "";
            var t_html = "";
-           if (google == 1) {
+           if (twitter == 1) {
                g_html = "<img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/Twitter_logo_blue.png\"/>";
            }
 
-           if (twitter == 1) {
+           if (google == 1) {
                t_html = "<img id=\"logoIMG\" style=\"vertical-align: text-top\" src=\"../../Content/images/calendar-32.png\"/>";
            }
 
