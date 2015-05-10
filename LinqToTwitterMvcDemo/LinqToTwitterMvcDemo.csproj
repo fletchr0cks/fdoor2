@@ -163,6 +163,7 @@
     <Content Include="Content\images\calendar-64.png" />
     <Content Include="Content\images\header.PNG" />
     <Content Include="Content\images\logo.ico" />
+    <Content Include="Content\images\logo2.ico" />
     <Content Include="Content\images\logo_header2.PNG" />
     <Content Include="Content\images\logo_header3.PNG" />
     <Content Include="Content\images\logo_header4.PNG" />
