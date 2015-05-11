@@ -5,13 +5,13 @@
 <head id="Head1" runat="server">
      <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /></title>
      <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <link rel="shortcut icon" href="../../Content/images/logo.ico"/>
+     <link rel="shortcut icon" href="../../Content/images/logo2.ico"/>
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
   <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
 <script type="text/javascript" src="../../Scripts/markerclusterer.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3"></script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 
 <script type="text/javascript">
@@ -1385,7 +1385,7 @@
                            tweettype = "banner";
                            tweetxtra = item.ID;
                            midhtml_okf = midhtml_okf + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
-          //     "<img src=\"" + item.ImageUrl + "\">" +
+                           //     "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                            if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
                                getBanner('banner', item.ID, 'auto', 'okf');
@@ -1397,18 +1397,18 @@
                            //  icon = "info";
                            tweetxtra = item.MediaUrl;
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-           //  "<img src=\"" + item.ImageUrl + "\">" +
+                           //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
                        else if (item.EntityUrl.length > 1) {
                            //web page
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-             //  "<img src=\"" + item.ImageUrl + "\">" +
+                           //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        } else {
 
                            midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-             //  "<img src=\"" + item.ImageUrl + "\">" +
+                           //  "<img src=\"" + item.ImageUrl + "\">" +
         "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
                        }
 
@@ -1522,42 +1522,50 @@
 
 
                    var NewDate = new Date();
-                   var timenow = NewDate.getUTCHours() + ":" + NewDate.getUTCMinutes() + ":" + NewDate.getUTCSeconds();
+                   var hoursnow = NewDate.getUTCHours();
+                   var minsnow = NewDate.getUTCMinutes();
+                   if (parseInt(hoursnow) < 10) {
+                       hoursnow = "0" + hoursnow;
+                   }
+                   if (parseInt(minsnow) < 10) {
+                       minsnow = "0" + minsnow;
+                   }
+                   var timenow = hoursnow + ":" + minsnow;
                    getmore = parseInt(jsonresp.getmore + 5);
-
+                   var timestamp = timenow;
                    var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoremy\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoremy\">Last updated: " + timestamp + " Get More</div></a></li>";
                    var getmorefol = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoref\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoref\">Last updated: " + timestamp + " Get More</div></a></li>";
                    var getmoremen = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoremen\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoremen\">Last updated: " + timestamp + " Get More</div></a></li>";
                    var getmoreokf = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoreokf\">Get More</div></a></li>";
+                   "<div class=\"tweets1\" id=\"getmoreokf\">Last updated: " + timestamp + " Get More</div></a></li>";
                    $('#toptweet').html(jsonresp.latestid);
                    //var ua = navigator.userAgent;
                    //$('#toptweettime').html(timenow + ua);
-                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul><p></p><br /><p></p>").trigger('create');
-                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul><p></p><br /><p></p>").trigger('create');
-                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul><p></p><br /><p></p>").trigger('create');
-                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul><p></p><br /><p></p>").trigger('create');
+                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
+                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
+                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
+                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
 
                    if (tweettypes == "my") {
-                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul><p></p><br /><p></p>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
                    } else if (tweettypes == "men") {
-                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul><p></p><br /><p></p>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
                    } else if (tweettypes == "fol") {
-                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul><p></p><br /><p></p>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
                    } else if (tweettypes == "okf") {
-                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul><p></p><br /><p></p>").trigger('create');
+                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
                    }
 
-                //   if (get_cookie("autoupdate") == "on") {
-                       clearTimeout(timerA);
-                       timerA = setTimeout(checkNewTweets, 300000);
-                  // }
+                   //   if (get_cookie("autoupdate") == "on") {
+                   clearTimeout(timerA);
+                   timerA = setTimeout(checkNewTweets, 300000);
+                   // }
                },
                error: function (response) {
-                   //alert(response.responseText);
+                   alert(response.responseText);
                    //var r = jQuery.parseJSON(response.responseText);
 
                },
