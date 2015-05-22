@@ -172,6 +172,7 @@
     <Content Include="Content\images\logo_large.PNG" />
     <Content Include="Content\images\logo_large2.PNG" />
     <Content Include="Content\images\maps_small.png" />
+    <Content Include="Content\images\okf_loader.gif" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\images\ss1.gif" />
     <Content Include="Content\images\ss2.gif" />
