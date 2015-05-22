@@ -9,9 +9,18 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+<script type="text/javascript">
+    $(document).ready(function () {
+        // if ($('#add_site').hasClass('ui-collapsible-collapsed')
+        getTweets2(5);
+    });
+</script>
+
  <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
 	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile") %></li>
-    <li><%=Html.ActionLink("Messages", "Messages", "Mobile", new { target = "CourseGroups" }, null)%></li>
+    <li><%=Html.ActionLink("Messages", "Messages", "Mobile")%>
+    <span class="ui-li-count"><div id="twct"></div></span>
+    </li>
     <li><%=Html.ActionLink("Events", "Events", "Mobile") %></li>
 </ul>
 

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileM.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileC.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Messages
@@ -12,9 +12,8 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <script type="text/javascript">
     $(document).ready(function () {
-
         // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-        getTweets(5);
+        getTweets3();
     });
 </script>
 
@@ -25,5 +24,5 @@
 
   </div>
   tweets below
-  <div id="tweetsfull" style="display:none">Loading Tweets ....</div>
+  <div id="tweetsfull">Loading Tweets ....</div>
 </asp:Content>

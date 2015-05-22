@@ -419,6 +419,7 @@
     <Content Include="Scripts\iso8601.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
+    <Content Include="Scripts\lawnchair.js" />
     <Content Include="Scripts\jsstuff.js" />
     <None Include="Content\jquery.mobile-1.4.0.min.map" />
     <None Include="Models\fddb.dbml">

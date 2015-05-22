@@ -94,7 +94,7 @@
             }
 
             //start refresh timer
-            getTweets(5);
+            //getTweets(5);
             checkWidth();
             clearTimeout(timerB);
             //timerB = setTimeout(loadBlack, 1000);
@@ -1320,10 +1320,10 @@
            });
        }
        function getTweets(more) {
-           $.mobile.loading('show', { theme: "b", text: "Please wait...", textonly: true, textVisible: true });
+          
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
-           var latestID = document.getElementById('toptweet').innerHTML;
+           var latestID = 10 //document.getElementById('toptweet').innerHTML;
            var bannerhtml = "";
            var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
            var loading = "<li><div>Loading .... </div></li>";
@@ -1349,7 +1349,7 @@
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
-               data: "timenow=" + hournow + "&getnum=" + more + "&tweettypes=" + tweettypes,
+               data: "timenow=222" + hournow + "&getnum=" + more + "&tweettypes=" + tweettypes,
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
