@@ -17,19 +17,10 @@
 
 <script type="text/javascript">
 
-    $(document).ajaxStart(function () {
-        $.mobile.loading('show', {
-	text: 'Loading ...',
-	textVisible: true,
-	theme: 'a',
-	html: "<span class=\"ui-bar ui-shadow ui-overlay-a ui-corner-all\"><img src=\"../../Content/images/logo_large2.png\"><h2>is loading for you ...</h2></span>"
-});
-   });
-
-    $(document).ajaxStop(function () {
-        $.mobile.loading('hide');
-    });
-
+    $(document).on("mobileinit", function () {
+        $.mobile.ajaxEnabled = false;
+        $.mobile.loadingMessage = false;
+    }); 
     $(document).bind("pageinit", function () {
 
         $(function () {
@@ -139,7 +130,7 @@
 
        function Auth(val, type) {
            if (val == "1") {
-               document.location.href = '/Mobile/Auth' + type;
+                document.location.href = '/Mobile/Auth' + type;
            } else {
                //delete cookies
                document.location.href = '/Mobile/DeleteCookies?type=' + type;
@@ -1338,7 +1329,9 @@
            });
        }
        function getTweets2(more) {
-      
+           $body = $("body");
+            $body.addClass("loading");
+          
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
            var latestID = document.getElementById('toptweet').innerHTML;
@@ -1592,7 +1585,7 @@
                    };
 
                    store.save(me);
-
+                   $body.removeClass("loading"); 
                },
                error: function (response) {
                    //alert(response.responseText);
@@ -1622,6 +1615,7 @@
           store.get("twt_data", function(theHtml) {
               midhtml_dm = theHtml.html;
               $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>").trigger('create');
+
           });
           } else {
           }

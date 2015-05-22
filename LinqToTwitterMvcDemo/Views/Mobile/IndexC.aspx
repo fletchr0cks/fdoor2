@@ -10,55 +10,28 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
 <script type="text/javascript">
+
     $(document).ready(function () {
-        // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-        getTweets2(5);
+        var TweetRadio = get_cookie("tweets");
+        if (TweetRadio == "my") {
+            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
+            getTweets2(5);
+            $("#messages").removeClass("ui-disabled");
+            $("#messages").addClass("ui-enabled");
+        }
     });
 </script>
-
+<div class="modal"></div>
  <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
 	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile") %></li>
-    <li><%=Html.ActionLink("Messages", "Messages", "Mobile")%>
-    <span class="ui-li-count"><div id="twct"></div></span>
-    </li>
+    <li id="messages" class="ui-disabled"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages<span class="ui-li-count"><div id="twct"></div></span></a></li>
     <li><%=Html.ActionLink("Events", "Events", "Mobile") %></li>
 </ul>
 
-<div id="mainframe">
-<div class="ui-grid-a ui-responsive">    
-    <div class="ui-block-a">
-<a href="#" onclick="getTweets(5)" class="ui-btn ui-btn-c ui-mini">Messages</a>
-        </div>
-    <div class="ui-block-b">
-<a href="#" onclick="Events()" class="ui-btn ui-btn-c ui-mini">Events</a>
-    </div>
-</div>
-<br />
-<div id="tweetsfullooo" style="display:none">Loading Tweets ....</div>
 
-<div id="tweets" style="display:none">
-<div data-role="collapsible-set" data-theme="a" data-content-theme="a">
-    <div data-role="collapsible">
-        <h3>My Tweets</h3>
-  <div id="mytweets"></div>
-    </div>
-    <div data-role="collapsible">
-        <h3>Following</h3>
-  <div id="following"></div>
-    </div>
-   <div data-role="collapsible">
-        <h3>Mentions</h3>
-  <div id="mentions"></div>
-    </div>
-    <div data-role="collapsible">
-        <h3>OK fridge</h3>
-  <div id="okf"></div>
-</div>
-</div>
-  <br />
-  </div>
-
+ <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
+ <li data-icon="gear" onclick="getTweets2(5)"><a href="#">Refresh</a></li>
+</ul>   
 <div id="toptweet" style="display:none">20</div>
 <div style="display:none" id="toptweettime"></div>
-    </div>
 </asp:Content>
