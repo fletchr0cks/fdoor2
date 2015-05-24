@@ -1128,6 +1128,17 @@ namespace LinqToTwitterMvcDemo.Controllers
             return Json(new { loc = loc }, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult saveNewuser(string lat, string lng, string loc)
+        {
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            int userid = dataRepository.getID(guid);
+            dataRepository.saveLocation(lat, lng, userid, loc);
+           
+            return Json(new { loc = loc }, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult SaveTwID(string id)
         {
             SetCookie("TwitterID", id);
@@ -1289,6 +1300,12 @@ namespace LinqToTwitterMvcDemo.Controllers
         {
 
             return View("GetStarted");
+        }
+
+        public ActionResult SavedUser()
+        {
+
+            return View("SavedUser");
         }
 
         public ActionResult Messages()

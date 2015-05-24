@@ -20,7 +20,7 @@
     $(document).on("mobileinit", function () {
         $.mobile.ajaxEnabled = false;
         $.mobile.loadingMessage = false;
-    }); 
+    });
     $(document).bind("pageinit", function () {
 
         $(function () {
@@ -98,7 +98,8 @@
             }
 
             //start refresh timer
-           // getTweets(5);
+            // getTweets(5);
+            getZeroURL();
             checkWidth();
             clearTimeout(timerB);
             //timerB = setTimeout(loadBlack, 1000);
@@ -178,6 +179,38 @@
 
        function ChangeLoc() {
            document.location.href = '/Mobile/DeleteCookies?type=weather';
+       }
+
+       function addNewuser() {
+           var msg = $("input[type='radio'][name='radio-choice-m']:checked").val();
+           var eve = $("input[type='radio'][name='radio-choice-e']:checked").val();
+           var wea = $("input[type='radio'][name='radio-choice-w']:checked").val();
+           var uname = "bob";
+           $("#newUsermsg").html("New user added");
+           // document.getElementByName('radio-choice-b').value;
+           //https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://fridgedoor.apphb.com/Mobile/Index?zcguid=d290ca15-cc16-45f9-b86b-3ab4c8e5aa40
+           //alert(eve);
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/saveNewuser",
+               data: "msg=" + msg + "&wea=" + wea + "&eve=" + eve + "&name=" + uname,
+               dataType: "text/plain", //nothing returned
+               success: function (json) {
+
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+
+                   var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
+                   $('#setLocation').html(html).trigger('create');
+                   $("#townlist").html("").trigger('create');
+                   $("#townmsg").html("").trigger('create');
+                   GetWeather(0, 1);
+               }
+
+           });
        }
 
        function SetLoc() {
