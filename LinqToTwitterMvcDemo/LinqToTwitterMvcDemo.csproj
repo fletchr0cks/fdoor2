@@ -121,6 +121,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Article.cs" />
     <Compile Include="Models\Calendar.cs" />
@@ -173,6 +174,7 @@
     <Content Include="Content\images\logo_large2.PNG" />
     <Content Include="Content\images\maps_small.png" />
     <Content Include="Content\images\okf_loader.gif" />
+    <Content Include="Content\images\okf_spinner.gif" />
     <Content Include="Content\images\pics\IMG_5005.JPG" />
     <Content Include="Content\images\ss1.gif" />
     <Content Include="Content\images\ss2.gif" />

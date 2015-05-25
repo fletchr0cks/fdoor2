@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileC.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+<%@ Import Namespace="LinqToTwitterMvcDemo.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	GetStarted
@@ -57,75 +58,55 @@
     </div>
 </div>
 </div>
-<div style="font-size:30px">Kindle Setup</div>
-<p style="font-size:18px"><strong>Zero typing setup</strong></p>
-<p>To save typing your Twitter and Google credentials on the Kindle, do all the authentication on another device, then send the link below to your Kindle as a text attachment.</p>
-<p></p>
-<div style="text-align: center">
-   
-<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <input type="radio" name="radio-choice-m" id="radio5" value="0">
-        <label for="radio5">No Messaging</label>
-        <input type="radio" name="radio-choice-m" id="radio6" value="1" checked="checked">
-        <label for="radio6">View Messages</label>
-        <input type="radio" name="radio-choice-m" id="radio7" value="2">
-        <label for="radio7">View and Send</label>
-        <input type="radio" name="radio-choice-m" id="radio8" value="3">
-        <label for="radio8">Advanced</label>
-</fieldset>
-</div>
-<div class="ui-body ui-body-a ui-corner-all">
-<div data-role="collapsible" data-theme="a" data-content-theme="a">
+<div style="font-size:30px">Device Setup</div>
+<div data-role="collapsible" data-theme="b" data-content-theme="a">
 <h2>Setup other devices</h2>
 <div id="newUsermsg">something here</div>
-
-   <form>
-    <ul data-role="listview" data-inset="true">
-        <li class="ui-field-contain">
+<form>
+<ul data-role="listview" data-inset="true">
+<li class="ui-field-contain">
 <input type="text" name="text-basic" id="text-basic" value="Device name here, i.e. Kitchen or Bob" />
 </li>
-
 <li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <input type="radio" name="radio-choice-m" id="radio-choice-c" value="0">
-        <label for="radio-choice-c">No Messaging</label>
-        <input type="radio" name="radio-choice-m" id="radio-choice-d" value="1" checked="checked">
-        <label for="radio-choice-d">View Messages</label>
-        <input type="radio" name="radio-choice-m" id="radio-choice-e" value="2">
-        <label for="radio-choice-e">View and Send</label>
-        <input type="radio" name="radio-choice-m" id="radio-choice-f" value="3">
-        <label for="radio-choice-f">Advanced</label>
+<fieldset data-role="controlgroup" data-mini="true">
+<input type="radio" name="radio-choice-m" id="radio-choice-c" value="0">
+<label for="radio-choice-c">No Messaging</label>
+<input type="radio" name="radio-choice-m" id="radio-choice-d" value="1" checked="checked">
+<label for="radio-choice-d">View Messages</label>
+<input type="radio" name="radio-choice-m" id="radio-choice-e" value="2">
+<label for="radio-choice-e">View and Send</label>
+<input type="radio" name="radio-choice-m" id="radio-choice-f" value="3">
+<label for="radio-choice-f">Advanced Messaging (All Twitter message types)</label>
 </fieldset>
 </li>
 <li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <input type="radio" name="radio-choice-e" id="radio1" value="0">
-        <label for="radio1">No Events</label>
-        <input type="radio" name="radio-choice-e" id="radio2" value="1" checked="checked">
-        <label for="radio2">View Events</label>
+<fieldset data-role="controlgroup" data-mini="true">
+<input type="radio" name="radio-choice-e" id="radio1" value="0">
+<label for="radio1">No Events</label>
+<input type="radio" name="radio-choice-e" id="radio2" value="1" checked="checked">
+<label for="radio2">View Events</label>
 </fieldset>
 </li>
 <li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-        <input type="radio" name="radio-choice-w" id="radio3" value="0">
-        <label for="radio3">No Weather</label>
-        <input type="radio" name="radio-choice-w" id="radio4" value="1" checked="checked">
-        <label for="radio4">View Weather</label>
+<fieldset data-role="controlgroup" data-mini="true">
+<input type="radio" name="radio-choice-w" id="radio3" value="0">
+<label for="radio3">No Weather</label>
+<input type="radio" name="radio-choice-w" id="radio4" value="1" checked="checked">
+<label for="radio4">View Weather</label>
 </fieldset>
 </li>
 <li class="ui-field-contain">
-<a href="#" class="ui-btn ui-btn-b" onclick="addNewuser()">Submit</a>
+<a href="#" class="ui-btn ui-btn-c" onclick="addNewuser()">Submit</a>
 </li>
 </ul>
 </form>
 </div>
-
 <div data-role="collapsible" data-theme="b" data-content-theme="a">
-<h2>>Saved devices</h2>
+<h2>Saved devices</h2>
 <div>something here</div>
- <form>
-    <ul data-role="listview" data-inset="true">
-        <li class="ui-field-contain">
+<form>
+<ul data-role="listview" data-inset="true">
+<li class="ui-field-contain">
 <div class="ui-grid-d ui-responsive">    
 <div class="ui-block-a">
 Kitcheb
@@ -144,7 +125,7 @@ Weather for London
 </div>
 </div>
 </li>
-       <li class="ui-field-contain">
+<li class="ui-field-contain">
 <div class="ui-grid-d ui-responsive">    
 <div class="ui-block-a">
 Kitcheb
@@ -165,9 +146,6 @@ Weather for London
 </li>
 </ul>
 </form>
-</div>
-
-</div>
 
 
 <div class="ui-body ui-body-a ui-corner-all">

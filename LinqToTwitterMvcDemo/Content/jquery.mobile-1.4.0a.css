@@ -2668,7 +2668,7 @@ button.ui-btn-icon-notext,
 	.ui-field-contain > label + [class*="ui-"],
 	.ui-field-contain .ui-controlgroup-controls {
 		float: left;
-		width: 78%;
+		width: 100%;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		-ms-box-sizing: border-box;
@@ -5010,6 +5010,10 @@ td.td80 {width: 80px}
     
 }
 
+.ui-controlgroup-controls
+{
+    width:100%;
+}
 
 .modal {
     display:    none;
@@ -5020,7 +5024,7 @@ td.td80 {width: 80px}
     height:     100%;
     width:      100%;
     background: rgba( 255, 255, 255, .8 ) 
-                url('../../Content/images/okf_loader.gif') 
+                url('../../Content/images/okf_spinner.gif') 
                 50% 50% 
                 no-repeat;
 }
