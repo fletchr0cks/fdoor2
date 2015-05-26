@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileC.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
-<%@ Import Namespace="LinqToTwitterMvcDemo.Helpers" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	GetStarted
@@ -13,6 +12,7 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+
 <div class="ui-body ui-body-a ui-corner-all">
 <div id="greeting">
 <div style="font-size:30px">Welcome.</div>
@@ -58,10 +58,16 @@
     </div>
 </div>
 </div>
+
+<a href="#" class="ui-btn ui-btn-c" onclick="addDevice()">Add Device</a>
+<a href="#" class="ui-btn ui-btn-c" onclick="viewDevices()">View Devices</a>
+
+<div id="deviceAdd"></div>
+<div id="deviceView"></div>
 <div style="font-size:30px">Device Setup</div>
-<div data-role="collapsible" data-theme="b" data-content-theme="a">
+<div data-role="collapsible" data-theme="b" data-content-theme="a" id="device_setup">
 <h2>Setup other devices</h2>
-<div id="newUsermsg">something here</div>
+<div>something here</div>
 <form>
 <ul data-role="listview" data-inset="true">
 <li class="ui-field-contain">
@@ -101,55 +107,44 @@
 </ul>
 </form>
 </div>
-<div data-role="collapsible" data-theme="b" data-content-theme="a">
+
+
+
+<div data-role="collapsible" data-theme="b" data-content-theme="a" id="saved_devices">
 <h2>Saved devices</h2>
-<div>something here</div>
-<form>
-<ul data-role="listview" data-inset="true">
-<li class="ui-field-contain">
-<div class="ui-grid-d ui-responsive">    
+<div class="ui-corner-all custom-corners">
+<div class="ui-bar ui-bar-a">
+<h2>Kitchen</h2>
+</div>
+<div class="ui-body ui-body-a">
+<ul data-role="listview">
+<li>Messaging: View and Send</li>
+<li>Events: View</li>
+<li>Weather for Paris</li>
+<li>Link: </li>
+<li>
+<div class="ui-grid-a ui-responsive">    
 <div class="ui-block-a">
-Kitcheb
+<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+<input type="radio" name="radio-choice-h-6" id="radio-choice-h-6a" value="on" checked="checked">
+<label for="radio-choice-h-6a">Enabled</label>
+<input type="radio" name="radio-choice-h-6" id="radio-choice-h-6b" value="off">
+<label for="radio-choice-h-6b">Disabled</label>
+</fieldset>
 </div>
 <div class="ui-block-b">
-View Messages
-</div>
-<div class="ui-block-c">
-No Events
-</div>
-<div class="ui-block-d">
-Weather for London
-</div>
-<div class="ui-block-e">
-<a href="#" class="ui-btn ui-btn-a ui-mini" onclick="disableUser()">Disable</a>
+<img id="QRIMG" src="../../Content/images/Twitter_logo_blue.png" />
+<div>Scan this</div>
 </div>
 </div>
-</li>
-<li class="ui-field-contain">
-<div class="ui-grid-d ui-responsive">    
-<div class="ui-block-a">
-Kitcheb
-</div>
-<div class="ui-block-b">
-View Messages
-</div>
-<div class="ui-block-c">
-No Events
-</div>
-<div class="ui-block-d">
-Weather for London
-</div>
-<div class="ui-block-e">
-<a href="#" class="ui-btn ui-btn-a ui-mini" onclick="disableUser()">Disable</a>
-</div>
-</div>
+
 </li>
 </ul>
-</form>
-
-
+</div>
+</div>
+</div>
 <div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:20px"</div>
+<div style="font-size:20px"></div>
 </div>    
 <div id="zeroURL"></div>
 <br />

@@ -7,12 +7,14 @@
      <meta name="viewport" content="width=device-width, initial-scale=1" />
      <link rel="shortcut icon" href="../../Content/images/logo2.ico"/>
      <link rel="stylesheet" href="../../Content/jquery.mobile-1.4.0a.css" />
-  <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
-<script type="text/javascript" src="../../Scripts/markerclusterer.js"></script>
+     <link rel="stylesheet" href="../../Content/jquery.mobile.structure-1.4.0.css" />
+  <script type="text/javascript" src="../../Scripts/markerclusterer.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="../../Scripts/lawnchair.js"></script>
+<script type="text/javascript" src="../../Scripts/jquery.qrcode-0.12.0.min.js"></script>
+   
 
 
 <script type="text/javascript">
@@ -21,10 +23,13 @@
         $.mobile.ajaxEnabled = false;
         $.mobile.loadingMessage = false;
     });
+
+
     $(document).bind("pageinit", function () {
 
         $(function () {
-            // alert("innit");
+           
+
             $(window).bind('resize', function (event) {
                 var content_height = $.mobile.activePage.children('[data-role="content"]').height(),
             header_height = $.mobile.activePage.children('[data-role="header"]').height(),
@@ -181,36 +186,153 @@
            document.location.href = '/Mobile/DeleteCookies?type=weather';
        }
 
-       function addNewuser() {
-           var msg = $("input[type='radio'][name='radio-choice-m']:checked").val();
-           var eve = $("input[type='radio'][name='radio-choice-e']:checked").val();
-           var wea = $("input[type='radio'][name='radio-choice-w']:checked").val();
-           var uname = "bob";
-           $("#newUsermsg").html("New user added");
-           // document.getElementByName('radio-choice-b').value;
-           //https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://fridgedoor.apphb.com/Mobile/Index?zcguid=d290ca15-cc16-45f9-b86b-3ab4c8e5aa40
-           //alert(eve);
+       function addDevice() {
+
+           var html_ad = "<ul data-role=\"listview\" data-inset=\"true\"><li class=\"ui-field-contain\"><input type=\"text\" name=\"text-basic\" id=\"device-name\" value=\"Device name here, i.e. Kitchen or Bob\" />" +
+"</li><li class=\"ui-field-contain\"><fieldset data-role=\"controlgroup\" data-mini=\"true\"><input type=\"radio\" name=\"radio-choice-m\" id=\"radio-choice-c\" value=\"0\">" +
+"<label for=\"radio-choice-c\">No Messaging</label><input type=\"radio\" name=\"radio-choice-m\" id=\"radio-choice-d\" value=\"1\" checked=\"checked\">" +
+"<label for=\"radio-choice-d\">View Messages</label><input type=\"radio\" name=\"radio-choice-m\" id=\"radio-choice-e\" value=\"2\">" +
+"<label for=\"radio-choice-e\">View and Send</label><input type=\"radio\" name=\"radio-choice-m\" id=\"radio-choice-f\" value=\"3\">" +
+"<label for=\"radio-choice-f\">Advanced Messaging (All Twitter message types)</label></fieldset></li>" +
+"<li class=\"ui-field-contain\"><fieldset data-role=\"controlgroup\" data-mini=\"true\"><input type=\"radio\" name=\"radio-choice-e\" id=\"radio1\" value=\"0\">" +
+"<label for=\"radio1\">No Events</label><input type=\"radio\" name=\"radio-choice-e\" id=\"radio2\" value=\"1\" checked=\"checked\">" +
+"<label for=\"radio2\">View Events</label></fieldset></li>" +
+"<li class=\"ui-field-contain\"><fieldset data-role=\"controlgroup\" data-mini=\"true\"><input type=\"radio\" name=\"radio-choice-w\" id=\"radio3\" value=\"0\">" +
+"<label for=\"radio3\">No Weather</label><input type=\"radio\" name=\"radio-choice-w\" id=\"radio4\" value=\"1\" checked=\"checked\">" +
+"<label for=\"radio4\">View Weather</label></fieldset></li>" +
+"<li class=\"ui-field-contain\"><a href=\"#\" class=\"ui-btn ui-btn-c\" onclick=\"addNewuser()\">Submit</a></li></ul></form></div>";
+
+           $("#deviceAdd").html(html_ad).trigger('create');
+       }
+
+       function loadSpinner() {
+           $body = $("body");
+           $body.addClass("loading");
+       }
+
+       function viewDevices() {
+
+           $body = $("body");
+           $body.addClass("loading");
+          
+           var top_html = "";
+           var main_html = "";
+           var msg_html = "";
+           var events_html = "";
+           var radio_html = "";
+           var end_html = "</div>";
            $.ajax({
                type: "GET",
-               url: "/Mobile/saveNewuser",
-               data: "msg=" + msg + "&wea=" + wea + "&eve=" + eve + "&name=" + uname,
-               dataType: "text/plain", //nothing returned
+               url: "/Mobile/viewDevices",
+               //data: "msg=" + msg + "&wea=" + wea + "&eve=" + eve + "&uname=" + uname,
+               dataType: "json", //nothing returned
                success: function (json) {
-
+                   var jsonresp = eval(json);
+                   $.each(jsonresp.devices, function (n, item) {
+                       if (item.msg == 0) {
+                           msg_html = "No messaging";
+                       } else if (item.msg == 1) {
+                           msg_html = "Messaging: View only";
+                       } else if (item.msg == 2) {
+                           msg_html = "Messaging: View and Send";
+                       } else {
+                           msg_html = "Messaging: Advanced";
+                       }
+                       events_html = "No Events";
+                       w_html = "Weather for ...";
+                       main_html = main_html + "<div class=\"ui-corner-all custom-corners\"><div class=\"ui-bar ui-bar-a\"><h2>" + item.uname + "</h2></div><div class=\"ui-body ui-body-a\">" +
+                   "<ul data-role=\"listview\"><li>" + msg_html + "</li><li>" + events_html + "</li><li>" + w_html + "</li><li>Link: </li><li><div class=\"ui-grid-a ui-responsive\">" +
+                   "<div class=\"ui-block-a\"><div><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
+                   "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
+                   "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
+                   "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
+                   "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
+                   "</fieldset></div></div>" +
+                   "<div><a href=\"#\" class=\"ui-btn ui-btn-c ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Delete Device</a></div><div class=\"ui-block-b\"><div id=\"chart-div" + item.id + "\"></div></div></div></li></ul></div></div>" +
+                    "<br />";
+                       //type = refresh
+                       //var guid = jsonresp['newguid'];
+                       //alert(guid);
+                   });
+                   $("#deviceView").html(main_html + end_html).trigger('create');
+                   $.each(jsonresp.devices, function (n, item) {
+                   $("#chart-div" + item.id).qrcode({
+                       "width": 30,
+                       "height": 30,
+                       "color": "#3a3",
+                       "text": "http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + item.guid
+                   });
+               });
+               $body.removeClass("loading");
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
 
-                   var html = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + lat + "," + lng + ")</div>";
-                   $('#setLocation').html(html).trigger('create');
-                   $("#townlist").html("").trigger('create');
-                   $("#townmsg").html("").trigger('create');
-                   GetWeather(0, 1);
                }
 
            });
+
+       //deviceView
+       }
+
+       function addNewuser() {
+           $body = $("body");
+           $body.addClass("loading");
+           var msg = $("input[type='radio'][name='radio-choice-m']:checked").val();
+           var eve = $("input[type='radio'][name='radio-choice-e']:checked").val();
+           var wea = $("input[type='radio'][name='radio-choice-w']:checked").val();
+           var uname = $("input[type='text'][id='device-name']").val();
+           //alert(uname);
+           // document.getElementByName('radio-choice-b').value;
+           //https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=http://fridgedoor.apphb.com/Mobile/Index?zcguid=d290ca15-cc16-45f9-b86b-3ab4c8e5aa40
+           //alert(eve);
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/saveNewuser",
+               data: "msg=" + msg + "&wea=" + wea + "&eve=" + eve + "&uname=" + uname,
+               dataType: "json", //nothing returned
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   //type = refresh
+                   var guid = jsonresp['newguid'];
+                   $("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
+                   viewDevices();
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+
+               }
+
+           });
+       }
+
+       function deleteUser(id) {
+
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/deleteUser",
+               data: "id=" + id,
+               dataType: "json", //nothing returned
+               success: function (json) {
+                   //var jsonresp = eval(json);
+                   //type = refresh
+                   //var guid = jsonresp['newguid'];
+                   //$("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
+                   viewDevices();
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+                   viewDevices();
+               }
+
+           });
+
        }
 
        function SetLoc() {

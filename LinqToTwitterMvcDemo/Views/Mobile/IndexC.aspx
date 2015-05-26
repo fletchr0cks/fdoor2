@@ -12,10 +12,11 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+    //check last retrieval time
         var TweetRadio = get_cookie("tweets");
         if (TweetRadio == "my") {
             // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-            getTweets2(5);
+            //getTweets2(5);
             $("#messages").removeClass("ui-disabled");
             $("#messages").addClass("ui-enabled");
         }
@@ -30,7 +31,7 @@
 
 
  <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
- <li data-icon="gear" onclick="getTweets2(5)"><a href="#">Refresh</a></li>
+ <li data-icon="gear" onclick="loadSpinner()"><a href="#">Refresh</a></li>
 </ul>   
 <div id="toptweet" style="display:none">20</div>
 <div style="display:none" id="toptweettime"></div>

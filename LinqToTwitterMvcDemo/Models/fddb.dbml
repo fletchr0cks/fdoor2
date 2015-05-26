@@ -105,6 +105,11 @@
       <Column Name="location" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="selection" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="parentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="msg" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="evnt" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="weather" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="uname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="status" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="user_ggl" Member="ggls" ThisKey="id" OtherKey="userid" Type="ggl" />
       <Association Name="user_twt" Member="twts" ThisKey="id" OtherKey="userid" Type="twt" />
       <Association Name="user_device" Member="devices" ThisKey="id" OtherKey="userid" Type="device" />

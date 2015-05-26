@@ -2019,6 +2019,16 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private System.Nullable<int> _parentID;
 		
+		private System.Nullable<int> _msg;
+		
+		private System.Nullable<int> _evnt;
+		
+		private System.Nullable<int> _weather;
+		
+		private string _uname;
+		
+		private System.Nullable<int> _status;
+		
 		private EntitySet<ggl> _ggls;
 		
 		private EntitySet<twt> _twts;
@@ -2053,6 +2063,16 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnselectionChanged();
     partial void OnparentIDChanging(System.Nullable<int> value);
     partial void OnparentIDChanged();
+    partial void OnmsgChanging(System.Nullable<int> value);
+    partial void OnmsgChanged();
+    partial void OnevntChanging(System.Nullable<int> value);
+    partial void OnevntChanged();
+    partial void OnweatherChanging(System.Nullable<int> value);
+    partial void OnweatherChanged();
+    partial void OnunameChanging(string value);
+    partial void OnunameChanged();
+    partial void OnstatusChanging(System.Nullable<int> value);
+    partial void OnstatusChanged();
     #endregion
 		
 		public user()
@@ -2223,6 +2243,106 @@ namespace LinqToTwitterMvcDemo.Models
 					this._parentID = value;
 					this.SendPropertyChanged("parentID");
 					this.OnparentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="Int")]
+		public System.Nullable<int> msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this.OnmsgChanging(value);
+					this.SendPropertyChanging();
+					this._msg = value;
+					this.SendPropertyChanged("msg");
+					this.OnmsgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_evnt", DbType="Int")]
+		public System.Nullable<int> evnt
+		{
+			get
+			{
+				return this._evnt;
+			}
+			set
+			{
+				if ((this._evnt != value))
+				{
+					this.OnevntChanging(value);
+					this.SendPropertyChanging();
+					this._evnt = value;
+					this.SendPropertyChanged("evnt");
+					this.OnevntChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_weather", DbType="Int")]
+		public System.Nullable<int> weather
+		{
+			get
+			{
+				return this._weather;
+			}
+			set
+			{
+				if ((this._weather != value))
+				{
+					this.OnweatherChanging(value);
+					this.SendPropertyChanging();
+					this._weather = value;
+					this.SendPropertyChanged("weather");
+					this.OnweatherChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uname", DbType="VarChar(50)")]
+		public string uname
+		{
+			get
+			{
+				return this._uname;
+			}
+			set
+			{
+				if ((this._uname != value))
+				{
+					this.OnunameChanging(value);
+					this.SendPropertyChanging();
+					this._uname = value;
+					this.SendPropertyChanged("uname");
+					this.OnunameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int")]
+		public System.Nullable<int> status
+		{
+			get
+			{
+				return this._status;
+			}
+			set
+			{
+				if ((this._status != value))
+				{
+					this.OnstatusChanging(value);
+					this.SendPropertyChanging();
+					this._status = value;
+					this.SendPropertyChanged("status");
+					this.OnstatusChanged();
 				}
 			}
 		}

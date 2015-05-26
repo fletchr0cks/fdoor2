@@ -140,6 +140,10 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                 if (dataRepository.checkGUIDzc(guidnew) == 1)
                 {
+
+                    //if it has a parent ID, get settings
+                    //set cookies for twitter and google and weather as per settings
+
                     var guidCookie = new HttpCookie("GUID", zcguid.ToString());
                     guidCookie.Expires = DateTime.Now.AddYears(1);
                     Response.AppendCookie(guidCookie);
@@ -1128,16 +1132,57 @@ namespace LinqToTwitterMvcDemo.Controllers
             return Json(new { loc = loc }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult saveNewuser(string lat, string lng, string loc)
+        public JsonResult saveNewuser(int msg, int eve, int wea, string uname)
         {
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             int userid = dataRepository.getID(guid);
-            dataRepository.saveLocation(lat, lng, userid, loc);
-           
-            return Json(new { loc = loc }, JsonRequestBehavior.AllowGet);
+            user newUser = new user();
+            Guid Newguid = Guid.NewGuid();
+            newUser.msg = msg;
+            newUser.evnt = eve;
+            newUser.weather = wea;
+            newUser.guid = Newguid;
+            newUser.uname = uname;
+            newUser.parentID = userid;
+            newUser.lastlogin = DateTime.Now;
+            newUser.status = 1;
+            int newUserID = dataRepository.saveNewuser(newUser);
+
+            return Json(new { newID = newUserID, newguid = Newguid }, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult viewDevices()
+        {
+
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            int userid = dataRepository.getID(guid);
+
+            var user_d = from s in db.users 
+                          where s.parentID == userid
+                          select s;
+
+            return this.Json(
+                      new
+                      {
+                          devices = (from obj in db.users
+                                     where obj.parentID == userid && obj.status == 1
+                                     orderby obj.lastlogin descending
+                                     select new
+                          { id = obj.id, 
+                            uname = obj.uname,
+                            msg = obj.msg,
+                            evnt = obj.evnt,
+                            guid = obj.guid
+
+                          })
+                      }
+                      , JsonRequestBehavior.AllowGet
+                   );
+            //return Json(new { devices = user_d }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult SaveTwID(string id)
         {
@@ -1243,6 +1288,13 @@ namespace LinqToTwitterMvcDemo.Controllers
                 return RedirectToAction("SetTwitterID");
 
             }
+
+        }
+
+        public void deleteUser(int id)
+        {
+            dataRepository.delUser(id);
+
 
         }
 

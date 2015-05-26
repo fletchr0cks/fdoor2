@@ -231,6 +231,16 @@ namespace LinqToTwitterMvcDemo.Models
 
         }
 
+        public int saveNewuser(user newUser)
+        {
+            
+            db.users.InsertOnSubmit(newUser);
+            
+            db.SubmitChanges();
+            return newUser.id;
+
+        }
+
         public void saveT_accesstoken(string value, int userid)
         {
             if (checkUserTwt(userid) == 0)
@@ -286,6 +296,17 @@ namespace LinqToTwitterMvcDemo.Models
             t.status = 0;
             db.SubmitChanges();
             
+        }
+
+        public void delUser(int userid)
+        {
+            var t = db.users
+                 .Where(u => u.id == userid)
+                 .First();
+
+            t.status = 0;
+            db.SubmitChanges();
+
         }
 
         public void del_ggl(int userid)
@@ -411,6 +432,7 @@ namespace LinqToTwitterMvcDemo.Models
 
         public int getID(Guid guid)
         {
+            //get parent ID where parent ID exists :)
             try {
                 var userID = (from u in db.users
                          where (u.guid == guid)
