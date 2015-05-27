@@ -80,10 +80,22 @@ namespace LinqToTwitterMvcDemo.Models
 
         public int checkGUIDzc(Guid guid)
         {
+            var childuser = (from u in db.users
+                       where (u.guid == guid && u.parentID != null)
+                       select u).Count();
+
             var user = (from u in db.users
                         where (u.guid == guid)
-                        select u).Count();
-            return user;
+                        select u).First();
+
+            if (childuser > 0)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }
         }
 
 
@@ -409,6 +421,26 @@ namespace LinqToTwitterMvcDemo.Models
             catch
             {
                 return null;
+            }
+        }
+
+        public int getUserid(Guid uGuid, string uType)
+        {
+            if (uType == "master")
+            {
+                int userid = (from u in db.users
+                             where u.guid == uGuid
+                             select u).First().id;
+                return userid;
+            }
+            else
+            {
+                var user = (from u in db.users
+                                             where u.guid == uGuid
+                                             select u).First().parentID;
+                int userid = Convert.ToInt32(user);
+
+                return userid;
             }
         }
 

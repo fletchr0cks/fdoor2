@@ -12,7 +12,7 @@
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-
+ 
 <div class="ui-body ui-body-a ui-corner-all">
 <div id="greeting">
 <div style="font-size:30px">Welcome.</div>
@@ -58,16 +58,27 @@
     </div>
 </div>
 </div>
-
-<a href="#" class="ui-btn ui-btn-c" onclick="addDevice()">Add Device</a>
-<a href="#" class="ui-btn ui-btn-c" onclick="viewDevices()">View Devices</a>
-
-<div id="deviceAdd"></div>
-<div id="deviceView"></div>
-<div style="font-size:30px">Device Setup</div>
-<div data-role="collapsible" data-theme="b" data-content-theme="a" id="device_setup">
-<h2>Setup other devices</h2>
-<div>something here</div>
+<p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
+<div class="ui-grid-b ui-responsive">    
+    <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
+     <%= ViewData["twitter"]%> 
+     <div class="divider" id="divider1"><hr /></div>
+    </div>
+     <div class="ui-block-b"><div style="font-size:20px">Google</div>
+      <%= ViewData["google"]%>
+     <div class="divider" id="divider2" style="display:none"><hr /></div>
+     </div>
+    <div class="ui-block-c"><div style="font-size:20px">Location</div>
+     <div id="setLocation"><%= ViewData["location"]%></div>
+    </div>
+   </div>
+   <div id="townmsg"></div><div id="townlist"></div>
+   <br />
+<div style="height:20px"></div>
+<div class="ui-grid-a ui-responsive">    
+<div class="ui-block-a">
+<div class="ui-body ui-body-a ui-corner-all">
+<h2>Add a Device</h2>
 <form>
 <ul data-role="listview" data-inset="true">
 <li class="ui-field-contain">
@@ -107,53 +118,23 @@
 </ul>
 </form>
 </div>
-
-
-
-<div data-role="collapsible" data-theme="b" data-content-theme="a" id="saved_devices">
-<h2>Saved devices</h2>
-<div class="ui-corner-all custom-corners">
-<div class="ui-bar ui-bar-a">
-<h2>Kitchen</h2>
-</div>
-<div class="ui-body ui-body-a">
-<ul data-role="listview">
-<li>Messaging: View and Send</li>
-<li>Events: View</li>
-<li>Weather for Paris</li>
-<li>Link: </li>
-<li>
-<div class="ui-grid-a ui-responsive">    
-<div class="ui-block-a">
-<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-<input type="radio" name="radio-choice-h-6" id="radio-choice-h-6a" value="on" checked="checked">
-<label for="radio-choice-h-6a">Enabled</label>
-<input type="radio" name="radio-choice-h-6" id="radio-choice-h-6b" value="off">
-<label for="radio-choice-h-6b">Disabled</label>
-</fieldset>
 </div>
 <div class="ui-block-b">
-<img id="QRIMG" src="../../Content/images/Twitter_logo_blue.png" />
-<div>Scan this</div>
-</div>
-</div>
-
-</li>
-</ul>
-</div>
-</div>
-</div>
+<div class="ui-corner-all custom-corners">
 <div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:20px"></div>
-</div>    
-<div id="zeroURL"></div>
-<br />
-<p style="font-size:18px"><strong>Easy shortcut menu</strong></p>
-<p>Activate the <strong>Page Down/Up Shortcut</strong> checkbox in the Setup menu on the left. When viewing in the Kindle, just press the <strong>next page</strong> then <strong>previous page</strong> side buttons in quick succession to show the quick shortcut menu.</p>
-   </div>
-   <br />
-
+<h2>Saved Devices</h2>
+<div id="deviceView"></div>
 </div>
- 
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="zeroURL"></div>
+<div id="cookies"></div>
 
 </asp:Content>

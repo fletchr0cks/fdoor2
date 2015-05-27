@@ -48,8 +48,184 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult IndexC(string zcguid)
         {
-            SetCookie("ComApp", "1");
+            var token1 = Session["GoogleAPIToken"];
+            ViewData["token"] = token1;
+
+
+
+            if (zcguid == null) //id parameter is set ?
+            {
+
+                try
+                {
+                    int userid = 0;
+                    string guid_str = Request.Cookies["GUID"].Value;
+                    Guid guid = new Guid(guid_str);
+
+                    if (dataRepository.checkGUIDzc(guid) == 1)
+                    {
+                        userid = dataRepository.getUserid(guid, "master");
+                    }
+
+                    if (dataRepository.checkGUIDzc(guid) == 2)
+                    {
+                        userid = dataRepository.getUserid(guid, "child");
+                        
+                    }
+
+
+                    //var userid = dataRepository.getID(guid);
+                    string tname = dataRepository.getT_twtid(userid);
+                    if (tname == null)
+                    {
+                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
+                    }
+                    else
+                    {
+                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname + ".</strong></div>";
+                        //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
+                        //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
+                        //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
+                        //
+                    }
+                }
+                catch
+                {
+                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your tweets.</div>";
+                }
+
+
+                try
+                {
+
+                    int userid = 0;
+                    string guid_str = Request.Cookies["GUID"].Value;
+                    Guid guid = new Guid(guid_str);
+
+                    if (dataRepository.checkGUIDzc(guid) == 1)
+                    {
+                        userid = dataRepository.getUserid(guid, "master");
+                    }
+
+                    if (dataRepository.checkGUIDzc(guid) == 2)
+                    {
+                        userid = dataRepository.getUserid(guid, "child");
+
+                    }
+
+                    
+                    string JsonIDs = dataRepository.getG_idlist(userid);
+                    JObject o = JObject.Parse(JsonIDs);
+                    // JArray items = (JArray)o["items"];
+                    var names = Convert.ToString(o["Fullname"]);
+                    
+                    var count = Convert.ToString(o["Count"]);
+                    int idcount = Convert.ToInt32(count);
+                    //string name = (string)o["kind"];
+                    var ids = names.Replace("[", "").Replace("]", "").Replace("\"", "");
+
+                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(0,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Unauthenticate</button></a><div>Google calendar authenticated for <strong>" + ids + ".</strong></div>";
+                }
+                catch
+                {
+                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your Google calendar.</div>";
+                    //<button onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</button><div>Allows Fridge Door to read your Google calendar</div>";
+                }
+
+                try
+                {
+
+                    int userid = 0;
+                    string guid_str = Request.Cookies["GUID"].Value;
+                    Guid guid = new Guid(guid_str);
+
+                    userid = dataRepository.getUserid(guid, "master");  //own userid for weather
+                   
+                    var loc = dataRepository.getLocation(userid);
+                    var latlng = dataRepository.getLatLng(userid);
+                    
+                    if (loc != null)
+                    {
+                        ViewData["location"] = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + latlng + ")</div>";
+                    }
+                    else
+                    {
+                        //ViewData["location"] = "<button onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-btn-inline\">Set Location</button></div>Daily weather from Accuweather</div>"; 
+                        ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+                    }
+                }
+                catch
+                {
+                    ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+                }
+
+                return View();
+            }
+            else
+            {
+
+                Guid guidnew = new Guid(zcguid);
+
+                if (dataRepository.checkGUIDzc(guidnew) > 0)   //1=no parent, 2=has parent
+                {
+
+                    //if it has a parent ID, get settings
+                    //set cookies for twitter and google and weather as per settings
+                    var guidCookie = new HttpCookie("GUID", zcguid.ToString());
+                    guidCookie.Expires = DateTime.Now.AddYears(1);
+                    Response.AppendCookie(guidCookie);
+                    int userid = 0;
+
+                    if (dataRepository.checkGUIDzc(guidnew) == 1)
+                    {
+                        userid = dataRepository.getUserid(guidnew, "master");
+                        var useridCookie = new HttpCookie("userID", Convert.ToString(userid));
+                        useridCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(useridCookie);
+                    }
+
+                    if (dataRepository.checkGUIDzc(guidnew) == 2)
+                    {
+                        userid = dataRepository.getUserid(guidnew, "child");
+                        var useridCookie = new HttpCookie("masterID", Convert.ToString(userid));
+                        useridCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(useridCookie);
+                    }
+
+                    try
+                    {
+                        string JsonIDs = dataRepository.getG_idlist(userid);
+                        var IDCookie = new HttpCookie("IDList", JsonIDs);
+                        IDCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(IDCookie);
+
+                        var GrantCookie = new HttpCookie("Granted", "True");
+                        GrantCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(GrantCookie);
+                        //int userid = dataRepository.getID(guidnew);
+                        var token = dataRepository.getG_refreshtoken(userid);
+                        //saveG_refresh(tokenData.Refresh_Token);
+
+                        Session["GoogleAPIToken"] = token;
+                        var lat = dataRepository.getLat(userid);
+                        var lng = dataRepository.getLng(userid);
+                        SetCookie("lat", lat);
+                        SetCookie("long", lng);
+
+                        //get from db lat lng and set cookies
+
+                        return RedirectToAction("IndexC");
+                    }
+                    catch
+                    {
+
+                    }
+                    RedirectToAction("IndexC");
+                }
+
+            }
             return View();
+            //          
         }
 
 
@@ -138,18 +314,35 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                 Guid guidnew = new Guid(zcguid);
 
-                if (dataRepository.checkGUIDzc(guidnew) == 1)
+                if (dataRepository.checkGUIDzc(guidnew) > 0)   //1=no parent, 2=has parent
                 {
 
                     //if it has a parent ID, get settings
                     //set cookies for twitter and google and weather as per settings
-
                     var guidCookie = new HttpCookie("GUID", zcguid.ToString());
                     guidCookie.Expires = DateTime.Now.AddYears(1);
                     Response.AppendCookie(guidCookie);
+                    int userid = 0;
+
+                    if (dataRepository.checkGUIDzc(guidnew) == 1)
+                    {
+                        userid = dataRepository.getUserid(guidnew, "master");
+                        var useridCookie = new HttpCookie("userID", Convert.ToString(userid));
+                        useridCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(useridCookie);
+                    }
+
+                    if (dataRepository.checkGUIDzc(guidnew) == 2)
+                    {
+                        userid = dataRepository.getUserid(guidnew, "child");
+                        var useridCookie = new HttpCookie("masterID", Convert.ToString(userid));
+                        useridCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(useridCookie);
+                    }
+
                     try
                     {
-                        string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guidnew));
+                        string JsonIDs = dataRepository.getG_idlist(userid);
                         var IDCookie = new HttpCookie("IDList", JsonIDs);
                         IDCookie.Expires = DateTime.Now.AddYears(1);
                         Response.AppendCookie(IDCookie);
@@ -157,7 +350,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                         var GrantCookie = new HttpCookie("Granted", "True");
                         GrantCookie.Expires = DateTime.Now.AddYears(1);
                         Response.AppendCookie(GrantCookie);
-                        int userid = dataRepository.getID(guidnew);
+                        //int userid = dataRepository.getID(guidnew);
                         var token = dataRepository.getG_refreshtoken(userid);
                         //saveG_refresh(tokenData.Refresh_Token);
 
@@ -1351,7 +1544,112 @@ namespace LinqToTwitterMvcDemo.Controllers
         public ActionResult GetStarted()
         {
 
-            return View("GetStarted");
+            try
+            {
+                int userid = 0;
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+
+                if (dataRepository.checkGUIDzc(guid) == 1)
+                {
+                    userid = dataRepository.getUserid(guid, "master");
+                }
+
+                if (dataRepository.checkGUIDzc(guid) == 2)
+                {
+                    userid = dataRepository.getUserid(guid, "child");
+
+                }
+
+
+                //var userid = dataRepository.getID(guid);
+                string tname = dataRepository.getT_twtid(userid);
+                if (tname == null)
+                {
+                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
+                }
+                else
+                {
+                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname + ".</strong></div>";
+                    //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
+                    //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
+                    //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
+                    //
+                }
+            }
+            catch
+            {
+                ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your tweets.</div>";
+            }
+
+
+            try
+            {
+
+                int userid = 0;
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+
+                if (dataRepository.checkGUIDzc(guid) == 1)
+                {
+                    userid = dataRepository.getUserid(guid, "master");
+                }
+
+                if (dataRepository.checkGUIDzc(guid) == 2)
+                {
+                    userid = dataRepository.getUserid(guid, "child");
+
+                }
+
+
+                string JsonIDs = dataRepository.getG_idlist(userid);
+                JObject o = JObject.Parse(JsonIDs);
+                // JArray items = (JArray)o["items"];
+                var names = Convert.ToString(o["Fullname"]);
+
+                var count = Convert.ToString(o["Count"]);
+                int idcount = Convert.ToInt32(count);
+                //string name = (string)o["kind"];
+                var ids = names.Replace("[", "").Replace("]", "").Replace("\"", "");
+
+                ViewData["google"] = "<a href=\"#\" onclick=\"Auth(0,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Unauthenticate</button></a><div>Google calendar authenticated for <strong>" + ids + ".</strong></div>";
+            }
+            catch
+            {
+                ViewData["google"] = "<a href=\"#\" onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your Google calendar.</div>";
+                //<button onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</button><div>Allows Fridge Door to read your Google calendar</div>";
+            }
+
+            try
+            {
+
+                int userid = 0;
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+
+                userid = dataRepository.getUserid(guid, "master");  //own userid for weather
+
+                var loc = dataRepository.getLocation(userid);
+                var latlng = dataRepository.getLatLng(userid);
+
+                if (loc != null)
+                {
+                    ViewData["location"] = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + latlng + ")</div>";
+                }
+                else
+                {
+                    //ViewData["location"] = "<button onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-btn-inline\">Set Location</button></div>Daily weather from Accuweather</div>"; 
+                    ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+                }
+            }
+            catch
+            {
+                ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+            }
+
+            return View();
+
+            //return View("GetStarted");
         }
 
         public ActionResult SavedUser()
