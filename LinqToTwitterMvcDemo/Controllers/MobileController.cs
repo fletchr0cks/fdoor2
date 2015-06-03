@@ -1368,7 +1368,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                             uname = obj.uname,
                             msg = obj.msg,
                             evnt = obj.evnt,
-                            guid = obj.guid
+                            guid = obj.guid,
+                            last = formatTimeStamp(obj.lastlogin)
 
                           })
                       }
@@ -1650,6 +1651,61 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View();
 
             //return View("GetStarted");
+        }
+
+        public ActionResult AddDevice()
+        {
+
+            return View();
+        }
+
+        public ActionResult ListDevices()
+        {
+
+            return View("ViewDevices");
+        }
+
+        public ActionResult ViewADevice(int UserID)
+        {
+              var top_html = "";
+           var main_html = "";
+           var msg_html = "";
+           var events_html = "";
+           var radio_html = "";
+           var url = "";
+           var end_html = "</div>";
+            var w_html = "";
+
+        var item = (from u in db.users
+                   where u.id == UserID
+                   select u).First();
+
+                         if (item.msg == 0) {
+                           msg_html = "No messaging";
+                       } else if (item.msg == 1) {
+                           msg_html = "Messaging: View only";
+                       } else if (item.msg == 2) {
+                           msg_html = "Messaging: View and Send";
+                       } else {
+                           msg_html = "Messaging: Advanced";
+                       }
+                       events_html = "No Events";
+                       w_html = "Weather for ...";
+                       url = "<a href=\"http://localhost:5010/mobile/indexc?zcguid=" + item.guid + "\">Link</a>";
+                       main_html = main_html + "<div class=\"ui-corner-all custom-corners\"><div class=\"ui-bar ui-bar-a\"><h2>" + item.uname + "</h2></div><div class=\"ui-body ui-body-a\">" +
+                      "<ul data-role=\"listview\"><li>" + msg_html + "</li><li>" + events_html + "</li><li>" + w_html + "</li><li>Link: " + url + "</li><li><div class=\"ui-grid-a ui-responsive\">" +
+                      "<div class=\"ui-block-a\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
+                      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
+                      "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
+                      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
+                      "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
+                      "</fieldset>" +
+                      "<div><a href=\"#\" class=\"ui-btn ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Delete Device</a></div></div>" +
+                      "<div class=\"ui-block-b\" style=\"text-align:center\" ><div id=\"chart-div" + item.id + "\"></div></div></div>";
+
+            var html = main_html + end_html;
+            ViewData["device"] = html;
+            return View();
         }
 
         public ActionResult SavedUser()

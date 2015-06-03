@@ -9,10 +9,9 @@
 <h1><img id="headerIMG" src="../../Content/images/logo_header6.png" /></h1>
 
 </asp:Content>
-
-
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
- 
+
+
 <div class="ui-body ui-body-a ui-corner-all">
 <div id="greeting">
 <div style="font-size:30px">Welcome.</div>
@@ -58,6 +57,7 @@
     </div>
 </div>
 </div>
+<p>OK, I've seen enough, get me started</p>
 <p>Authenticate your Twitter and Google accounts below, and add your location, then use the menu on the top left to decide what to show.</p>
 <div class="ui-grid-b ui-responsive">    
     <div class="ui-block-a"><div style="font-size:20px">Twitter</div>
@@ -74,60 +74,9 @@
    </div>
    <div id="townmsg"></div><div id="townlist"></div>
    <br />
+
 <div style="height:20px"></div>
-<div class="ui-grid-a ui-responsive">    
-<div class="ui-block-a">
-<div class="ui-body ui-body-a ui-corner-all">
-<h2>Add a Device</h2>
-<form>
-<ul data-role="listview" data-inset="true">
-<li class="ui-field-contain">
-<input type="text" name="text-basic" id="text-basic" value="Device name here, i.e. Kitchen or Bob" />
-</li>
-<li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-mini="true">
-<input type="radio" name="radio-choice-m" id="radio-choice-c" value="0">
-<label for="radio-choice-c">No Messaging</label>
-<input type="radio" name="radio-choice-m" id="radio-choice-d" value="1" checked="checked">
-<label for="radio-choice-d">View Messages</label>
-<input type="radio" name="radio-choice-m" id="radio-choice-e" value="2">
-<label for="radio-choice-e">View and Send</label>
-<input type="radio" name="radio-choice-m" id="radio-choice-f" value="3">
-<label for="radio-choice-f">Advanced Messaging (All Twitter message types)</label>
-</fieldset>
-</li>
-<li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-mini="true">
-<input type="radio" name="radio-choice-e" id="radio1" value="0">
-<label for="radio1">No Events</label>
-<input type="radio" name="radio-choice-e" id="radio2" value="1" checked="checked">
-<label for="radio2">View Events</label>
-</fieldset>
-</li>
-<li class="ui-field-contain">
-<fieldset data-role="controlgroup" data-mini="true">
-<input type="radio" name="radio-choice-w" id="radio3" value="0">
-<label for="radio3">No Weather</label>
-<input type="radio" name="radio-choice-w" id="radio4" value="1" checked="checked">
-<label for="radio4">View Weather</label>
-</fieldset>
-</li>
-<li class="ui-field-contain">
-<a href="#" class="ui-btn ui-btn-c" onclick="addNewuser()">Submit</a>
-</li>
-</ul>
-</form>
-</div>
-</div>
-<div class="ui-block-b">
-<div class="ui-corner-all custom-corners">
-<div class="ui-body ui-body-a ui-corner-all">
-<h2>Saved Devices</h2>
-<div id="deviceView"></div>
-</div>
-</div>
-</div>
-</div>
+
 </div>
 </div>
 

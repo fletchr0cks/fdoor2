@@ -214,6 +214,40 @@
            $body.addClass("loading");
        }
 
+       function ListDevices() {
+
+           //list devices
+           var listhtml = "";
+           $body = $("body");
+           $body.addClass("loading");
+           var tophtml = "<ul data-role=\"listview\" data-inset=\"true\">"
+           $.ajax({
+               type: "GET",
+               url: "/Mobile/viewDevices",
+               //data: "msg=" + msg + "&wea=" + wea + "&eve=" + eve + "&uname=" + uname,
+               dataType: "json", //nothing returned
+               success: function (json) {
+                   var jsonresp = eval(json);
+                   $.each(jsonresp.devices, function (n, item) {
+
+                       listhtml = listhtml + "<li><a href=\"ViewADevice?UserID=" + item.id + "\"><h2>" + item.uname + "</h2><p>Enabled</p>" +
+                   "<p class=\"ui-li-aside\">Last seen <strong>" + item.last + "</strong> ago</p></a></li>";
+                     //  listhtml = listhtml + "<li><a href=\"ref\">" + item.uname + "</a><span class=\"ui-li-count\">" + item.last + "</span></li>";
+                   });
+                   $("#deviceList").html(tophtml + listhtml + "</ul>").trigger('create');
+                   $body.removeClass("loading");
+               },
+               error: function (xhr, error) {
+                   // console.debug(xhr); console.debug(error);
+               },
+               complete: function (xhr, status) {
+
+               }
+           });
+          
+
+       }
+
        function viewDevices() {
 
            $body = $("body");
@@ -263,6 +297,7 @@
                    });
                    $("#deviceView").html(main_html + end_html).trigger('create');
                    $.each(jsonresp.devices, function (n, item) {
+                       //alert("drawQR");
                        $("#chart-div" + item.id).qrcode({
                            "width": 80,
                            "height": 80,
@@ -305,7 +340,8 @@
                    //type = refresh
                    var guid = jsonresp['newguid'];
                    $("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
-                   viewDevices();
+                   //viewDevices();
+                   //redirect to viewdevices with a message
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);

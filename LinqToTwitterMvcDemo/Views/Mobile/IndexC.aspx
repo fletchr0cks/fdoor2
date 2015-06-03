@@ -26,7 +26,9 @@
  <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
 	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile") %></li>
     <li id="messages" class="ui-disabled"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages<span class="ui-li-count"><div id="twct"></div></span></a></li>
-    <li><%=Html.ActionLink("Events", "Events", "Mobile") %></li>
+    <li id="events" class="ui-disabled"><a href="<%=Url.Action("Events", "Mobile")%>">Events</a></li>
+    <li id="viewdevices"><a href="<%=Url.Action("ListDevices", "Mobile")%>">View Devices</a></li>
+    <li id="addadevice"><a href="<%=Url.Action("AddDevice", "Mobile")%>">Add a Device</a></li>
 </ul>
 
 
