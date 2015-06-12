@@ -342,6 +342,7 @@
                    $("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
                    //viewDevices();
                    //redirect to viewdevices with a message
+                   document.location.href = '/Mobile/ListDevices?msg=new';
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
@@ -365,13 +366,13 @@
                    //type = refresh
                    //var guid = jsonresp['newguid'];
                    //$("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
-                   viewDevices();
+                   document.location.href = '/Mobile/ListDevices?msg=del';
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
                },
                complete: function (xhr, status) {
-                   viewDevices();
+                   document.location.href = '/Mobile/ListDevices?msg=del';
                }
 
            });

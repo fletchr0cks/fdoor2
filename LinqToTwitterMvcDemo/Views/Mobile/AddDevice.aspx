@@ -10,8 +10,6 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-
-<p>Add device form</p>
 <h2>Add a Device</h2>
 <form>
 <ul data-role="listview" data-inset="true">

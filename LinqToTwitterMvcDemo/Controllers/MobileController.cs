@@ -1659,8 +1659,16 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View();
         }
 
-        public ActionResult ListDevices()
+        public ActionResult ListDevices(string msg)
         {
+            if (msg == "new") {
+                ViewData["msgbar"] = "<div class=\"ui-body ui-body-b ui-corner-all\">New device added successfully</div>";
+            }
+
+            if (msg == "del")
+            {
+                ViewData["msgbar"] = "<div class=\"ui-body ui-body-b ui-corner-all\">Device removed successfully</div>";
+            }
 
             return View("ViewDevices");
         }
@@ -1692,18 +1700,32 @@ namespace LinqToTwitterMvcDemo.Controllers
                        events_html = "No Events";
                        w_html = "Weather for ...";
                        url = "<a href=\"http://localhost:5010/mobile/indexc?zcguid=" + item.guid + "\">Link</a>";
-                       main_html = main_html + "<div class=\"ui-corner-all custom-corners\"><div class=\"ui-bar ui-bar-a\"><h2>" + item.uname + "</h2></div><div class=\"ui-body ui-body-a\">" +
-                      "<ul data-role=\"listview\"><li>" + msg_html + "</li><li>" + events_html + "</li><li>" + w_html + "</li><li>Link: " + url + "</li><li><div class=\"ui-grid-a ui-responsive\">" +
-                      "<div class=\"ui-block-a\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
-                      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
-                      "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
-                      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
-                      "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
-                      "</fieldset>" +
-                      "<div><a href=\"#\" class=\"ui-btn ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Delete Device</a></div></div>" +
-                      "<div class=\"ui-block-b\" style=\"text-align:center\" ><div id=\"chart-div" + item.id + "\"></div></div></div>";
 
-            var html = main_html + end_html;
+                        main_html = main_html + "<ul data-role=\"listview\" data-inset=\"true\"><li data-role=\"list-divider\">" + item.uname +"</li>" +
+                        "<li><h2>" + msg_html + "</h2></li><li><h2>" + events_html + "</h2></li><li><h2>" + w_html + "</h2></li><li>" +
+                        "<div class=\"ui-grid-a ui-responsive\"><div class=\"ui-block-a\"><div>" +
+                        "<a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\">Copy link to Clipboard</a></div>" +
+                        "<div><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
+                        "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
+                        "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
+                        "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
+                        "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
+                        "</fieldset></div><a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Remove Device</a></div>" +
+                        "<div class=\"ui-block-b\"><div id=\"chart-div" + item.id + "\"></div></div></div></li></ul>";
+
+
+                //       main_html = main_html + "<div class=\"ui-corner-all custom-corners\"><div class=\"ui-bar ui-bar-a\"><h2>" + item.uname + "</h2></div><div class=\"ui-body ui-body-a\">" +
+                //      "<ul data-role=\"listview\"><li>" + msg_html + "</li><li>" + events_html + "</li><li>" + w_html + "</li><li>Link: " + url + "</li><li><div class=\"ui-grid-a ui-responsive\">" +
+                //      "<div class=\"ui-block-a\"><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
+                //      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
+                //      "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
+                //      "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
+                //      "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
+                //      "</fieldset>" +
+                //      "<div><a href=\"#\" class=\"ui-btn ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Delete Device</a></div></div>" +
+                 //     "<div class=\"ui-block-b\" style=\"text-align:center\" ><div id=\"chart-div" + item.id + "\"></div></div></div>";
+
+            var html = "<div>" + main_html + end_html;
             ViewData["device"] = html;
             return View();
         }

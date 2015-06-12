@@ -18,7 +18,8 @@
 
     
 </script>
+<div><%=ViewData["msgbar"]%></div>
 <div id="deviceList"></div>
-<p>List of devices with status, last seen</p>
+
 
 </asp:Content>
