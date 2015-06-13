@@ -310,13 +310,13 @@ namespace LinqToTwitterMvcDemo.Models
             
         }
 
-        public void delUser(int userid)
+        public void delUser(int userid, int status)
         {
             var t = db.users
                  .Where(u => u.id == userid)
                  .First();
 
-            t.status = 0;
+            t.status = status;
             db.SubmitChanges();
 
         }

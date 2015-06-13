@@ -1346,13 +1346,27 @@ namespace LinqToTwitterMvcDemo.Controllers
         }
 
 
-        public JsonResult viewDevices()
+        public ActionResult viewDevices()
         {
 
             string guid_str = Request.Cookies["GUID"].Value;
             Guid guid = new Guid(guid_str);
             int userid = dataRepository.getID(guid);
 
+            var devices = from d in db.users
+                          where d.parentID == userid
+                          select d;
+
+            return View("ViewDevices", devices);
+
+       //         var tophtml = "<ul data-role=\"listview\" data-inset=\"true\">"
+         //              listhtml = listhtml + "<li><a href=\"ViewADevice?UserID=" + item.id + "\"><h2>" + item.uname + "</h2><p>Enabled</p>" +
+           //        "<p class=\"ui-li-aside\">Last seen <strong>" + item.last + "</strong> ago</p></a></li>";
+                     //  listhtml = listhtml + "<li><a href=\"ref\">" + item.uname + "</a><span class=\"ui-li-count\">" + item.last + "</span></li>";
+             //      });
+               //    $("#deviceList").html(tophtml + listhtml + "</ul>").trigger('create');
+       
+            /*
             var user_d = from s in db.users 
                           where s.parentID == userid
                           select s;
@@ -1375,6 +1389,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                       }
                       , JsonRequestBehavior.AllowGet
                    );
+             * */
+
             //return Json(new { devices = user_d }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1485,9 +1501,9 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public void deleteUser(int id)
+        public void deleteUser(int id, int status)
         {
-            dataRepository.delUser(id);
+            dataRepository.delUser(id, status);
 
 
         }
@@ -1659,6 +1675,18 @@ namespace LinqToTwitterMvcDemo.Controllers
             return View();
         }
 
+        public ActionResult Events()
+        {
+            //read events config
+            return View();
+        }
+
+        public ActionResult EventsSetup()
+        {
+
+            return View();
+        }
+
         public ActionResult ListDevices(string msg)
         {
             if (msg == "new") {
@@ -1670,7 +1698,18 @@ namespace LinqToTwitterMvcDemo.Controllers
                 ViewData["msgbar"] = "<div class=\"ui-body ui-body-b ui-corner-all\">Device removed successfully</div>";
             }
 
-            return View("ViewDevices");
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            int userid = dataRepository.getID(guid);
+
+            var devices = from d in db.users
+                          where (d.parentID == userid && d.status >= 0)
+                          select d;
+
+            return View("ViewDevices", devices);
+
+
+//            return View("ViewDevices");
         }
 
         public ActionResult ViewADevice(int UserID)
@@ -1683,7 +1722,8 @@ namespace LinqToTwitterMvcDemo.Controllers
            var url = "";
            var end_html = "</div>";
             var w_html = "";
-
+            var chk0 = "";
+            var chk1 = "";
         var item = (from u in db.users
                    where u.id == UserID
                    select u).First();
@@ -1698,6 +1738,16 @@ namespace LinqToTwitterMvcDemo.Controllers
                            msg_html = "Messaging: Advanced";
                        }
                        events_html = "No Events";
+                       if (item.status == 1)
+                       {
+                           chk0 = "value=\"on\" checked=\"checked\">";
+                           chk1 = "value=\"off\">";
+                       }
+                       else
+                       {
+                           chk1 = "value=\"on\" checked=\"checked\">";
+                           chk0 = "value=\"off\">";
+                       }
                        w_html = "Weather for ...";
                        url = "<a href=\"http://localhost:5010/mobile/indexc?zcguid=" + item.guid + "\">Link</a>";
 
@@ -1706,9 +1756,10 @@ namespace LinqToTwitterMvcDemo.Controllers
                         "<div class=\"ui-grid-a ui-responsive\"><div class=\"ui-block-a\"><div>" +
                         "<a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\">Copy link to Clipboard</a></div>" +
                         "<div><fieldset data-role=\"controlgroup\" data-type=\"horizontal\" data-mini=\"true\">" +
-                        "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" value=\"on\" checked=\"checked\">" +
+
+                        "<input onclick=\"deleteUser(" + item.id + ",1) \" type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-e" + item.id + "\" " + chk0 + "" +
                         "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
-                        "<input type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" value=\"off\">" +
+                        "<input onclick=\"deleteUser(" + item.id + ",0) \" type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" " + chk1 + "" +
                         "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
                         "</fieldset></div><a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Remove Device</a></div>" +
                         "<div class=\"ui-block-b\"><div id=\"chart-div" + item.id + "\"></div></div></div></li></ul>";

@@ -465,6 +465,8 @@
     <Content Include="Views\Mobile\AddDevice.aspx" />
     <Content Include="Views\Mobile\Bday.aspx" />
     <Content Include="Views\Mobile\Choose.aspx" />
+    <Content Include="Views\Mobile\Events.aspx" />
+    <Content Include="Views\Mobile\EventsSetup.aspx" />
     <Content Include="Views\Mobile\GetStarted.aspx" />
     <Content Include="Views\Mobile\IndexC.aspx" />
     <Content Include="Views\Mobile\Index.aspx" />
