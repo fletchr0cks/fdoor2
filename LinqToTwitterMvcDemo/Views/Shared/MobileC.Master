@@ -1534,8 +1534,8 @@
            });
        }
        function getTweets2(more) {
-           $body = $("body");
-           $body.addClass("loading");
+           //$body = $("body");
+           //$body.addClass("loading");
 
            var latestID = "4000";
 
@@ -1816,7 +1816,7 @@
 
                    store.save(latest);
 
-                   $body.removeClass("loading");
+                   //$body.removeClass("loading");
                },
                error: function (response) {
                    //alert(response.responseText);
