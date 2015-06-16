@@ -65,12 +65,13 @@ namespace LinqToTwitterMvcDemo.Controllers
                     if (dataRepository.checkGUIDzc(guid) == 1)
                     {
                         userid = dataRepository.getUserid(guid, "master");
+                        ViewData["banner"] = "Welcome parent device";
                     }
 
                     if (dataRepository.checkGUIDzc(guid) == 2)
                     {
                         userid = dataRepository.getUserid(guid, "child");
-                        
+                        ViewData["banner"] = "Welcome child device";
                     }
 
 
@@ -1761,7 +1762,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                         "<label for=\"radio-device-id-e" + item.id + "\">Enabled</label>" +
                         "<input onclick=\"deleteUser(" + item.id + ",0) \" type=\"radio\" name=\"radio-device-name-" + item.id + "\" id=\"radio-device-id-d" + item.id + "\" " + chk1 + "" +
                         "<label for=\"radio-device-id-d" + item.id + "\">Disabled</label>" +
-                        "</fieldset></div><a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\" onclick=\"deleteUser(" + item.id + ")\">Remove Device</a></div>" +
+                        "</fieldset></div><a href=\"#\" class=\"ui-shadow ui-btn ui-corner-all ui-btn-inline ui-mini\" onclick=\"deleteUser(" + item.id + ",-1)\">Remove Device</a></div>" +
                         "<div class=\"ui-block-b\"><div id=\"chart-div" + item.id + "\"></div></div></div></li></ul>";
 
 
@@ -1985,7 +1986,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         }
 
 
-        public ActionResult JsonTweets(string timenow, int getnum, string tweettypes)
+        public ActionResult JsonTweets(string latestID, int getnum, string tweettypes)
         {
             //radio butoon choice for tweet type: my, folow, okf, all
             string guid_str = Request.Cookies["GUID"].Value;
@@ -2008,6 +2009,8 @@ namespace LinqToTwitterMvcDemo.Controllers
             //"71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A";
             //oauthtoken;
             //71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A
+
+            var latestid_out = "";
 
             if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
             {
@@ -2105,10 +2108,18 @@ namespace LinqToTwitterMvcDemo.Controllers
                  doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
              });
 
-            var dm =
-                    (from tweet in twitterCtx.DirectMessage
+            string DMsinceID = latestID;//"601471370199998464";
+                            //610759388379410433
+             var dm_new = (from tweet in twitterCtx.DirectMessage
+                     where tweet.Type == DirectMessageType.SentTo 
+                       //tweet.Count == getnum
+                       && Convert.ToInt64(tweet.IDString) > Convert.ToInt64(DMsinceID)
+                               select tweet).Count();
+
+            var dm = (from tweet in twitterCtx.DirectMessage
                      where tweet.Type == DirectMessageType.SentTo &&
                        tweet.Count == getnum
+                       orderby tweet.CreatedAt descending
                      //&& tweet.Count == getnum
                      // && tweet.SinceID == 397389362088132608
                      select new TweetViewModel
@@ -2126,8 +2137,12 @@ namespace LinqToTwitterMvcDemo.Controllers
                          //Convert.ToString(tweet.Entities.MediaEntities.Count),
                          //MediaUrl = GetTweetMediaUrl(tweet),
                          //EntityUrl = GetTweetUrlEntities(tweet),
-                         //doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
+                         //saveLatestID = dataRepository.saveLatestTID(userid, tweet.IDString),
+            
                      });
+
+            dataRepository.saveLatestTID(userid, dm.Last().ID);
+            latestid_out = dm.First().ID;
 
             var mytweets =
                 (from tweet in twitterCtx.Status
@@ -2161,15 +2176,8 @@ namespace LinqToTwitterMvcDemo.Controllers
             //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
             //+ save id first time.
             // var jsonresults = JsonConvert.SerializeObject(friendTweets);
-            var latestid = "20";
-            try
-            {
-                latestid = mytweets.First().ID;
-            }
-            catch
-            {
-                latestid = "5";
-            }
+            
+            
             //var latesttime = mytweets.First().TimeStamp;
             //var topBanner = GetBannerText(friendTweets.First())
            
@@ -2180,7 +2188,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             var topname = "";
  
                      
-            return Json(new { mytweets = mytweets, dm = dm, okfridge = okfridge, home = home, getmore = getnum, topname = topname, mentions = mentions, latestid = latestid, bannerType = bannerType, twitterID = tname, BannerID = BannerID}, JsonRequestBehavior.AllowGet);
+            return Json(new { mytweets = mytweets, dm = dm, dm_new = dm_new, okfridge = okfridge, home = home, getmore = getnum, topname = topname, mentions = mentions, latestid = latestid_out, bannerType = bannerType, twitterID = tname, BannerID = BannerID}, JsonRequestBehavior.AllowGet);
             //return Json("Index", friendTweets);
 
         }

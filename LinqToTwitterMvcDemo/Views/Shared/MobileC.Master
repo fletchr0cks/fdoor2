@@ -1536,10 +1536,28 @@
        function getTweets2(more) {
            $body = $("body");
            $body.addClass("loading");
-          
+
+           var latestID = "4000";
+
+           var store = new Lawnchair({
+               adapter: "dom",
+               name: "data_store"
+           }, function (store) {
+           });
+
+           store.exists("latest", function (available) {
+               if (available) {
+                   store.get("latest", function (theVal) {
+                       latestID = theVal.val;
+                       
+                   });
+               } else {
+               }
+           });
+           alert(latestID);
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
-           var latestID = document.getElementById('toptweet').innerHTML;
+           
            var bannerhtml = "";
            var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
            var loading = "<li><div>Loading .... </div></li>";
@@ -1565,7 +1583,7 @@
            $.ajax({
                type: "GET",
                url: "/Mobile/JsonTweets",
-               data: "timenow=" + hournow + "&getnum=" + more + "&tweettypes=" + tweettypes,
+               data: "latestID=" + latestID + "&getnum=" + more + "&tweettypes=" + tweettypes,
                dataType: "json",
                success: function (json) {
                    var jsonresp = eval(json);
@@ -1575,7 +1593,7 @@
                    var getmore = "";
                    var icon = "false";
                    var bannerType = jsonresp.bannerType;
-
+                   $('#twct').html(jsonresp.dm_new).trigger('create');
                    $.each(jsonresp.okfridge, function (n, item) {
                        // alert(item.Tweet);
                        var tweetxtra = "";
@@ -1773,11 +1791,11 @@
                    } else if (tweettypes == "dm") {
                        $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>" + newtweet).trigger('create');
                    }
-                   $('#twct').html("20").trigger('create');
+                   //$('#twct').html("20").trigger('create');
                    //   if (get_cookie("autoupdate") == "on") {
                    clearTimeout(timerA);
                    //timerA = setTimeout(checkNewTweets, 300000);
-                    
+
                    var store = new Lawnchair({
                        adapter: "dom",
                        name: "data_store"
@@ -1790,7 +1808,15 @@
                    };
 
                    store.save(me);
-                   $body.removeClass("loading"); 
+
+                   var latest = {
+                       key: 'latest',
+                       val: jsonresp.latestID
+                   };
+
+                   store.save(latest);
+
+                   $body.removeClass("loading");
                },
                error: function (response) {
                    //alert(response.responseText);
@@ -1804,6 +1830,10 @@
        }
 
        function getTweets3() {
+           var ArtID = "555"
+           var newtweet = "<br /><div><label><input type=\"checkbox\" name=\"checkbox-0\">Banner</label></div><div>" +
+         "<textarea name=\"textarean_" + ArtID + "\" id=\"commtext_" + ArtID + "\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"SendTweet(" + ArtID + ")\">Add Comment</button></div>";
+                  
            var midhtml_dm = "mid html";
            var getmoredm = "<li><a href=\"#\" onclick=\"getTweets('10')\">" +
                    "<div class=\"tweets1\" id=\"getmoredm\">Last updated: Get More</div></a></li>";
@@ -1816,15 +1846,15 @@
            });
 
            store.exists("twt_data", function (available) {
-          if (available) {
-          store.get("twt_data", function(theHtml) {
-              midhtml_dm = theHtml.html;
-              $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>").trigger('create');
-
-          });
-          } else {
-          }
-          });
+               if (available) {
+                   store.get("twt_data", function (theHtml) {
+                       midhtml_dm = theHtml.html;
+                       $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>").trigger('create');
+                       $('#tweetsend').html(newtweet).trigger('create');
+                   });
+               } else {
+               }
+           });
        }
 
        function getWebPage(url) {

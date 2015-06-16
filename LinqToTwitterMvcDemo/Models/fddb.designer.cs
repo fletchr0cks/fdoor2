@@ -33,9 +33,6 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Insertggl(ggl instance);
     partial void Updateggl(ggl instance);
     partial void Deleteggl(ggl instance);
-    partial void Inserttwt(twt instance);
-    partial void Updatetwt(twt instance);
-    partial void Deletetwt(twt instance);
     partial void Insertdevice(device instance);
     partial void Updatedevice(device instance);
     partial void Deletedevice(device instance);
@@ -54,6 +51,9 @@ namespace LinqToTwitterMvcDemo.Models
     partial void Insertdays2go(days2go instance);
     partial void Updatedays2go(days2go instance);
     partial void Deletedays2go(days2go instance);
+    partial void Inserttwt(twt instance);
+    partial void Updatetwt(twt instance);
+    partial void Deletetwt(twt instance);
     partial void Insertuser(user instance);
     partial void Updateuser(user instance);
     partial void Deleteuser(user instance);
@@ -94,14 +94,6 @@ namespace LinqToTwitterMvcDemo.Models
 			get
 			{
 				return this.GetTable<ggl>();
-			}
-		}
-		
-		public System.Data.Linq.Table<twt> twts
-		{
-			get
-			{
-				return this.GetTable<twt>();
 			}
 		}
 		
@@ -158,6 +150,14 @@ namespace LinqToTwitterMvcDemo.Models
 			get
 			{
 				return this.GetTable<days2go>();
+			}
+		}
+		
+		public System.Data.Linq.Table<twt> twts
+		{
+			get
+			{
+				return this.GetTable<twt>();
 			}
 		}
 		
@@ -337,229 +337,6 @@ namespace LinqToTwitterMvcDemo.Models
 					if ((value != null))
 					{
 						value.ggls.Add(this);
-						this._userid = value.id;
-					}
-					else
-					{
-						this._userid = default(int);
-					}
-					this.SendPropertyChanged("user");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.twt")]
-	public partial class twt : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _userid;
-		
-		private string _twtid;
-		
-		private string _accesstoken;
-		
-		private string _oauthtoken;
-		
-		private int _status;
-		
-		private EntityRef<user> _user;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void OnuseridChanging(int value);
-    partial void OnuseridChanged();
-    partial void OntwtidChanging(string value);
-    partial void OntwtidChanged();
-    partial void OnaccesstokenChanging(string value);
-    partial void OnaccesstokenChanged();
-    partial void OnoauthtokenChanging(string value);
-    partial void OnoauthtokenChanged();
-    partial void OnstatusChanging(int value);
-    partial void OnstatusChanged();
-    #endregion
-		
-		public twt()
-		{
-			this._user = default(EntityRef<user>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
-		public int userid
-		{
-			get
-			{
-				return this._userid;
-			}
-			set
-			{
-				if ((this._userid != value))
-				{
-					if (this._user.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnuseridChanging(value);
-					this.SendPropertyChanging();
-					this._userid = value;
-					this.SendPropertyChanged("userid");
-					this.OnuseridChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_twtid", DbType="VarChar(MAX)")]
-		public string twtid
-		{
-			get
-			{
-				return this._twtid;
-			}
-			set
-			{
-				if ((this._twtid != value))
-				{
-					this.OntwtidChanging(value);
-					this.SendPropertyChanging();
-					this._twtid = value;
-					this.SendPropertyChanged("twtid");
-					this.OntwtidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_accesstoken", DbType="VarChar(MAX)")]
-		public string accesstoken
-		{
-			get
-			{
-				return this._accesstoken;
-			}
-			set
-			{
-				if ((this._accesstoken != value))
-				{
-					this.OnaccesstokenChanging(value);
-					this.SendPropertyChanging();
-					this._accesstoken = value;
-					this.SendPropertyChanged("accesstoken");
-					this.OnaccesstokenChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oauthtoken", DbType="VarChar(MAX)")]
-		public string oauthtoken
-		{
-			get
-			{
-				return this._oauthtoken;
-			}
-			set
-			{
-				if ((this._oauthtoken != value))
-				{
-					this.OnoauthtokenChanging(value);
-					this.SendPropertyChanging();
-					this._oauthtoken = value;
-					this.SendPropertyChanged("oauthtoken");
-					this.OnoauthtokenChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int NOT NULL")]
-		public int status
-		{
-			get
-			{
-				return this._status;
-			}
-			set
-			{
-				if ((this._status != value))
-				{
-					this.OnstatusChanging(value);
-					this.SendPropertyChanging();
-					this._status = value;
-					this.SendPropertyChanged("status");
-					this.OnstatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_user", ThisKey="userid", OtherKey="id", IsForeignKey=true)]
-		public user user
-		{
-			get
-			{
-				return this._user.Entity;
-			}
-			set
-			{
-				user previousValue = this._user.Entity;
-				if (((previousValue != value) 
-							|| (this._user.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._user.Entity = null;
-						previousValue.twts.Remove(this);
-					}
-					this._user.Entity = value;
-					if ((value != null))
-					{
-						value.twts.Add(this);
 						this._userid = value.id;
 					}
 					else
@@ -1997,6 +1774,253 @@ namespace LinqToTwitterMvcDemo.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.twt")]
+	public partial class twt : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private int _userid;
+		
+		private string _twtid;
+		
+		private string _accesstoken;
+		
+		private string _oauthtoken;
+		
+		private int _status;
+		
+		private string _lastID;
+		
+		private EntityRef<user> _user;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnuseridChanging(int value);
+    partial void OnuseridChanged();
+    partial void OntwtidChanging(string value);
+    partial void OntwtidChanged();
+    partial void OnaccesstokenChanging(string value);
+    partial void OnaccesstokenChanged();
+    partial void OnoauthtokenChanging(string value);
+    partial void OnoauthtokenChanged();
+    partial void OnstatusChanging(int value);
+    partial void OnstatusChanged();
+    partial void OnlastIDChanging(string value);
+    partial void OnlastIDChanged();
+    #endregion
+		
+		public twt()
+		{
+			this._user = default(EntityRef<user>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					if (this._user.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnuseridChanging(value);
+					this.SendPropertyChanging();
+					this._userid = value;
+					this.SendPropertyChanged("userid");
+					this.OnuseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_twtid", DbType="VarChar(MAX)")]
+		public string twtid
+		{
+			get
+			{
+				return this._twtid;
+			}
+			set
+			{
+				if ((this._twtid != value))
+				{
+					this.OntwtidChanging(value);
+					this.SendPropertyChanging();
+					this._twtid = value;
+					this.SendPropertyChanged("twtid");
+					this.OntwtidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_accesstoken", DbType="VarChar(MAX)")]
+		public string accesstoken
+		{
+			get
+			{
+				return this._accesstoken;
+			}
+			set
+			{
+				if ((this._accesstoken != value))
+				{
+					this.OnaccesstokenChanging(value);
+					this.SendPropertyChanging();
+					this._accesstoken = value;
+					this.SendPropertyChanged("accesstoken");
+					this.OnaccesstokenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oauthtoken", DbType="VarChar(MAX)")]
+		public string oauthtoken
+		{
+			get
+			{
+				return this._oauthtoken;
+			}
+			set
+			{
+				if ((this._oauthtoken != value))
+				{
+					this.OnoauthtokenChanging(value);
+					this.SendPropertyChanging();
+					this._oauthtoken = value;
+					this.SendPropertyChanged("oauthtoken");
+					this.OnoauthtokenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_status", DbType="Int NOT NULL")]
+		public int status
+		{
+			get
+			{
+				return this._status;
+			}
+			set
+			{
+				if ((this._status != value))
+				{
+					this.OnstatusChanging(value);
+					this.SendPropertyChanging();
+					this._status = value;
+					this.SendPropertyChanged("status");
+					this.OnstatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lastID", DbType="VarChar(50)")]
+		public string lastID
+		{
+			get
+			{
+				return this._lastID;
+			}
+			set
+			{
+				if ((this._lastID != value))
+				{
+					this.OnlastIDChanging(value);
+					this.SendPropertyChanging();
+					this._lastID = value;
+					this.SendPropertyChanged("lastID");
+					this.OnlastIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_user", ThisKey="userid", OtherKey="id", IsForeignKey=true)]
+		public user user
+		{
+			get
+			{
+				return this._user.Entity;
+			}
+			set
+			{
+				user previousValue = this._user.Entity;
+				if (((previousValue != value) 
+							|| (this._user.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._user.Entity = null;
+						previousValue.twts.Remove(this);
+					}
+					this._user.Entity = value;
+					if ((value != null))
+					{
+						value.twts.Add(this);
+						this._userid = value.id;
+					}
+					else
+					{
+						this._userid = default(int);
+					}
+					this.SendPropertyChanged("user");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[user]")]
 	public partial class user : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2029,9 +2053,23 @@ namespace LinqToTwitterMvcDemo.Models
 		
 		private System.Nullable<int> _status;
 		
-		private EntitySet<ggl> _ggls;
+		private System.Nullable<int> _PIN;
 		
-		private EntitySet<twt> _twts;
+		private System.Nullable<int> _ev_today;
+		
+		private System.Nullable<int> _ev_next5;
+		
+		private System.Nullable<int> _ev_showcal;
+		
+		private System.Nullable<int> _ev_d2g;
+		
+		private System.Nullable<int> _ev_weather;
+		
+		private System.Nullable<int> _msg_send;
+		
+		private System.Nullable<int> _msg_adv;
+		
+		private EntitySet<ggl> _ggls;
 		
 		private EntitySet<device> _devices;
 		
@@ -2042,6 +2080,8 @@ namespace LinqToTwitterMvcDemo.Models
 		private EntitySet<comment> _comments;
 		
 		private EntitySet<days2go> _days2gos;
+		
+		private EntitySet<twt> _twts;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2073,17 +2113,33 @@ namespace LinqToTwitterMvcDemo.Models
     partial void OnunameChanged();
     partial void OnstatusChanging(System.Nullable<int> value);
     partial void OnstatusChanged();
+    partial void OnPINChanging(System.Nullable<int> value);
+    partial void OnPINChanged();
+    partial void Onev_todayChanging(System.Nullable<int> value);
+    partial void Onev_todayChanged();
+    partial void Onev_next5Changing(System.Nullable<int> value);
+    partial void Onev_next5Changed();
+    partial void Onev_showcalChanging(System.Nullable<int> value);
+    partial void Onev_showcalChanged();
+    partial void Onev_d2gChanging(System.Nullable<int> value);
+    partial void Onev_d2gChanged();
+    partial void Onev_weatherChanging(System.Nullable<int> value);
+    partial void Onev_weatherChanged();
+    partial void Onmsg_sendChanging(System.Nullable<int> value);
+    partial void Onmsg_sendChanged();
+    partial void Onmsg_advChanging(System.Nullable<int> value);
+    partial void Onmsg_advChanged();
     #endregion
 		
 		public user()
 		{
 			this._ggls = new EntitySet<ggl>(new Action<ggl>(this.attach_ggls), new Action<ggl>(this.detach_ggls));
-			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
 			this._devices = new EntitySet<device>(new Action<device>(this.attach_devices), new Action<device>(this.detach_devices));
 			this._banners = new EntitySet<banner>(new Action<banner>(this.attach_banners), new Action<banner>(this.detach_banners));
 			this._articles = new EntitySet<article>(new Action<article>(this.attach_articles), new Action<article>(this.detach_articles));
 			this._comments = new EntitySet<comment>(new Action<comment>(this.attach_comments), new Action<comment>(this.detach_comments));
 			this._days2gos = new EntitySet<days2go>(new Action<days2go>(this.attach_days2gos), new Action<days2go>(this.detach_days2gos));
+			this._twts = new EntitySet<twt>(new Action<twt>(this.attach_twts), new Action<twt>(this.detach_twts));
 			OnCreated();
 		}
 		
@@ -2347,6 +2403,166 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PIN", DbType="Int")]
+		public System.Nullable<int> PIN
+		{
+			get
+			{
+				return this._PIN;
+			}
+			set
+			{
+				if ((this._PIN != value))
+				{
+					this.OnPINChanging(value);
+					this.SendPropertyChanging();
+					this._PIN = value;
+					this.SendPropertyChanged("PIN");
+					this.OnPINChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ev_today", DbType="Int")]
+		public System.Nullable<int> ev_today
+		{
+			get
+			{
+				return this._ev_today;
+			}
+			set
+			{
+				if ((this._ev_today != value))
+				{
+					this.Onev_todayChanging(value);
+					this.SendPropertyChanging();
+					this._ev_today = value;
+					this.SendPropertyChanged("ev_today");
+					this.Onev_todayChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ev_next5", DbType="Int")]
+		public System.Nullable<int> ev_next5
+		{
+			get
+			{
+				return this._ev_next5;
+			}
+			set
+			{
+				if ((this._ev_next5 != value))
+				{
+					this.Onev_next5Changing(value);
+					this.SendPropertyChanging();
+					this._ev_next5 = value;
+					this.SendPropertyChanged("ev_next5");
+					this.Onev_next5Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ev_showcal", DbType="Int")]
+		public System.Nullable<int> ev_showcal
+		{
+			get
+			{
+				return this._ev_showcal;
+			}
+			set
+			{
+				if ((this._ev_showcal != value))
+				{
+					this.Onev_showcalChanging(value);
+					this.SendPropertyChanging();
+					this._ev_showcal = value;
+					this.SendPropertyChanged("ev_showcal");
+					this.Onev_showcalChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ev_d2g", DbType="Int")]
+		public System.Nullable<int> ev_d2g
+		{
+			get
+			{
+				return this._ev_d2g;
+			}
+			set
+			{
+				if ((this._ev_d2g != value))
+				{
+					this.Onev_d2gChanging(value);
+					this.SendPropertyChanging();
+					this._ev_d2g = value;
+					this.SendPropertyChanged("ev_d2g");
+					this.Onev_d2gChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ev_weather", DbType="Int")]
+		public System.Nullable<int> ev_weather
+		{
+			get
+			{
+				return this._ev_weather;
+			}
+			set
+			{
+				if ((this._ev_weather != value))
+				{
+					this.Onev_weatherChanging(value);
+					this.SendPropertyChanging();
+					this._ev_weather = value;
+					this.SendPropertyChanged("ev_weather");
+					this.Onev_weatherChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg_send", DbType="Int")]
+		public System.Nullable<int> msg_send
+		{
+			get
+			{
+				return this._msg_send;
+			}
+			set
+			{
+				if ((this._msg_send != value))
+				{
+					this.Onmsg_sendChanging(value);
+					this.SendPropertyChanging();
+					this._msg_send = value;
+					this.SendPropertyChanged("msg_send");
+					this.Onmsg_sendChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg_adv", DbType="Int")]
+		public System.Nullable<int> msg_adv
+		{
+			get
+			{
+				return this._msg_adv;
+			}
+			set
+			{
+				if ((this._msg_adv != value))
+				{
+					this.Onmsg_advChanging(value);
+					this.SendPropertyChanging();
+					this._msg_adv = value;
+					this.SendPropertyChanged("msg_adv");
+					this.Onmsg_advChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_ggl", Storage="_ggls", ThisKey="id", OtherKey="userid")]
 		public EntitySet<ggl> ggls
 		{
@@ -2357,19 +2573,6 @@ namespace LinqToTwitterMvcDemo.Models
 			set
 			{
 				this._ggls.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
-		public EntitySet<twt> twts
-		{
-			get
-			{
-				return this._twts;
-			}
-			set
-			{
-				this._twts.Assign(value);
 			}
 		}
 		
@@ -2438,6 +2641,19 @@ namespace LinqToTwitterMvcDemo.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="user_twt", Storage="_twts", ThisKey="id", OtherKey="userid")]
+		public EntitySet<twt> twts
+		{
+			get
+			{
+				return this._twts;
+			}
+			set
+			{
+				this._twts.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2465,18 +2681,6 @@ namespace LinqToTwitterMvcDemo.Models
 		}
 		
 		private void detach_ggls(ggl entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = null;
-		}
-		
-		private void attach_twts(twt entity)
-		{
-			this.SendPropertyChanging();
-			entity.user = this;
-		}
-		
-		private void detach_twts(twt entity)
 		{
 			this.SendPropertyChanging();
 			entity.user = null;
@@ -2537,6 +2741,18 @@ namespace LinqToTwitterMvcDemo.Models
 		}
 		
 		private void detach_days2gos(days2go entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = null;
+		}
+		
+		private void attach_twts(twt entity)
+		{
+			this.SendPropertyChanging();
+			entity.user = this;
+		}
+		
+		private void detach_twts(twt entity)
 		{
 			this.SendPropertyChanging();
 			entity.user = null;

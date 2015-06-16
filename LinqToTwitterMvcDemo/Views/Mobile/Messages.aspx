@@ -13,7 +13,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-        getTweets3();
+        getTweets3(); //gets from lawnchair
     });
 </script>
 
@@ -23,6 +23,7 @@
   <%= ViewData["twitter"]%> 
 
   </div>
-  tweets below
+ 
   <div id="tweetsfull">Loading Tweets ....</div>
+  <div id="tweetsend"></div>
 </asp:Content>

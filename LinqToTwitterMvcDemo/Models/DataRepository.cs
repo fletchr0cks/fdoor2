@@ -310,6 +310,18 @@ namespace LinqToTwitterMvcDemo.Models
             
         }
 
+        public string saveLatestTID(int userid, string tweetID)
+        {
+            var t = db.twts
+                 .Where(u => u.userid == userid && u.status == 1)
+                 .First();
+
+            t.lastID = tweetID;
+            db.SubmitChanges();
+            return tweetID;
+
+        }
+
         public void delUser(int userid, int status)
         {
             var t = db.users

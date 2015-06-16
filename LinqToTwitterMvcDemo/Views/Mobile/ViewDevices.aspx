@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileC.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="LinqToTwitterMvcDemo.Models" %>
+<%@ Import Namespace="LinqToTwitterMvcDemo.Helpers" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	View Devices
 </asp:Content>
@@ -27,7 +28,7 @@
    <% } %>
    <% if (u.lastlogin != null)
       { %>
-   <p class="ui-li-aside">Last seen <strong><%=u.lastlogin%></strong> ago</p></a></li>
+   <p class="ui-li-aside">Last seen <strong><%=FormatHelpers.formatTimeStamp(u.lastlogin) %></strong></p></a></li>
    <% }
       else
       { %>

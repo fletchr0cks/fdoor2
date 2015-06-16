@@ -46,6 +46,8 @@ namespace LinqToTwitterMvcDemo.Models
 
         public int doBanner { get; set; }
 
+        public string saveLatestID { get; set; }
+
         //public List<MediaMention> MediaMentions { get; set; }
 
         //public List<UrlMention> UrlMentions { get; set; }
