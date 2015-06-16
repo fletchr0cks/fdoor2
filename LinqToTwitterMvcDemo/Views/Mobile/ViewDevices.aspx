@@ -25,9 +25,19 @@
       { %>
      <p>Enabled</p>
    <% } %>
-   <p class="ui-li-aside">Last seen <strong><%=u.lastlogin %></strong> ago</p></a></li>
+   <% if (u.lastlogin != null)
+      { %>
+   <p class="ui-li-aside">Last seen <strong><%=u.lastlogin%></strong> ago</p></a></li>
+   <% }
+      else
+      { %>
+       <p class="ui-li-aside">Not yet active</p></a></li>
+   <% } %>
    </ul>
                  
 <%} %>
 
+<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
+	<li><%=Html.ActionLink("Back to Menu", "IndexC", "Mobile") %></li>
+</ul>
 </asp:Content>

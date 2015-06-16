@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/MobileC.Master" Inherits="System.Web.Mvc.ViewPage" %>
 <%@ Import Namespace="LinqToTwitterMvcDemo.Models" %>
+<%@ Import Namespace="LinqToTwitterMvcDemo.Helpers" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	View A Device
 </asp:Content>
@@ -11,6 +13,14 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-<%=ViewData["device"]%>
+<script type="text/javascript">
+    $(document).ready(function () {
 
+       // viewDevices();
+        $("#chart-div3701").html("hihi");
+    });
+</script>
+<%=ViewData["device"]%>
+<% var deviceURL = "http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + ViewData["deviceGUID"];%> 
+<div><%=GoogleChartHelpers.GoogleQR(deviceURL)%></div>
 </asp:Content>

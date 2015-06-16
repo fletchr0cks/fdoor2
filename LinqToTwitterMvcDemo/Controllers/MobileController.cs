@@ -1338,7 +1338,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             newUser.guid = Newguid;
             newUser.uname = uname;
             newUser.parentID = userid;
-            newUser.lastlogin = DateTime.Now;
+            //newUser.lastlogin = DateTime.Now;
             newUser.status = 1;
             int newUserID = dataRepository.saveNewuser(newUser);
 
@@ -1778,6 +1778,8 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             var html = "<div>" + main_html + end_html;
             ViewData["device"] = html;
+            ViewData["deviceID"] = item.id;
+            ViewData["deviceGUID"] = item.guid;
             return View();
         }
 

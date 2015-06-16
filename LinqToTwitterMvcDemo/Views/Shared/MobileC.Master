@@ -244,10 +244,11 @@
 
                }
            });
-          
+
 
        }
 
+      
        function viewDevices() {
 
            $body = $("body");
@@ -295,7 +296,7 @@
                        //var guid = jsonresp['newguid'];
                        //alert(guid);
                    });
-                   $("#deviceView").html(main_html + end_html).trigger('create');
+                   //$("#deviceView").html(main_html + end_html).trigger('create');
                    $.each(jsonresp.devices, function (n, item) {
                        //alert("drawQR");
                        $("#chart-div" + item.id).qrcode({
