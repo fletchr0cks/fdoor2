@@ -21,6 +21,7 @@
     });
 </script>
 <%=ViewData["device"]%>
-<% var deviceURL = "http://fridgedoor.apphb.com/Mobile/Index?zcguid=" + ViewData["deviceGUID"];%> 
+<% var deviceURL = "http://fridgedoor.apphb.com/Mobile/IndexC?zcguid=" + ViewData["deviceGUID"];%> 
 <div><%=GoogleChartHelpers.GoogleQR(deviceURL)%></div>
+<div><%=deviceURL %></div>
 </asp:Content>
