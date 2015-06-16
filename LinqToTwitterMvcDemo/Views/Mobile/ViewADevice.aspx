@@ -17,7 +17,7 @@
     $(document).ready(function () {
 
        // viewDevices();
-        $("#chart-div3701").html("hihi");
+        //$("#chart-div3701").html("hihi");
     });
 </script>
 <%=ViewData["device"]%>

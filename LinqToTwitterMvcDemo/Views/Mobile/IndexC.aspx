@@ -16,7 +16,7 @@
         var TweetRadio = get_cookie("tweets");
         if (TweetRadio == "my") {
             // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-            //getTweets2(5); //retrieve and store
+            getTweets2(5); //retrieve and store
             $("#messages").removeClass("ui-disabled");
             $("#messages").addClass("ui-enabled");
         }
