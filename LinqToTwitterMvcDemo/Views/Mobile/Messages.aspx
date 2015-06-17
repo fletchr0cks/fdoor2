@@ -18,12 +18,13 @@
 </script>
 
 <div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:30px">Messages</div>
-
-  <%= ViewData["twitter"]%> 
-
-  </div>
- 
-  <div id="tweetsfull">Loading Tweets ....</div>
+<div id="tweetsfull">Loading Tweets ....</div>
+ </div>
+<div class="ui-body ui-body-a ui-corner-all">
   <div id="tweetsend"></div>
+</div>
+
+<div data-role="footer">
+<h4><%=ViewData["uname"] %></h4>
+</div>
 </asp:Content>

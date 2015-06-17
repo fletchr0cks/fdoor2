@@ -478,9 +478,28 @@ namespace LinqToTwitterMvcDemo.Models
         {
             //get parent ID where parent ID exists :)
             try {
-                var userID = (from u in db.users
-                         where (u.guid == guid)
-                         select u).First().id;
+
+                int userID = (from u in db.users
+                              where (u.guid == guid)
+                              select u).First().id;
+                //
+                var userIDchk = (from u in db.users
+                                 where (u.guid == guid && u.parentID == null)
+                                 select u).First().id;
+
+
+                if (userIDchk == null) //is parent
+                {
+                    userID = (from u in db.users
+                                  where (u.guid == guid)
+                                  select u).First().id;
+                }
+                else
+                {
+                    userID = Convert.ToInt32((from u in db.users
+                                  where (u.guid == guid)
+                                  select u).First().parentID);
+                }
 
                 var usr = db.users
                   .Where(u => u.id == userID)

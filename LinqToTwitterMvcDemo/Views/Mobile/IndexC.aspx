@@ -24,15 +24,29 @@
 </script>
 <div class="modal"></div>
 <div><%=ViewData["banner"]%></div>
+<div><%=ViewData["details"]%></div>
+<div><%=ViewData["details2"]%></div>
+<div id="cookies"></div>
+
+<% if (ViewData["type"] == "child")
+   { %>
+
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
-	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile") %></li>
+    <li><a href="<%=Url.Action("Messages", "Mobile")%>">Messages<span class="ui-li-count"><div id="twct">Checking for new messages ...</div></span></a></li>
+    <li><a href="<%=Url.Action("Events", "Mobile")%>">Events<span class="ui-li-count"><div id="evct">Checking for events ...</div></span></a></li>
+</ul>
+<% }
+   else
+   { %>
+<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
+	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile")%></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
-    <li><%=Html.ActionLink("Message Setup", "MessageSetup", "Mobile") %></li>
+    <li><%=Html.ActionLink("Message Setup", "MessageSetup", "Mobile")%></li>
     <li id="messages" class="ui-disabled"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages<span class="ui-li-count"><div id="twct"></div></span></a></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b" class="ui-disabled">
-    <li><%=Html.ActionLink("Events Setup", "EventsSetup", "Mobile") %></li>
+    <li><%=Html.ActionLink("Events Setup", "EventsSetup", "Mobile")%></li>
     <li id="events"><a href="<%=Url.Action("Events", "Mobile")%>">Events</a></li>
 </ul>
 
@@ -45,6 +59,8 @@
  <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
  <li data-icon="gear" onclick="loadSpinner()"><a href="#">Refresh</a></li>
 </ul>   
+
+<% } %>
 <div id="toptweet" style="display:none">2000</div>
 <div style="display:none" id="toptweettime"></div>
 </asp:Content>

@@ -71,28 +71,41 @@ namespace LinqToTwitterMvcDemo.Controllers
                     if (dataRepository.checkGUIDzc(guid) == 2)
                     {
                         userid = dataRepository.getUserid(guid, "child");
-                        ViewData["banner"] = "Welcome child device";
+                        ViewData["banner"] = "Welcome child device, no GUID but cookies";
+                        ViewData["type"] = "child";
+                        //if first login, ask for PIN
+                        //set cookies
+                        string tname = dataRepository.getT_twtid(userid);
+                        if (tname != null)
+                        {
+                            ViewData["details"] = "have twitter id " + tname;
+                            SetCookie("TweetRadio", "my");
+                            SetCookie("GrantedT","True");
+                        }
+                        
+
                     }
 
 
                     //var userid = dataRepository.getID(guid);
-                    string tname = dataRepository.getT_twtid(userid);
-                    if (tname == null)
+                    string tname1 = dataRepository.getT_twtid(userid);
+                    if (tname1 == null)
                     {
-                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
+                        ViewData["details"] = "no twitter ID";
                     }
                     else
                     {
-                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname + ".</strong></div>";
-                        //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
-                        //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
-                        //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
-                        //
+                        ViewData["details"] = "have twitter id "  + tname1;
+                        
                     }
+
+                    //check for google and weather settings in db
+
+
                 }
                 catch
                 {
-                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your tweets.</div>";
+                    ViewData["details"] = "catch from try for GUID cookie";
                 }
 
 
@@ -125,11 +138,11 @@ namespace LinqToTwitterMvcDemo.Controllers
                     //string name = (string)o["kind"];
                     var ids = names.Replace("[", "").Replace("]", "").Replace("\"", "");
 
-                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(0,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Unauthenticate</button></a><div>Google calendar authenticated for <strong>" + ids + ".</strong></div>";
+                    ViewData["details"] = "Have google id " + ids;
                 }
                 catch
                 {
-                    ViewData["google"] = "<a href=\"#\" onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your Google calendar.</div>";
+                    ViewData["details"] = "no google ID";
                     //<button onclick=\"Auth(1,'Google')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</button><div>Allows Fridge Door to read your Google calendar</div>";
                 }
 
@@ -147,24 +160,24 @@ namespace LinqToTwitterMvcDemo.Controllers
                     
                     if (loc != null)
                     {
-                        ViewData["location"] = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + latlng + ")</div>";
+                       // ViewData["location"] = "<a href=\"#\" onclick=\"ChangeLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Change</a><div>Location set to: " + loc + " (" + latlng + ")</div>";
                     }
                     else
                     {
                         //ViewData["location"] = "<button onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-btn-inline\">Set Location</button></div>Daily weather from Accuweather</div>"; 
-                        ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+                       // ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
                     }
                 }
                 catch
                 {
-                    ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
+                    //ViewData["location"] = "<a href=\"#\" onclick=\"SetLoc()\" class=\"ui-btn ui-btn-b ui-corner-all\">Set Location</a><div>Daily weather from Accuweather</div>";
                 }
 
                 return View();
             }
             else
             {
-
+                //have a GUID in the URL
                 Guid guidnew = new Guid(zcguid);
 
                 if (dataRepository.checkGUIDzc(guidnew) > 0)   //1=no parent, 2=has parent
@@ -183,6 +196,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                         var useridCookie = new HttpCookie("userID", Convert.ToString(userid));
                         useridCookie.Expires = DateTime.Now.AddYears(1);
                         Response.AppendCookie(useridCookie);
+                        //parent, need to reauthenticate
+                        ViewData["details2"] = "parent, reauth one";
                     }
 
                     if (dataRepository.checkGUIDzc(guidnew) == 2)
@@ -191,8 +206,22 @@ namespace LinqToTwitterMvcDemo.Controllers
                         var useridCookie = new HttpCookie("masterID", Convert.ToString(userid));
                         useridCookie.Expires = DateTime.Now.AddYears(1);
                         Response.AppendCookie(useridCookie);
+                        //child, need to enter PIN
+                        ViewData["details2"] = "child, GUID in URL, no cookie, enter PIN";
+                        ViewData["type"] = "child";
+                        //if first login, ask for PIN
+                        //set cookies
+                        string tname = dataRepository.getT_twtid(userid);
+                        if (tname != null)
+                        {
+                            ViewData["details"] = "have twitter id " + tname;
+                            SetCookie("tweets", "my");
+                            SetCookie("GrantedT", "True");
+                        }
+                        
                     }
 
+                    /*
                     try
                     {
                         string JsonIDs = dataRepository.getG_idlist(userid);
@@ -214,14 +243,16 @@ namespace LinqToTwitterMvcDemo.Controllers
                         SetCookie("long", lng);
 
                         //get from db lat lng and set cookies
-
-                        return RedirectToAction("IndexC");
+                        return View();
+                       // return RedirectToAction("IndexC");
                     }
                     catch
                     {
 
                     }
-                    RedirectToAction("IndexC");
+                    */
+                    return View();
+                    //RedirectToAction("IndexC");
                 }
 
             }
@@ -544,7 +575,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             else
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("GetStarted");
             }
 
         }
@@ -683,7 +714,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             var jsonSerializer = new JavaScriptSerializer();
             var tokenData = jsonSerializer.Deserialize<GoogleTokenData>(result);
-            var GrantCookie = new HttpCookie("Granted", "True");
+            var GrantCookie = new HttpCookie("GrantedG", "True");
             //var refreshCookie = new HttpCookie("RefreshToken", tokenData.Refresh_Token);
             saveG_refresh(tokenData.Refresh_Token);
             GrantCookie.Expires = DateTime.Now.AddYears(1);
@@ -1339,7 +1370,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             newUser.guid = Newguid;
             newUser.uname = uname;
             newUser.parentID = userid;
-            //newUser.lastlogin = DateTime.Now;
+            newUser.lastlogin = DateTime.Now;
             newUser.status = 1;
             int newUserID = dataRepository.saveNewuser(newUser);
 
@@ -1491,7 +1522,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
             if (TwID != null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("GetStarted");
 
             }
             else
@@ -1528,7 +1559,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             {
                 dataRepository.del_ggl(userid);
                 Session["GoogleAPIToken"] = "";
-                SetCookie("Granted", "False");
+                //SetCookie("Granted", "False");
                 DelCookie("IDList", "");
             }
 
@@ -1561,7 +1592,8 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult GetStarted()
         {
-
+            //only seen by parent device
+            var usertype = "";
             try
             {
                 int userid = 0;
@@ -1571,28 +1603,44 @@ namespace LinqToTwitterMvcDemo.Controllers
                 if (dataRepository.checkGUIDzc(guid) == 1)
                 {
                     userid = dataRepository.getUserid(guid, "master");
+                    usertype = "parent";
                 }
 
                 if (dataRepository.checkGUIDzc(guid) == 2)
                 {
                     userid = dataRepository.getUserid(guid, "child");
-
+                    usertype = "child";
                 }
 
+                try
+                {
+                    var granted = Request.Cookies["GrantedT"].Value;
+                    string tname1 = dataRepository.getT_twtid(userid);
+                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname1 + ".</strong></div>";
 
-                //var userid = dataRepository.getID(guid);
-                string tname = dataRepository.getT_twtid(userid);
-                if (tname == null)
-                {
-                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
                 }
-                else
+                catch
                 {
-                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname + ".</strong></div>";
-                    //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
-                    //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
-                    //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
-                    //
+
+
+                    string tname = dataRepository.getT_twtid(userid);
+                    
+                   
+                    if (tname == null)
+                    {
+                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
+                    }
+                    else
+                    {
+                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Re-authenticate</a><div>Please re-authenticate <strong>" + tname + ".</strong></div>";
+                        //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
+                        //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
+                        //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
+                        //
+                    }
+
+                    //var userid = dataRepository.getID(guid);
+                    
                 }
             }
             catch
@@ -1795,31 +1843,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             var token1 = Session["GoogleAPIToken"];
             ViewData["token"] = token1;
 
-
-                try
-                {
-                    string guid_str = Request.Cookies["GUID"].Value;
-                    Guid guid = new Guid(guid_str);
-                    var userid = dataRepository.getID(guid);
-                    string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
-                    if (tname == null)
-                    {
-                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows OK fridge to read your tweets.</div>";
-                    }
-                    else
-                    {
-                        ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(0,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Uauthenticate</a><div>Twitter authenticated for <strong>" + tname + ".</strong></div>";
-                        //"<div class=\"button-wrap\"><button onclick=\"Auth(0,'Twitter')\" class=\"ui-shadow ui-btn ui-corner-all\">Unauthenticate</button></div>";
-                        //<div>Twitter authenticated for <strong>" + tname + "</strong></div>";
-                        //"<div class=\"button-wrap\"><button class=\"ui-shadow ui-btn ui-corner-all\">Button</button></div>";
-                        //
-                    }
-                }
-                catch
-                {
-                    ViewData["twitter"] = "<a href=\"#\" onclick=\"Auth(1,'Twitter')\" class=\"ui-btn ui-btn-b ui-corner-all\">Authenticate</a><div>Allows Fridge Door to read your tweets.</div>";
-                }
-
+            ViewData["uname"] = "Fridge    Last Updated: " + DateTime.Now;
 
             return View("Messages");
         }
@@ -2986,7 +3010,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             //SetCookie("oauth_accessToken", accesstoken);
             //SetCookie("oauth_oauthToken", oauthtoken);
-            //SetCookie("TwitterID", twitterID);
+            SetCookie("GrantedT", "True");
 
             return RedirectToAction("AuthTwitter");
 

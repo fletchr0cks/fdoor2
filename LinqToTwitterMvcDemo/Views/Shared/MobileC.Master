@@ -321,8 +321,8 @@
        }
 
        function addNewuser() {
-           $body = $("body");
-           $body.addClass("loading");
+       //    $body = $("body");
+         //  $body.addClass("loading");
            var msg = $("input[type='radio'][name='radio-choice-m']:checked").val();
            var eve = $("input[type='radio'][name='radio-choice-e']:checked").val();
            var wea = $("input[type='radio'][name='radio-choice-w']:checked").val();
@@ -340,13 +340,14 @@
                    var jsonresp = eval(json);
                    //type = refresh
                    var guid = jsonresp['newguid'];
-                   $("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device " + uname + " saved.</div>").trigger('create');
+                   
                    //viewDevices();
                    //redirect to viewdevices with a message
                    document.location.href = '/Mobile/ListDevices?msg=new';
                },
                error: function (xhr, error) {
                    // console.debug(xhr); console.debug(error);
+                   $("#deviceAdd").html("<div class=\"ui-body ui-body-a ui-corner-all\"><div style=\"font-size:20px\">Device not saved, try again.</div>").trigger('create');
                },
                complete: function (xhr, status) {
 
@@ -1537,7 +1538,7 @@
            //$body = $("body");
            //$body.addClass("loading");
 
-           var latestID = "4000";
+           var latestID = "2000";
 
            var store = new Lawnchair({
                adapter: "dom",
@@ -1554,7 +1555,13 @@
                } else {
                }
            });
+
+           if (latestID == undefined) {
+               latestID = "5000";              
+           }
+
            alert(latestID);
+           
            var NewDate = new Date();
            var hournow = NewDate.getUTCHours;
            
@@ -1593,6 +1600,10 @@
                    var getmore = "";
                    var icon = "false";
                    var bannerType = jsonresp.bannerType;
+                   var ct_html = "";
+                   if (parseInt(jsonresp.dm_new) == 0) {
+                        
+                   }
                    $('#twct').html(jsonresp.dm_new).trigger('create');
                    $.each(jsonresp.okfridge, function (n, item) {
                        // alert(item.Tweet);
@@ -1811,7 +1822,7 @@
 
                    var latest = {
                        key: 'latest',
-                       val: jsonresp.latestID
+                       val: jsonresp.latestid
                    };
 
                    store.save(latest);
