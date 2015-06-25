@@ -13,13 +13,14 @@
 
     $(document).ready(function () {
     //check last retrieval time
-        var TweetRadio = get_cookie("tweets");
-        if (TweetRadio == "my") {
+       // var TweetRadio = get_cookie("tweets");
+       // if (TweetRadio == "dm") {
             // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-            getTweets2(5); //retrieve and store
-            $("#messages").removeClass("ui-disabled");
-            $("#messages").addClass("ui-enabled");
-        }
+         //   getTweets2(5); //retrieve and store
+         //   $("#messages").removeClass("ui-disabled");
+         //   $("#messages").addClass("ui-enabled");
+       // }
+        
     });
 </script>
 <div class="modal"></div>
@@ -42,8 +43,7 @@
 	<li><%=Html.ActionLink("Get Started", "GetStarted", "Mobile")%></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
-    <li><%=Html.ActionLink("Message Setup", "MessageSetup", "Mobile")%></li>
-    <li id="messages" class="ui-disabled"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages<span class="ui-li-count"><div id="twct"></div></span></a></li>
+    <li id="messages"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages</a></li>
 </ul>
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b" class="ui-disabled">
     <li><%=Html.ActionLink("Events Setup", "EventsSetup", "Mobile")%></li>
@@ -63,4 +63,9 @@
 <% } %>
 <div id="toptweet" style="display:none">2000</div>
 <div style="display:none" id="toptweettime"></div>
+</asp:Content>
+<asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
+ <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+<a data-role="button" data-icon="gear" onclick="reset()">Options</a>
+    </div>
 </asp:Content>

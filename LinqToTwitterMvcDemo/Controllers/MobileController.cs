@@ -48,8 +48,8 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult IndexC(string zcguid)
         {
-            var token1 = Session["GoogleAPIToken"];
-            ViewData["token"] = token1;
+            //var token1 = Session["GoogleAPIToken"];
+            //ViewData["token"] = token1;
 
 
 
@@ -79,7 +79,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                         if (tname != null)
                         {
                             ViewData["details"] = "have twitter id " + tname;
-                            SetCookie("TweetRadio", "my");
+                            SetCookie("tweets", "dm");
                             SetCookie("GrantedT","True");
                         }
                         
@@ -105,7 +105,13 @@ namespace LinqToTwitterMvcDemo.Controllers
                 }
                 catch
                 {
-                    ViewData["details"] = "catch from try for GUID cookie";
+                    ViewData["details"] = "catch from try for GUID cookie, make a GUID";
+                        Guid guid = Guid.NewGuid();
+                        var guidCookie = new HttpCookie("GUID", guid.ToString());
+                        guidCookie.Expires = DateTime.Now.AddYears(1);
+                        Response.AppendCookie(guidCookie);
+                        var userid = dataRepository.getID(guid);
+                        return View();
                 }
 
 
@@ -127,8 +133,11 @@ namespace LinqToTwitterMvcDemo.Controllers
 
                     }
 
+
+                    int tempid = dataRepository.getID(guid);
+                    string JsonIDs = dataRepository.getG_idlist(tempid);
                     
-                    string JsonIDs = dataRepository.getG_idlist(userid);
+                    
                     JObject o = JObject.Parse(JsonIDs);
                     // JArray items = (JArray)o["items"];
                     var names = Convert.ToString(o["Fullname"]);
@@ -137,7 +146,9 @@ namespace LinqToTwitterMvcDemo.Controllers
                     int idcount = Convert.ToInt32(count);
                     //string name = (string)o["kind"];
                     var ids = names.Replace("[", "").Replace("]", "").Replace("\"", "");
-
+                    var IDCookie = new HttpCookie("IDList", JsonIDs);
+                    IDCookie.Expires = DateTime.Now.AddYears(1);
+                    Response.AppendCookie(IDCookie);
                     ViewData["details"] = "Have google id " + ids;
                 }
                 catch
@@ -261,7 +272,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         }
 
 
-        public ActionResult Index(string zcguid)
+        public ActionResult IndexOld(string zcguid)
         {
 
             var token1 = Session["GoogleAPIToken"];
@@ -1183,29 +1194,20 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         }
 
-        public void saveT_accesstoken(string value)
+        public void saveT_accesstoken(string value, int userid)
         {
-            Guid guid = checkGUID();
-            var userid = dataRepository.getID(guid);
             dataRepository.saveT_accesstoken(value, userid);
           
-
         }
 
-        public void saveT_oauthtoken(string value)
+        public void saveT_oauthtoken(string value, int userid)
         {
-            Guid guid = checkGUID();
-            var userid = dataRepository.getID(guid);
             dataRepository.saveT_oauthtoken(value, userid);
-
         }
 
-        public void saveT_twid(string value)
+        public void saveT_twid(string value, int userid)
         {
-            Guid guid = checkGUID();
-            var userid = dataRepository.getID(guid);
             dataRepository.saveT_twtid(value, userid);
-
         }
 
         [AcceptVerbs(HttpVerbs.Get)]
@@ -1276,6 +1278,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 var guidCookie = new HttpCookie("GUID", guid.ToString());
                 guidCookie.Expires = DateTime.Now.AddYears(1);
                 Response.AppendCookie(guidCookie);
+                dataRepository.getID(guid);
                 return guid;
             }
 
@@ -1517,20 +1520,26 @@ namespace LinqToTwitterMvcDemo.Controllers
         public ActionResult AuthTwitter()
         //enter twitter username and message for restful api
         {
-            string guid_str = Request.Cookies["GUID"].Value;
-            Guid guid = new Guid(guid_str);
-            string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
-            if (TwID != null)
+            try
             {
-                return RedirectToAction("GetStarted");
+                string guid_str = Request.Cookies["GUID"].Value;
+                Guid guid = new Guid(guid_str);
+                string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
+                if (TwID != null)
+                {
+                    return RedirectToAction("GetStarted");
 
+                }
+                else
+                {
+                    return RedirectToAction("SetTwitterID");
+
+                }
             }
-            else
+            catch
             {
                 return RedirectToAction("SetTwitterID");
-
             }
-
         }
 
         public void deleteUser(int id, int status)
@@ -1668,7 +1677,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 }
 
 
-                string JsonIDs = dataRepository.getG_idlist(userid);
+                string JsonIDs = dataRepository.getG_idlist(dataRepository.getID(guid));
                 JObject o = JObject.Parse(JsonIDs);
                 // JArray items = (JArray)o["items"];
                 var names = Convert.ToString(o["Fullname"]);
@@ -1732,6 +1741,20 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult EventsSetup()
         {
+
+            return View();
+        }
+
+        public ActionResult MsgSetup()
+        {
+
+           ViewData["msgradio"] = "<div id=\"msgdiv\">Select Twitter message type</div><fieldset data-role=\"controlgroup\" data-mini=\"true\" name=\"tweettypesmenu\" id=\"tweettypesmenu\">" +
+     "<input type=\"radio\" name=\"radio-3\" id=\"radio-3e\" value=\"all\"><label for=\"radio-3e\">All</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3f\" value=\"dm\">" +
+    "<label for=\"radio-3f\">Direct Messages</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3a\" value=\"my\"><label for=\"radio-3a\">My Tweets</label>" +
+     "<input type=\"radio\" name=\"radio-3\" id=\"radio-3b\" value=\"fol\"><label for=\"radio-3b\">Following</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3c\" value=\"men\">" +
+    "<label for=\"radio-3c\">Mentions</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3d\" value=\"okf\"><label for=\"radio-3d\">@okfridge</label>" +  
+    "</fieldset><a href=\"#\" class=\"ui-btn ui-btn-c\" onclick=\"setMessages()\">Submit</a>";
+
 
             return View();
         }
@@ -1845,7 +1868,128 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             ViewData["uname"] = "Fridge    Last Updated: " + DateTime.Now;
 
-            return View("Messages");
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            string tname = dataRepository.getT_twtid(dataRepository.getID(guid));
+            string accesstoken = dataRepository.getT_accesstoken(dataRepository.getID(guid));
+            string oauthtoken = dataRepository.getT_oauthtoken(dataRepository.getID(guid));
+            var userid = dataRepository.getID(guid);
+            var msg = "hardcoded test " + DateTime.Now;
+            //http://localhost:5010/Home/SetTwitterID?oauth_token=JjJCdn2Tn3o9Cz3lHEFotAZQ5xZSz8VbTAjHhg1aTt0&oauth_verifier=TP7PWgnTi2CIu2YuQ7AIpRDknEYuSe0H1RcYXMSp5g
+            //Auth: oauthtoken=1317302059-F57J7rhJw18BYymjoZ5nJGqwhKd0nqax3jaItN5 id=FletcherFridge 1317302059 oathaccesstoken= v3g3lcENHnDPNNYTpSLLZZtZmCJ43bnvohLlDnNg7w
+            credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+            credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            credentials.AccessToken = accesstoken;
+            //"36777457-120pFjOwR6YjwAHZcYnlrlwsW7cMBrmP7IAvH1NIY";
+            //oauthverifier;
+            //hWSN0pUWsBFlvS8fQbwpR31iqWLbhEnbUBCU3jZfI     from server
+            //36777457-120pFjOwR6YjwAHZcYnlrlwsW7cMBrmP7IAvH1NIY
+            credentials.OAuthToken = oauthtoken;
+            //"71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A";
+            //oauthtoken;
+            //71UrF3zuFNouejyu0RUhIqRVWsREuzzIpiwWYSc8A
+
+            var latestid_out = "";
+
+            if (credentials.ConsumerKey == null || credentials.ConsumerSecret == null)
+            {
+                credentials.ConsumerKey = ConfigurationManager.AppSettings["twitterConsumerKey"];
+                credentials.ConsumerSecret = ConfigurationManager.AppSettings["twitterConsumerSecret"];
+            }
+
+            auth = new MvcAuthorizer
+            {
+                Credentials = credentials
+            };
+
+            auth.CompleteAuthorization(Request.Url);
+
+            if (!auth.IsAuthorized)
+            {
+                Uri specialUri = new Uri(Request.Url.ToString());
+                return auth.BeginAuthorization(specialUri);
+            }
+            //("oauth_accessToken", credentials.AccessToken);
+            //SetCookie("oauth_oauthToken", credentials.OAuthToken);
+            twitterCtx = new TwitterContext(auth);
+            var tweettypes = Request.Cookies["tweets"].Value;
+
+            var tweetsout = (from tweet in twitterCtx.Status
+                 where tweet.Type == StatusType.User
+                 && tweet.Count == 5
+                 // && tweet.SinceID == 397389362088132608
+                 select new TweetViewModel
+                 {
+                     //ImageUrl = tweet.Entities.,
+                     ScreenName = tweet.User.Name,
+                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                     Tweet = tweet.Text,
+                     BannerText = GetBannerText(tweet),
+                     BannerTime = GetBannerTime(tweet),
+                     ID = tweet.StatusID,
+                     ImageUrl = tweet.User.ProfileImageUrl,
+                     //SinceID = tweet.SinceID,
+                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                     MediaUrl = GetTweetMediaUrl(tweet),
+                     EntityUrl = GetTweetUrlEntities(tweet),
+                     saveBanner = dataRepository.saveBanner(userid, tweet.StatusID, tweettypes),
+                     doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
+                 });
+
+            if (tweettypes == "fol")
+            {
+                tweetsout = (from tweet in twitterCtx.Status
+                                 where tweet.Type == StatusType.Home
+                                 && tweet.Count == 10
+                                 // && tweet.SinceID == 397389362088132608
+                                 select new TweetViewModel
+                                 {
+                                     //ImageUrl = tweet.Entities.,
+                                     ScreenName = tweet.ScreenName,
+                                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                                     Tweet = tweet.Text,
+                                     BannerText = GetBannerText(tweet),
+                                     BannerTime = GetBannerTime(tweet),
+                                     ID = tweet.StatusID,
+                                     ImageUrl = tweet.User.ProfileImageUrl,
+                                     //SinceID = tweet.SinceID,
+                                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                                     MediaUrl = GetTweetMediaUrl(tweet),
+                                     EntityUrl = GetTweetUrlEntities(tweet),
+                                     saveBanner = dataRepository.saveBanner(userid, tweet.StatusID, tweettypes),
+                                     doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
+                                 });
+            }
+
+            if (tweettypes == "dm")
+            {
+                tweetsout = (from tweet in twitterCtx.DirectMessage
+                             where tweet.Type == DirectMessageType.SentTo &&
+                               tweet.Count == 10
+                             orderby tweet.CreatedAt descending
+                             //&& tweet.Count == getnum
+                             // && tweet.SinceID == 397389362088132608
+                             select new TweetViewModel
+                             {
+                                 ScreenName = tweet.SenderScreenName,
+                                 TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                                 //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                                 Tweet = tweet.Text,
+                                 BannerText = "hi",
+                                 //BannerTime = GetBannerTime(tweet.
+                                 ImageUrl = tweet.Sender.ProfileImageUrl,
+                                 //SinceID = tweet.SinceID,
+                                 //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                                 //MediaUrl = GetTweetMediaUrl(tweet),
+                                 //EntityUrl = GetTweetUrlEntities(tweet),
+                                 saveBanner = dataRepository.saveBanner(userid, tweet.IDString, tweettypes),
+                                 doBanner = dataRepository.checkBanner(userid, tweet.IDString),
+
+                             });
+            }
+            return View("Messages", tweetsout);
         }
 
 
@@ -2134,11 +2278,12 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             string DMsinceID = latestID;//"601471370199998464";
                             //610759388379410433
-             var dm_new = (from tweet in twitterCtx.DirectMessage
-                     where tweet.Type == DirectMessageType.SentTo 
-                       //tweet.Count == getnum
-                       && Convert.ToInt64(tweet.IDString) > Convert.ToInt64(DMsinceID)
-                               select tweet).Count();
+            var dm_new = 6;
+                 //(from tweet in twitterCtx.DirectMessage
+                  //   where tweet.Type == DirectMessageType.SentTo 
+                       
+                    //   && Convert.ToInt64(tweet.IDString) > Convert.ToInt64(DMsinceID)
+                      //         select tweet).Count();
 
             var dm = (from tweet in twitterCtx.DirectMessage
                      where tweet.Type == DirectMessageType.SentTo &&
@@ -3003,16 +3148,25 @@ namespace LinqToTwitterMvcDemo.Controllers
             var accesstoken = credentials.AccessToken;
             var oauthtoken = credentials.OAuthToken;
             var twitterID = credentials.ScreenName;
+            var userid = 0;
+            
+            string guid_str = Request.Cookies["GUID"].Value;
+            Guid guid = new Guid(guid_str);
+            userid = dataRepository.getID(guid);
+           
 
-            saveT_accesstoken(accesstoken);
-            saveT_oauthtoken(oauthtoken);
-            saveT_twid(twitterID);
+            //have userid
+            saveT_accesstoken(accesstoken,userid);
+            saveT_oauthtoken(oauthtoken,userid);
+            saveT_twid(twitterID,userid);
 
             //SetCookie("oauth_accessToken", accesstoken);
             //SetCookie("oauth_oauthToken", oauthtoken);
             SetCookie("GrantedT", "True");
+           // SetCookie("tweets", "dm");
 
-            return RedirectToAction("AuthTwitter");
+           // return RedirectToAction("AuthTwitter");
+            return RedirectToAction("GetStarted");
 
 
         }

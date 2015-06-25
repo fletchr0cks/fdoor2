@@ -471,6 +471,8 @@
     <Content Include="Views\Mobile\IndexC.aspx" />
     <Content Include="Views\Mobile\Index.aspx" />
     <Content Include="Views\Mobile\Messages.aspx" />
+    <Content Include="Views\Mobile\MessageSetup.aspx" />
+    <Content Include="Views\Mobile\MsgSetup.aspx" />
     <Content Include="Views\Mobile\parsetime.aspx" />
     <Content Include="Views\Mobile\SavedUser.aspx" />
     <Content Include="Views\Mobile\ViewADevice.aspx" />

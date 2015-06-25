@@ -216,7 +216,7 @@ namespace LinqToTwitterMvcDemo.Models
             return bnr;
         }
 
-        public void saveBanner(int userid, string bannerid, string type)
+        public int saveBanner(int userid, string bannerid, string type)
         {
             banner b = new banner();
             b.userid = userid;
@@ -225,6 +225,8 @@ namespace LinqToTwitterMvcDemo.Models
             b.type = type;
             db.banners.InsertOnSubmit(b);
             db.SubmitChanges();
+
+            return b.id;
 
         }
 
@@ -485,20 +487,22 @@ namespace LinqToTwitterMvcDemo.Models
                 //
                 var userIDchk = (from u in db.users
                                  where (u.guid == guid && u.parentID == null)
-                                 select u).First().id;
+                                 select u).Count();
 
 
-                if (userIDchk == null) //is parent
+                if (userIDchk == 1) //is parent
                 {
                     userID = (from u in db.users
                                   where (u.guid == guid)
                                   select u).First().id;
+                    //return userID;
                 }
                 else
                 {
                     userID = Convert.ToInt32((from u in db.users
                                   where (u.guid == guid)
                                   select u).First().parentID);
+                    //return userID;
                 }
 
                 var usr = db.users

@@ -44,7 +44,11 @@ namespace LinqToTwitterMvcDemo.Models
 
         public ulong SinceID { get; set; }
 
+        public ulong StatusID { get; set; }
+        
         public int doBanner { get; set; }
+
+        public int saveBanner { get; set; }
 
         public string saveLatestID { get; set; }
 

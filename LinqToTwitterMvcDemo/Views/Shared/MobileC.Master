@@ -1537,9 +1537,10 @@
        function getTweets2(more) {
            //$body = $("body");
            //$body.addClass("loading");
-
+           var prev_tweettype = "my";
            var latestID = "2000";
-
+           var diff = 0;
+           var tweettypes = get_cookie("tweets");
            var store = new Lawnchair({
                adapter: "dom",
                name: "data_store"
@@ -1556,288 +1557,328 @@
                }
            });
 
-           if (latestID == undefined) {
-               latestID = "5000";              
-           }
-
-           alert(latestID);
-           
-           var NewDate = new Date();
-           var hournow = NewDate.getUTCHours;
-           
-           var bannerhtml = "";
-           var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
-           var loading = "<li><div>Loading .... </div></li>";
-           $('#tweetsfull').html(tophtml + loading + "</ul>").trigger('create');
-           $('#getmoremy').html("Loading ...");
-           $('#getmoref').html("Loading ...");
-           $('#getmoremen').html("Loading ...");
-           var midhtml_my = "";
-           var midhtml_men = "";
-           var midhtml_fol = "";
-           var midhtml_okf = "";
-           var midhtml_dm = "";
-           var tweettypes = "dm";
-           //get_cookie("tweets");
-         
-           if (tweettypes == "all") {
-               $('#tweetsfull').hide();
-               $('#tweets').show();
-           } else {
-               $('#tweets').hide();
-               $('#tweetsfull').show();
-           }
-           $.ajax({
-               type: "GET",
-               url: "/Mobile/JsonTweets",
-               data: "latestID=" + latestID + "&getnum=" + more + "&tweettypes=" + tweettypes,
-               dataType: "json",
-               success: function (json) {
-                   var jsonresp = eval(json);
-                   //type = refresh
-                   var tweettype = "none";
-                   var timeout = "";
-                   var getmore = "";
-                   var icon = "false";
-                   var bannerType = jsonresp.bannerType;
-                   var ct_html = "";
-                   if (parseInt(jsonresp.dm_new) == 0) {
-                        
-                   }
-                   $('#twct').html(jsonresp.dm_new).trigger('create');
-                   $.each(jsonresp.okfridge, function (n, item) {
-                       // alert(item.Tweet);
-                       var tweetxtra = "";
-                       if (item.BannerText.length > 1) {
-                           //alert(item.BannerText);
-                           tweettype = "banner";
-                           tweetxtra = item.ID;
-                           midhtml_okf = midhtml_okf + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
-                           //     "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
-                               getBanner('banner', item.ID, 'auto', 'okf');
-                           }
-                       }
-                       else if (item.MediaUrl.length > 1) {
-                           //picture
-                           tweettype = "media";
-                           //  icon = "info";
-                           tweetxtra = item.MediaUrl;
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-                           //  "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-                       else if (item.EntityUrl.length > 1) {
-                           //web page
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-                           //  "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       } else {
-
-                           midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-                           //  "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
+           store.exists("tweettype", function (available) {
+               if (available) {
+                   store.get("tweettype", function (theVal) {
+                       prev_tweettype = theVal.val;
 
                    });
-                   $.each(jsonresp.mentions, function (n, item) {
-                       // alert(item.Tweet);
-                       var tweetxtra = "";
-                       if (item.BannerText.length > 1) {
-                           //alert(item.BannerText);
-                           tweettype = "banner";
-                           tweetxtra = item.ID;
-                           midhtml_men = midhtml_men + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','mentions')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
-                               getBanner('banner', item.ID, 'auto', 'mentions');
-                           }
-                       }
-                       else if (item.MediaUrl.length > 1) {
-                           //picture
-                           tweettype = "media";
-                           //  icon = "info";
-                           tweetxtra = item.MediaUrl;
-                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','click','mentions')\">" +
-             "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-                       else if (item.EntityUrl.length > 1) {
-                           //web page
-                           midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       } else {
+               } else {
+               }
+           });
 
-                           midhtml_men = midhtml_men + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','mentions')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
+           store.exists("epoch", function (available) {
+               if (available) {
+                   store.get("epoch", function (theVal) {
+                       diff = (Math.round(new Date().getTime() / 1000) - theVal.val);
 
                    });
+               } else {
+               }
+           });
 
-                   $.each(jsonresp.home, function (n, item) {
-                       // alert(item.Tweet);
-                       var tweetxtra = "";
-                       if (item.BannerText.length > 1) {
-                           //alert(item.BannerText);
-                           tweettype = "banner";
-                           tweetxtra = item.ID;
-                           midhtml_fol = midhtml_fol + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
-                               getBanner('banner', item.ID, 'auto', 'home');
-                           }
-                       }
-                       else if (item.MediaUrl.length > 1) {
-                           //picture
-                           tweettype = "media";
-                           //  icon = "info";
-                           tweetxtra = item.MediaUrl;
-                           midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
-             "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-                       else if (item.EntityUrl.length > 1) {
-                           //web page
-                           midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       } else {
-
-                           midhtml_fol = midhtml_fol + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','home')\">" +
-               "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-
-                   });
-
-                   $.each(jsonresp.mytweets, function (n, item) {
-                       // alert(item.Tweet);
-                       var tweetxtra = "";
-                       if (item.BannerText.length > 1) {
-                           //alert(item.BannerText);
-                           tweettype = "banner";
-                           tweetxtra = item.ID;
-                           midhtml_my = midhtml_my + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                           if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
-                               getBanner('banner', item.ID, 'auto', 'my');
-                           }
-                       }
-                       else if (item.MediaUrl.length > 1) {
-                           //picture
-                           tweettype = "media";
-                           //  icon = "info";
-                           tweetxtra = item.MediaUrl;
-                           midhtml_my = midhtml_my + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-                       else if (item.EntityUrl.length > 1) {
-                           //web page
-                           midhtml_my = midhtml_my + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       } else {
-
-                           midhtml_my = midhtml_my + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','my')\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-                       }
-
-                   });
-
-                   $.each(jsonresp.dm, function (n, item) {
-                       // alert(item.Tweet);
-                       var tweetxtra = "";
-
-                       midhtml_dm = midhtml_dm + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
-                       //  "<img src=\"" + item.ImageUrl + "\">" +
-        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
-
-
-                   });
-
-                   var NewDate = new Date();
-                   var hoursnow = NewDate.getHours();
-                   var minsnow = NewDate.getMinutes();
-                   if (parseInt(hoursnow) < 10) {
-                       hoursnow = "0" + hoursnow;
-                   }
-                   if (parseInt(minsnow) < 10) {
-                       minsnow = "0" + minsnow;
-                   }
-                   var timenow = hoursnow + ":" + minsnow;
-                   getmore = parseInt(jsonresp.getmore + 5);
-                   var timestamp = timenow;
-                   var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoremy\">Last updated: " + timestamp + " Get More</div></a></li>";
-                   var getmoredm = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoredm\">Last updated: " + timestamp + " Get More</div></a></li>";
-                   var getmorefol = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoref\">Last updated: " + timestamp + " Get More</div></a></li>";
-                   var getmoremen = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoremen\">Last updated: " + timestamp + " Get More</div></a></li>";
-                   var getmoreokf = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
-                   "<div class=\"tweets1\" id=\"getmoreokf\">Last updated: " + timestamp + " Get More</div></a></li>";
-                   $('#toptweet').html(jsonresp.latestid);
-                   //var ua = navigator.userAgent;
-                   //$('#toptweettime').html(timenow + ua);
-                   $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
-                   $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
-                   $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
-                   $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
-                   var ArtID = "555"
-                   var newtweet = "<br /><div><label><input type=\"checkbox\" name=\"checkbox-0\">Banner</label></div><div>" +
-         "<textarea name=\"textarean_" + ArtID + "\" id=\"commtext_" + ArtID + "\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"SendTweet(" + ArtID + ")\">Add Comment</button></div>";
-                   if (tweettypes == "my") {
-                       $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul>" + newtweet).trigger('create');
-                   } else if (tweettypes == "men") {
-                       $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul>" + newtweet).trigger('create');
-                   } else if (tweettypes == "fol") {
-                       $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul>" + newtweet).trigger('create');
-                   } else if (tweettypes == "okf") {
-                       $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>" + newtweet).trigger('create');
-                   } else if (tweettypes == "dm") {
-                       $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>" + newtweet).trigger('create');
-                   }
-                   //$('#twct').html("20").trigger('create');
-                   //   if (get_cookie("autoupdate") == "on") {
-                   clearTimeout(timerA);
-                   //timerA = setTimeout(checkNewTweets, 300000);
-
-                   var store = new Lawnchair({
-                       adapter: "dom",
-                       name: "data_store"
-                   }, function (store) {
-                   });
-
-                   var me = {
-                       key: 'twt_data',
-                       html: midhtml_dm
-                   };
-
-                   store.save(me);
-
-                   var latest = {
-                       key: 'latest',
-                       val: jsonresp.latestid
-                   };
-
-                   store.save(latest);
-
-                   //$body.removeClass("loading");
-               },
-               error: function (response) {
-                   //alert(response.responseText);
-                   //var r = jQuery.parseJSON(response.responseText);
-
-               },
-               complete: function (xhr, status) {
+           //var diff = (Math.round(new Date().getTime() / 1000) - epochdata) / 3600;
+           alert(Math.round(new Date().getTime() / 1000) + " --- " + diff + prev_tweettype + tweettypes);
+           if (diff == 0 || diff > 50000 || prev_tweettype != tweettypes) {
+               if (latestID == undefined) {
+                   latestID = "5000";
                }
 
-           });
+               //alert(latestID);
+
+               var NewDate = new Date();
+               var hournow = NewDate.getUTCHours;
+
+               var bannerhtml = "";
+               var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
+               var loading = "<li><div>Loading .... </div></li>";
+               $('#tweetsfull').html(tophtml + loading + "</ul>").trigger('create');
+               $('#getmoremy').html("Loading ...");
+               $('#getmoref').html("Loading ...");
+               $('#getmoremen').html("Loading ...");
+               var midhtml_my = "";
+               var midhtml_men = "";
+               var midhtml_fol = "";
+               var midhtml_okf = "";
+               var midhtml_dm = "";
+               
+
+               if (tweettypes == "all") {
+                   $('#tweetsfull').hide();
+                   $('#tweets').show();
+               } else {
+                   $('#tweets').hide();
+                   $('#tweetsfull').show();
+               }
+               $.ajax({
+                   type: "GET",
+                   url: "/Mobile/JsonTweets",
+                   data: "latestID=" + latestID + "&getnum=" + more + "&tweettypes=" + tweettypes,
+                   dataType: "json",
+                   success: function (json) {
+                       var jsonresp = eval(json);
+                       //type = refresh
+                       var tweettype = "none";
+                       var timeout = "";
+                       var getmore = "";
+                       var icon = "false";
+                       var bannerType = jsonresp.bannerType;
+                       var ct_html = "";
+                       if (parseInt(jsonresp.dm_new) == 0) {
+
+                       }
+                       $('#twct').html(jsonresp.dm_new).trigger('create');
+                       $.each(jsonresp.okfridge, function (n, item) {
+                           // alert(item.Tweet);
+                           var tweetxtra = "";
+                           if (item.BannerText.length > 1) {
+                               //alert(item.BannerText);
+                               tweettype = "banner";
+                               tweetxtra = item.ID;
+                               midhtml_okf = midhtml_okf + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','okf')\">" +
+                               //     "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                               if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
+                                   getBanner('banner', item.ID, 'auto', 'okf');
+                               }
+                           }
+                           else if (item.MediaUrl.length > 1) {
+                               //picture
+                               tweettype = "media";
+                               //  icon = "info";
+                               tweetxtra = item.MediaUrl;
+                               midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
+                               //  "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+                           else if (item.EntityUrl.length > 1) {
+                               //web page
+                               midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
+                               //  "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           } else {
+
+                               midhtml_okf = midhtml_okf + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
+                               //  "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+
+                       });
+                       $.each(jsonresp.mentions, function (n, item) {
+                           // alert(item.Tweet);
+                           var tweetxtra = "";
+                           if (item.BannerText.length > 1) {
+                               //alert(item.BannerText);
+                               tweettype = "banner";
+                               tweetxtra = item.ID;
+                               midhtml_men = midhtml_men + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','mentions')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                               if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
+                                   getBanner('banner', item.ID, 'auto', 'mentions');
+                               }
+                           }
+                           else if (item.MediaUrl.length > 1) {
+                               //picture
+                               tweettype = "media";
+                               //  icon = "info";
+                               tweetxtra = item.MediaUrl;
+                               midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "','click','mentions')\">" +
+             "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+                           else if (item.EntityUrl.length > 1) {
+                               //web page
+                               midhtml_men = midhtml_men + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           } else {
+
+                               midhtml_men = midhtml_men + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','mentions')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+
+                       });
+
+                       $.each(jsonresp.home, function (n, item) {
+                           // alert(item.Tweet);
+                           var tweetxtra = "";
+                           if (item.BannerText.length > 1) {
+                               //alert(item.BannerText);
+                               tweettype = "banner";
+                               tweetxtra = item.ID;
+                               midhtml_fol = midhtml_fol + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                               if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
+                                   getBanner('banner', item.ID, 'auto', 'home');
+                               }
+                           }
+                           else if (item.MediaUrl.length > 1) {
+                               //picture
+                               tweettype = "media";
+                               //  icon = "info";
+                               tweetxtra = item.MediaUrl;
+                               midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','home')\">" +
+             "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+                           else if (item.EntityUrl.length > 1) {
+                               //web page
+                               midhtml_fol = midhtml_fol + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           } else {
+
+                               midhtml_fol = midhtml_fol + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','home')\">" +
+               "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+
+                       });
+
+                       $.each(jsonresp.mytweets, function (n, item) {
+                           // alert(item.Tweet);
+                           var tweetxtra = "";
+                           if (item.BannerText.length > 1) {
+                               //alert(item.BannerText);
+                               tweettype = "banner";
+                               tweetxtra = item.ID;
+                               midhtml_my = midhtml_my + "<li data-icon=\"bars\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                               if ((item.doBanner == 0) && (get_cookie("banner_auto") == "on")) {
+                                   getBanner('banner', item.ID, 'auto', 'my');
+                               }
+                           }
+                           else if (item.MediaUrl.length > 1) {
+                               //picture
+                               tweettype = "media";
+                               //  icon = "info";
+                               tweetxtra = item.MediaUrl;
+                               midhtml_my = midhtml_my + "<li data-icon=\"camera\"><a href=\"#\" onclick=\"getBanner('" + tweettype + "','" + tweetxtra + "', 'click','my')\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+                           else if (item.EntityUrl.length > 1) {
+                               //web page
+                               midhtml_my = midhtml_my + "<li><a href=\"#\" onclick=\"getWebPage('" + item.EntityUrl + "')\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           } else {
+
+                               midhtml_my = midhtml_my + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','my')\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+                           }
+
+                       });
+
+                       $.each(jsonresp.dm, function (n, item) {
+                           // alert(item.Tweet);
+                           var tweetxtra = "";
+
+                           midhtml_dm = midhtml_dm + "<li><a href=\"#tweet_click\" data-rel=\"popup\" onclick=\"getTweet('" + item.ID + "','okf')\">" +
+                           //  "<img src=\"" + item.ImageUrl + "\">" +
+        "<div class=\"tweets1\">" + item.Tweet + "</div><p class=\"ui-li-aside\"><strong>" + item.TimeStamp + "</strong></p></a></li>";
+
+
+                       });
+
+                       var NewDate = new Date();
+                       var hoursnow = NewDate.getHours();
+                       var minsnow = NewDate.getMinutes();
+                       if (parseInt(hoursnow) < 10) {
+                           hoursnow = "0" + hoursnow;
+                       }
+                       if (parseInt(minsnow) < 10) {
+                           minsnow = "0" + minsnow;
+                       }
+                       var timenow = hoursnow + ":" + minsnow;
+                       getmore = parseInt(jsonresp.getmore + 5);
+                       var timestamp = timenow;
+                       var getmoremy = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoremy\">Last updated: " + timestamp + " Get More</div></a></li>";
+                       var getmoredm = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoredm\">Last updated: " + timestamp + " Get More</div></a></li>";
+                       var getmorefol = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoref\">Last updated: " + timestamp + " Get More</div></a></li>";
+                       var getmoremen = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoremen\">Last updated: " + timestamp + " Get More</div></a></li>";
+                       var getmoreokf = "<li><a href=\"#\" onclick=\"getTweets('" + getmore + "')\">" +
+                   "<div class=\"tweets1\" id=\"getmoreokf\">Last updated: " + timestamp + " Get More</div></a></li>";
+                       $('#toptweet').html(jsonresp.latestid);
+                       //var ua = navigator.userAgent;
+                       //$('#toptweettime').html(timenow + ua);
+                       $('#mytweets').html(tophtml + midhtml_my + getmoremy + "</ul>").trigger('create');
+                       $('#mentions').html(tophtml + midhtml_men + getmoremen + "</ul>").trigger('create');
+                       $('#following').html(tophtml + midhtml_fol + getmorefol + "</ul>").trigger('create');
+                       $('#okf').html(tophtml + midhtml_okf + getmoreokf + "</ul>").trigger('create');
+                       var ArtID = "555"
+                       var newtweet = "<br /><div><label><input type=\"checkbox\" name=\"checkbox-0\">Banner</label></div><div>" +
+         "<textarea name=\"textarean_" + ArtID + "\" id=\"commtext_" + ArtID + "\"></textarea><button class=\"ui-btn ui-btn-inline\" onClick=\"SendTweet(" + ArtID + ")\">Add Comment</button></div>";
+                       if (tweettypes == "my") {
+                           $('#tweetsfull').html(tophtml + midhtml_my + getmoremy + "</ul>" + newtweet).trigger('create');
+                       } else if (tweettypes == "men") {
+                           $('#tweetsfull').html(tophtml + midhtml_men + getmoremen + "</ul>" + newtweet).trigger('create');
+                       } else if (tweettypes == "fol") {
+                           $('#tweetsfull').html(tophtml + midhtml_fol + getmorefol + "</ul>" + newtweet).trigger('create');
+                       } else if (tweettypes == "okf") {
+                           $('#tweetsfull').html(tophtml + midhtml_okf + getmoreokf + "</ul>" + newtweet).trigger('create');
+                       } else if (tweettypes == "dm") {
+                           $('#tweetsfull').html(tophtml + midhtml_dm + getmoredm + "</ul>" + newtweet).trigger('create');
+                       }
+                       //$('#twct').html("20").trigger('create');
+                       //   if (get_cookie("autoupdate") == "on") {
+                       clearTimeout(timerA);
+                       //timerA = setTimeout(checkNewTweets, 300000);
+
+                       var store = new Lawnchair({
+                           adapter: "dom",
+                           name: "data_store"
+                       }, function (store) {
+                       });
+
+                       var me = {
+                           key: 'twt_data',
+                           html: midhtml_dm
+                       };
+
+                       store.save(me);
+
+                       var latest = {
+                           key: 'latest',
+                           val: jsonresp.latestid
+                       };
+
+                       store.save(latest);
+
+                       var tweettype = {
+                           key: 'tweettype',
+                           val: tweettypes
+                       };
+
+                       store.save(tweettype);
+
+                       var epoch = Math.round(new Date().getTime() / 1000);
+
+                       var writetime = {
+                           key: 'epoch',
+                           val: epoch
+                       };
+
+                       store.save(writetime);
+                       //$body.removeClass("loading");
+                   },
+                   error: function (response) {
+                       //alert(response.responseText);
+                       //var r = jQuery.parseJSON(response.responseText);
+
+                   },
+                   complete: function (xhr, status) {
+                   }
+
+               });
+           } else {
+           alert("too soon");
+           }
        }
 
        function getTweets3() {
@@ -1849,6 +1890,8 @@
            var getmoredm = "<li><a href=\"#\" onclick=\"getTweets('10')\">" +
                    "<div class=\"tweets1\" id=\"getmoredm\">Last updated: Get More</div></a></li>";
            var tophtml = "<ul data-role=\"listview\" class=\"ui-alt-icon\">";
+
+          
 
            var store = new Lawnchair({
                adapter: "dom",
@@ -2152,6 +2195,12 @@
            });
        }
 
+       function setMessages() {
+           var TweetRadio = $("#tweettypesmenu :radio:checked").val();
+           set_cookie("tweets", TweetRadio, 360);
+           $('#msgdiv').html("Twitter message type saved").trigger('create');
+
+       }
 
        function saveSel() {
            var selected = new Array();
@@ -2221,6 +2270,7 @@
            }
            //$('#checkbox-1a').val('off').checkboxradio("refresh");
        }
+
 
      
        function sliderChange(val, id) {
@@ -2364,6 +2414,27 @@
                //alert(nextChar)
            }
        }
+
+       function setEvents() {
+           //var event = $("#ev1menu :radio:checked").val();
+           // var ev1 = document.getElementById('ev1menu').value;
+           var status = $('input[type="checkbox"]').filter('.custom').map(function () {
+               var name = $(this).attr('value');
+               if ($(this).is(':checked')) {
+                   alert(name);
+                   //return { 'name':name, 'status' : 'Checked'}; 
+               } else {
+
+               }
+               //return { 'name':name, 'status' : 'UnChecked'};
+
+           });
+
+//console.log(status);​
+        
+      }
+
+
 
        function AddComment(ArtID) {
            var name = document.getElementById("commname_" + ArtID).value;
@@ -3071,7 +3142,10 @@
     <div data-role="content">
          <asp:ContentPlaceHolder ID="MainContent" runat="server" />
     </div>
-    
+      <div data-role="footer">
+      <asp:ContentPlaceHolder ID="FooterContent" runat="server" />
+   
+    </div>
    </div>
    
 </body>
