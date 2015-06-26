@@ -2198,7 +2198,7 @@
        function setMessages() {
            var TweetRadio = $("#tweettypesmenu :radio:checked").val();
            set_cookie("tweets", TweetRadio, 360);
-           $('#msgdiv').html("Twitter message type saved").trigger('create');
+           $('#msgdiv').html("Twitter message type changed to " + $("#tweettypesmenu :radio:checked").name()).trigger('create');
 
        }
 

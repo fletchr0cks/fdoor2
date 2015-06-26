@@ -1747,7 +1747,7 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult MsgSetup()
         {
-
+            string tweets = Request.Cookies["tweets"].Value;
            ViewData["msgradio"] = "<div id=\"msgdiv\">Select Twitter message type</div><fieldset data-role=\"controlgroup\" data-mini=\"true\" name=\"tweettypesmenu\" id=\"tweettypesmenu\">" +
      "<input type=\"radio\" name=\"radio-3\" id=\"radio-3e\" value=\"all\"><label for=\"radio-3e\">All</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3f\" value=\"dm\">" +
     "<label for=\"radio-3f\">Direct Messages</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3a\" value=\"my\"><label for=\"radio-3a\">My Tweets</label>" +
