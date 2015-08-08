@@ -81,6 +81,8 @@ namespace LinqToTwitterMvcDemo.Controllers
                             ViewData["details"] = "have twitter id " + tname;
                             SetCookie("tweets", "dm");
                             SetCookie("GrantedT","True");
+
+                            
                         }
                         
 
@@ -1747,7 +1749,14 @@ namespace LinqToTwitterMvcDemo.Controllers
 
         public ActionResult MsgSetup()
         {
-            string tweets = Request.Cookies["tweets"].Value;
+            try
+            {
+                string tweets = Request.Cookies["tweets"].Value;
+            }
+            catch
+            {
+
+            }
            ViewData["msgradio"] = "<div id=\"msgdiv\">Select Twitter message type</div><fieldset data-role=\"controlgroup\" data-mini=\"true\" name=\"tweettypesmenu\" id=\"tweettypesmenu\">" +
      "<input type=\"radio\" name=\"radio-3\" id=\"radio-3e\" value=\"all\"><label for=\"radio-3e\">All</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3f\" value=\"dm\">" +
     "<label for=\"radio-3f\">Direct Messages</label><input type=\"radio\" name=\"radio-3\" id=\"radio-3a\" value=\"my\"><label for=\"radio-3a\">My Tweets</label>" +
@@ -1912,34 +1921,36 @@ namespace LinqToTwitterMvcDemo.Controllers
             //("oauth_accessToken", credentials.AccessToken);
             //SetCookie("oauth_oauthToken", credentials.OAuthToken);
             twitterCtx = new TwitterContext(auth);
-            var tweettypes = Request.Cookies["tweets"].Value;
-
-            var tweetsout = (from tweet in twitterCtx.Status
-                 where tweet.Type == StatusType.User
-                 && tweet.Count == 5
-                 // && tweet.SinceID == 397389362088132608
-                 select new TweetViewModel
-                 {
-                     //ImageUrl = tweet.Entities.,
-                     ScreenName = tweet.User.Name,
-                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
-                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
-                     Tweet = tweet.Text,
-                     BannerText = GetBannerText(tweet),
-                     BannerTime = GetBannerTime(tweet),
-                     ID = tweet.StatusID,
-                     ImageUrl = tweet.User.ProfileImageUrl,
-                     //SinceID = tweet.SinceID,
-                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
-                     MediaUrl = GetTweetMediaUrl(tweet),
-                     EntityUrl = GetTweetUrlEntities(tweet),
-                     saveBanner = dataRepository.saveBanner(userid, tweet.StatusID, tweettypes),
-                     doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
-                 });
-
-            if (tweettypes == "fol")
+            try
             {
-                tweetsout = (from tweet in twitterCtx.Status
+                var tweettypes = Request.Cookies["tweets"].Value;
+
+                var tweetsout = (from tweet in twitterCtx.Status
+                                 where tweet.Type == StatusType.User
+                                 && tweet.Count == 5
+                                 // && tweet.SinceID == 397389362088132608
+                                 select new TweetViewModel
+                                 {
+                                     //ImageUrl = tweet.Entities.,
+                                     ScreenName = tweet.User.Name,
+                                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                                     Tweet = tweet.Text,
+                                     BannerText = GetBannerText(tweet),
+                                     BannerTime = GetBannerTime(tweet),
+                                     ID = tweet.StatusID,
+                                     ImageUrl = tweet.User.ProfileImageUrl,
+                                     //SinceID = tweet.SinceID,
+                                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                                     MediaUrl = GetTweetMediaUrl(tweet),
+                                     EntityUrl = GetTweetUrlEntities(tweet),
+                                     saveBanner = dataRepository.saveBanner(userid, tweet.StatusID, tweettypes),
+                                     doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
+                                 });
+
+                if (tweettypes == "fol")
+                {
+                    tweetsout = (from tweet in twitterCtx.Status
                                  where tweet.Type == StatusType.Home
                                  && tweet.Count == 10
                                  // && tweet.SinceID == 397389362088132608
@@ -1961,35 +1972,42 @@ namespace LinqToTwitterMvcDemo.Controllers
                                      saveBanner = dataRepository.saveBanner(userid, tweet.StatusID, tweettypes),
                                      doBanner = dataRepository.checkBanner(userid, tweet.StatusID),
                                  });
-            }
+                }
 
-            if (tweettypes == "dm")
+                if (tweettypes == "dm")
+                {
+                    tweetsout = (from tweet in twitterCtx.DirectMessage
+                                 where tweet.Type == DirectMessageType.SentTo &&
+                                   tweet.Count == 10
+                                 orderby tweet.CreatedAt descending
+                                 //&& tweet.Count == getnum
+                                 // && tweet.SinceID == 397389362088132608
+                                 select new TweetViewModel
+                                 {
+                                     ScreenName = tweet.SenderScreenName,
+                                     TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
+                                     //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
+                                     Tweet = tweet.Text,
+                                     BannerText = "hi",
+                                     //BannerTime = GetBannerTime(tweet.
+                                     ImageUrl = tweet.Sender.ProfileImageUrl,
+                                     //SinceID = tweet.SinceID,
+                                     //Convert.ToString(tweet.Entities.MediaEntities.Count),
+                                     //MediaUrl = GetTweetMediaUrl(tweet),
+                                     //EntityUrl = GetTweetUrlEntities(tweet),
+                                     saveBanner = dataRepository.saveBanner(userid, tweet.IDString, tweettypes),
+                                     doBanner = dataRepository.checkBanner(userid, tweet.IDString),
+
+                                 });
+                }
+
+                return View("Messages", tweetsout);
+            }
+            catch
             {
-                tweetsout = (from tweet in twitterCtx.DirectMessage
-                             where tweet.Type == DirectMessageType.SentTo &&
-                               tweet.Count == 10
-                             orderby tweet.CreatedAt descending
-                             //&& tweet.Count == getnum
-                             // && tweet.SinceID == 397389362088132608
-                             select new TweetViewModel
-                             {
-                                 ScreenName = tweet.SenderScreenName,
-                                 TimeStamp = formatTimeStamp(tweet.CreatedAt.ToUniversalTime()),
-                                 //Convert.ToString(tweet.CreatedAt.ToUniversalTime()),
-                                 Tweet = tweet.Text,
-                                 BannerText = "hi",
-                                 //BannerTime = GetBannerTime(tweet.
-                                 ImageUrl = tweet.Sender.ProfileImageUrl,
-                                 //SinceID = tweet.SinceID,
-                                 //Convert.ToString(tweet.Entities.MediaEntities.Count),
-                                 //MediaUrl = GetTweetMediaUrl(tweet),
-                                 //EntityUrl = GetTweetUrlEntities(tweet),
-                                 saveBanner = dataRepository.saveBanner(userid, tweet.IDString, tweettypes),
-                                 doBanner = dataRepository.checkBanner(userid, tweet.IDString),
 
-                             });
             }
-            return View("Messages", tweetsout);
+            return RedirectToAction("MsgSetup");
         }
 
 

@@ -1544,23 +1544,23 @@ div.ui-mobile-viewport {
 	display: none;
 	z-index: 9999999;
 	position: fixed;
-	top: 50%;
-	left: 50%;
+	top: 40%;
+	left: 35%;
 	border:0;
 }
 .ui-loader-default {
 	background: none;
-	filter: Alpha(Opacity=18);
-	opacity: .18;
-	width: 2.875em;
-	height: 2.875em;
+	filter: Alpha(Opacity=50);
+	opacity: .50;
+	width: 5.8em; /*6.875 */
+	height: 5.8em;
 	margin-left: -1.4375em;
 	margin-top: -1.4375em;
 }
 .ui-loader-verbose {
-	width: 12.5em;
-	filter: Alpha(Opacity=88);
-	opacity: .88;
+	width: 22.5em;
+	filter: Alpha(Opacity=50);
+	opacity: .50;
 	box-shadow: 0 1px 1px -1px #fff;
 	height: auto;
 	margin-left: -6.875em;
@@ -1582,12 +1582,27 @@ div.ui-mobile-viewport {
 	background-color: #000;
 	display: block;
 	margin: 0;
+	width: 8.75em;
+	height: 8.75em;
+	padding: .0625em;
+	-webkit-border-radius: 8.25em;
+	border-radius: 8.25em;
+}
+
+/*
+.ui-loader .ui-icon-loading {
+	background-color: #000;
+	display: block;
+	margin: 0;
 	width: 2.75em;
 	height: 2.75em;
 	padding: .0625em;
 	-webkit-border-radius: 2.25em;
 	border-radius: 2.25em;
 }
+
+*/
+
 .ui-loader-verbose .ui-icon-loading {
 	margin: 0 auto .625em;
 	filter: Alpha(Opacity=75);

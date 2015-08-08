@@ -14,7 +14,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-       // getTweets3(); //gets from lawnchair
+       // getTweets3(); //gets from lawnchair and send tweet
     });
 </script>
    <ul data-role="listview" data-inset="true">
@@ -41,8 +41,8 @@
 
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="FooterContent" runat="server">
-<div data-role="footer" data-position="fixed" data-tap-toggle="false">
-<a data-role="button" data-icon="gear" href="MsgSetup">Message Options</a>
- <div id="nameandtime"><%=ViewData["uname"] %></div>
- </div>
+ <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+ <div><ul data-role="listview" data-theme="b"><li> <div id="nameandtime"><%=ViewData["uname"] %></div></li></ul></div>
+<a data-role="button" data-icon="gear" href="#" onclick="goMsgSetup()">Messaging Setup</a>
+    </div>
 </asp:Content>

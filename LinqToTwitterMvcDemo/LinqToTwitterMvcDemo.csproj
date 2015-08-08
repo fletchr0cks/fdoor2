@@ -186,6 +186,7 @@
     <Content Include="Content\images\ss_t2.gif" />
     <Content Include="Content\images\Twitter_logo_blue.png" />
     <Content Include="Content\images\Twitter_small.png" />
+    <Content Include="Content\jquery.mobile-1.1.0.css" />
     <Content Include="Content\jquery.mobile-1.4.0a.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons-png\action-black.png" />
@@ -397,6 +398,8 @@
     <Content Include="images\gear-white.png" />
     <Content Include="images\grid-black.png" />
     <Content Include="Scripts\jquery-1.4.2.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-mobile-1.1.0.js" />
     <Content Include="Scripts\jquery.flexslider-min.js" />
     <Content Include="Scripts\jquery.flexslider.js" />
     <Content Include="Scripts\jquery.mobile-1.4.0.js" />

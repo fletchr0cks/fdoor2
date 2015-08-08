@@ -12,15 +12,27 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-    //check last retrieval time
-       // var TweetRadio = get_cookie("tweets");
-       // if (TweetRadio == "dm") {
-            // if ($('#add_site').hasClass('ui-collapsible-collapsed')
-         //   getTweets2(5); //retrieve and store
-         //   $("#messages").removeClass("ui-disabled");
-         //   $("#messages").addClass("ui-enabled");
-       // }
-        
+        //check last retrieval time
+        var GrantT = get_cookie("GrantedT");
+        var GrantG = get_cookie("GrantedG")
+        if (GrantT == "True") {
+        } else {
+            $("#messages").addClass("ui-disabled");
+            $("#messages").removeClass("ui-enabled");
+        }
+
+        if (GrantG == "True") {
+        } else {
+            $("#events").addClass("ui-disabled");
+            $("#events").removeClass("ui-enabled");
+        }
+
+        // if ($('#add_site').hasClass('ui-collapsible-collapsed')
+        //   getTweets2(5); //retrieve and store
+        //   $("#messages").removeClass("ui-disabled");
+        //   $("#messages").addClass("ui-enabled");
+        // }
+
     });
 </script>
 <div class="modal"></div>
@@ -45,9 +57,8 @@
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
     <li id="messages"><a href="<%=Url.Action("Messages", "Mobile")%>">Messages</a></li>
 </ul>
-<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b" class="ui-disabled">
-    <li><%=Html.ActionLink("Events Setup", "EventsSetup", "Mobile")%></li>
-    <li id="events"><a href="<%=Url.Action("Events", "Mobile")%>">Events</a></li>
+<ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
+     <li id="events"><a href="<%=Url.Action("Events", "Mobile")%>">Events</a></li>
 </ul>
 
 <ul data-role="listview" data-inset="true" data-theme="a" data-dividertheme="b">
@@ -68,4 +79,6 @@
  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
 <a data-role="button" data-icon="gear" onclick="reset()">Options</a>
     </div>
+
+
 </asp:Content>

@@ -69,14 +69,14 @@
         <elementListCompartment Id="a54995e0-c0e3-4258-a1a2-42b287e53985" absoluteBounds="1.3900000000000006, 10.335, 1.9700000000000002, 4.2877197265625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.375 : 9.875); (2.375 : 7.63544840494792); (2.82291916666667 : 7.63544840494792 : JumpStart); (2.98958583333333 : 7.63544840494792 : JumpEnd); (3.5 : 7.63544840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.375 : 9.875); (2.375 : 7.63544840494792); (3.5 : 7.63544840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_ggl" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />
         <classShapeMoniker Id="0cd3dd54-7dbd-4acb-898f-270b0a018924" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.375 : 11.1086144901016); (1 : 11.1086144901016); (1 : 2.51044840494792); (3.5 : 2.51044840494792)]" fixedFrom="Caller" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.375 : 11.1086144901016); (1 : 11.1086144901016); (1 : 2.51044840494792); (3.5 : 2.51044840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_device" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />
@@ -90,28 +90,28 @@
         <classShapeMoniker Id="b367dd6b-b53a-4123-801f-ab83e22e0a53" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.375 : 10.6065991210937); (3.5 : 10.6065991210937)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.375 : 10.6065991210937); (3.5 : 10.6065991210937)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_article" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />
         <classShapeMoniker Id="f41b86e2-d7f9-4d8f-b724-fd5929e2de8b" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.375 : 11.8364829727929); (0.75 : 11.8364829727929); (0.75 : 9.125); (0.916666666666667 : 9.125 : JumpStart); (1.08333333333333 : 9.125 : JumpEnd); (2.29166666666667 : 9.125 : JumpStart); (2.45833333333333 : 9.125 : JumpEnd); (2.82291916666667 : 9.125 : JumpStart); (2.98958583333333 : 9.125 : JumpEnd); (5.875 : 9.125); (5.875 : 9.60659912109375); (6.25 : 9.60659912109375)]" fixedFrom="Caller" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(1.375 : 11.8364829727929); (0.75 : 11.8364829727929); (0.75 : 9.125); (5.875 : 9.125); (5.875 : 9.60659912109375); (6.25 : 9.60659912109375)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_comment" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />
         <classShapeMoniker Id="3f71ed6a-10dd-4569-9e66-796b78f24fd4" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.9062525 : 9.875); (2.9062525 : 3.57294840494792); (10.125 : 3.57294840494792)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.9062525 : 9.875); (2.9062525 : 3.57294840494792); (10.125 : 3.57294840494792)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_days2go" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />
         <classShapeMoniker Id="65e90592-bdfb-4dde-a69d-05e7ed0530bb" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.375 : 13.2027498372396); (9.875 : 13.2027498372396)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.375 : 13.2027498372396); (9.875 : 13.2027498372396)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/fddbDataContext/user/user_twt" />
       <nodes>
         <classShapeMoniker Id="bffc957e-35a0-4972-a980-4686da484bbb" />

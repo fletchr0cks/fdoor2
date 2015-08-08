@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="db61a6afb29dc84f4597e3a2b500ebed20" Class="fddbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=61a6afb2-9dc8-4f45-97e3-a2b500ebed20.sqlserver.sequelizer.com;Initial Catalog=db61a6afb29dc84f4597e3a2b500ebed20;Persist Security Info=True;User ID=zpwsjtycbbjskoza" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="db61a6afb29dc84f4597e3a2b500ebed20ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=U8001065-TPL-B\SQLEXPRESS;Initial Catalog=fd1;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="fd1ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ggl" Member="ggls">
     <Type Name="ggl">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />

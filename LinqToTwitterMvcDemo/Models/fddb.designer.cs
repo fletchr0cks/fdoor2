@@ -60,7 +60,7 @@ namespace LinqToTwitterMvcDemo.Models
     #endregion
 		
 		public fddbDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["db61a6afb29dc84f4597e3a2b500ebed20ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["fd1ConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
