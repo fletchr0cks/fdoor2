@@ -46,7 +46,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         private const string secret = "l16kKa9wSc6E0oJzeyzRS5Ne";
 
 
-        public ActionResult IndexC(string zcguid)
+        public ActionResult IndexC(string zcguid)  //copy this one
         {
             //var token1 = Session["GoogleAPIToken"];
             //ViewData["token"] = token1;
@@ -274,7 +274,7 @@ namespace LinqToTwitterMvcDemo.Controllers
         }
 
 
-        public ActionResult IndexOld(string zcguid)
+        public ActionResult Index(string zcguid) //now in use
         {
 
             var token1 = Session["GoogleAPIToken"];
@@ -588,7 +588,7 @@ namespace LinqToTwitterMvcDemo.Controllers
             }
             else
             {
-                return RedirectToAction("GetStarted");
+                return RedirectToAction("Index");
             }
 
         }
@@ -1529,7 +1529,7 @@ namespace LinqToTwitterMvcDemo.Controllers
                 string TwID = dataRepository.getT_twtid(dataRepository.getID(guid));
                 if (TwID != null)
                 {
-                    return RedirectToAction("GetStarted");
+                    return RedirectToAction("Index");
 
                 }
                 else
