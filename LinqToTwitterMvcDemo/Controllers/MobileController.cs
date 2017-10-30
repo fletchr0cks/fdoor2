@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using LinqToTwitter;
 using LinqToTwitterMvcDemo.Models;
 using System.Configuration;
@@ -2016,7 +2016,12 @@ namespace LinqToTwitterMvcDemo.Controllers
 
             return View("Bday");
         }
-
+	
+	 public ActionResult TestView()
+	{
+	
+	            return View("TestView");
+        }
 
         public ActionResult JsonTweetStream(string timenow, int getnum, string tweettypes)
         {
