@@ -22,7 +22,7 @@
 <div id="welcome" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div id="greeting">
-<div style="font-size:30px">Welcome.</div>
+<div style="font-size:30px">Welcome</div>
 <div class="ui-grid-a ui-responsive">    
     <div class="ui-block-a" style="width:75%">
      <p>This site is designed to turn an unused Kindle, iPad or Android tablet into an information and messaging centre that shows:</p>

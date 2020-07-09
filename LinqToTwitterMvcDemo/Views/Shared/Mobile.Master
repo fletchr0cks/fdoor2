@@ -20,7 +20,7 @@
     $(document).bind("pageinit", function () {
 
         $(function () {
-            // alert("innit");
+            // //alert("innit");
             var timerS;
             var timerR;
             var timerRefAll;
