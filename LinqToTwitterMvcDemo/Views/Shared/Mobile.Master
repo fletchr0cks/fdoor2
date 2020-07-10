@@ -437,7 +437,7 @@
                if (n1 < 4) {
                    hi = get_cookie("hi" + n1);
                    lo = get_cookie("lo" + n1);
-                   icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+                   
                }
 
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
@@ -453,12 +453,11 @@
                var forecast = get_cookie("day" + n);
                var img = get_cookie("icon" + n);
                var img2 = get_cookie("icon" + n);
-               var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-               var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+               
                var day = "day.";
                var day2 = "day2.";
-               var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
-            "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
+               var htmltable = "<table><tr><td>Day <br /></td><td>" + forecast + "</td></tr></table></br>" +
+            "<table><tr><td>Night <br /></td><td>" + forecast2 + "</td></tr></table>";
                //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
 
                $('#weather').html(htmltable).trigger('create');
@@ -495,7 +494,7 @@
                if (n1 < 4) {
                    hi = get_cookie("hi" + n1);
                    lo = get_cookie("lo" + n1);
-                   icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
+                   icon = "no icon";
                }
 
                weathernext5 = weathernext5 + "<div class=\"ui-block-" + nextChar + "\"><div>" + icon + "<br />" + hi + "<br />" + lo + "</div></div>";
@@ -506,8 +505,8 @@
            var forecast2 = get_cookie("day" + n2);
            var forecast = get_cookie("day" + n);
            var img2 = get_cookie("icon" + n);
-           var icon = "<img src=\"http://icons.wxug.com/i/c/i/" + img + ".gif\">";
-           var icon2 = "<img src=\"http://icons.wxug.com/i/c/i/" + img2 + ".gif\">";
+           var icon = "no icon";
+           var icon2 = "no icon2";
            var htmltable = "<table><tr><td>Day <br />" + icon + "</td><td>" + forecast + "</td></tr></table></br>" +
             "<table><tr><td>Night <br />" + icon2 + "</td><td>" + forecast2 + "</td></tr></table>";
            //$('#weather').append(day + "</br>" + forecast + "</br>" + day2 + "</br>" + forecast2 + "<img src=\"http://icons.wxug.com/i/c/i/" + icon2 + ".gif\" />");
