@@ -140,7 +140,7 @@
     <div class="ui-block-g"><div class="ui-body ui-body-d"><strong>S</strong></div></div>
 </div>
 <div id="caldata"></div>
-</div
+</div>
 </div>
 <div id="weather"></div>
     
@@ -148,9 +148,9 @@
 </div>
 <div id="weather_next5">
 </div>
+</div>
 <br />
 </div>
-    </div>
 <div id="weatherbloc" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px" id="weatherday">Today</div>
