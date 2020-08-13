@@ -139,10 +139,24 @@
     <div class="ui-block-g"><div class="ui-body ui-body-d"><strong>S</strong></div></div>
 </div>
 <div id="caldata"></div>
-</div>
+</div
 </div>
 <div id="weather"></div>
+    <div>
+    <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" >NORTH BERWICK WEATHER</a>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+</script>
+        </div>
+    <div>
+        <a href="https://time.is/North_Berwick,_United_Kingdom" id="time_is_link" rel="nofollow" style="font-size:36px"></a>
+<span id="North_Berwick__United_Kingdom_z716" style="font-size:36px"></span>
+<script src="//widget.time.is/en_gb.js"></script>
+<script>
+    time_is_widget.init({ North_Berwick__United_Kingdom_z716: { template: "TIME<br>SUN", time_format: "12hours:minutesAMPM", sun_format: "Sunrise: srhour:srminute Sunset: sshour:ssminute", coords: "56.0582500,-2.7229000" } });
+</script>
 
+    </div>
 <div id="calendar_next5">
 </div>
 <div id="weather_next5">
