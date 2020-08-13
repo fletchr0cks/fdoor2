@@ -121,6 +121,7 @@
   </div>
 <div id="days2go" style="display:none">
 </div>
+    <br />
 <div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
@@ -146,7 +147,6 @@
 <div id="calendar_next5">
 </div>
 <div id="weather_next5">
-</div>
 </div>
 <br />
 </div>
