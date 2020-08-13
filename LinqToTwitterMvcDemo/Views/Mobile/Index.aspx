@@ -150,6 +150,7 @@
 </div>
 <br />
 </div>
+    </div>
 <div id="weatherbloc" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div style="font-size:20px" id="weatherday">Today</div>
@@ -167,7 +168,7 @@
        
     <div>
         <a href="https://time.is/North_Berwick,_United_Kingdom" id="time_is_link" rel="nofollow" style="font-size:36px"></a>
-<span id="North_Berwick__United_Kingdom_z716" style="font-size:90px"></span>
+<span id="North_Berwick__United_Kingdom_z716" style="font-size:110px;text-align: center;"></span>
 <script src="//widget.time.is/en_gb.js"></script>
 <script>
     time_is_widget.init({ North_Berwick__United_Kingdom_z716: { time_format: "12hours:minutesAMPM" } });
