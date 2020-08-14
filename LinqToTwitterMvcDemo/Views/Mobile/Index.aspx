@@ -189,9 +189,12 @@
 <div id="stats" style="display:none">
 </div>
      <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" >NORTH BERWICK WEATHER</a>
-<script>
-    !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
-</script>
+<div
+data-windywidget="forecast"
+data-spotid="425776"
+data-appid="4934288d2f634cf426edd0cb36df5480">
+</div>
+<script async="true" data-cfasync="false" type="text/javascript" src="https://windy.app/widget/windy_forecast_async.js"></script>
 <div id="map_spacer" style="display:none"></div>
 <div id="map" style="display:none">
     <div id="map_msg" class="ui-bar ui-bar-b"></div>
