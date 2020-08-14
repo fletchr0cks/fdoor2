@@ -173,14 +173,6 @@
 </script>
 
     </div>
-<div id="blog" style="display:none">
-<div class="ui-body ui-body-a ui-corner-all">
-<div style="font-size:20px">What's happening at OK fridge</div>
-     <div data-role="collapsible-set" data-theme="a" data-content-theme="a" data-inset="false">
-     <div id="BlogList"></div>
-     </div>
-     </div>
-     </div>
 
 <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" > </a>
 <script>
