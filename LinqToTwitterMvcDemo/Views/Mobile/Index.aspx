@@ -164,13 +164,12 @@
    
    
        
-    <div style="font-family: 'Montserrat';width:100%;text-align: center;">
+    <div style="font-family:Montserrat,'Arial Black','Arial-BoldMT','Arial Bold',Arial,Helvetica,sans-serif;width:100%;text-align: center;">
         <a href="https://time.is/North_Berwick,_United_Kingdom" id="time_is_link" rel="nofollow" style="font-size:36px"></a>
 <span id="North_Berwick__United_Kingdom_z716" style="font-size:110px;text-align: center;"></span>
 <script src="//widget.time.is/en_gb.js"></script>
 <script>
     time_is_widget.init({ North_Berwick__United_Kingdom_z716: { time_format: "12hours:minutesAMPM" } });
-
 </script>
 
     </div>
@@ -183,9 +182,10 @@
      </div>
      </div>
 
-<div id="stats" style="display:none">
-</div>
-     <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" > </a>
+<a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" > </a>
+<script>
+    !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
+</script>
 <div
 data-windywidget="forecast"
 data-spotid="425776"
