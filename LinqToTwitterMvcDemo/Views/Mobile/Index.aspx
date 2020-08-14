@@ -154,7 +154,6 @@
 <div id="weather_next5">
 </div>
 </div>
-<br />
 </div>
 <div id="weatherbloc" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
