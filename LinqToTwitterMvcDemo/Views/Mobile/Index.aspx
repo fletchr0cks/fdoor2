@@ -130,8 +130,7 @@
 <div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
-    <div class="ui-block-a"><div style="font-size:20px" id="chosenDay">Today</div>
-    
+    <div class="ui-block-a"><div style="font-size:25px" id="chosenDay">Today</div>
     <div id="eventsDay"></div>
     </div>
     <div class="ui-block-b">    
