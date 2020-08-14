@@ -947,10 +947,10 @@ html body .ui-group-theme-a .ui-bar-inherit {
 .ui-overlay-a,
 .ui-page-theme-a,
 .ui-page-theme-a .ui-panel-wrapper {
-	background: 			#000000 /*{a-page-background-color} was f9f9f9*/;
-	border-color:	 		#bbb /*{a-page-border}*/;
-	color: 					#333 /*{a-page-color}*/;
-	/*text-shadow: 0 /*{a-page-shadow-x} 1px /*{a-page-shadow-y}0 /*{a-page-shadow-radius} 	#f3f3f3 /*{a-page-shadow-color}*/
+    background: #000000 /*{a-page-background-color} was f9f9f9*/;
+    border-color: #bbb /*{a-page-border}*/;
+    color: #30f /*{a-page-color}*/;
+    /*text-shadow: 0 /*{a-page-shadow-x} 1px /*{a-page-shadow-y}0 /*{a-page-shadow-radius} 	#f3f3f3 /*{a-page-shadow-color}*/
 }
 /* Body: Read-only lists, text inputs, collapsible content */
 .ui-body-a,
@@ -960,8 +960,8 @@ html .ui-body-a .ui-body-inherit,
 html body .ui-group-theme-a .ui-body-inherit,
 html .ui-panel-page-container-a {
 	background: 			#000000 /*{a-body-background-color}*/;
-	border-color:	 		#ddd /*{a-body-border}*/;
-	color: 					#333 /*{a-body-color}*/;
+	border-color:	 		#000 /*{a-body-border}*/;
+	color: 					#fff /*{a-body-color}*/;
 	/*text-shadow: 0 /*{a-body-shadow-x} 1px /*{a-body-shadow-y} 0 /*{a-body-shadow-radius}	#f3f3f3 /*{a-body-shadow-color}*/
 }
 .ui-body-a {
@@ -4986,9 +4986,9 @@ td.td80 {width: 80px}
 .ui-collapsible-heading .ui-btn-text{ display:block;}
 .ui-collapsible-heading .ui-li-count { position: absolute; font-size: 11px; font-weight: bold; padding: .2em .5em; top: 50%; margin-top: -.9em; right: 10px;  border-radius: 1em 1em 1em 1em; background: linear-gradient(#FFFFFF, #F1F1F1) repeat scroll 0 0 #EEEEEE;  border: 1px solid #CCCCCC; color: #222222;font-weight: bold;text-shadow: 0 1px 0 #FFFFFF; }
 
-.term1evt {font-family: 'Helvetica', cursive;color: #000; font-size:18px; padding-bottom: 8px}
-.term3 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px;}
-.term4 {font-family: 'Helvetica', cursive;color: #000; font-size:20px; padding-bottom: 2px;}
+.term1evt {font-family: 'Helvetica', cursive;color: #fff; font-size:18px; padding-bottom: 8px}
+.term3 {font-family: 'Helvetica', cursive;color: #fff; font-size:20px; padding-bottom: 2px;}
+.term4 {font-family: 'Helvetica', cursive;color: #fff; font-size:20px; padding-bottom: 2px;}
 .cal_today {background-color: Gray; color: White; width:50px; border-width:1px; border-color:Black}
 .cal_other{width:50px}
 .closeBanner { width:100%;height:40px;color:Black;font-size:20px;cursor:pointer;z-index:1100;position:absolute; top:-5px;left:0px;background-color:White;display:none}

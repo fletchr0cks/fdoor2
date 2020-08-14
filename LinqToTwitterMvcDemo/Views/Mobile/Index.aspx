@@ -117,11 +117,9 @@
   <div id="okf"></div>
 </div>
 </div>
-  <br />
   </div>
 <div id="days2go" style="display:none">
 </div>
-    <br />
 <div id="calblock" style="display:none">
 <div class="ui-body ui-body-a ui-corner-all">
 <div class="ui-grid-a">
@@ -166,7 +164,7 @@
    
    
        
-    <div>
+    <div style="width:100%;text-align: center;">
         <a href="https://time.is/North_Berwick,_United_Kingdom" id="time_is_link" rel="nofollow" style="font-size:36px"></a>
 <span id="North_Berwick__United_Kingdom_z716" style="font-size:110px;text-align: center;"></span>
 <script src="//widget.time.is/en_gb.js"></script>
@@ -185,10 +183,9 @@
      </div>
      </div>
 
-<br />
 <div id="stats" style="display:none">
 </div>
-     <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" >NORTH BERWICK WEATHER</a>
+     <a class="weatherwidget-io" href="https://forecast7.com/en/56d06n2d72/north-berwick/" data-label_1="NORTH BERWICK" data-label_2="WEATHER" data-icons="Climacons Animated" data-theme="dark" > </a>
 <div
 data-windywidget="forecast"
 data-spotid="425776"
