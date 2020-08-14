@@ -1297,11 +1297,16 @@ li.ui-block-e {
 	margin-right: .3125em;
 	margin-left: .3125em;
 }
-.ui-grid-a > .ui-block-a,
+.ui-grid-a > .ui-block-a {
+    /* width: 49.95%; IE7 */
+    /* margin-right: -.5px; BB5 */
+    width: 70%;
+}
+
 .ui-grid-a > .ui-block-b {
-	/* width: 49.95%; IE7 */
-	/* margin-right: -.5px; BB5 */
-	width: 50%;
+    /* width: 49.95%; IE7 */
+    /* margin-right: -.5px; BB5 */
+    width: 30%;
 }
 .ui-grid-b > .ui-block-a,
 .ui-grid-b > .ui-block-b,

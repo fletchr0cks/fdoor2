@@ -746,7 +746,7 @@ select,
 textarea,
 button,
 .ui-btn {
-	font-size: 1em;
+	font-size: 0.8em;
 	line-height: 1.3;
 	font-family: Verdana, Helvetica, sans-serif /*{global-font-family}*/;
 }
@@ -4997,9 +4997,9 @@ td.td80 {width: 80px}
 .ui-collapsible-heading .ui-btn-text{ display:block;}
 .ui-collapsible-heading .ui-li-count { position: absolute; font-size: 11px; font-weight: bold; padding: .2em .5em; top: 50%; margin-top: -.9em; right: 10px;  border-radius: 1em 1em 1em 1em; background: linear-gradient(#FFFFFF, #F1F1F1) repeat scroll 0 0 #EEEEEE;  border: 1px solid #CCCCCC; color: #222222;font-weight: bold;text-shadow: 0 1px 0 #FFFFFF; }
 
-.term1evt {font-family: 'Helvetica', cursive;color: #fff; font-size:18px; padding-bottom: 8px}
+.term1evt {font-family: 'Helvetica', cursive;color: #fff; font-size:15px; padding-bottom: 0px}
 .term3 {font-family: 'Helvetica', cursive;color: #fff; font-size:20px; padding-bottom: 2px;}
-.term4 {font-family: 'Helvetica', cursive;color: #fff; font-size:20px; padding-bottom: 2px;}
+.term4 {font-family: 'Helvetica', cursive;color: #fff; font-size:15px; padding-bottom: 0px;}
 .cal_today {background-color: #3300ff; color: White; width:23px; border-width:1px; border-color:Black}
 .cal_other{width:50px}
 .closeBanner { width:100%;height:40px;color:Black;font-size:20px;cursor:pointer;z-index:1100;position:absolute; top:-5px;left:0px;background-color:White;display:none}
